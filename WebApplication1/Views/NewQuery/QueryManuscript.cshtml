@@ -1,0 +1,176 @@
+﻿@*@model IEnumerable<JobTrack.Models.QueryListModel>*@
+@{
+    ViewBag.Title = "QueryManuscript";
+
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <script src="https://cdn.ckeditor.com/4.15.1/standard-all/ckeditor.js"></script>
+    <title>Query Manuscript</title>
+</head>
+<!-- Main content -->
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="offset-md-2 col-10">
+
+                <!-- /.card-header -->
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <form>
+                        <table id="table" class="table table-bordered table-striped">
+                            <h3>Query Manuscript</h3>
+                            <thead>
+                                <tr>
+                                    <th>Job ID</th>
+                                    <th>Task ID</th>
+                                    <th>Query Status</th>
+                                    <th>Topic Title</th>
+                                    <th>Date Posted</th>
+                                    <th>Posted By</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @*@{
+                                        var db = ViewBag.SQLConnection;
+                                        var selectQueryString = "SELECT * FROM tbl_query";
+                                    }*@
+                                @*@foreach (var item in Model)*@
+                                {
+                                <tr>
+                                    <td>
+                                        @*@item.jobId*@
+                                    </td>
+                                    <td>
+                                        @*@item.query*@
+                                    </td>
+
+                                    <td>
+                                        @*@item.Status*@
+                                    </td>
+
+                                    <td>
+                                        @*@item.Topic*@
+                                    </td>
+
+                                    <td>
+                                        @*@item.subDatePosted*@
+                                    </td>
+
+                                    <td>
+                                        @*@item.subPostedBy*@
+                                    </td>
+
+
+                                    <td>
+                                        @*@Html.ActionLink("Edit", "Edit", "NewQuery", new { @class = "btn btn-primary" })
+                                            @Html.ActionLink("Delete", "Delete", "NewQuery", new { @class = "btn btn-danger" })*@
+                                    </td>
+
+
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </form>
+                </div>
+                <!-- /.card-body -->
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+</html>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+            "pageLength": 20,
+            "lengthChange": false,
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "responsive": true,
+        });
+        $('#example3').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "responsive": true,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+        $('#example4').DataTable({
+            "paging": true,
+            "pageLength": 10,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "responsive": true,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+        });
+
+        $("#table").DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "responsive": true,
+            "autoWidth": false,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+        $("#tableNoExport").DataTable({
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "responsive": true,
+            "autoWidth": false,
+        });
+
+        $("#table1").DataTable({
+            "lengthMenu": [[-1], ["All"]],
+            "responsive": true,
+            "autoWidth": false,
+        });
+        $("#tableall").DataTable({
+            "lengthMenu": [[-1], ["All"]],
+            "responsive": true,
+            "autoWidth": false,
+            "rowCallback": function (nRow, aData, iDisplayIndex) {
+                var oSettings = this.fnSettings();
+                $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+                return nRow;
+            }
+        });
+    });
+
+</script>

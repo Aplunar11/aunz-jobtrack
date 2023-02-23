@@ -1,0 +1,178 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_JobTrackLayout.cshtml";
+
+    //if (Session["id"] == null)
+    //{
+    //    Response.Redirect("~/User/Login");
+    //}
+}
+<div class="p-3">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>JobTrack</title>
+        @Styles.Render("~/css/styles.css")
+        @Styles.Render("~/Content/css")
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    </head>
+    <div class="content-body">
+
+        <div class="container-fluid mt-3">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="properties1" data-0="top:20%; width: 100%;" data-150="display:block;" data-500="top:100%;">
+                                        <div class="container-fluid px-0">
+                                            <div class="row">
+                                                <div class="col text-center align-items-center text-black-50">
+                                                    <h3>Query List</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Nav tabs -->
+
+                                    <ul class="nav nav-tabs mb-3" role="tablist" id="mytabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link" role="tab" data-toggle="tab" href="#ViewAll"><span><i class="ti-home"></i> View All</span></a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content tabcontent-border">
+                                        <div class="tab-pane fade" id="ViewAll" role="tabpanel">
+                                            <div class="p-t-15">
+                                                <div class="table-responsive">
+                                                    <div class="card bg-light">
+                                                        <article class="card-body mx-auto">
+                                                            @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                                                <i class='fa fa-plus-square'></i>
+                                                                Add New
+                                                            </button>*@
+                                                            <table id="tblNewQuery" class="display nowrap" style="width:100%">
+
+                                                                <tr>
+                                                                    <td style="width: 10%; ">
+                                                                        @*<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#CreateQuery" data-backdrop="static" data-keyboard="false" id="createQuery">Create Query</button>*@
+                                                                        <a class="btn btn-primary btn-sm" href="@Url.Action("QueryCreate", "NewQuery", new { id =  ViewBag.Job})" style="display:block">
+                                                                            <i class="fa fa-plus-square icon-white"></i>
+                                                                            <span>
+                                                                                <strong>Create Query</strong>
+                                                                            </span>
+                                                                        </a>
+
+
+
+                                                                        @*<a class="btnView btn btn-secondary btn-sm" href="@Url.Action("LEIndex", "LE")" style="display:block">Back to My Job</a>*@
+                                                                    </td>
+
+                                                                </tr>
+                                                            </table>
+
+
+                                                            @Html.Partial("QueryList")
+
+
+                                                        </article>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</html>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="//ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("body").on('click', '#submitQuery', function () {
+            alert("nice")
+
+            $(".rowStatus").show();
+            $('#querytable').show();
+
+            //var table = document.getElementById("querytable");
+            //table.style.display = "block";
+            //document.getElementById("querytable").style.display = "block";
+
+            @*var table = document.getElementById("querytable");
+            var row = table.insertRow(table.rows.length - 1);
+
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+
+            cell1.innerHTML = "@((string)Session["uid"])";
+            cell2.innerHTML = "<div>NEW CELL2</div>";*@
+        });
+        $("body").on('click', '#closeModal', function () {
+            $(".query").val(" ");
+        });
+
+
+    });
+     $(document).ready(function () {
+        $('#mytabs a[href="#ViewAll"]').tab('show');
+        $("#tblNewQuery").DataTable({
+                "processing": true, // for show progress bar
+                "searching": true,
+                "responsive": true,
+                "scrollX": true,
+                "autoWidth": true,
+                "bLengthChange": true,
+                "lengthMenu": [[10, 50, -1], [10, 50, "All"]],
+                "bFilter": true,
+                "bSort": true,
+                "bPaginate": true,
+                @*"ajax": {
+                    url: "@Url.Action("IndexQuery", "NewQuery")",
+                    /*"url": "/Admin/LoadEmployees",*/
+                    "dataSrc": "",
+                    "type": "GET",
+                    "datatype": "json"
+                },*@
+                "columnDefs": [{
+                    "targets": [2],
+                    "render": function (data) {
+                        return moment(data).format('M/D/YYYY');
+                    }
+                },
+                {
+                    "targets": [12],
+                    "render": function (data) {
+                        return moment(data).format('M/D/YYYY');
+                    }
+                }],
+
+        });
+
+    });
+</script>
+

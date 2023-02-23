@@ -1,0 +1,113 @@
+﻿@model JobTrack.Models.QueryManuscript.QueryManuscriptModel
+
+@*@using (Html.BeginForm("UpdateQueryManuscript", "QueryManuscript", FormMethod.Post, new { @id = "formQuery", @class = "form-horizontal", role = "form", @novalidate = "" }))
+{
+    
+}*@
+
+<form id="formQuery">
+    <div class="modal fade" id="queryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p class="divider-text">
+                        <span class="bg-light">Query Manuscript Details</span>
+                    </p>
+
+                    <div class="form-group">
+                        <label>Job ID</label>
+                        <input class="form-control" name="JobID" value="@Model.JobID" readonly />
+                    </div>
+
+                    <div class="form-group" id="QueryStatusGroup">
+                        <label>Query status</label>
+                        <select class="form-control" name="QueryStatusID" id="QueryStatusID" required>
+                            <option value="1">Open</option>
+                            <option value="2">Cancelled</option>
+                            <option value="3">Closed</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Topic title</label>
+                        <select class="form-control" name="QueryTopicID" id="QueryTopicID" required>
+                            <option value="1">Topic 1</option>
+                            <option value="2">Topic 2</option>
+                            <option value="3">Topic 3</option>
+                            <option value="4">Topic 4</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Query type</label>
+                        <select class="form-control" name="QueryTypeID" id="QueryTypeID" required>
+                            <option value="1">General</option>
+                            <option value="2">XML Tagging</option>
+                            <option value="3">Format</option>
+                        </select>
+                    </div>
+
+                    @if (Model.ID == 0)
+                    {
+                        <!-- display message for "Add New" only -->
+                        <div class="form-group">
+                            <label>Message</label>
+                            <div>
+                                <textarea rows="3" name="Message" style="padding: 5px; width: 100%"></textarea>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- hidden -->
+                    <input type="hidden" name="ID" value="@Model.ID" />
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnQuerySubmit">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        // assigning values to the dropdown
+        $('#QueryStatusID').val(@(Model.QueryStatusID > 0 ? Model.QueryStatusID : 1)).change();
+        $('#QueryTopicID').val(@(Model.QueryTopicID > 0 ? Model.QueryTopicID : 1)).change();
+        $('#QueryTopicID').val(@(Model.QueryTopicID > 0 ? Model.QueryTopicID : 1)).change();
+
+        // status to 'Open' by default for NEW data
+        if (@Model.ID == 0) {
+            $('#QueryStatusID').css('pointer-events', 'none');
+            $('#QueryStatusID').css('background-color', '#e9ecef');
+        }
+
+        // submit form via ajax on click
+        $('#btnQuerySubmit').click(function () {
+            // serialize form data
+            let formData = $('#formQuery').serializeArray();
+            let datasource = {};
+            $(formData).each(function (index, obj) {
+                datasource[obj.name] = obj.value;
+            });
+
+            // process data to api
+            $.ajax({
+                type: 'POST',
+                url: '/QueryManuscript/UpdateQueryManuscript',
+                data: datasource,
+                dataType: 'json',
+                success: function (response) {
+                    console.log('response: ', response);
+
+                    if (response.IsSuccess)
+                        window.location.reload();
+                    else
+                        alert('Error update.');
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,423 @@
+﻿@{
+    ViewBag.Title = "Employees";
+    Layout = "~/Views/Shared/_JobTrackLayout.cshtml";
+}
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css" />*@
+
+<script type="text/javascript">
+    $(function () {
+        Array.prototype.filter.call($('#frmEmployeeCreate'), function (form) {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    });
+</script>
+
+<style type="text/css">
+    .invalid input:required:invalid {
+        background: #BE4C54;
+    }
+
+    .invalid input:required:valid {
+        background: #17D654;
+    }
+
+    .divider-text {
+        position: relative;
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+        .divider-text span {
+            padding: 7px;
+            font-size: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .divider-text:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+            top: 55%;
+            left: 0;
+            z-index: 1;
+        }
+
+    div.dataTables_wrapper {
+        width: 1400px;
+        margin: 0 auto;
+    }
+</style>
+
+<div class="content-body">
+
+    <div class="container-fluid mt-3">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="properties1" data-0="top:20%; width: 100%;" data-150="display:block;" data-500="top:100%;">
+                                    <div class="container-fluid px-0">
+                                        <div class="row">
+                                            <div class="col text-center align-items-center text-black-50">
+                                                <h3>Employees</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Nav tabs -->
+
+                                <ul class="nav nav-tabs mb-3" role="tablist" id="mytabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link" role="tab" data-toggle="tab" href="#ViewAll"><span><i class="ti-home"></i> View All</span></a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content tabcontent-border">
+                                    <div class="tab-pane fade" id="ViewAll" role="tabpanel">
+                                        <div class="p-t-15">
+                                            <div class="table-responsive">
+                                                <div class="card bg-light">
+                                                    <article class="card-body mx-auto">
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                                            <i class='fa fa-plus-square'></i>
+                                                            Add New
+                                                        </button>
+                                                        <table id="tblEmployeeViewAll" class="display nowrap" style="width:100%">
+                                                            <thead>
+                                                                <tr>    
+                                                                    <th>Employee ID</th>
+                                                                    <th>User Access</th>
+                                                                    <th>Date of Creation</th>
+                                                                    <th>UserName</th>
+                                                                    <th>First Name</th>
+                                                                    <th>Last Name</th>
+                                                                    <th>Email Address</th>
+                                                                    <th>Manager?</th>
+                                                                    <th>Editorial Contact?</th>
+                                                                    <th>Email List?</th>
+                                                                    <th>Mandatory Receipient?</th>
+                                                                    <th>Show User?</th>
+                                                                    <th>Password Update</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+
+                                                    </article>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "frmValidation", @novalidate = "" }))*@
+    @using (Html.BeginForm("InsertEmployee", "Admin", FormMethod.Post, new { @id = "frmEmployeeCreate", @class = "form-horizontal", role = "form", @novalidate = "" }))
+    {
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p class="divider-text">
+                            <span class="bg-light">Employee Details</span>
+                        </p>
+                        <div class="form-group">
+                            @Html.Hidden("id", "hiddenid", new { @class = "" })
+                            <label for="txtFirstName">First Name</label>
+                            <input id="txtFirstName" name="txtFirstName" type="text" class="form-control" placeholder="First Name" required>
+                            <div class="invalid-feedback">
+                                Please enter First name
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtLastName">Last Name</label>
+                            <input id="txtLastName" name="txtLastName" type="text" class="form-control" placeholder="Last Name" required>
+                            <div class="invalid-feedback">
+                                Please enter Last name
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtEmailAddress">Email Address</label>
+                            <input id="txtEmailAddress" name="txtEmailAddress" type="email" class="form-control" placeholder="Email Address" required>
+                            <div class="invalid-feedback">
+                                Please enter valid Email address
+                            </div>
+                        </div>
+                        <p class="divider-text">
+                            <span class="bg-light">Account Details</span>
+                        </p>
+                        <div class="form-group">
+                            <label for="ddUserAccess">User Access</label>
+                            <select id="ddUserAccess" name="ddUserAccess" class="form-control" required>
+                                @*<option value=''>Select ...</option>
+                                    <option value='Avocado'>Avocado</option>
+                                    <option value='Bell Pepper'>Bell Pepper</option>
+                                    <option value='Bitter Melon'>Bitter Melon</option>
+                                    <option value='Chayote'>Chayote</option>
+                                    <option value='Cucumber'>Cucumber</option>
+                                    <option value='Ivy'>Ivy</option> Gourd*@
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select access type
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtUserName">Username</label>
+                            <input id="txtUserName" type="text" name="txtUserName" class="form-control" placeholder="User Name" required>
+                            <div class="invalid-feedback">
+                                Please enter valid Username
+                            </div>
+                        </div>
+                        <p class="divider-text">
+                            <span class="bg-light">Additional Access</span>
+                        </p>
+                        <div class="form-check mb-1">
+                            <input type="checkbox" id="chkManager" name="chkManager" class="form-check-input">
+                            <label class="form-check-label" for="chkManager">Manager</label>
+                        </div>
+                        <div class="form-check mb-1">
+                            <input type="checkbox" id="chkEditorial" name="chkEditorial" class="form-check-input">
+                            <label class="form-check-label" for="chkEditorial">Editorial Contact</label>
+                        </div>
+                        <div class="form-check mb-1">
+                            <input type="checkbox" id="chkEmailList" name="chkEmailList" class="form-check-input">
+                            <label class="form-check-label" for="chkEmailList">Email List</label>
+                        </div>
+                        <div class="form-check mb-1">
+                            <input type="checkbox" id="chkMandatory" name="chkMandatory" class="form-check-input">
+                            <label class="form-check-label" for="chkMandatory">Mandatory Receipient</label>
+                        </div>
+                        <div class="form-check mb-1">
+                            <input type="checkbox" id="chkShowUser" name="chkShowUser" class="form-check-input">
+                            <label class="form-check-label" for="chkShowUser">Show User</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="btnEmployeeSubmit">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+
+@*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>*@
+
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>*@
+
+<script type="text/javascript">
+    let template = null;
+    $('.modal').on('show.bs.modal', function (event) {
+        template = $(this).html();
+    });
+
+    $('.modal').on('hidden.bs.modal', function (e) {
+        $(this).html(template);
+    });
+    $(document).ready(function () {
+        $('#mytabs a[href="#ViewAll"]').tab('show');
+        $("#tblEmployeeViewAll").DataTable({
+                "processing": true, // for show progress bar
+                "searching": true,
+                "responsive": true,
+                "scrollX": true,
+                "autoWidth": true,
+                "bLengthChange": true,
+                "lengthMenu": [[10, 50, -1], [10, 50, "All"]],
+                "bFilter": true,
+                "bSort": true,
+                "bPaginate": true,
+                "ajax": {
+                    url: "@Url.Action("LoadEmployees", "Admin")",
+                    /*"url": "/Admin/LoadEmployees",*/
+                    "dataSrc": "",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columnDefs": [{
+                    "targets": [2],
+                    "render": function (data) {
+                        return moment(data).format('M/D/YYYY');
+                    }
+                },
+                {
+                    "targets": [12],
+                    "render": function (data) {
+                        return moment(data).format('M/D/YYYY');
+                    }
+                }],
+                "columns": [
+                    { "data": "EmployeeID", "name": "Employee ID" },
+                    { "data": "UserAccess", "name": "User Access" },
+                    { "data": "CreatedDate", "name": "Date Created" },
+                    { "data": "UserName", "name": "User Name" },
+                    { "data": "FirstName", "name": "First Name" },
+                    { "data": "LastName", "name": "Last Name" },
+                    { "data": "EmailAddress", "name": "Email Address" },
+                    { "data": "isManager", "name": "Manager?" },
+                    { "data": "isEditorialContact", "name": "Editoral Contact?" },
+                    { "data": "isEmailList", "name": "Email List?" },
+                    { "data": "isMandatoryRecepient", "name": "Mandatory Recepient?" },
+                    { "data": "isShowUser", "name": "Show User?" },
+                    { "data": "PasswordUpdateDate", "name": "PasswordUpdate" },
+                    {
+                        "data": "EmployeeID", "render": function (data, type, full, meta) {
+                            /*return "<a class='btn btn-success btnUpdate' id='" + data + "' onclick=UpdateEmployee(" + data + ")><i class='fa fa-pencil'></i>Update</a>"*/
+                            /*return '<a class="btn btn-info" id="btnUpdate" href="/Admin/UpdateEmployee/' + full.EmployeeID + '">Update</a>';*/
+                            return '<input type="button" id="btnUpdate" class="btn btn-info" value="Update" />'
+                        }
+                    },
+                ]
+        });
+        $('body').on('click', '[id*=btnUpdate]', function () {
+            var data = $(this).parents('tr').find('td');
+            var id = parseInt(data.eq(0).html());
+            var fname = data.eq(4).html();
+            var lname = data.eq(5).html();
+            var uaccess = data.eq(1).html();
+            var eadd = data.eq(6).html();
+            var username = data.eq(3).html();
+            var isManager = data.eq(7).html();
+            var isEditorialContact = data.eq(8).html();
+            var isEmailList = data.eq(9).html();
+            var isMandatoryRecepient = data.eq(10).html();
+            var isShowUser = data.eq(11).html();
+            $('[id*=hiddenid]').val(id);
+            $('[id*=txtFirstName]').val(fname);
+            $('[id*=txtLastName]').val(lname);
+            $('[id*=txtEmailAddress]').val(eadd);
+            $('[id*=ddUserAccess] option:contains(' + uaccess + ')').attr("selected", true);
+            $('[id*=txtUserName]').val(username);
+            $('[id*=chkManager]').prop('checked', isManager === '1')
+            $('[id*=chkEditorial]').prop('checked', isEditorialContact === '1')
+            $('[id*=chkEmailList]').prop('checked', isEmailList === '1')
+            $('[id*=chkMandatory]').prop('checked', isMandatoryRecepient === '1')
+            $('[id*=chkShowUser]').prop('checked', isShowUser === '1')
+            $('#myModal').modal("show");
+        });
+        LoadUserAccess();
+    });
+        //LOB
+    function LoadUserAccess() {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: "@Url.Action("GetAllUserAccess", "Admin")",
+            //data: JSON.stringify({ user_ID: username }), // Hardcoded: UserID
+            success: function (response) {
+                var result = '';
+
+                result += '<option hidden disabled selected value="">User Access</option>'
+                for (var i = 0, iL = response.length; i < iL; i++) {
+                    result += '<option value="' + response[i].UserAccessID.toString() + '">' + response[i].UserAccess + '</option>'
+                }
+                $('#ddUserAccess').html(result);
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("XMLRequest: " + XMLHttpRequest);
+                console.log("Text Status: " + textStatus);
+                console.log("Error:" + errorThrown);
+                toastr.error('There is an error in loading your LOB forms.');
+            }
+        });
+    }
+    $("#btnEmployeeSubmit").click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            "url": "@Url.Action("InsertEmployee", "Admin")",
+            /*url: '/Admin/InsertEmployee',*/
+            data: JSON.stringify({ pFirstName: $("#txtFirstName").val(), pLastName: $("#txtLastName").val(), pEmailAddress: $("#txtEmailAddress").val(), pUserAccess: $("#ddUserAccess").find('option:selected').text(), pUsername: $("#txtUserName").val(), pHiddenField: $('[id*=hiddenid]').val() }),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.success) {
+                    alert(response.responseText);
+                    setTimeout(function () {
+                        window.location.hash = 'ViewAll';
+                        location.reload();
+                    }, 1000);
+                } else {
+                    alert(response.responseText);
+                }
+            }
+        });
+
+    });
+
+    function UpdateEmployee(EmployeeID) {
+        alert(EmployeeID);
+        //var EmployeeID = $(this).attr("id");
+        //var UserAccess;
+        //var CreatedDate;
+        //var UserName;
+        var FirstName;
+        //var LastName;
+        //var EmailAddress;
+        //var isManager;
+        //var isEditorialContact;
+        //var isEmailList;
+        //var isMandatoryRecepient;
+        //var isShowUser;
+        //var PasswordUpdateDate;
+
+        //pFirstName: $("#txtFirstName").val(), pLastName: $("#txtLastName").val(), pEmailAddress: $("#txtEmailAddress").val(), pUserAccess: $("#ddUserAccess").find('option:selected').text(), pUsername: $("#txtUserName").val()
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            @*url: "@Url.Action("UpdateEmployee", "Admin")",*@
+            "url": "@Url.Action("UpdateEmployee", "Admin")",
+            /*url: "/Admin/UpdateEmployee?EmployeeID=" + EmployeeID,*/
+            data: { EmployeeID: EmployeeID },
+            /*data: JSON.stringify({ EmployeeID: EmployeeID }), // Hardcoded: UserID*/
+            success: function (data) {
+
+                $("#txtFirstName").val(data.FirstName);
+                //$("#txtLastName").val(result.LastName);
+                //$("#txtEmailAddress").val(result.EmailAddress);
+                //$("frmEmployeeCreate").html(data);
+                $('#myModal').modal('show');
+                //$("#myModal").modal();
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+    }
+
+</script>
+
