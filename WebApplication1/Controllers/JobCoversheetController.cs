@@ -683,8 +683,10 @@ namespace JobTrack.Controllers
                     BPSProductID = dr["BPSProductID"].ToString(),
                     ServiceNumber = dr["ServiceNumber"].ToString(),
                     //LatestTaskNumber = dr["LatestTaskNumber"].ToString(),
+                    LatestTaskNumber = "TBD",
                     CodingStatus = dr["CodingStatus"].ToString(),
                     //PDFQAStatus = dr["PDFQAStatus"].ToString(),
+                    PDFQAStatus = "TBD",
                     OnlineStatus1 = dr["OnlineStatus"].ToString(),
                     DateCreated = Convert.ToDateTime(dr["DateCreated"].ToString())
 

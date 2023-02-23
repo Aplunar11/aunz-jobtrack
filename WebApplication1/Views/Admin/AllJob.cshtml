@@ -5,21 +5,22 @@
 
 <style type="text/css">
     /*table icons*/
-    td.details-control, td.details-control3 {
+    td.details-control, td.details-control2 {
         background: url('../Image/details_open.png') no-repeat center center;
         cursor: pointer;
     }
 
-    tr.shown td.details-control, tr.shown td.details-control3 {
+    tr.shown td.details-control, tr.shown td.details-control2 {
         background: url('../Image/details_close.png') no-repeat center center;
+        cursor: pointer;
     }
 
-    td.details-control1 {
+    td.details-control1, td.details-control3 {
         background: url('../Image/details_info.png') no-repeat center center;
         cursor: pointer;
     }
 
-    td.details-control2 {
+    td.details-control4 {
         background: url('../Image/details_link.png') no-repeat center center;
         cursor: pointer;
     }
@@ -273,7 +274,7 @@
                                                             <button id="btnEdit2" class="btn btn-secondary btn-circle float-right"><i class="fa fa-pencil-square"></i>&nbsp;&nbsp;Edit Manuscript</button>
                                                         </div>
                                                     </div>*@
-                                                <div class="outer">
+                                                <div class="container-fluid mb-3">
                                                     <table class="display nowrap" id="tblData" style="width: 100%;">
                                                         <thead class="table-header-footer">
                                                             <tr>
@@ -314,7 +315,7 @@
                                         <div class="tab-pane fade disabled" id="ProductCoversheet" role="tabpanel">
                                             <div class="table-responsive">
                                                 <div class="card bg-light">
-                                                    <div class="outer">
+                                                    <div class="container-fluid mb-3">
                                                         <table class="display nowrap" id="tblDataCoversheet" style="width: 100%;">
                                                             <thead class="table-header-footer">
                                                                 <tr>
@@ -342,26 +343,6 @@
                                                                     <th>PDF QA Status</th>
                                                                     <th>Online Status</th>
                                                                     <th>Date Created</th>
-                                                                    @*<th>Coversheet ID</th>
-                                                                    <th>Coversheet Number</th>
-                                                                    <th>Tier</th>
-                                                                    <th>Product</th>
-                                                                    <th>Guide Card(s)</th>
-                                                                    <th>Location of Manuscript</th>
-                                                                    <th>Further Instructions</th>
-                                                                    <th>Current Task</th>
-                                                                    <th>Status</th>
-                                                                    <th>Target Press Date</th>
-                                                                    <th>Actual Press Date</th>
-                                                                    <th>Coding Due Date</th>
-                                                                    <th>Coding Start</th>
-                                                                    <th>Coding Done</th>
-                                                                    <th>Online Due Date</th>
-                                                                    <th>Online Start</th>
-                                                                    <th>Online Done</th>
-                                                                    <th>Online Timeliness</th>
-                                                                    <th>Remarks</th>
-                                                                    <th>Job Owner</th>*@
                                                                 </tr>
                                                             </tfoot>
                                                         </table>
@@ -410,6 +391,20 @@
         });
 
         $(document).ready(function () {
+            // save and display selected tab
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                console.log("tab shown...");
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            if (activeTab)
+                $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+
+            loadTableManuscript();
+            loadTableCoversheet();
+        });
+
+        function loadTableManuscript() {
             var tableData = $('#tblData').DataTable({
                 "ajax": {
                     "url": "@Url.Action("GetJobData", "Job")",
@@ -525,6 +520,7 @@
                     //console.log('rowCallback');
                 }
             });
+
             //Add event listener for opening and closing first level childdetails
             $('#tblData tbody').on('click', 'td.details-control', function () {
                 var tr = $(this).closest('tr');
@@ -714,7 +710,7 @@
                                 "defaultContent": ''
                             },
                             {
-                                "className": 'details-control2',
+                                "className": 'details-control4',
                                 "orderable": false,
                                 "data": null,
                                 "defaultContent": ''
@@ -840,7 +836,7 @@
                     });
                 });
 
-                $('.child_table tbody').off().on('click', 'td.details-control2', function () {
+                $('.child_table tbody').off().on('click', 'td.details-control4', function () {
                     var c_tr = $(this).closest('tr');
                     var c_row = childTable.row(c_tr);
                     var rowData = c_row.data();
@@ -849,6 +845,7 @@
                     window.location.href = '/QueryManuscript/Index?id=' + dataNew['ManuscriptID'];
                 });
             });
+
             //************Show New User Modal**************
             $("#btnAddNew").click(function () {
                 //var datacount = $("#lblCount").text();
@@ -865,6 +862,7 @@
                     }
                 });
             });
+
             //************Show New User Modal**************
             $("#btnEdit").click(function () {
                 //var datacount = $("#lblCount").text();
@@ -881,15 +879,11 @@
                     }
                 });
             });
-
-            loadTableCoversheet();
-        });
+        }
 
         function loadTableCoversheet() {
-            $('#tblDataCoversheet').DataTable({
-                //scrollX: true,
+            let tableCoversheet = $('#tblDataCoversheet').DataTable({
                 dom: 'Bfrtip',
-
                 ajax: {
                     url: "@Url.Action("GetJobCoversheetData", "JobCoversheet")",
                     type: 'GET',
@@ -898,7 +892,7 @@
                 },
                 columns: [
                     {
-                        "className": 'details-control3',
+                        "className": 'details-control',
                         "orderable": false,
                         "data": null,
                         "defaultContent": ''
@@ -918,8 +912,15 @@
                     { className: "dt-center", "targets": "_all" },
                     {
                         targets: [1],
-                        visible: false
-                    }
+                        visible: false,
+                        searchable: false
+                    },
+                    {
+                        targets: [9],
+                        render: function (data) {
+                            return moment(data).format('YYYY/MM/DD');
+                        }
+                    },
                 ],
                 buttons: {
                     //reset class and change the rendered tag
@@ -962,23 +963,20 @@
                 initComplete: function () {
                     // Apply the search
                     //scrollx initiator
-                    $('#tblDataCoversheet').wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");
+                    $('#tblDataCoversheet').wrap("<div style='overflow: auto; width: 100%; position: relative;'></div>");
                     //init = false;
                     this.api().columns().every(function () {
                         var that = this;
-
                         $('input', this.footer()).on('keyup change clear', function () {
                             if (that.search() !== this.value) {
-                                that
-                                    .search(this.value)
-                                    .draw();
+                                that.search(this.value).draw();
                             }
                         });
                     });
                 },
                 createdRow: function (row, data, index) {
                     if (data.extn === '') {
-                        var td = $(row).find("td:first");
+                        let td = $(row).find("td:first");
                         td.removeClass('details-control');
                     }
                 },
@@ -986,88 +984,210 @@
                     //console.log('rowCallback');
                 }
             });
+
+            //Add event listener for opening and closing first level childdetails
+            $('#tblDataCoversheet tbody').on('click', 'td.details-control', function () {
+                let tr2 = $(this).closest('tr');
+                let row2 = tableCoversheet.row(tr2);
+                let rowData2 = row2.data();
+
+                //get index to use for child table ID
+                let index2 = row2.index();
+                let data2 = tableCoversheet.row(this).data();
+
+                if (row2.child.isShown()) {
+                    // close row
+                    row2.child.hide();
+                    tr2.removeClass('shown');
+                    //$('#childTableCoversheet' + index2).DataTable().destroy();
+                }
+                else {
+                    // Open this row
+                    row2.child(generateChildRowForCoversheet(index2)).show();
+
+                    $('#childTableCoversheet' + index2 + ' tfoot th').each(function () {
+                        var title = $(this).text();
+                        $(this).html('<input type="text" placeholder="' + title + '" />');
+                    });
+
+                    var childTableCoversheet = $('#childTableCoversheet' + index2).DataTable({
+                        dom: 'Bfrtip',
+                        ajax: {
+                            url: "@Url.Action("GetCoversheetData", "Coversheet")",
+                            dataSrc: "",
+                            type: "GET",
+                            dataType: "json",
+                            data: function (d) {
+                                d.bpsproductid = data2['BPSProductID'];
+                                d.servicenumber = data2['ServiceNumber'];
+                            }
+                        },
+                        columns: [
+                            {
+                                "className": 'details-control3',
+                                "orderable": false,
+                                "data": null,
+                                "defaultContent": ''
+                            },
+                            {
+                                "className": 'details-control4',
+                                "orderable": false,
+                                "data": null,
+                                "defaultContent": ''
+                            },
+                            { "data": "CoversheetID" },
+                            { "data": "CoversheetNumber" },
+                            { "data": "CoversheetTier" },
+                            { "data": "BPSProductID" },
+                            { "data": "ServiceNumber" },
+                            { "data": "GuideCard" },
+                            { "data": "LocationOfManuscript" },
+                            { "data": "FurtherInstructions" },
+                            { "data": "CurrentTask" },
+                            { "data": "TaskStatus" },
+                            { "data": "TargetPressDate" },
+                            { "data": "ActualPressDate" },
+                            { "data": "CodingDueDate" },
+                            { "data": "CodingStartDate" },
+                            { "data": "CodingDoneDate" },
+                            //{ "data": "SubsequentPass" },
+                            { "data": "OnlineDueDate" },
+                            { "data": "OnlineStartDate" },
+                            { "data": "OnlineDoneDate" },
+                            { "data": "OnlineTimeliness" },
+                            { "data": "ReasonIfLate" },
+                            { "data": "JobOwner" }
+                        ],
+                        columnDefs: [
+                            //center all data
+                            { "className": "dt-center", "targets": "_all" },
+                        ],
+                        order: [[2, 'asc']],
+                        buttons: {
+                            //reset class and change the rendered tag
+                            //from <button> to <i>
+                            dom: {
+                                button: {
+                                    tag: 'i',
+                                    className: ''
+                                }
+                            },
+                            //since we now have completely unstyled icons add
+                            //some space between them trough a .custom-btn class
+                            buttons: [
+                                {
+                                    titleAttr: 'Copy',
+                                    extend: 'copyHtml5',
+                                    className: 'custom-btn fa fa-clipboard',
+                                    text: ''
+                                },
+                                {
+                                    titleAttr: 'Download as Excel',
+                                    extend: 'excelHtml5',
+                                    className: 'custom-btn fa fa-file-excel-o',
+                                    text: ''
+                                },
+                                {
+                                    titleAttr: 'Download as CSV',
+                                    extend: 'csvHtml5',
+                                    className: 'custom-btn fa fa-file-text-o',
+                                    text: ''
+                                },
+                                {
+                                    titleAttr: 'Download as PDF',
+                                    extend: 'pdfHtml5',
+                                    className: 'custom-btn fa fa-file-pdf-o',
+                                    text: ''
+                                }
+
+                            ]
+                        },
+                        initComplete: function (settings, json) {
+                            // Apply the search
+                            //init = false;
+                            //scrollx initiator
+                            $('#childTableCoversheet' + index2).wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");
+                            this.api().columns().every(function () {
+                                var that = this;
+                                $('input', this.footer()).on('keyup change clear', function () {
+                                    if (that.search() !== this.value) {
+                                        that.search(this.value).draw();
+                                    }
+                                });
+                            });
+                        },
+                        destroy: true
+                    });
+                    tr2.addClass('shown');
+                }
+
+                // assign link icon to child table
+                $('.child_table2 tbody').off().on('click', 'td.details-control4', function () {
+                    let c_tr2 = $(this).closest('tr');
+                    let c_row2 = childTableCoversheet.row(c_tr2);
+                    let rowData2 = c_row2.data();
+                    let dataNew = childTableCoversheet.row(this).data();
+
+                    //window.location.href = '/QueryManuscript/Index?id=' + dataNew['ManuscriptID'];
+                    alert('test');
+                });
+            });
         }
 
-        $('#tblDataCoversheet tbody').on('click', 'td.details-control3', function () {
-            alert('click test');
-
-            var tr = $(this).closest('tr');
-            var row = tableData1.row(tr);
-            var rowData = row.data();
-            var data = tableData1.row(this).data();
-            //get index to use for child table ID
-            var index = row.index();
-            //console.log(index);
-            //console.log(data);
-
-            if (row.child.isShown()) {
-                // This row is already open - close it
-                row.child.hide();
-                tr.removeClass('shown');
-            }
-            else {
-                // Open this row
-                row.child(
-                    '<div class="inner3">' +
-                    '<table class="child_table3 display nowrap" id="child_details3' + index + '" cellpadding = "5" cellspacing="0" border = "0" style = "width:100%;" > ' +
-                    '<thead><tr>' +
-                    '<th></th>' +
-                    '<th>CoversheetID</th>' +
-                    '<th>Tier</th>' +
-                    '<th>Product</th>' +
-                    '<th>Service Number</th>' +
-                    '<th>Latest Task Number</th>' +
-                    '<th>Coding Status</th>' +
-                    '<th>PDF QA Status</th>' +
-                    '<th>Online Status</th>' +
-                    '<th>Date Created</th>' +
-                    '</tr></thead><tbody></tbody></table></div>').show();
-
-                var childTable3 = $('#child_details3' + index).DataTable({
-                    ajax: {
-                        url: "@Url.Action("GetJobCoversheetData", "JobCoversheet")",
-                        type: 'GET',
-                        dataType: 'json',
-                        dataSrc: ''
-                    },
-                    columns: [
-                        {
-                            "className": 'details-control',
-                            "orderable": false,
-                            "data": null,
-                            "defaultContent": ''
-                        },
-                        { data: 'JobCoversheetID' },
-                        { data: 'CoversheetTier' },
-                        { data: 'BPSProductID' },
-                        { data: 'ServiceNumber' },
-                        { data: 'LatestTaskNumber' },
-                        { data: 'CodingStatus' },
-                        { data: 'PDFQAStatus' },
-                        { data: 'OnlineStatus1' },
-                        { data: 'DateCreated' }
-                    ],
-                    columnDefs: [
-                        //center all data
-                        { className: "dt-center", "targets": "_all" },
-                        {
-                            targets: [1],
-                            visible: false
-                        }
-                    ],
-                    order: [[2, 'asc']],
-                    dom: 'Bfrtip',
-                    buttons: [
-                        'copyHtml5',
-                        'excelHtml5',
-                        'csvHtml5',
-                        'pdfHtml5'
-                    ],
-                    destroy: true
-                });
-                tr.addClass('shown');
-            }
-        });
+        function generateChildRowForCoversheet(index) {
+            return '<div class="inner"><table class="child_table2 display nowrap" id="childTableCoversheet' + index + '" cellpadding="5" cellspacing="0" border="0">' +
+                '<thead><tr>' +
+                '<th></th>' +
+                '<th></th>' +
+                '<th>CoversheetID</th>' +
+                '<th>Coversheet Number</th>' +
+                '<th>Tier</th>' +
+                '<th>Product</th>' +
+                '<th>Service Number</th>' +
+                '<th>Guide Card(s)</th>' +
+                '<th>Location Of Manuscript</th>' +
+                '<th>Further Instructions</th>' +
+                '<th>Current Task</th>' +
+                '<th>Status</th>' +
+                '<th>Target Press Date</th>' +
+                '<th>Actual Press Date</th>' +
+                '<th>Coding Due Date</th>' +
+                '<th>Coding Start</th>' +
+                '<th>Coding Done</th>' +
+                '<th>Online Due Date</th>' +
+                '<th>Online Start</th>' +
+                '<th>Online Done</th>' +
+                '<th>Online Timeliness</th>' +
+                '<th>Remarks</th>' +
+                '<th>Job Owner</th>' +
+                '</tr></thead>' +
+                '<tfoot><tr>' +
+                '<th></th>' +
+                '<th></th>' +
+                '<th>CoversheetID</th>' +
+                '<th>Coversheet Number</th>' +
+                '<th>Tier</th>' +
+                '<th>Product</th>' +
+                '<th>Service Number</th>' +
+                '<th>Guide Card(s)</th>' +
+                '<th>Location Of Manuscript</th>' +
+                '<th>Further Instructions</th>' +
+                '<th>Current Task</th>' +
+                '<th>Status</th>' +
+                '<th>Target Press Date</th>' +
+                '<th>Actual Press Date</th>' +
+                '<th>Coding Due Date</th>' +
+                '<th>Coding Start</th>' +
+                '<th>Coding Done</th>' +
+                '<th>Online Due Date</th>' +
+                '<th>Online Start</th>' +
+                '<th>Online Done</th>' +
+                '<th>Online Timeliness</th>' +
+                '<th>Remarks</th>' +
+                '<th>Job Owner</th>' +
+                '</tr></tfoot>' +
+                '</table></div>';
+        }
         //***************End*******************8
 
         // Fix for error: Cannot set property ‘nTf’ of undefined

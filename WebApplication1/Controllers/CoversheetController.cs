@@ -559,7 +559,7 @@ namespace JobTrack.Controllers
             List<CoversheetData> mdata = new List<CoversheetData>();
             DataTable dt = new DataTable();
 
-            cmd = new MySqlCommand("GetCoversheetDataByID", dbConnection);
+            cmd = new MySqlCommand("GetCoversheetByProductIDServiceNumber", dbConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@p_BPSProductID", bpsproductid);
@@ -577,32 +577,38 @@ namespace JobTrack.Controllers
                     CoversheetID = Convert.ToInt32(dr["CoversheetID"].ToString()),
                     //ManuscriptID = dr["ManuscriptID"].ToString(),
                     //JobNumber = Convert.ToInt32(dr["JobNumber"].ToString()),
-                    CoversheetNumber = dr["CoversheetNumber"].ToString(),
+                    //CoversheetNumber = dr["CoversheetNumber"].ToString(),
+                    LocationOfManuscript = "TBD",
+                    CoversheetNumber = "TBD",
                     CoversheetTier = dr["CoversheetTier"].ToString(),
                     TaskNumber = dr["TaskNumber"].ToString(),
 
                     BPSProductID = dr["BPSProductID"].ToString(),
                     ServiceNumber = dr["ServiceNumber"].ToString(),
                     GuideCard = dr["GuideCard"].ToString(),
-                    FurtherInstructions = dr["FurtherInstruction"].ToString(),
-                    SpecialInstruction = dr["SpecialInstruction"].ToString(),
+                    //FurtherInstructions = dr["FurtherInstruction"].ToString(),
+                    FurtherInstructions = "TBD",
+                    //SpecialInstruction = dr["SpecialInstruction"].ToString(),
+                    SpecialInstruction = "TBD",
 
-                    CurrentTask = dr["CurrentTask"].ToString(),
-                    TaskStatus = dr["TaskStatus"].ToString(),
+                    //CurrentTask = dr["CurrentTask"].ToString(),
+                    CurrentTask = "TBD",
+                    //TaskStatus = dr["TaskStatus"].ToString(),
+                    TaskStatus = "TBD",
 
-                    TargetPressDate = dr.Field<DateTime?>("TargetPressDate"),
-                    ActualPressDate = dr.Field<DateTime?>("ActualPressDate"),
+                    //TargetPressDate = dr.Field<DateTime?>("TargetPressDate")
+                    //ActualPressDate = dr.Field<DateTime?>("ActualPressDate"),
                     //TargetPressDate = DateTime.ParseExact(dr["TargetPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
                     //ActualPressDate = DateTime.ParseExact(dr["ActualPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-                    CodingDueDate = dr.Field<DateTime?>("CodingDueDate"),
-                    CodingStartDate = dr.Field<DateTime?>("CodingStartDate"),
-                    CodingDoneDate = dr.Field<DateTime?>("CodingDoneDate"),
-                    SubsequentPass = dr["SubsequentPass"].ToString(),
-                    OnlineDueDate = dr.Field<DateTime?>("OnlineDueDate"),
-                    OnlineStartDate = dr.Field<DateTime?>("OnlineStartDate"),
-                    OnlineDoneDate = dr.Field<DateTime?>("OnlineDoneDate"),
-                    OnlineTimeliness = dr["OnlineTimeliness"].ToString(),
-                    ReasonIfLate = dr["ReasonIfLate"].ToString()
+                    //CodingDueDate = dr.Field<DateTime?>("CodingDueDate"),
+                    //CodingStartDate = dr.Field<DateTime?>("CodingStartDate"),
+                    //CodingDoneDate = dr.Field<DateTime?>("CodingDoneDate"),
+                    //SubsequentPass = dr["SubsequentPass"].ToString(),
+                    //OnlineDueDate = dr.Field<DateTime?>("OnlineDueDate"),
+                    //OnlineStartDate = dr.Field<DateTime?>("OnlineStartDate"),
+                    //OnlineDoneDate = dr.Field<DateTime?>("OnlineDoneDate"),
+                    //OnlineTimeliness = dr["OnlineTimeliness"].ToString(),
+                    //ReasonIfLate = dr["ReasonIfLate"].ToString()
 
                 });
             }
@@ -632,7 +638,8 @@ namespace JobTrack.Controllers
 
                     mdata.model1.CoversheetID = Convert.ToInt32(dr["CoversheetID"].ToString());
                     //mdata.ManuscriptID = dr["ManuscriptID"].ToString();
-                    mdata.model1.CoversheetNumber = dr["CoversheetNumber"].ToString();
+                    //mdata.model1.CoversheetNumber = dr["CoversheetNumber"].ToString();
+                    mdata.model1.CoversheetNumber = "TBD";
                     mdata.model1.BPSProductID = dr["BPSProductID"].ToString();
                     mdata.model1.ServiceNumber = dr["ServiceNumber"].ToString();
                     mdata.model1.TaskNumber = dr["TaskNumber"].ToString();

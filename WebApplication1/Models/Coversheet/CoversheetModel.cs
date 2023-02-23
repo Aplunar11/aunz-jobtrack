@@ -92,6 +92,8 @@ namespace JobTrack.Models.Coversheet
         public string TaskType { get; set; }
         [Display(Name = "Guide Cards")]
         public string GuideCard { get; set; }
+        [Display(Name = "Location of Manuscript")]
+        public string LocationOfManuscript { get; set; }
         [Display(Name = "Further Instructions")]
         public string FurtherInstructions { get; set; }
         [Display(Name = "Update Type")]
