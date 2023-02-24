@@ -17,6 +17,7 @@ namespace JobTrack
 
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<IQueryManuscriptService, QueryManuscriptService>();
+            container.RegisterType<IJobCoversheetService, JobCoversheetService>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

@@ -197,6 +197,7 @@
     <Compile Include="Controllers\CodingController.cs" />
     <Compile Include="Controllers\CodingTLController.cs" />
     <Compile Include="Controllers\CoversheetController.cs" />
+    <Compile Include="Controllers\CoversheetDetailsController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\JobCoversheetController.cs" />
     <Compile Include="Controllers\LEController.cs" />
@@ -212,6 +213,8 @@
     <Compile Include="Models\Admin\IdentityModels.cs" />
     <Compile Include="Models\Admin\ProductDatabaseModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\CoversheetDetails\CoversheetDataModel.cs" />
+    <Compile Include="Models\CoversheetDetails\QueryCoversheetModel.cs" />
     <Compile Include="Models\Coversheet\CoversheetModel.cs" />
     <Compile Include="Models\dbConnection.cs" />
     <Compile Include="Models\Employee\EmployeeModel.cs" />
@@ -5702,6 +5705,7 @@
     <Content Include="Views\PE\PESTPIndex.cshtml" />
     <Content Include="Views\PE\PESTPList.cshtml" />
     <Content Include="Views\PE\PETaskLink.cshtml" />
+    <Content Include="Views\CoversheetDetails\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

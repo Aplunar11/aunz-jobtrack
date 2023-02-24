@@ -1,9 +1,5 @@
-﻿@*@model IEnumerable<JobTrack.Models.QueryListModel>*@
-@model JobTrack.Models.QueryManuscript.ManuscriptDataModel
-@{
-    ViewBag.Title = "QueryManuscript";
+﻿@model JobTrack.Models.CoversheetDetails.CoversheetDataModel
 
-}
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -12,14 +8,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
     <script src="https://cdn.ckeditor.com/4.15.1/standard-all/ckeditor.js"></script>
-    <title>Query Manuscript</title>
+    <title>Query Coversheet</title>
     <style>
         .form-group label {
             font-weight: 800;
         }
     </style>
 </head>
-<!-- Main content -->
 
 <section class="content">
     <div class="container-fluid">
@@ -31,26 +26,26 @@
                 <div class="card-body">
                     <div style="margin-top: 55px"></div>
 
-                    <form id="formQueryIndex" enctype="multipart/form-data">
+                    <form id="formCoverIndex" enctype="multipart/form-data">
                         <div class="row" style="font-size: 12px">
                             <div class="col-md">
                                 <div class="form-group">
-                                    <label>Job Number</label>
-                                    <input type="text" class="form-control" value="@Model.JobNumberText" readonly />
+                                    <label>Coversheet ID</label>
+                                    <input type="text" class="form-control" value="@Model.CoversheetID" readonly />
                                 </div>
                             </div>
 
                             <div class="col-md">
                                 <div class="form-group">
-                                    <label>Manuscript Tier</label>
-                                    <input type="text" class="form-control" value="@Model.ManuscriptTier" readonly />
+                                    <label>Tier</label>
+                                    <input type="text" class="form-control" value="@Model.CoversheetTier" readonly />
                                 </div>
                             </div>
 
                             <div class="col-md">
                                 <div class="form-group">
-                                    <label>Product ID</label>
-                                    <input type="text" class="form-control" value="@Model.BPSProductID" readonly />
+                                    <label>Task Number</label>
+                                    <input type="text" class="form-control" value="@Model.TaskNumber" readonly />
                                 </div>
                             </div>
 
@@ -61,18 +56,19 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row" style="font-size: 12px">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Manuscript or Leg Title</label>
-                                    <input type="text" class="form-control" value="@Model.ManuscriptLegTitle" readonly />
+                                    <label>Product ID</label>
+                                    <input type="text" class="form-control" value="@Model.BPSProductID" readonly />
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Task Number</label>
-                                    <input type="text" class="form-control" value="@(string.IsNullOrEmpty(Model.PETaskNumber) ? "TBD" : Model.PETaskNumber)" readonly />
+                                    <label>Process</label>
+                                    <input type="text" class="form-control" value="@Model.Process" readonly />
                                 </div>
                             </div>
 
@@ -83,7 +79,6 @@
                                         <option value="1">Topic 1</option>
                                         <option value="2">Topic 2</option>
                                         <option value="3">Topic 3</option>
-                                        <option value="4">Topic 4</option>
                                     </select>
                                 </div>
                             </div>
@@ -99,6 +94,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- message -->
                         <div class="row" style="font-size: 12px; padding-bottom: 0; margin-bottom: 0">
                             <div class="col-md">
                                 <div class="form-group" style="margin-bottom: 0">
@@ -109,15 +106,13 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- file upload -->
                         <div class="row mb-2" style="font-size: 12px">
                             <div class="col-md">
                                 <input type="file" class="form-control" style="font-size: 12px" name="FileToUpload" id="FileToUpload" />
                             </div>
                         </div>
-
-                        <!-- hidden -->
-                        <input type="hidden" name="JobID" value="@ViewBag.ManuscriptID" />
-                        <input type="hidden" name="QueryStatusID" value="1" />
                     </form>
 
                     <!-- add new -->
@@ -137,13 +132,12 @@
 
 
                     <!-- query table -->
-                    <table class="table table-bordered table-striped" id="queryTable">
+                    <table class="table table-bordered table-striped" id="coverTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Job ID</th>
-                                <th>Task ID</th>
-                                <th>Query Status</th>
+                                <th>Querysheet ID</th>
+                                <th>Status</th>
                                 <th>Topic Title</th>
                                 <th>Query Type</th>
                                 <th>Date Posted</th>
@@ -163,14 +157,11 @@
         </div>
         <!-- /.col -->
     </div>
-    
+
     <!-- /.row -->
     </div>
     <!-- /.container-fluid -->
 </section>
-
-
-<!-- /.content -->
 </html>
 
 <div id="query-modal-container">
@@ -179,7 +170,7 @@
 
 <script>
     $(document).ready(function () {
-        getTableData('queryTable');
+        getTableData('coverTable');
     });
 
     function getTableData(tableId) {
@@ -197,11 +188,11 @@
             buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
 
             ajax: {
-                url: '/QueryManuscript/GetQueryManuscript',
+                url: '/CoversheetDetails/GetQueryCoversheet',
                 type: 'POST',
                 dataType: 'json',
                 data: function (d) {
-                    d.jobId = @ViewBag.ManuscriptID;
+                    d.coversheetId = @ViewBag.CoversheetID ;
                     d.filterBy = $('#filterDropdown').val();
                 },
                 dataSrc: function (data) {
@@ -211,25 +202,18 @@
             order: [[0, 'asc']],
             columns: [
                 { data: 'ID' },
-                { data: 'JobID' },
-                { data: 'TaskID' },
+                { data: 'CoversheetID' },
                 { data: 'QueryStatus' },
                 { data: 'QueryTopicTitle' },
                 { data: 'QueryType' },
                 { data: 'DateText' },
                 { data: 'RepliedBy' },
-                { data: 'PostedBy' },                
+                { data: 'PostedBy' },
                 { data: 'ID' }
             ],
             columnDefs: [
                 {
                     targets: [2],
-                    render: function (data, type, row, meta) {
-                            return data == null ? 'TBD' : data;
-                    }
-                },
-                {
-                    targets: [3],
                     render: function (data, type, row, meta) {
 
                         // if status is not open, add color code
@@ -243,7 +227,7 @@
                     }
                 },
                 {
-                    targets: [7],
+                    targets: [6],
                     render: function (data, type, row, meta) {
 
                         // if repliedBy is not admin, add color code
@@ -257,7 +241,7 @@
                     }
                 },
                 {
-                    targets: [9],
+                    targets: [8],
                     render: function (data, type, row, meta) {
                         return ''
                             // + '<button type="button" class="btn btn-info" onclick="onclickUpdate(' + data + ')">Update</button> &nbsp;'
@@ -269,157 +253,4 @@
             ]
         });
     }
-
-    function onclickAdd() {
-        // append file input
-        let formDataToSubmit = new FormData();
-        formDataToSubmit.append("FileToUpload", $("#FileToUpload")[0].files[0]);
-
-        // append other input data
-        let formData = $('#formQueryIndex').serializeArray();
-        $(formData).each(function (index, obj) {
-            formDataToSubmit.append(obj.name, obj.value);
-        });
-
-        // process data to api
-        $.ajax({
-            type: 'POST',
-            url: '/QueryManuscript/UpdateQueryManuscript',
-            data: formDataToSubmit,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            success: function (response) {
-
-                if (response.IsSuccess) {
-                    alert('Successfully added.');
-                    window.location.reload();
-                }
-                else
-                    alert('Error update.');
-            }
-        });
-    }
-
-    function onclickView(rowID) {
-        location.href = '/QueryManuscript/Reply?id=' + @Model.ManuscriptID + '&queryid=' + rowID + '&v=' + true;
-    }
-
-    function onclickUpdate(rowID) {
-        $.ajax({
-            type: 'POST',
-            url: '/QueryManuscript/_EditQueryManuscript',
-            data: { ID: rowID, JobID: @ViewBag.ManuscriptID  },
-            dataType: 'html',
-            success: function (response) {
-                $('#query-modal-container').html(response);
-                $('#queryModal').modal('show');
-            }
-        });
-    }
-
-    function onclickDelete(rowID) {
-        let isDelete = confirm('Are you sure you want to delete?');
-
-        if (isDelete) {
-            $.ajax({
-                type: 'POST',
-                url: '/QueryManuscript/DeleteQueryManuscript',
-                data: { ID: rowID },
-                dataType: 'json',
-                success: function (response) {
-
-                    if (response.success)
-                        location.reload();
-                    else
-                        alert("Delete error.");
-                }
-            })
-        };
-    }
-
-    function onclickReply(rowID) {
-        location.href = '/QueryManuscript/Reply?id=' + @Model.ManuscriptID + '&queryid=' + rowID + '&v=' + false;
-    }
-
-    function onchangeFilter() {
-        $('#queryTable').DataTable().ajax.reload();
-    }
-
-    $(function () {
-        $("#example1").DataTable({
-            "responsive": true, "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-            "pageLength": 20,
-            "lengthChange": false,
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": true,
-            "responsive": true,
-        });
-        $('#example3').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": true,
-            "responsive": true,
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
-        });
-        $('#example4').DataTable({
-            "paging": true,
-            "pageLength": 10,
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": true,
-            "responsive": true,
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ],
-        });
-
-        //$("#queryTable").DataTable({
-        //    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        //    "responsive": true,
-        //    "autoWidth": false,
-        //    dom: 'Bfrtip',
-        //    buttons: [
-        //        'copy', 'csv', 'excel', 'pdf', 'print'
-        //    ]
-        //});
-        $("#tableNoExport").DataTable({
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            "responsive": true,
-            "autoWidth": false,
-        });
-
-        $("#table1").DataTable({
-            "lengthMenu": [[-1], ["All"]],
-            "responsive": true,
-            "autoWidth": false,
-        });
-        $("#tableall").DataTable({
-            "lengthMenu": [[-1], ["All"]],
-            "responsive": true,
-            "autoWidth": false,
-            "rowCallback": function (nRow, aData, iDisplayIndex) {
-                var oSettings = this.fnSettings();
-                $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-                return nRow;
-            }
-        });
-    });
 </script>
