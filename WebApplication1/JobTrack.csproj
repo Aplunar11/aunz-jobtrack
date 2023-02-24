@@ -5706,6 +5706,8 @@
     <Content Include="Views\PE\PESTPList.cshtml" />
     <Content Include="Views\PE\PETaskLink.cshtml" />
     <Content Include="Views\QueryCoversheet\Index.cshtml" />
+    <Content Include="Views\QueryCoversheet\Reply.cshtml" />
+    <Content Include="Views\QueryCoversheet\_ReplyBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

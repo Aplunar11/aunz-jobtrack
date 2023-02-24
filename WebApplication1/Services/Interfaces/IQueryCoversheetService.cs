@@ -20,5 +20,9 @@ namespace JobTrack.Services.Interfaces
         Task<bool> UpdateQueryReplyAsync(ReplyModel model);
 
         Task<bool> DeleteQueryCoversheetAsync(QueryCoversheetModel model);
+
+        Task<List<ReplyModel>> GetCoverRepliesAsync(int queryID);
+
+        Task<QueryCoversheetModel> GetQueryCoversheetByIdAsync(int id);
     }
 }

@@ -1,0 +1,145 @@
+﻿@model  JobTrack.Models.QueryManuscript.ReplyModel
+@{
+    ViewBag.Title = "Reply";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <script src="https://cdn.ckeditor.com/4.15.1/standard-all/ckeditor.js"></script>
+    <title>Query Coversheet</title>
+</head>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="offset-md-2 col-10">
+
+                <div class="card-body">
+                    <form id="formReply">
+
+                        <div class="row mb-2" style="margin-top: 60px">
+                            <div class="col-md-4">
+                                <label><b>Topic title: </b></label> &nbsp;
+                                <label>@Model.CoverTopicTitle</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <label><b>Query Type: </b></label> &nbsp;
+                                <label>@Model.CoverType</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md">
+
+                                        <label><b>Cover Status: </b></label> &nbsp;
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <label class="btn btn-outline-secondary" style="width: 100px; border-radius: 0" hidden id="label-open">
+                                                <input type="radio" name="CoverStatusID" value="1" /> Open
+                                            </label>
+
+                                            <label class="btn btn-outline-danger" style="width: 100px">
+                                                <input type="radio" name="CoverStatusID" value="2" /> Cancel
+                                            </label>
+
+                                            <label class="btn btn-outline-success" style="width: 100px; border-radius: 0">
+                                                <input type="radio" name="CoverStatusID" value="3" /> Close
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- display submit in reply mode -->
+                            <div class="col-md" style="text-align: right">
+                                @if (!(bool)ViewBag.IsViewOnly)
+                                {
+                                    <button type="button" class="btn btn-primary mb-1" onclick="onclickSubmit();">Submit</button>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- user can't comment when in view mode only -->
+                        <textarea rows="5"
+                                  style="width: 100%; padding: 5px; color: black" name="Message"
+                                  placeholder="Post a comment here..." @((bool)ViewBag.IsViewOnly ? "readonly" : "")></textarea>
+
+                        <input type="hidden" name="QueryID" value="@Model.QueryID" />
+                    </form>
+
+                    @if (Model.Replies.Count > 0)
+                    {
+                        <div class="row">
+                            <div class="col-md">
+                                <div style="padding: 5px; background-color: green; color: white; text-align: center">POST</div>
+                            </div>
+                        </div>
+                    }
+
+                    @foreach (var reply in Model.Replies)
+                    {
+                        { Html.RenderPartial("_ReplyBox", reply); }
+                    }
+
+                    <div class="mb-3"></div>
+                    <button type="button" class="btn btn-link" onclick="location.href='/QueryCoversheet/Index?id=@Model.CoversheetID'">< Go Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</html>
+
+<script>
+    $(document).ready(function () {
+        // set value
+        $(':radio[name="CoverStatusID"][value="@(Model.CoverStatusID > 0 ? Model.CoverStatusID : 1)"]').attr('checked', 'checked').addClass('active');
+
+        // set active status
+        if (@Model.CoverStatusID > 1) {
+            $("input[name='CoverStatusID']:checked").parent().addClass('active').removeAttr('hidden');
+        }
+        else
+            $("input[name='CoverStatusID']:checked").parent().addClass('active');
+
+        // if it's view only mode, hide unselected status
+        if ('@ViewBag.IsViewOnly' == 'True') {
+            $("input[name='CoverStatusID']").parent().attr('hidden', true);
+            $("input[name='CoverStatusID']:checked").parent().addClass('active').removeAttr('hidden');
+        }
+    });
+
+    function onclickSubmit() {
+        // serialize form data
+        let formData = $('#formReply').serializeArray();
+        let datasource = {};
+        $(formData).each(function (index, obj) {
+            datasource[obj.name] = obj.value;
+        });
+
+        // process data to api
+        $.ajax({
+            type: 'POST',
+            url: '/QueryCoversheet/UpdateReply',
+            data: datasource,
+            dataType: 'json',
+            success: function (response) {
+
+                if (response.success)
+                    window.location.reload();
+                else
+                    alert('Error update.');
+            }
+        });
+    }
+</script>

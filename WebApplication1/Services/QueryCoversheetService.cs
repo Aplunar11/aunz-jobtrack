@@ -107,6 +107,29 @@ namespace JobTrack.Services
             return await Task.FromResult(list.FirstOrDefault());
         }
     
+        public async Task<QueryCoversheetModel> GetQueryCoversheetByIdAsync(int id)
+        {
+            var storedProcedure = "GetQueryCoversheetById";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_id", id);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<QueryCoversheetModel>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list.FirstOrDefault());
+        }
+        
         public async Task<bool> UpdateQueryReplyAsync(ReplyModel model)
         {
             var isSuccess = false;
@@ -166,6 +189,31 @@ namespace JobTrack.Services
             }
 
             return await Task.FromResult(isSuccess);
+        }
+    
+        public async Task<List<ReplyModel>> GetCoverRepliesAsync(int queryID)
+        {
+            var list = new List<ReplyModel>();
+            var storedProcedure = "GetAllCoverReplies";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_query_id", queryID);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            list = JsonConvert.DeserializeObject<List<ReplyModel>>(JsonConvert.SerializeObject(dataTable)).OrderByDescending(p => p.ID).ToList();
+
+            return await Task.FromResult(list);
         }
     }
 }

@@ -30,6 +30,28 @@ namespace JobTrack.Controllers
             return View(viewModel);
         }
 
+        public async Task<ActionResult> Reply(int id, int queryid, bool v)
+        {
+            // v (isViewOnly)
+            var model = new ReplyModel { QueryID = queryid };
+            model.Replies = await _queryCoversheetService.GetCoverRepliesAsync(queryid);
+
+            var querycoversheet = await _queryCoversheetService.GetQueryCoversheetByIdAsync(queryid);
+            model.CoverStatusID = querycoversheet.CoverStatusID.Value;
+            model.CoverTopicTitle = querycoversheet.CoverTopicTitle;
+            model.CoverType = querycoversheet.CoverType;
+            model.CoversheetID = id;
+
+            ViewBag.IsViewOnly = v;
+
+            return View(model);
+        }
+
+        public async Task<ActionResult> _ReplyBox(ReplyModel model)
+        {
+            return PartialView(await Task.FromResult(model));
+        }
+
         public async Task<string> GetQueryCoversheet(int coversheetId, int filterBy)
         {
             var result = new JsonResultModel();

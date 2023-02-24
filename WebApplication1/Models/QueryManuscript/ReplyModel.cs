@@ -25,6 +25,14 @@ namespace JobTrack.Models.QueryManuscript
 
         public string QueryType { get; set; }
 
+        public int CoverStatusID { get; set; }
+
+        public string CoverTopicTitle { get; set; }
+
+        public string CoverType { get; set; }
+
+        public int CoversheetID { get; set; }
+
         public List<ReplyModel> Replies { get; set; }
 
         public ReplyModel()

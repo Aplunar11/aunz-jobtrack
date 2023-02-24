@@ -308,4 +308,8 @@
             })
         };
     }
+
+    function onclickReply(rowID) {
+        location.href = '/QueryCoversheet/Reply?id=' + @Model.CoversheetID + '&queryid=' + rowID + '&v=' + false;
+    }
 </script>
