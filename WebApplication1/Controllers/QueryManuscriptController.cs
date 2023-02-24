@@ -97,17 +97,35 @@ namespace JobTrack.Controllers
                     model.FilePath = string.Empty;  // fix for "Unhandled type encountered"
                     var newData = await _queryManuscriptService.UpdateQueryManuscriptAsync(model);
                     model.ID = newData.ID;
+
+                    // save file to directory
+                    if (model.FileToUpload != null)
+                    {
+                        fileResult = await WriteToFile($@"C:\jobtrackaunz\manuscript\{model.ID}\{model.FileToUpload.FileName}"
+                            , $@"C:\jobtrackaunz\{model.ID}\"
+                            , model.FileToUpload.InputStream);
+
+                        if (fileResult.IsSuccess)
+                            model.FilePath = model.FileToUpload != null ? $@"C:\jobtrackaunz\manuscript\{model.ID}\{model.FileToUpload.FileName}" : string.Empty;
+
+                        var updatedData = await _queryManuscriptService.UpdateQueryManuscriptAsync(model);
+                    } 
                 }
+                else
+                {
+                    // save file to directory
+                    if (model.FileToUpload != null)
+                    {
+                        fileResult = await WriteToFile($@"C:\jobtrackaunz\manuscript\{model.ID}\{model.FileToUpload.FileName}"
+                            , $@"C:\jobtrackaunz\{model.ID}\"
+                            , model.FileToUpload.InputStream);
 
-                // save file to directory
-                if (model.FileToUpload != null)
-                    fileResult = await WriteToFile($@"C:\jobtrackaunz\{model.ID}\{model.FileToUpload.FileName}"
-                        , $@"C:\jobtrackaunz\{model.ID}\"
-                        , model.FileToUpload.InputStream);
+                        if (fileResult.IsSuccess)
+                            model.FilePath = model.FileToUpload != null ? $@"C:\jobtrackaunz\manuscript\{model.ID}\{model.FileToUpload.FileName}" : string.Empty;
+                    }
 
-                // update new query with filepath
-                model.FilePath = model.FileToUpload != null ? $@"C:\jobtrackaunz\{model.ID}\{model.FileToUpload.FileName}" : string.Empty;
-                var updatedData = await _queryManuscriptService.UpdateQueryManuscriptAsync(model);
+                    var updatedData = await _queryManuscriptService.UpdateQueryManuscriptAsync(model);
+                }                
 
                 // save data to "queryreplies" table with "manuscriptquery" ID as foreign_key
                 jsonResult.IsSuccess = await _queryManuscriptService.UpdateQueryReplyAsync(new ReplyModel

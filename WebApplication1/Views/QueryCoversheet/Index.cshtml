@@ -1,4 +1,4 @@
-﻿@model JobTrack.Models.CoversheetDetails.CoversheetDataModel
+﻿@model JobTrack.Models.QueryCoversheet.CoversheetDataModel
 
 <html>
 <head>
@@ -75,7 +75,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Topic title</label>
-                                    <select class="form-control" name="QueryTopicID" id="QueryTopicID" required>
+                                    <select class="form-control" name="CoverTopicID" id="CoverTopicID" required>
                                         <option value="1">Topic 1</option>
                                         <option value="2">Topic 2</option>
                                         <option value="3">Topic 3</option>
@@ -86,7 +86,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Query type</label>
-                                    <select class="form-control" name="QueryTypeID" id="QueryTypeID" required>
+                                    <select class="form-control" name="CoverTypeID" id="CoverTypeID" required>
                                         <option value="1">General</option>
                                         <option value="2">XML Tagging</option>
                                         <option value="3">Format</option>
@@ -113,6 +113,10 @@
                                 <input type="file" class="form-control" style="font-size: 12px" name="FileToUpload" id="FileToUpload" />
                             </div>
                         </div>
+
+                        <!-- hidden -->
+                        <input type="hidden" name="CoversheetID" value="@ViewBag.CoversheetID" />
+                        <input type="hidden" name="CoverStatusID" value="1" />
                     </form>
 
                     <!-- add new -->
@@ -188,7 +192,7 @@
             buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
 
             ajax: {
-                url: '/CoversheetDetails/GetQueryCoversheet',
+                url: '/QueryCoversheet/GetQueryCoversheet',
                 type: 'POST',
                 dataType: 'json',
                 data: function (d) {
@@ -203,9 +207,9 @@
             columns: [
                 { data: 'ID' },
                 { data: 'CoversheetID' },
-                { data: 'QueryStatus' },
-                { data: 'QueryTopicTitle' },
-                { data: 'QueryType' },
+                { data: 'CoverStatus' },
+                { data: 'CoverTopicTitle' },
+                { data: 'CoverType' },
                 { data: 'DateText' },
                 { data: 'RepliedBy' },
                 { data: 'PostedBy' },
@@ -252,5 +256,56 @@
                 }
             ]
         });
+    }
+
+    function onclickAdd() {
+        // append file input
+        let formDataToSubmit = new FormData();
+        formDataToSubmit.append("FileToUpload", $("#FileToUpload")[0].files[0]);
+
+        // append other input data
+        let formData = $('#formCoverIndex').serializeArray();
+        $(formData).each(function (index, obj) {
+            formDataToSubmit.append(obj.name, obj.value);
+        });
+
+        // process data to api
+        $.ajax({
+            type: 'POST',
+            url: '/QueryCoversheet/UpdateQueryCoversheet',
+            data: formDataToSubmit,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (response) {
+
+                if (response.IsSuccess) {
+                    alert('Successfully added.');
+                    window.location.reload();
+                }
+                else
+                    alert('Error update.');
+            }
+        });
+    }
+
+    function onclickDelete(rowID) {
+        let isDelete = confirm('Are you sure you want to delete?');
+
+        if (isDelete) {
+            $.ajax({
+                type: 'POST',
+                url: '/QueryCoversheet/DeleteQueryCoversheet',
+                data: { ID: rowID },
+                dataType: 'json',
+                success: function (response) {
+
+                    if (response.success)
+                        location.reload();
+                    else
+                        alert("Delete error.");
+                }
+            })
+        };
     }
 </script>

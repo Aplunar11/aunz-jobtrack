@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace JobTrack.Models.CoversheetDetails
+namespace JobTrack.Models.QueryCoversheet
 {
     public class QueryCoversheetModel
     {
@@ -11,15 +11,15 @@ namespace JobTrack.Models.CoversheetDetails
 
         public int? CoversheetID { get; set; }
 
-        public int CoverStatusID { get; set; }
+        public int? CoverStatusID { get; set; }
 
         public string CoverStatus { get; set; }
 
-        public int CoverTopicID { get; set; }
+        public int? CoverTopicID { get; set; }
 
         public string CoverTopicTitle { get; set; }
 
-        public int CoverTypeID { get; set; }
+        public int? CoverTypeID { get; set; }
 
         public string CoverType { get; set; }
 

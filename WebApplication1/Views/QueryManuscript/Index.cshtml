@@ -135,7 +135,6 @@
                         <option value="5">Replied by Straive</option>
                     </select>
 
-
                     <!-- query table -->
                     <table class="table table-bordered table-striped" id="queryTable">
                         <thead>
@@ -345,81 +344,4 @@
     function onchangeFilter() {
         $('#queryTable').DataTable().ajax.reload();
     }
-
-    $(function () {
-        $("#example1").DataTable({
-            "responsive": true, "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-            "pageLength": 20,
-            "lengthChange": false,
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": true,
-            "responsive": true,
-        });
-        $('#example3').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": true,
-            "responsive": true,
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
-        });
-        $('#example4').DataTable({
-            "paging": true,
-            "pageLength": 10,
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": true,
-            "responsive": true,
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ],
-        });
-
-        //$("#queryTable").DataTable({
-        //    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        //    "responsive": true,
-        //    "autoWidth": false,
-        //    dom: 'Bfrtip',
-        //    buttons: [
-        //        'copy', 'csv', 'excel', 'pdf', 'print'
-        //    ]
-        //});
-        $("#tableNoExport").DataTable({
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            "responsive": true,
-            "autoWidth": false,
-        });
-
-        $("#table1").DataTable({
-            "lengthMenu": [[-1], ["All"]],
-            "responsive": true,
-            "autoWidth": false,
-        });
-        $("#tableall").DataTable({
-            "lengthMenu": [[-1], ["All"]],
-            "responsive": true,
-            "autoWidth": false,
-            "rowCallback": function (nRow, aData, iDisplayIndex) {
-                var oSettings = this.fnSettings();
-                $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-                return nRow;
-            }
-        });
-    });
 </script>
