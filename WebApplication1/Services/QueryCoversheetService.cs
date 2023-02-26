@@ -129,38 +129,6 @@ namespace JobTrack.Services
             var list = JsonConvert.DeserializeObject<List<QueryCoversheetModel>>(JsonConvert.SerializeObject(dataTable));
             return await Task.FromResult(list.FirstOrDefault());
         }
-        
-        public async Task<bool> UpdateQueryReplyAsync(ReplyModel model)
-        {
-            var isSuccess = false;
-            var storedProcedure = "UpdateCoverReply";
-
-            try
-            {
-                dbConnection.Open();
-
-                using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@p_id", model.ID);
-                    command.Parameters.AddWithValue("@p_query_id", model.QueryID);
-                    command.Parameters.AddWithValue("@p_message", string.IsNullOrEmpty(model.Message) ? string.Empty : model.Message);
-                    command.Parameters.AddWithValue("@p_user", model.PostedBy);
-
-                    int rowAffected = command.ExecuteNonQuery();
-                }
-
-                dbConnection.Close();
-
-                isSuccess = true;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-
-            return await Task.FromResult(isSuccess);
-        }
 
         public async Task<bool> DeleteQueryCoversheetAsync(QueryCoversheetModel model)
         {
@@ -214,6 +182,68 @@ namespace JobTrack.Services
             list = JsonConvert.DeserializeObject<List<ReplyModel>>(JsonConvert.SerializeObject(dataTable)).OrderByDescending(p => p.ID).ToList();
 
             return await Task.FromResult(list);
+        }
+    
+        public async Task<bool> UpdateCoverReplyAsync(ReplyModel model)
+        {
+            var isSuccess = false;
+            var storedProcedure = "UpdateCoverReply";
+
+            try
+            {
+                dbConnection.Open();
+
+                using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@p_id", model.ID);
+                    command.Parameters.AddWithValue("@p_query_id", model.QueryID);
+                    command.Parameters.AddWithValue("@p_message", string.IsNullOrEmpty(model.Message) ? string.Empty : model.Message);
+                    command.Parameters.AddWithValue("@p_user", model.PostedBy);
+
+                    int rowAffected = command.ExecuteNonQuery();
+                }
+
+                dbConnection.Close();
+
+                isSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return await Task.FromResult(isSuccess);
+        }
+    
+        public async Task<bool> UpdateQueryCoversheetStatusAsync(ReplyModel model)
+        {
+            var isSuccess = false;
+            var storedProcedure = "UpdateQueryCoversheetStatus";
+
+            try
+            {
+                dbConnection.Open();
+
+                using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@p_id", model.QueryID);
+                    command.Parameters.AddWithValue("@p_coverstatus_id", model.CoverStatusID);
+
+                    int rowAffected = command.ExecuteNonQuery();
+                }
+
+                dbConnection.Close();
+
+                isSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return await Task.FromResult(isSuccess);
         }
     }
 }

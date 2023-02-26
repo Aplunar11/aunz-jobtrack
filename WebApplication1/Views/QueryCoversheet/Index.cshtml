@@ -289,6 +289,10 @@
         });
     }
 
+    function onclickView(rowID) {
+        location.href = '/QueryCoversheet/Reply?id=' + @Model.CoversheetID + '&queryid=' + rowID + '&v=' + true;
+    }
+
     function onclickDelete(rowID) {
         let isDelete = confirm('Are you sure you want to delete?');
 
@@ -311,5 +315,9 @@
 
     function onclickReply(rowID) {
         location.href = '/QueryCoversheet/Reply?id=' + @Model.CoversheetID + '&queryid=' + rowID + '&v=' + false;
+    }
+
+    function onchangeFilter() {
+        $('#coverTable').DataTable().ajax.reload();
     }
 </script>

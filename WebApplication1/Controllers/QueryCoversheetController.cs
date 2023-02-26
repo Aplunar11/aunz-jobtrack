@@ -28,7 +28,7 @@ namespace JobTrack.Controllers
             ViewBag.CoversheetID = id;
             var viewModel = await _queryCoversheetService.GetCoversheetDataByIdAsync(id);
             return View(viewModel);
-        }
+        }   
 
         public async Task<ActionResult> Reply(int id, int queryid, bool v)
         {
@@ -92,11 +92,13 @@ namespace JobTrack.Controllers
                     if (model.FileToUpload != null)
                     {
                         fileResult = await WriteToFile($@"C:\jobtrackaunz\coversheet\{model.ID}\{model.FileToUpload.FileName}"
-                            , $@"C:\jobtrackaunz\{model.ID}\"
+                            , $@"C:\jobtrackaunz\coversheet\{model.ID}\"
                             , model.FileToUpload.InputStream);
 
                         if (fileResult.IsSuccess)
-                            model.FilePath = model.FileToUpload != null ? $@"C:\jobtrackaunz\coversheet\{model.ID}\{model.FileToUpload.FileName}" : string.Empty;
+                            model.FilePath = model.FileToUpload != null 
+                                ? $@"C:\jobtrackaunz\coversheet\{model.ID}\{model.FileToUpload.FileName}" 
+                                : string.Empty;
 
                         var updatedData = await _queryCoversheetService.UpdateQueryCoversheetAsync(model);
                     }
@@ -106,17 +108,19 @@ namespace JobTrack.Controllers
                     // save file to directory
                     if (model.FileToUpload != null)
                         fileResult = await WriteToFile($@"C:\jobtrackaunz\coversheet\{model.ID}\{model.FileToUpload.FileName}"
-                            , $@"C:\jobtrackaunz\{model.ID}\"
+                            , $@"C:\jobtrackaunz\coversheet\{model.ID}\"
                             , model.FileToUpload.InputStream);
 
                     if (fileResult.IsSuccess)
-                        model.FilePath = model.FileToUpload != null ? $@"C:\jobtrackaunz\coversheet\{model.ID}\{model.FileToUpload.FileName}" : string.Empty;
+                        model.FilePath = model.FileToUpload != null 
+                            ? $@"C:\jobtrackaunz\coversheet\{model.ID}\{model.FileToUpload.FileName}" 
+                            : string.Empty;
 
                     var updatedData = await _queryCoversheetService.UpdateQueryCoversheetAsync(model);
                 }
 
                 // save data to "coverreplies" table with "coversheetquery" ID as foreign_key
-                jsonResult.IsSuccess = await _queryCoversheetService.UpdateQueryReplyAsync(new ReplyModel
+                jsonResult.IsSuccess = await _queryCoversheetService.UpdateCoverReplyAsync(new ReplyModel
                 {
                     QueryID = model.ID,
                     Message = string.IsNullOrEmpty(model.Message) ? string.Empty : model.Message,
@@ -137,6 +141,17 @@ namespace JobTrack.Controllers
         {
             var isSuccess = await _queryCoversheetService.DeleteQueryCoversheetAsync(model);
 
+            return Json(new { success = isSuccess });
+        }
+
+        public async Task<ActionResult> UpdateReply(ReplyModel model)
+        {
+            model.PostedBy = "client";
+            var isSuccess = await _queryCoversheetService.UpdateCoverReplyAsync(model);
+
+            if (isSuccess)
+                isSuccess = await _queryCoversheetService.UpdateQueryCoversheetStatusAsync(model);
+            
             return Json(new { success = isSuccess });
         }
 
