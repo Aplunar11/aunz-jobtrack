@@ -102,7 +102,7 @@ namespace JobTrack.Controllers
                     if (model.FileToUpload != null)
                     {
                         fileResult = await WriteToFile($@"C:\jobtrackaunz\manuscript\{model.ID}\{model.FileToUpload.FileName}"
-                            , $@"C:\jobtrackaunz\{model.ID}\"
+                            , $@"C:\jobtrackaunz\manuscript\{model.ID}\"
                             , model.FileToUpload.InputStream);
 
                         if (fileResult.IsSuccess)
@@ -117,7 +117,7 @@ namespace JobTrack.Controllers
                     if (model.FileToUpload != null)
                     {
                         fileResult = await WriteToFile($@"C:\jobtrackaunz\manuscript\{model.ID}\{model.FileToUpload.FileName}"
-                            , $@"C:\jobtrackaunz\{model.ID}\"
+                            , $@"C:\jobtrackaunz\manuscript\{model.ID}\"
                             , model.FileToUpload.InputStream);
 
                         if (fileResult.IsSuccess)
