@@ -376,20 +376,6 @@
 @section scripts
 {
     <script type="text/javascript">
-        //TBD
-        moment.updateLocale(moment.locale(), { invalidDate: "TBD" });
-
-        // Setup - add a text input to each footer cell
-        $('#tblData tfoot th').each(function () {
-            var title = $(this).text();
-            $(this).html('<input type="text" placeholder="' + title + '" />');
-        });
-
-        $('#tblDataCoversheet tfoot th').each(function () {
-            var title = $(this).text();
-            $(this).html('<input type="text" placeholder="' + title + '" />');
-        });
-
         $(document).ready(function () {
             // save and display selected tab
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -402,6 +388,20 @@
 
             loadTableManuscript();
             loadTableCoversheet();
+        });
+
+        //TBD
+        moment.updateLocale(moment.locale(), { invalidDate: "TBD" });
+
+        // Setup - add a text input to each footer cell
+        $('#tblData tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="' + title + '" />');
+        });
+
+        $('#tblDataCoversheet tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="' + title + '" />');
         });
 
         function loadTableManuscript() {
@@ -1128,7 +1128,6 @@
                     let rowData2 = c_row2.data();
                     let dataNew = childTableCoversheet.row(this).data();
 
-                    //window.location.href = '/QueryManuscript/Index?id=' + dataNew['CoversheetID'];
                     window.location.href = "/QueryCoversheet/Index?id=" + dataNew['CoversheetID'];
                 });
             });

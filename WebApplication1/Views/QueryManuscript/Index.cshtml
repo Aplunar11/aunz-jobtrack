@@ -148,7 +148,7 @@
                                 <th>Date Posted</th>
                                 <th>Replied By</th>
                                 <th>Posted By</th>
-                                <th>Action</th>
+                                <th style="width: 145px !important">Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -261,8 +261,8 @@
                         return ''
                             // + '<button type="button" class="btn btn-info" onclick="onclickUpdate(' + data + ')">Update</button> &nbsp;'
                             + '<button type="button" class="btn btn-info" onclick="onclickView(' + data + ')">View</button> &nbsp;'
-                            + '<button type="button" class="btn btn-danger" onclick="onclickDelete(' + data + ')">Delete</button> &nbsp;'
-                            + '<button type="button" class="btn btn-light" onclick="onclickReply(' + data + ')">Reply</button>';
+                            // + '<button type="button" class="btn btn-danger" onclick="onclickDelete(' + data + ')">Delete</button> &nbsp;'
+                            + '<button type="button" class="btn btn-success" onclick="onclickReply(' + data + ')">Reply</button>';
                     }
                 }
             ]
@@ -270,34 +270,37 @@
     }
 
     function onclickAdd() {
-        // append file input
-        let formDataToSubmit = new FormData();
-        formDataToSubmit.append("FileToUpload", $("#FileToUpload")[0].files[0]);
+        let isAdd = confirm("Are you sure you want to Post this Query?");
+        if (isAdd) {
+            // append file input
+            let formDataToSubmit = new FormData();
+            formDataToSubmit.append("FileToUpload", $("#FileToUpload")[0].files[0]);
 
-        // append other input data
-        let formData = $('#formQueryIndex').serializeArray();
-        $(formData).each(function (index, obj) {
-            formDataToSubmit.append(obj.name, obj.value);
-        });
+            // append other input data
+            let formData = $('#formQueryIndex').serializeArray();
+            $(formData).each(function (index, obj) {
+                formDataToSubmit.append(obj.name, obj.value);
+            });
 
-        // process data to api
-        $.ajax({
-            type: 'POST',
-            url: '/QueryManuscript/UpdateQueryManuscript',
-            data: formDataToSubmit,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            success: function (response) {
+            // process data to api
+            $.ajax({
+                type: 'POST',
+                url: '/QueryManuscript/UpdateQueryManuscript',
+                data: formDataToSubmit,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (response) {
 
-                if (response.IsSuccess) {
-                    alert('Successfully added.');
-                    window.location.reload();
+                    if (response.IsSuccess) {
+                        alert('Successfully added.');
+                        window.location.reload();
+                    }
+                    else
+                        alert('Error update.');
                 }
-                else
-                    alert('Error update.');
-            }
-        });
+            });
+        }
     }
 
     function onclickView(rowID) {

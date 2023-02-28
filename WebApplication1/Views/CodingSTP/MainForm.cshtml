@@ -1,0 +1,548 @@
+﻿
+@{ ViewBag.Title = "MainForm";
+    Layout = "~/Views/Shared/_JobTrackLayout.cshtml"; }
+
+<style type="text/css">
+    /*table icons*/
+    td.details-control, td.details-control2 {
+        background: url('../Image/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control, tr.shown td.details-control2 {
+        background: url('../Image/details_close.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    td.details-control1, td.details-control3 {
+        background: url('../Image/details_info.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    td.details-control4 {
+        background: url('../Image/details_link.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    div.outer {
+        width: 90%;
+        margin: 0 auto;
+        overflow: hidden;
+        padding-bottom: 20px;
+    }
+
+    /*    div.inner {
+        max-width: 900px;
+        overflow: hidden;
+    }*/
+    div.inner {
+        max-width: 1000px;
+        justify-content: left;
+        /*max-width: 20%;*/
+        overflow: hidden;
+        padding-left: 10px;
+    }
+    /*custom search button on footer*/
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    /*font-awesome export button*/
+    .custom-btn {
+        cursor: pointer;
+        margin-right: 5px;
+    }
+    /*center datatables content*/
+    th.dt-center, td.dt-center {
+        text-align: center;
+    }
+    /*remove searchbar*/
+    .dataTables_filter {
+        display: none;
+    }
+
+    /*tab style*/
+    section {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    :root {
+        --m5-tabs-bg: #e1e1e1;
+        --m5-border: #aaa;
+        --m5-tab-text: #888;
+        --m5-tab-bg: #e1e1e1;
+        --m5-tab-hover-text: #009688;
+        --m5-tab-hover-bg: #e1e1e1;
+        --m5-tab-hover-bg-card: #F8F9FA;
+    }
+
+    #MainTable .nav-tabs {
+        position: relative;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flex;
+        display: flex;
+        margin: 0 auto;
+        padding: 0;
+        max-width: 1500px;
+        list-style: none;
+        -ms-box-orient: horizontal;
+        -ms-box-pack: center;
+        -webkit-flex-flow: row wrap;
+        -moz-flex-flow: row wrap;
+        -ms-flex-flow: row wrap;
+        flex-flow: row wrap;
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        -ms-justify-content: center;
+        justify-content: center;
+        border: 0;
+    }
+
+    #MainTable .nav .nav-item {
+        position: relative;
+        z-index: 1;
+        display: block;
+        margin: 0;
+        text-align: center;
+        -webkit-flex: 1;
+        -moz-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+    }
+
+    #MainTable .nav .nav-link {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        line-height: 2.5;
+        border: 1px solid var(--m5-border);
+        border-radius: 4;
+        padding: 0.65em 0 0.5em;
+        background: var(--m5-tab-bg);
+        color: var(--m5-tab-text);
+        line-height: 1;
+        -webkit-transition: color 0.2s;
+        transition: color 0.2s;
+        outline: unset;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+        font-size: 0.8em;
+    }
+
+        #MainTable .nav .nav-link:hover {
+            background-color: var(--m5-tab-hover-bg);
+            color: var(--m5-tab-hover-text);
+        }
+
+        #MainTable .nav .nav-link.active,
+        #MainTable .nav .nav-link.active:hover {
+            background: var(--m5-tab-hover-bg-card);
+            border-top-color: var(--m5-tab-hover-text);
+            border-bottom: none;
+            box-shadow: inset 0 3px 0 var(--m5-tab-hover-text);
+            color: var(--m5-tab-hover-text);
+        }
+
+    #MainTable .nav i {
+        display: block;
+        margin: 0;
+        font-size: 2.4em;
+        line-height: 1;
+        speak: none;
+        -webkit-backface-visibility: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+</style>
+
+<div class="content-body">
+    @if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "")
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top:10px;">
+            @ViewBag.ErrorMessage
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="card gradient-9">
+                    <div class="card-body">
+                        <h3 class="card-title text-white">My Jobs</h3>
+                        <div class="d-inline-block">
+                            <h2 class="text-white">0</h2>
+                            <p class="text-white mb-0"></p>
+                        </div>
+                        <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card gradient-7">
+                    <div class="card-body">
+                        <h3 class="card-title text-white">Open Jobs</h3>
+                        <div class="d-inline-block">
+                            <h2 class="text-white">0</h2>
+                            <p class="text-white mb-0"></p>
+                        </div>
+                        <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card gradient-3">
+                    <div class="card-body">
+                        <h3 class="card-title text-white">Late Jobs</h3>
+                        <div class="d-inline-block">
+                            <h2 class="text-white">0</h2>
+                            <p class="text-white mb-0"></p>
+                        </div>
+                        <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card gradient-2">
+                    <div class="card-body">
+                        <h3 class="card-title text-white">Due Jobs</h3>
+                        <div class="d-inline-block">
+                            <h2 class="text-white">0</h2>
+                            <p class="text-white mb-0"></p>
+                        </div>
+                        <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="properties2">
+                                    <div class="container-fluid px-0">
+                                        <div class="row">
+                                            <div class="col text-center align-items-center text-black-50">
+                                                <h3>All Jobs</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <section id="MainTable">
+                                    <!-- Nav tabs -->
+                                    <div class="tabs-container">
+                                        <ul class="nav nav-tabs container" role="tablist" id="myTabs1">
+                                            <li class="nav-item">
+                                                <a class="nav-link disabled" data-toggle="tab" href="#ProductJobs"><span><i class="fa fa-briefcase"></i>&nbsp;&nbsp;Manuscript</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link disabled" data-toggle="tab" href="#ProductCoversheet"><span><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Coversheet</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-toggle="tab" href="#ProductSTP"><span><i class="fa fa-print"></i>&nbsp;&nbsp;Send To Print</span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Tab panes -->
+                                    <div class="tab-content tabcontent-border">
+                                        <div class="tab-pane fade disabled" id="ProductJobs" role="tabpanel">
+                                            <div class="card bg-light">
+                                                <div class="container-fluid mb-3">
+
+                                                    <!-- table manuscript -->
+                                                    <table class="display nowrap" id="tblData" style="width: 100%;">
+                                                        <thead class="table-header-footer">
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>Job ID</th>
+                                                                <th>Job Number</th>
+                                                                <th>Tier</th>
+                                                                <th>Product</th>
+                                                                <th>Service Number</th>
+                                                                <th>Target Press Date</th>
+                                                                <th>Actual Press Date</th>
+                                                                <th>Copyediting</th>
+                                                                <th>Coding</th>
+                                                                <th>Online</th>
+                                                                <th>STP</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tfoot class="table-header-footer">
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>Job ID</th>
+                                                                <th>Job Number</th>
+                                                                <th>Tier</th>
+                                                                <th>Product</th>
+                                                                <th>Service Number</th>
+                                                                <th>Target Press Date</th>
+                                                                <th>Actual Press Date</th>
+                                                                <th>Copyediting</th>
+                                                                <th>Coding</th>
+                                                                <th>Online</th>
+                                                                <th>STP</th>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade disabled" id="ProductCoversheet" role="tabpanel">
+                                            <div class="table-responsive">
+                                                <div class="card bg-light">
+                                                    <div class="container-fluid mb-3">
+
+                                                        <!-- table coversheet -->
+                                                        <table class="display nowrap" id="tblDataCoversheet" style="width: 100%;">
+                                                            <thead class="table-header-footer">
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>CoversheetID</th>
+                                                                    <th>Tier</th>
+                                                                    <th>Product</th>
+                                                                    <th>Service Number</th>
+                                                                    <th>Latest Task Number</th>
+                                                                    <th>Coding Status</th>
+                                                                    <th>PDF QA Status</th>
+                                                                    <th>Online Status</th>
+                                                                    <th>Date Created</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tfoot class="table-header-footer">
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>CoversheetID</th>
+                                                                    <th>Tier</th>
+                                                                    <th>Product</th>
+                                                                    <th>Service Number</th>
+                                                                    <th>Latest Task Number</th>
+                                                                    <th>Coding Status</th>
+                                                                    <th>PDF QA Status</th>
+                                                                    <th>Online Status</th>
+                                                                    <th>Date Created</th>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade show active" id="ProductSTP" role="tabpanel">
+                                            <div class="table-responsive">
+                                                <div class="card bg-light">
+                                                    <div class="container-fluid mb-3">
+
+                                                        <!-- table STP -->
+                                                        <table class="display nowrap" id="tblDataSTP" style="width: 100%;">
+                                                            <thead class="table-header-footer table_mainrow">
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th>ID</th>
+                                                                    <th>Send to Print Number</th>
+                                                                    <th>Tier</th>
+                                                                    <th>Product</th>
+                                                                    <th>Service Number</th>
+                                                                    <th>Current Task</th>
+                                                                    <th>Send to Print Status</th>
+                                                                    <th>Target Press Date</th>
+                                                                    <th>Actual Press Date</th>
+                                                                    <th>Conso Highlight Done</th>
+                                                                    <th>Filing Instruction Start</th>
+                                                                    <th>Filing Instruction Done</th>
+                                                                    <th>Dummy Filing 1 Start</th>
+                                                                    <th>Dummy Filing 1 Done</th>
+                                                                    <th>Dummy Filing 2 Start</th>
+                                                                    <th>Dummy Filing 2 Done</th>
+                                                                    <th>UECJ Start</th>
+                                                                    <th>UECJ Done</th>
+                                                                    <th>PC1/PC2 Start</th>
+                                                                    <th>PC1/PC2 Done</th>
+                                                                    <th>Updating of eBinder Start</th>
+                                                                    <th>Updating of eBinder Done</th>
+                                                                    <th>Posting Back to Stable Data Start</th>
+                                                                    <th>Posting Back to Stable Data Start</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            loadTableSTP();
+        });
+
+        //TBD
+        moment.updateLocale(moment.locale(), { invalidDate: "TBD" });
+
+        // Setup - add a text input to each footer cell
+        $('#tblDataSTP tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="' + title + '" />');
+        });
+
+        function loadTableSTP() {
+            let tableSTP = $('#tblDataSTP').DataTable({
+                dom: 'Bfrtip',
+                ajax: {
+                    url: "@Url.Action("GetSTPData", "CodingSTP")",
+                    type: 'GET',
+                    dataType: 'json',
+                    dataSrc: ''
+                },
+                columns: [
+                    {
+                        "className": 'details-control3',
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ''
+                    },
+                    {
+                        "className": 'details-control4',
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ''
+                    },
+                    { data: 'ID' },
+                    { data: 'STPNo' },
+                    { data: 'Tier' },
+                    { data: 'Product' },
+                    { data: 'ServiceNumber' },
+                    { data: 'CurrentTask' },
+                    { data: 'SendToPrintStatus' },
+                    { data: 'TargetPressDate' },
+                    { data: 'ActualPressDate' },
+                    { data: 'IsConsoHighlight' },
+                    { data: 'FilingInstructionStartDate' },
+                    { data: 'FilingInstructionEndDate' },
+                    { data: 'DummyFiling1StartDate' },
+                    { data: 'DummyFiling1EndDate' },
+                    { data: 'DummyFiling2StartDate' },
+                    { data: 'DummyFiling2EndDate' },
+                    { data: 'UECJStartDate' },
+                    { data: 'UECJEndDate' },
+                    { data: 'PC1PC2StartDate' },
+                    { data: 'PC1PC2EndDate' },
+                    { data: 'UpdateEBinderStartDate' },
+                    { data: 'UpdateEBinderEndDate' },
+                    { data: 'PostBackStartDate' },
+                    { data: 'PostBackEndDate' }
+                ],
+                columnDefs: [
+                    { className: "dt-center", "targets": "_all" },
+                    {
+                        targets: [2],
+                        visible: false,
+                        searchable: false
+                    },
+                    {
+                        targets: [9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+                        render: function (data) {
+                            return moment(data).format('YYYY/MM/DD');
+                        }
+                    },
+                ],
+                buttons: {
+                    //reset class and change the rendered tag
+                    //from <button> to <i>
+                    dom: {
+                        button: {
+                            tag: 'i',
+                            className: ''
+                        }
+                    },
+                    //since we now have completely unstyled icons add
+                    //some space between them trough a .custom-btn class
+                    buttons: [
+                        {
+                            titleAttr: 'Copy',
+                            extend: 'copyHtml5',
+                            className: 'custom-btn fa fa-clipboard',
+                            text: ''
+                        },
+                        {
+                            titleAttr: 'Download as Excel',
+                            extend: 'excelHtml5',
+                            className: 'custom-btn fa fa-file-excel-o',
+                            text: ''
+                        },
+                        {
+                            titleAttr: 'Download as CSV',
+                            extend: 'csvHtml5',
+                            className: 'custom-btn fa fa-file-text-o',
+                            text: ''
+                        },
+                        {
+                            titleAttr: 'Download as PDF',
+                            extend: 'pdfHtml5',
+                            className: 'custom-btn fa fa-file-pdf-o',
+                            text: ''
+                        }
+                    ]
+                },
+                initComplete: function () {
+                    // Apply the search
+                    //scrollx initiator
+                    $('#tblDataSTP').wrap("<div style='overflow: auto; width: 100%; position: relative;'></div>");
+                    //init = false;
+                    this.api().columns().every(function () {
+                        var that = this;
+                        $('input', this.footer()).on('keyup change clear', function () {
+                            if (that.search() !== this.value) {
+                                that.search(this.value).draw();
+                            }
+                        });
+                    });
+                },
+                createdRow: function (row, data, index) {
+                    if (data.extn === '') {
+                        let td = $(row).find("td:first");
+                        td.removeClass('details-control');
+                    }
+                },
+                rowCallback: function (row, data, index) {
+                    //console.log('rowCallback');
+                }
+            });
+
+            // assign link icon to main table row
+            $('#tblDataSTP tbody').off().on('click', 'td.details-control4', function () {
+                let tr = $(this).closest('tr');
+                let row = tableSTP.row(tr);
+                let rowData2 = row.data();
+                let dataNew = tableSTP.row(this).data();
+
+                window.location.href = "/QuerySTP/Index?id=" + dataNew['ID'];
+            });
+        }
+    </script>
+}

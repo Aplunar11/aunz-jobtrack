@@ -1,4 +1,4 @@
-﻿@model JobTrack.Models.QueryCoversheet.CoversheetDataModel
+﻿@model JobTrack.Models.QuerySTP.STPDataModel
 
 <html>
 <head>
@@ -30,22 +30,22 @@
                         <div class="row" style="font-size: 12px">
                             <div class="col-md">
                                 <div class="form-group">
-                                    <label>Coversheet ID</label>
-                                    <input type="text" class="form-control" value="@Model.CoversheetID" readonly />
+                                    <label>STP Number</label>
+                                    <input type="text" class="form-control" value="@Model.STPNo" readonly />
                                 </div>
                             </div>
 
                             <div class="col-md">
                                 <div class="form-group">
                                     <label>Tier</label>
-                                    <input type="text" class="form-control" value="@Model.CoversheetTier" readonly />
+                                    <input type="text" class="form-control" value="@Model.Tier" readonly />
                                 </div>
                             </div>
 
                             <div class="col-md">
                                 <div class="form-group">
-                                    <label>Task Number</label>
-                                    <input type="text" class="form-control" value="@Model.TaskNumber" readonly />
+                                    <label>Product</label>
+                                    <input type="text" class="form-control" value="@Model.Product" readonly />
                                 </div>
                             </div>
 
@@ -60,22 +60,22 @@
                         <div class="row" style="font-size: 12px">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Product ID</label>
-                                    <input type="text" class="form-control" value="@Model.BPSProductID" readonly />
+                                    <label>Current Task</label>
+                                    <input type="text" class="form-control" value="@Model.CurrentTask" readonly />
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Process</label>
-                                    <input type="text" class="form-control" value="@Model.Process" readonly />
+                                    <label>Send to Print Status</label>
+                                    <input type="text" class="form-control" value="@Model.SendToPrintStatus" readonly />
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Topic title</label>
-                                    <select class="form-control" name="CoverTopicID" id="CoverTopicID" required>
+                                    <select class="form-control" name="STPTopicID" id="STPTopicID" required>
                                         <option value="1">Topic 1</option>
                                         <option value="2">Topic 2</option>
                                         <option value="3">Topic 3</option>
@@ -86,7 +86,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Query type</label>
-                                    <select class="form-control" name="CoverTypeID" id="CoverTypeID" required>
+                                    <select class="form-control" name="STPTypeID" id="STPTypeID" required>
                                         <option value="1">General</option>
                                         <option value="2">XML Tagging</option>
                                         <option value="3">Format</option>
@@ -115,8 +115,8 @@
                         </div>
 
                         <!-- hidden -->
-                        <input type="hidden" name="CoversheetID" value="@ViewBag.CoversheetID" />
-                        <input type="hidden" name="CoverStatusID" value="1" />
+                        <input type="hidden" name="ID" value="@ViewBag.StpID" />
+                        <input type="hidden" name="STPStatusID" value="1" />
                     </form>
 
                     <!-- add new -->
@@ -136,11 +136,11 @@
 
 
                     <!-- query table -->
-                    <table class="table table-bordered table-striped" id="coverTable">
+                    <table class="table table-bordered table-striped" id="stpTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Querysheet ID</th>
+                                <th>STP ID</th>
                                 <th>Status</th>
                                 <th>Topic Title</th>
                                 <th>Query Type</th>
@@ -155,7 +155,7 @@
                 <!-- /.card-body -->
                 <!-- /.card-body -->
 
-                <button type="button" class="btn btn-link" onclick="location.href='/Admin/AllJob'">< Go Back</button>
+                <button type="button" class="btn btn-link" onclick="location.href='/CodingSTP/MainForm'">< Go Back</button>
             </div>
             <!-- /.card -->
         </div>
@@ -168,13 +168,9 @@
 </section>
 </html>
 
-<div id="query-modal-container">
-    <!-- modal edit form -->
-</div>
-
 <script>
     $(document).ready(function () {
-        getTableData('coverTable');
+        getTableData('stpTable');
     });
 
     function getTableData(tableId) {
@@ -192,11 +188,11 @@
             buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
 
             ajax: {
-                url: '/QueryCoversheet/GetQueryCoversheet',
+                url: '/QuerySTP/GetQuerySTP',
                 type: 'POST',
                 dataType: 'json',
                 data: function (d) {
-                    d.coversheetId = @ViewBag.CoversheetID ;
+                    d.stpId = @ViewBag.StpID ;
                     d.filterBy = $('#filterDropdown').val();
                 },
                 dataSrc: function (data) {
@@ -206,10 +202,10 @@
             //order: [[0, 'asc']],
             columns: [
                 { data: 'ID' },
-                { data: 'CoversheetID' },
-                { data: 'CoverStatus' },
-                { data: 'CoverTopicTitle' },
-                { data: 'CoverType' },
+                { data: 'StpID' },
+                { data: 'STPStatus' },
+                { data: 'STPTopicTitle' },
+                { data: 'STPType' },
                 { data: 'DateText' },
                 { data: 'RepliedBy' },
                 { data: 'PostedBy' },
@@ -256,71 +252,5 @@
                 }
             ]
         });
-    }
-
-    function onclickAdd() {
-        let isAdd = confirm("Are you sure you want to Post this Query?");
-        if (isAdd) {
-            // append file input
-            let formDataToSubmit = new FormData();
-            formDataToSubmit.append("FileToUpload", $("#FileToUpload")[0].files[0]);
-
-            // append other input data
-            let formData = $('#formCoverIndex').serializeArray();
-            $(formData).each(function (index, obj) {
-                formDataToSubmit.append(obj.name, obj.value);
-            });
-
-            // process data to api
-            $.ajax({
-                type: 'POST',
-                url: '/QueryCoversheet/UpdateQueryCoversheet',
-                data: formDataToSubmit,
-                dataType: 'json',
-                contentType: false,
-                processData: false,
-                success: function (response) {
-
-                    if (response.IsSuccess) {
-                        alert('Successfully added.');
-                        window.location.reload();
-                    }
-                    else
-                        alert('Error update.');
-                }
-            });
-        }
-    }
-
-    function onclickView(rowID) {
-        location.href = '/QueryCoversheet/Reply?id=' + @Model.CoversheetID + '&queryid=' + rowID + '&v=' + true;
-    }
-
-    function onclickDelete(rowID) {
-        let isDelete = confirm('Are you sure you want to delete?');
-
-        if (isDelete) {
-            $.ajax({
-                type: 'POST',
-                url: '/QueryCoversheet/DeleteQueryCoversheet',
-                data: { ID: rowID },
-                dataType: 'json',
-                success: function (response) {
-
-                    if (response.success)
-                        location.reload();
-                    else
-                        alert("Delete error.");
-                }
-            })
-        };
-    }
-
-    function onclickReply(rowID) {
-        location.href = '/QueryCoversheet/Reply?id=' + @Model.CoversheetID + '&queryid=' + rowID + '&v=' + false;
-    }
-
-    function onchangeFilter() {
-        $('#coverTable').DataTable().ajax.reload();
     }
 </script>

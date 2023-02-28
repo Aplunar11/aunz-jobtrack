@@ -195,6 +195,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CodingController.cs" />
+    <Compile Include="Controllers\CodingSTPController.cs" />
     <Compile Include="Controllers\CodingTLController.cs" />
     <Compile Include="Controllers\CoversheetController.cs" />
     <Compile Include="Controllers\JobController.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Controllers\PEController.cs" />
     <Compile Include="Controllers\QueryCoversheetController.cs" />
     <Compile Include="Controllers\QueryManuscriptController.cs" />
+    <Compile Include="Controllers\QuerySTPController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -232,13 +234,17 @@
     <Compile Include="Models\QueryManuscript\QueryManuscriptModel.cs" />
     <Compile Include="Models\QueryManuscript\ReplyModel.cs" />
     <Compile Include="Models\QueryModel.cs" />
+    <Compile Include="Models\QuerySTP\QuerySTPModel.cs" />
+    <Compile Include="Models\QuerySTP\STPDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthenticationWrapper.cs" />
     <Compile Include="Services\EncryptionLibrary.cs" />
     <Compile Include="Services\Interfaces\IQueryCoversheetService.cs" />
     <Compile Include="Services\Interfaces\IQueryManuscriptService.cs" />
+    <Compile Include="Services\Interfaces\IQuerySTPService.cs" />
     <Compile Include="Services\QueryCoversheetService.cs" />
     <Compile Include="Services\QueryManuscriptService.cs" />
+    <Compile Include="Services\QuerySTPService.cs" />
     <Compile Include="Services\XOR.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -5708,6 +5714,8 @@
     <Content Include="Views\QueryCoversheet\Index.cshtml" />
     <Content Include="Views\QueryCoversheet\Reply.cshtml" />
     <Content Include="Views\QueryCoversheet\_ReplyBox.cshtml" />
+    <Content Include="Views\CodingSTP\MainForm.cshtml" />
+    <Content Include="Views\QuerySTP\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

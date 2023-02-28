@@ -83,7 +83,11 @@ namespace JobTrack.Controllers
                                 Session["EmployeeID"] = Convert.ToString(result.EmployeeID);
                                 return RedirectToAction("Mainform", "CodingTL");
                             }
-
+                            else if (UserAccess == "Coding(STP)")
+                            {
+                                Session["EmployeeID"] = Convert.ToString(result.EmployeeID);
+                                return RedirectToAction("MainForm", "CodingSTP");
+                            }
                         }
                     }
                     else
