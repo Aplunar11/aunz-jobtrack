@@ -295,4 +295,8 @@
     function onclickReply(rowID) {
         location.href = '/QuerySTP/Reply?id=' + @Model.ID + '&queryid=' + rowID + '&v=' + false;
     }
+
+    function onchangeFilter() {
+        $('#stpTable').DataTable().ajax.reload();
+    }
 </script>

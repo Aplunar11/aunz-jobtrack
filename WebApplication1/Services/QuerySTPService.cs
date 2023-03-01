@@ -168,6 +168,36 @@ namespace JobTrack.Services
             return await Task.FromResult(isSuccess);
         }
 
+        public async Task<bool> UpdateQuerySTPStatusAsync(ReplyModel model)
+        {
+            var isSuccess = false;
+            var storedProcedure = "UpdateQuerySTPStatus";
+
+            try
+            {
+                dbConnection.Open();
+
+                using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@p_id", model.QueryID);
+                    command.Parameters.AddWithValue("@p_stpstatus_id", model.STPStatusID);
+
+                    int rowAffected = command.ExecuteNonQuery();
+                }
+
+                dbConnection.Close();
+
+                isSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return await Task.FromResult(isSuccess);
+        }
+
         public async Task<List<ReplyModel>> GetSTPRepliesAsync(int queryID)
         {
             var list = new List<ReplyModel>();

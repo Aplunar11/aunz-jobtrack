@@ -137,6 +137,17 @@ namespace JobTrack.Controllers
             return Json(jsonResult);
         }
 
+        public async Task<ActionResult> UpdateReply(ReplyModel model)
+        {
+            model.PostedBy = "client";
+            var isSuccess = await _querySTPService.UpdateSTPReplyAsync(model);
+
+            if (isSuccess)
+                isSuccess = await _querySTPService.UpdateQuerySTPStatusAsync(model);
+
+            return Json(new { success = isSuccess });
+        }
+
         private async Task<JsonResultModel> WriteToFile(string destinationFile, string destinationPath, Stream stream)
         {
             var result = new JsonResultModel();
