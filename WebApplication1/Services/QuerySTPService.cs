@@ -1,4 +1,5 @@
 ﻿using JobTrack.Models.Enums;
+using JobTrack.Models.QueryManuscript;
 using JobTrack.Models.QuerySTP;
 using JobTrack.Services.Interfaces;
 using MySql.Data.MySqlClient;
@@ -103,6 +104,68 @@ namespace JobTrack.Services
 
             var list = JsonConvert.DeserializeObject<List<QuerySTPModel>>(JsonConvert.SerializeObject(dataTable));
             return await Task.FromResult(list);
+        }
+    
+        public async Task<QuerySTPModel> UpdateQuerySTPAsync(QuerySTPModel model)
+        {
+            var storedProcedure = "UpdateQuerySTP";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_id", model.ID);
+                command.Parameters.AddWithValue("@p_stp_id", model.StpID);
+                command.Parameters.AddWithValue("@p_stpstatus_id", model.STPStatusID);
+                command.Parameters.AddWithValue("@p_stptopic_id", model.STPTopicID);
+                command.Parameters.AddWithValue("@p_stptype_id", model.STPTypeID);
+                command.Parameters.AddWithValue("@p_filepath", model.FilePath);
+                command.Parameters.AddWithValue("@p_user", model.PostedBy);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<QuerySTPModel>>(JsonConvert.SerializeObject(dataTable)).OrderByDescending(p => p.ID).ToList();
+
+            return await Task.FromResult(list.FirstOrDefault());
+        }
+    
+        public async Task<bool> UpdateSTPReplyAsync(ReplyModel model)
+        {
+            var isSuccess = false;
+            var storedProcedure = "UpdateSTPReply";
+
+            try
+            {
+                dbConnection.Open();
+
+                using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@p_id", model.ID);
+                    command.Parameters.AddWithValue("@p_query_id", model.QueryID);
+                    command.Parameters.AddWithValue("@p_message", string.IsNullOrEmpty(model.Message) ? string.Empty : model.Message);
+                    command.Parameters.AddWithValue("@p_user", model.PostedBy);
+
+                    int rowAffected = command.ExecuteNonQuery();
+                }
+
+                dbConnection.Close();
+
+                isSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return await Task.FromResult(isSuccess);
         }
     }
 }

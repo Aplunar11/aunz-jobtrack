@@ -1,4 +1,5 @@
 ﻿using JobTrack.Models.Enums;
+using JobTrack.Models.QueryManuscript;
 using JobTrack.Models.QuerySTP;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,9 @@ namespace JobTrack.Services.Interfaces
         Task<STPDataModel> GetSTPDataByIdAsync(int id);
 
         Task<List<QuerySTPModel>> GetQuerySTPAsync(int id, FilterEnum filterBy);
+
+        Task<QuerySTPModel> UpdateQuerySTPAsync(QuerySTPModel model);
+
+        Task<bool> UpdateSTPReplyAsync(ReplyModel model);
     }
 }
