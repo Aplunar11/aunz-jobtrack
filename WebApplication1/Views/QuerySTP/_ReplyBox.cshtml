@@ -1,0 +1,17 @@
+﻿@model  JobTrack.Models.QueryManuscript.ReplyModel
+
+<div class="row">
+    <div class="col-md">
+        <div style="width: 100%; padding: 5px; border: 1px solid #ccc">
+            <div>
+                Posted by <b>@Model.PostedBy</b>
+            </div>
+
+            <div style="width: 100%; text-align: center">
+                @Model.Message
+            </div>
+
+            <div style="font-size: 10px; width: 100%; text-align: end">@Model.DatePosted.ToString()</div>
+        </div>
+    </div>
+</div>

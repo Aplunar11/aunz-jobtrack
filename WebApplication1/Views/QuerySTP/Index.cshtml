@@ -287,4 +287,12 @@
             });
         }
     }
+
+    function onclickView(rowID) {
+        location.href = '/QuerySTP/Reply?id=' + @Model.ID + '&queryid=' + rowID + '&v=' + true;
+    }
+
+    function onclickReply(rowID) {
+        location.href = '/QuerySTP/Reply?id=' + @Model.ID + '&queryid=' + rowID + '&v=' + false;
+    }
 </script>

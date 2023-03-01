@@ -11,6 +11,10 @@ namespace JobTrack.Models.QueryManuscript
 
         public int ManuscriptID { get; set; }
 
+        public int CoversheetID { get; set; }
+
+        public int StpID { get; set; }
+
         public int QueryID { get; set; }
 
         public string Message { get; set; }
@@ -31,7 +35,11 @@ namespace JobTrack.Models.QueryManuscript
 
         public string CoverType { get; set; }
 
-        public int CoversheetID { get; set; }
+        public int STPStatusID { get; set; }
+
+        public string STPTopicTitle { get; set; }
+
+        public string STPType { get; set; }
 
         public List<ReplyModel> Replies { get; set; }
 

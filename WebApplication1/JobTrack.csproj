@@ -5716,6 +5716,8 @@
     <Content Include="Views\QueryCoversheet\_ReplyBox.cshtml" />
     <Content Include="Views\CodingSTP\MainForm.cshtml" />
     <Content Include="Views\QuerySTP\Index.cshtml" />
+    <Content Include="Views\QuerySTP\Reply.cshtml" />
+    <Content Include="Views\QuerySTP\_ReplyBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

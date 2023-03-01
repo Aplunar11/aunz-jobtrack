@@ -167,5 +167,53 @@ namespace JobTrack.Services
 
             return await Task.FromResult(isSuccess);
         }
+
+        public async Task<List<ReplyModel>> GetSTPRepliesAsync(int queryID)
+        {
+            var list = new List<ReplyModel>();
+            var storedProcedure = "GetAllSTPReplies";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_query_id", queryID);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            list = JsonConvert.DeserializeObject<List<ReplyModel>>(JsonConvert.SerializeObject(dataTable)).OrderByDescending(p => p.ID).ToList();
+
+            return await Task.FromResult(list);
+        }
+    
+        public async Task<QuerySTPModel> GetQuerySTPByIdAsync(int id)
+        {
+            var storedProcedure = "GetQuerySTPById";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_id", id);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<QuerySTPModel>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list.FirstOrDefault());
+        }
     }
 }

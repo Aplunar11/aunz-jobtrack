@@ -30,6 +30,28 @@ namespace JobTrack.Controllers
             return View(viewModel);
         }
 
+        public async Task<ActionResult> Reply(int id, int queryid, bool v)
+        {
+            // v (isViewOnly)
+            var model = new ReplyModel { QueryID = queryid };
+            model.Replies = await _querySTPService.GetSTPRepliesAsync(queryid);
+
+            var querystp= await _querySTPService.GetQuerySTPByIdAsync(queryid);
+            model.STPStatusID = querystp.STPStatusID.Value;
+            model.STPTopicTitle = querystp.STPTopicTitle;
+            model.STPType = querystp.STPType;
+            model.StpID = id;
+
+            ViewBag.IsViewOnly = v;
+
+            return View(model);
+        }
+
+        public async Task<ActionResult> _ReplyBox(ReplyModel model)
+        {
+            return PartialView(await Task.FromResult(model));
+        }
+
         public async Task<string> GetQuerySTP(int stpId, int filterBy)
         {
             var result = new JsonResultModel();
