@@ -207,7 +207,6 @@
     <Compile Include="Controllers\NewQueryController.cs" />
     <Compile Include="Controllers\PEController.cs" />
     <Compile Include="Controllers\QueryCoversheetController.cs" />
-    <Compile Include="Controllers\QueryLEController.cs" />
     <Compile Include="Controllers\QueryManuscriptController.cs" />
     <Compile Include="Controllers\QuerySTPController.cs" />
     <Compile Include="Global.asax.cs">
@@ -246,7 +245,6 @@
     <Compile Include="Services\Interfaces\IQueryManuscriptService.cs" />
     <Compile Include="Services\Interfaces\IQuerySTPService.cs" />
     <Compile Include="Services\QueryCoversheetService.cs" />
-    <Compile Include="Services\QueryLEService.cs" />
     <Compile Include="Services\QueryManuscriptService.cs" />
     <Compile Include="Services\QuerySTPService.cs" />
     <Compile Include="Services\XOR.cs" />
