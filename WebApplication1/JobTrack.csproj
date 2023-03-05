@@ -241,7 +241,6 @@
     <Compile Include="Services\AuthenticationWrapper.cs" />
     <Compile Include="Services\EncryptionLibrary.cs" />
     <Compile Include="Services\Interfaces\IQueryCoversheetService.cs" />
-    <Compile Include="Services\Interfaces\IQueryLEService.cs" />
     <Compile Include="Services\Interfaces\IQueryManuscriptService.cs" />
     <Compile Include="Services\Interfaces\IQuerySTPService.cs" />
     <Compile Include="Services\QueryCoversheetService.cs" />
