@@ -156,7 +156,17 @@
                 <!-- /.card-body -->
                 <!-- /.card-body -->
 
-                <button type="button" class="btn btn-link" onclick="location.href='/Admin/AllJob'">< Go Back</button>
+
+                @switch ((JobTrack.Models.Enums.UserAccessEnum)ViewBag.UserAccess)
+                {
+                    case JobTrack.Models.Enums.UserAccessEnum.Admin:
+                        <button type="button" class="btn btn-link" onclick="location.href='/Admin/AllJob'">< Go Back</button>
+                        break;
+
+                    case JobTrack.Models.Enums.UserAccessEnum.Client_LE:
+                        <button type="button" class="btn btn-link" onclick="location.href='/LE/MainForm'">< Go Back</button>
+                        break;
+                }
             </div>
             <!-- /.card -->
         </div>
@@ -217,7 +227,7 @@
                 { data: 'QueryType' },
                 { data: 'DateText' },
                 { data: 'RepliedBy' },
-                { data: 'PostedBy' },                
+                { data: 'PostedBy' },
                 { data: 'ID' }
             ],
             columnDefs: [
@@ -304,7 +314,7 @@
     }
 
     function onclickView(rowID) {
-        location.href = '/QueryManuscript/Reply?id=' + @Model.ManuscriptID + '&queryid=' + rowID + '&v=' + true;
+        location.href = '/QueryManuscript/Reply?id=' + @Model.ManuscriptID + '&queryid=' + rowID + '&v=' + true + "&u=" + @((int)ViewBag.UserAccess);
     }
 
     function onclickUpdate(rowID) {
@@ -341,7 +351,7 @@
     }
 
     function onclickReply(rowID) {
-        location.href = '/QueryManuscript/Reply?id=' + @Model.ManuscriptID + '&queryid=' + rowID + '&v=' + false;
+        location.href = '/QueryManuscript/Reply?id=' + @Model.ManuscriptID + '&queryid=' + rowID + '&v=' + false + "&u=" + @((int)ViewBag.UserAccess);
     }
 
     function onchangeFilter() {

@@ -23,14 +23,15 @@ namespace JobTrack.Controllers
         }
 
         // GET: QueryManuscript
-        public async Task<ActionResult> Index(int id)
+        public async Task<ActionResult> Index(int id, int u)
         {
+            ViewBag.UserAccess = (UserAccessEnum)u;
             ViewBag.ManuscriptID = id;
             var viewModel = await _queryManuscriptService.GetManuscriptDetailsByIdAsync(id);
             return View(viewModel);
         }
 
-        public async Task<ActionResult> Reply(int id, int queryid, bool v)
+        public async Task<ActionResult> Reply(int id, int queryid, bool v, int u)
         {
             // v (isViewOnly)
 
@@ -43,6 +44,7 @@ namespace JobTrack.Controllers
             model.QueryType = queryManuscript.QueryType;
             model.ManuscriptID = id;
 
+            ViewBag.UserAccess = (UserAccessEnum)u;
             ViewBag.IsViewOnly = v;
 
             return View(model);

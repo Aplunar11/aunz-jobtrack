@@ -529,9 +529,9 @@
 
                 //get index to use for child table ID
                 var index = row.index();
-                console.log(index);
+                //console.log(index);
                 var data = tableData.row(this).data(); //undefined
-                console.log(data);
+                //console.log(data);
 
                 if (row.child.isShown()) {
                     // This row is already open - close it
@@ -842,7 +842,7 @@
                     var rowData = c_row.data();
                     var dataNew = childTable.row(this).data();
 
-                    window.location.href = '/QueryManuscript/Index?id=' + dataNew['ManuscriptID'];
+                    window.location.href = '/QueryManuscript/Index?id=' + dataNew['ManuscriptID'] + "&u=" + 1;  // 1 = Client(LE)
                 });
             });
 

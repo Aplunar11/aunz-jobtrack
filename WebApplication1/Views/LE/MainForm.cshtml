@@ -20,6 +20,11 @@
         cursor: pointer;
     }
 
+    td.details-control4 {
+        background: url('../Image/details_link.png') no-repeat center center;
+        cursor: pointer;
+    }
+
     div.outer {
         width: 90%;
         margin: 0 auto;
@@ -464,9 +469,9 @@
 
                 //get index to use for child table ID
                 var index = row.index();
-                console.log(index);
+                //console.log(index);
                 var data = tableData.row(this).data(); //undefined
-                console.log(data);
+                //console.log(data);
 
                 if (row.child.isShown()) {
                     // This row is already open - close it
@@ -477,7 +482,7 @@
                     // Open this row
                     row.child(
                         '<div class="inner"><table class="child_table display nowrap" id = "child_details' + index + '" cellpadding="0" cellspacing="0" border="0" style="width:100%;">' +
-                        '<thead><tr><th></th><th>ManuscriptID</th><th>JobNumber</th><th>Tier</th>' +
+                        '<thead><tr><th></th><th></th><th>ManuscriptID</th><th>JobNumber</th><th>Tier</th>' +
                         '<th>Product</th><th>Service Number</th><th>Manuscript or Leg Title</th><th>Status</th>' +
                         '<th>Target Press Date</th><th>Actual Press Date</th><th>Latup Attribution</th><th>Date Received From Author</th>' +
                         '<th>Update Type</th><th>Job Specific Instruction</th><th>Task Type</th><th>PE Guide Card</th>' +
@@ -593,7 +598,7 @@
                             }
                         },
                         {
-                            "targets": [1],
+                            "targets": [2],
                             "visible": false,
                             "searchable": false
                         },
@@ -645,6 +650,12 @@
                         columns: [
                             {
                                 "className": 'details-control1',
+                                "orderable": false,
+                                "data": null,
+                                "defaultContent": ''
+                            },
+                            {
+                                "className": 'details-control4',
                                 "orderable": false,
                                 "data": null,
                                 "defaultContent": ''
@@ -770,7 +781,19 @@
                         }
                     });
                 });
+
+                // assign link icon to child table
+                $('.child_table tbody').off().on('click', 'td.details-control4', function () {
+                    let c_tr2 = $(this).closest('tr');
+                    let c_row2 = childTable.row(c_tr2);
+                    let rowData2 = c_row2.data();
+                    let dataNew = childTable.row(this).data();
+
+                    window.location.href = "/QueryManuscript/Index?id=" + dataNew['ManuscriptID'] + "&u=" + 2;  // 2 = Client(LE)
+                });
             });
+
+
             //************Show New User Modal**************
             $("#btnAddNew").click(function () {
                 var length = tableData.data().count() + 1;
@@ -804,7 +827,7 @@
                 });
             });
         });
-                                                //***************End*******************8
+        //***************End*******************8
 
     </script>
 }
