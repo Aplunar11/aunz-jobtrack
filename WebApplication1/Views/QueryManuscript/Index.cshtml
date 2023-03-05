@@ -166,6 +166,10 @@
                     case JobTrack.Models.Enums.UserAccessEnum.Client_LE:
                         <button type="button" class="btn btn-link" onclick="location.href='/LE/MainForm'">< Go Back</button>
                         break;
+
+                    case JobTrack.Models.Enums.UserAccessEnum.Straive_PE:
+                        <button type="button" class="btn btn-link" onclick="location.href='/PE/MainForm'">< Go Back</button>
+                        break;
                 }
             </div>
             <!-- /.card -->
@@ -177,7 +181,6 @@
     </div>
     <!-- /.container-fluid -->
 </section>
-
 
 <!-- /.content -->
 </html>
@@ -258,7 +261,7 @@
                         // if repliedBy is not admin, add color code
                         if (data != 'admin') {
 
-                            let color = data == 'client' ? 'orange' : 'green';
+                            let color = data == 'LE' ? 'orange' : 'green';
                             return '<div style="padding: 6px; background-color: ' + color + '; color: white; border-radius: 5px; font-weight: 600">' + data + '</div>';
                         }
                         else

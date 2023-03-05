@@ -541,7 +541,7 @@
                 let rowData2 = row.data();
                 let dataNew = tableSTP.row(this).data();
 
-                window.location.href = "/QuerySTP/Index?id=" + dataNew['ID'];
+                window.location.href = "/QuerySTP/Index?id=" + dataNew['ID'] + "&u=" + @((int)JobTrack.Models.Enums.UserAccessEnum.CodingSTP);
             });
         }
     </script>

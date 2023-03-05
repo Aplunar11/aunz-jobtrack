@@ -156,7 +156,7 @@ namespace JobTrack.Controllers
 
         public async Task<ActionResult> UpdateReply(ReplyModel model)
         {
-            model.PostedBy = "client";
+            model.PostedBy = Session["UserName"] != null ? (string)Session["UserName"] : "system";
             var isSuccess = await _queryManuscriptService.UpdateQueryReplyAsync(model);
 
             if (isSuccess)

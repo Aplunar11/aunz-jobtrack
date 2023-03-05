@@ -789,7 +789,7 @@
                     let rowData2 = c_row2.data();
                     let dataNew = childTable.row(this).data();
 
-                    window.location.href = "/QueryManuscript/Index?id=" + dataNew['ManuscriptID'] + "&u=" + 2;  // 2 = Client(LE)
+                    window.location.href = "/QueryManuscript/Index?id=" + dataNew['ManuscriptID'] + "&u=" + @((int)JobTrack.Models.Enums.UserAccessEnum.Client_LE);
                 });
             });
 

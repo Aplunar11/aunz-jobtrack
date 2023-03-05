@@ -377,15 +377,7 @@
 {
     <script type="text/javascript">
         $(document).ready(function () {
-            // save and display selected tab
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                console.log("tab shown...");
-                localStorage.setItem('activeTab', $(e.target).attr('href'));
-            });
-            var activeTab = localStorage.getItem('activeTab');
-            if (activeTab)
-                $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
-
+            loadSelectedTab();
             loadTableManuscript();
             loadTableCoversheet();
         });
@@ -842,7 +834,7 @@
                     var rowData = c_row.data();
                     var dataNew = childTable.row(this).data();
 
-                    window.location.href = '/QueryManuscript/Index?id=' + dataNew['ManuscriptID'] + "&u=" + 1;  // 1 = Client(LE)
+                    window.location.href = '/QueryManuscript/Index?id=' + dataNew['ManuscriptID'] + "&u=" + @((int)JobTrack.Models.Enums.UserAccessEnum.Admin);
                 });
             });
 
@@ -1128,7 +1120,7 @@
                     let rowData2 = c_row2.data();
                     let dataNew = childTableCoversheet.row(this).data();
 
-                    window.location.href = "/QueryCoversheet/Index?id=" + dataNew['CoversheetID'];
+                    window.location.href = "/QueryCoversheet/Index?id=" + dataNew['CoversheetID'] + "&u=" + @((int)JobTrack.Models.Enums.UserAccessEnum.Admin);
                 });
             });
         }
@@ -1186,6 +1178,17 @@
                 '<th>Job Owner</th>' +
                 '</tr></tfoot>' +
                 '</table></div>';
+        }
+
+        function loadSelectedTab() {
+            // save and display selected tab
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                console.log("tab shown...");
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            if (activeTab)
+                $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
         }
         //***************End*******************8
 

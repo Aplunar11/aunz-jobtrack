@@ -155,7 +155,20 @@
                 <!-- /.card-body -->
                 <!-- /.card-body -->
 
-                <button type="button" class="btn btn-link" onclick="location.href='/Admin/AllJob'">< Go Back</button>
+                @switch ((JobTrack.Models.Enums.UserAccessEnum)ViewBag.UserAccess)
+                {
+                    case JobTrack.Models.Enums.UserAccessEnum.Admin:
+                        <button type="button" class="btn btn-link" onclick="location.href='/Admin/AllJob'">< Go Back</button>
+                        break;
+
+                    case JobTrack.Models.Enums.UserAccessEnum.Client_LE:
+                        <button type="button" class="btn btn-link" onclick="location.href='/LE/MainForm'">< Go Back</button>
+                        break;
+
+                    case JobTrack.Models.Enums.UserAccessEnum.Straive_PE:
+                        <button type="button" class="btn btn-link" onclick="location.href='/PE/MainForm'">< Go Back</button>
+                        break;
+                }
             </div>
             <!-- /.card -->
         </div>
@@ -237,7 +250,7 @@
                         // if repliedBy is not admin, add color code
                         if (data != 'admin') {
 
-                            let color = data == 'client' ? 'orange' : 'green';
+                            let color = data == 'LE' ? 'orange' : 'green';
                             return '<div style="padding: 6px; background-color: ' + color + '; color: white; border-radius: 5px; font-weight: 600">' + data + '</div>';
                         }
                         else
@@ -293,7 +306,7 @@
     }
 
     function onclickView(rowID) {
-        location.href = '/QueryCoversheet/Reply?id=' + @Model.CoversheetID + '&queryid=' + rowID + '&v=' + true;
+        location.href = '/QueryCoversheet/Reply?id=' + @Model.CoversheetID + '&queryid=' + rowID + '&v=' + true + "&u=" + @((int)ViewBag.UserAccess);
     }
 
     function onclickDelete(rowID) {
@@ -317,7 +330,7 @@
     }
 
     function onclickReply(rowID) {
-        location.href = '/QueryCoversheet/Reply?id=' + @Model.CoversheetID + '&queryid=' + rowID + '&v=' + false;
+        location.href = '/QueryCoversheet/Reply?id=' + @Model.CoversheetID + '&queryid=' + rowID + '&v=' + false + "&u=" + @((int)ViewBag.UserAccess);
     }
 
     function onchangeFilter() {

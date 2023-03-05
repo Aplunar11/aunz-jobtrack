@@ -73,7 +73,7 @@ namespace JobTrack.Controllers
                             {
                                 Session["EmployeeID"] = Convert.ToString(result.EmployeeID);
                                 //return RedirectToAction("PEIndex", "PE");
-                                return RedirectToAction("AllJob", "Admin");
+                                return RedirectToAction("MainForm", "PE");
                             }
                             else if (UserAccess == "Coding")
                             {

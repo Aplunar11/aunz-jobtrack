@@ -23,14 +23,15 @@ namespace JobTrack.Controllers
             _querySTPService = querySTPService;
         }
 
-        public async Task<ActionResult> Index(int id)
+        public async Task<ActionResult> Index(int id, int u)
         {
+            ViewBag.UserAccess = (UserAccessEnum)u;
             ViewBag.StpID = id;
             var viewModel = await _querySTPService.GetSTPDataByIdAsync(id);
             return View(viewModel);
         }
 
-        public async Task<ActionResult> Reply(int id, int queryid, bool v)
+        public async Task<ActionResult> Reply(int id, int queryid, bool v, int u)
         {
             // v (isViewOnly)
             var model = new ReplyModel { QueryID = queryid };
@@ -42,6 +43,7 @@ namespace JobTrack.Controllers
             model.STPType = querystp.STPType;
             model.StpID = id;
 
+            ViewBag.UserAccess = (UserAccessEnum)u;
             ViewBag.IsViewOnly = v;
 
             return View(model);
@@ -139,7 +141,7 @@ namespace JobTrack.Controllers
 
         public async Task<ActionResult> UpdateReply(ReplyModel model)
         {
-            model.PostedBy = "client";
+            model.PostedBy = Session["UserName"] != null ? (string)Session["UserName"] : "system";
             var isSuccess = await _querySTPService.UpdateSTPReplyAsync(model);
 
             if (isSuccess)
