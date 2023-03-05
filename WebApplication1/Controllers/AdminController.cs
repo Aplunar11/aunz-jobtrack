@@ -51,6 +51,9 @@ namespace JobTrack.Controllers
                 TempData["alertMessage"] = "You must log in to continue";
                 return RedirectToAction("Login", "Login");
             }
+
+            var userAccess = Session["UserAccess"];
+
             #endregion
             return View();
         }
