@@ -244,10 +244,12 @@
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\EncryptionLibrary.cs" />
     <Compile Include="Services\Interfaces\IEmployeeService.cs" />
+    <Compile Include="Services\Interfaces\IJobdataService.cs" />
     <Compile Include="Services\Interfaces\IPublicationAssignService.cs" />
     <Compile Include="Services\Interfaces\IQueryCoversheetService.cs" />
     <Compile Include="Services\Interfaces\IQueryManuscriptService.cs" />
     <Compile Include="Services\Interfaces\IQuerySTPService.cs" />
+    <Compile Include="Services\JobdataService.cs" />
     <Compile Include="Services\PublicationAssignService.cs" />
     <Compile Include="Services\QueryCoversheetService.cs" />
     <Compile Include="Services\QueryManuscriptService.cs" />

@@ -9,6 +9,8 @@ using JobTrack.Models.Manuscript;
 using JobTrack.Models.Job;
 using System.Net.Mail;
 using System.Net;
+using JobTrack.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace JobTrack.Controllers
 {
@@ -18,6 +20,13 @@ namespace JobTrack.Controllers
         public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();
+
+        private readonly IJobdataService _jobdataService;
+
+        public JobController(IJobdataService jobdataService)
+        {
+            _jobdataService = jobdataService;
+        }
 
         public ActionResult GetJobData()
         {
@@ -59,50 +68,55 @@ namespace JobTrack.Controllers
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetJobDataByUserName()
+        public async Task<ActionResult> GetJobDataByUserName()
         {
-            var Username = Session["UserName"];
-            if (dbConnection.State == ConnectionState.Closed)
-                dbConnection.Open();
+            var userName = (string)Session["UserName"];
+            var result = await _jobdataService.GetJobdataByUserNameLEAsync(userName);
 
-            List<JobData> mdata = new List<JobData>();
-            DataTable dt = new DataTable();
-                
-            cmd = new MySqlCommand("GetAllJobDataByUserName", dbConnection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@p_Username", Username);
-            adp = new MySqlDataAdapter(cmd);
-            adp.Fill(dt);
-            //DateTime? temp = null; //this is fine
-            //var indexOfYourColumn = dt.Columns.IndexOf(dt.Columns[6]);
-            foreach (DataRow dr in dt.Rows)
-            {
-                //temp = dr[indexOfYourColumn] != DBNull.Value ? (DateTime?)null : DateTime.Parse(dr[indexOfYourColumn].ToString());
-                mdata.Add(new JobData
-                {
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+            //var Username = Session["UserName"];
+            //if (dbConnection.State == ConnectionState.Closed)
+            //    dbConnection.Open();
+
+            //List<JobData> mdata = new List<JobData>();
+            //DataTable dt = new DataTable();
+
+            //cmd = new MySqlCommand("GetAllJobDataByUserName", dbConnection);
+            //cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.Clear();
+            //cmd.Parameters.AddWithValue("@p_Username", Username);
+            //adp = new MySqlDataAdapter(cmd);
+            //adp.Fill(dt);
+            ////DateTime? temp = null; //this is fine
+            ////var indexOfYourColumn = dt.Columns.IndexOf(dt.Columns[6]);
+            //foreach (DataRow dr in dt.Rows)
+            //{
+            //    //temp = dr[indexOfYourColumn] != DBNull.Value ? (DateTime?)null : DateTime.Parse(dr[indexOfYourColumn].ToString());
+            //    mdata.Add(new JobData
+            //    {
 
 
-                    JobID = Convert.ToInt32(dr["JobID"].ToString()),
-                    //JobNumber = Convert.ToInt32(dr["JobNumber"].ToString()),
-                    JobNumber = dr["JobNumber"].ToString().PadLeft(8, '0'),
-                    ManuscriptTier = dr["ManuscriptTier"].ToString(),
-                    BPSProductID = dr["BPSProductID"].ToString(),
-                    ServiceNumber = dr["ServiceNumber"].ToString(),
-                    TargetPressDate = Convert.ToDateTime(dr["TargetPressDate"].ToString()),
+            //        JobID = Convert.ToInt32(dr["JobID"].ToString()),
+            //        //JobNumber = Convert.ToInt32(dr["JobNumber"].ToString()),
+            //        JobNumber = dr["JobNumber"].ToString().PadLeft(8, '0'),
+            //        ManuscriptTier = dr["ManuscriptTier"].ToString(),
+            //        BPSProductID = dr["BPSProductID"].ToString(),
+            //        ServiceNumber = dr["ServiceNumber"].ToString(),
+            //        TargetPressDate = Convert.ToDateTime(dr["TargetPressDate"].ToString()),
 
-                    ActualPressDate = dr.Field<DateTime?>("ActualPressDate"),
-                    //TargetPressDate = DateTime.ParseExact(dr["TargetPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-                    //ActualPressDate = DateTime.ParseExact(dr["ActualPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-                    CopyEditStatus = dr["CopyEditStatus"].ToString(),
-                    CodingStatus = dr["CodingStatus"].ToString(),
-                    OnlineStatus = dr["OnlineStatus"].ToString(),
-                    STPStatus = dr["STPStatus"].ToString()
+            //        ActualPressDate = dr.Field<DateTime?>("ActualPressDate"),
+            //        //TargetPressDate = DateTime.ParseExact(dr["TargetPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
+            //        //ActualPressDate = DateTime.ParseExact(dr["ActualPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
+            //        CopyEditStatus = dr["CopyEditStatus"].ToString(),
+            //        CodingStatus = dr["CodingStatus"].ToString(),
+            //        OnlineStatus = dr["OnlineStatus"].ToString(),
+            //        STPStatus = dr["STPStatus"].ToString()
 
-                });
-            }
-            dbConnection.Close();
-            return Json(mdata, JsonRequestBehavior.AllowGet);
+            //    });
+            //}
+            //dbConnection.Close();
+            //return Json(mdata, JsonRequestBehavior.AllowGet);
         }
     
 

@@ -15,7 +15,6 @@ namespace JobTrack.Services
 {
     public class QueryManuscriptService : IQueryManuscriptService
     {
-        // CONNECTION STRING
         public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();
@@ -29,7 +28,6 @@ namespace JobTrack.Services
         {
             var list = new List<QueryManuscriptModel>();
             var storedProcedure = "GetAllQueryManuscript";
-
             var dataTable = new DataTable();
 
             dbConnection.Open();
@@ -48,7 +46,6 @@ namespace JobTrack.Services
             dbConnection.Close();
 
             list = JsonConvert.DeserializeObject<List<QueryManuscriptModel>>(JsonConvert.SerializeObject(dataTable));
-
             return await Task.FromResult(list);
         }
 

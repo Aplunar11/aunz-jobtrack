@@ -435,7 +435,7 @@
         function loadTableManuscript() {
             var tableData = $('#tblData').DataTable({
                 "ajax": {
-                    "url": "@Url.Action("GetJobData", "Job")",
+                    "url": "@Url.Action("GetJobDataByUserName", "Job")",
                     "dataSrc": "",
                     "type": "GET",
                     "datatype": "json"
