@@ -7,6 +7,10 @@ using System.Configuration;
 using System.Data;
 using MySql.Data.MySqlClient;
 using JobTrack.Models.Job;
+using System.Threading.Tasks;
+using JobTrack.Models;
+using JobTrack.Services.Interfaces;
+using Newtonsoft.Json;
 
 namespace JobTrack.Controllers
 {
@@ -20,6 +24,28 @@ namespace JobTrack.Controllers
         // DECLARE MODEL
         public EmployeeModel dbConnModel = new EmployeeModel();
         public ProductDatabaseModel dbManuModel = new ProductDatabaseModel();
+
+        private readonly IPublicationAssignService _publicationAssignService;
+
+        public AdminController(IPublicationAssignService publicationAssignService)
+        {
+            _publicationAssignService = publicationAssignService;
+        }
+
+        public ActionResult _EditEmployeeView()
+        {
+            return PartialView();
+        }
+
+        public ActionResult _EditPublicationView()
+        {
+            return PartialView();
+        }
+
+        public ActionResult _TextFieldView(FormFieldModel model)
+        {
+            return PartialView(model);
+        }
 
         public ActionResult TopMenu()
         {
@@ -459,6 +485,40 @@ namespace JobTrack.Controllers
                 mdata.ErrorMessage = ex.Message;
                 return PartialView(mdata);
             }
+        }
+
+        public async Task<string> GetPublicationAssignments()
+        {
+            var result = new JsonResultModel();
+
+            try
+            {
+                result.Collection = await _publicationAssignService.GetAllPublicationAssignmentModelAsync();
+                result.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+
+            return JsonConvert.SerializeObject(result);
+        }
+
+        public async Task<ActionResult> UpdatePublicationAssignment(PublicationAssignmentModel model)
+        {
+            var result = new JsonResultModel();
+
+            try
+            {
+                result.Collection = await _publicationAssignService.UpdatePublicationAssignmentAsync(model);
+                result.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Json(result);
         }
     }
 }

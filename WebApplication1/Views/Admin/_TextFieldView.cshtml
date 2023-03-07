@@ -1,0 +1,9 @@
+﻿@model JobTrack.Models.FormFieldModel
+
+<div class="form-group">
+    <label for="@Model.Name">@Model.Label</label>
+    <input id="@Model.Name" name="@Model.Name" type="text" class="form-control" placeholder="@Model.Label" required>
+    <div class="invalid-feedback">
+        Please @Model.Label
+    </div>
+</div>

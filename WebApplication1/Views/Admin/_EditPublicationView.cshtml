@@ -1,0 +1,57 @@
+﻿
+<div class="modal fade" id="myModalPublication" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="formPublication">
+                    <div class="row">
+                        <div class="col-md">
+                            <p class="divider-text">
+                                <span class="bg-light">Publication Details</span>
+                            </p>
+
+                            @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Product ID", Name = "BPSProductID", Value = null })
+
+                            @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Complete Name Of Publication", Name = "CompleteNameOfPublication", Value = null })
+
+                            @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Tier", Name = "PublicationTier", Value = null })
+
+                            <p class="divider-text">
+                                <span class="bg-light">PE Info.</span>
+                            </p>
+
+                            @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "PE Name", Name = "PEName", Value = null })
+
+                            @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "PE Email", Name = "PEEmail", Value = null })
+
+                            @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "PE UserName", Name = "PEUserName", Value = null })
+
+                            @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "PE Status", Name = "PEStatus", Value = null })
+                        </div>
+
+                        <div class="col-md">
+                            <p class="divider-text">
+                                <span class="bg-light">LE Info.</span>
+                            </p>
+
+                            @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "LE Name", Name = "LEName", Value = null })
+
+                            @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "LE Email", Name = "LEEmail", Value = null })
+
+                            @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "LE UserName", Name = "LEUserName", Value = null })
+
+                            @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "LE Status", Name = "LEStatus", Value = null })
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- footer -->
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" onclick="onclickPublicationSubmit();" id="btnPublicationSubmit">Submit</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

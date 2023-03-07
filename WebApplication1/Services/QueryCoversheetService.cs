@@ -103,7 +103,6 @@ namespace JobTrack.Services
             dbConnection.Close();
 
             var list = JsonConvert.DeserializeObject<List<QueryCoversheetModel>>(JsonConvert.SerializeObject(dataTable)).OrderByDescending(p => p.ID).ToList();
-
             return await Task.FromResult(list.FirstOrDefault());
         }
     

@@ -1,0 +1,88 @@
+﻿@using (Html.BeginForm("InsertEmployee", "Admin", FormMethod.Post, new { @id = "frmEmployeeCreate", @class = "form-horizontal", role = "form", @novalidate = "" }))
+{
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p class="divider-text">
+                        <span class="bg-light">Employee Details</span>
+                    </p>
+                    <div class="form-group">
+                        @Html.Hidden("id", "hiddenid", new { @class = "" })
+                        <label for="txtFirstName">First Name</label>
+                        <input id="txtFirstName" name="txtFirstName" type="text" class="form-control" placeholder="First Name" required>
+                        <div class="invalid-feedback">
+                            Please enter First name
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtLastName">Last Name</label>
+                        <input id="txtLastName" name="txtLastName" type="text" class="form-control" placeholder="Last Name" required>
+                        <div class="invalid-feedback">
+                            Please enter Last name
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtEmailAddress">Email Address</label>
+                        <input id="txtEmailAddress" name="txtEmailAddress" type="email" class="form-control" placeholder="Email Address" required>
+                        <div class="invalid-feedback">
+                            Please enter valid Email address
+                        </div>
+                    </div>
+                    <p class="divider-text">
+                        <span class="bg-light">Account Details</span>
+                    </p>
+                    <div class="form-group">
+                        <label for="ddUserAccess">User Access</label>
+                        <select id="ddUserAccess" name="ddUserAccess" class="form-control" required>
+                            @*<option value=''>Select ...</option>
+                                <option value='Avocado'>Avocado</option>
+                                <option value='Bell Pepper'>Bell Pepper</option>
+                                <option value='Bitter Melon'>Bitter Melon</option>
+                                <option value='Chayote'>Chayote</option>
+                                <option value='Cucumber'>Cucumber</option>
+                                <option value='Ivy'>Ivy</option> Gourd*@
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select access type
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtUserName">Username</label>
+                        <input id="txtUserName" type="text" name="txtUserName" class="form-control" placeholder="User Name" required>
+                        <div class="invalid-feedback">
+                            Please enter valid Username
+                        </div>
+                    </div>
+                    <p class="divider-text">
+                        <span class="bg-light">Additional Access</span>
+                    </p>
+                    <div class="form-check mb-1">
+                        <input type="checkbox" id="chkManager" name="chkManager" class="form-check-input">
+                        <label class="form-check-label" for="chkManager">Manager</label>
+                    </div>
+                    <div class="form-check mb-1">
+                        <input type="checkbox" id="chkEditorial" name="chkEditorial" class="form-check-input">
+                        <label class="form-check-label" for="chkEditorial">Editorial Contact</label>
+                    </div>
+                    <div class="form-check mb-1">
+                        <input type="checkbox" id="chkEmailList" name="chkEmailList" class="form-check-input">
+                        <label class="form-check-label" for="chkEmailList">Email List</label>
+                    </div>
+                    <div class="form-check mb-1">
+                        <input type="checkbox" id="chkMandatory" name="chkMandatory" class="form-check-input">
+                        <label class="form-check-label" for="chkMandatory">Mandatory Receipient</label>
+                    </div>
+                    <div class="form-check mb-1">
+                        <input type="checkbox" id="chkShowUser" name="chkShowUser" class="form-check-input">
+                        <label class="form-check-label" for="chkShowUser">Show User</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="btnEmployeeSubmit">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

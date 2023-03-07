@@ -58,9 +58,7 @@
 </style>
 
 <div class="content-body">
-
     <div class="container-fluid mt-3">
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">
@@ -80,7 +78,10 @@
 
                                 <ul class="nav nav-tabs mb-3" role="tablist" id="mytabs">
                                     <li class="nav-item">
-                                        <a class="nav-link" role="tab" data-toggle="tab" href="#ViewAll"><span><i class="ti-home"></i> View All</span></a>
+                                        <a class="nav-link" role="tab" data-toggle="tab" href="#ViewAll"><span><i class="ti-home"></i> View All</span></a>                                        
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" role="tab" data-toggle="tab" href="#ViewAllPublication"><span><i class="ti-home"></i> Publication Assignment</span></a>
                                     </li>
                                 </ul>
                                 <div class="tab-content tabcontent-border">
@@ -89,13 +90,17 @@
                                             <div class="table-responsive">
                                                 <div class="card bg-light">
                                                     <article class="card-body mx-auto">
+
+                                                        <!-- add new employee -->
                                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                                             <i class='fa fa-plus-square'></i>
                                                             Add New
                                                         </button>
+
+                                                        <!-- employee -->
                                                         <table id="tblEmployeeViewAll" class="display nowrap" style="width:100%">
                                                             <thead>
-                                                                <tr>    
+                                                                <tr>
                                                                     <th>Employee ID</th>
                                                                     <th>User Access</th>
                                                                     <th>Date of Creation</th>
@@ -119,6 +124,44 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="tab-pane fade" id="ViewAllPublication" role="tabpanel">
+                                        <div class="p-t-15">
+                                            <div class="table-responsive">
+                                                <div class="card bg-light">
+                                                    <article class="card-body mx-auto">
+
+                                                        <!-- add new employee -->
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalPublication">
+                                                            <i class='fa fa-plus-square'></i>
+                                                            Add New
+                                                        </button>
+
+                                                        <!-- publication assignment -->
+                                                        <table id="tblPublicationAssignment" class="display nowrap" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Product ID</th>
+                                                                    <th>Complete Name of Publication</th>
+                                                                    <th>Tier</th>
+                                                                    <th>PE Name</th>
+                                                                    <th>PE Email</th>
+                                                                    <th>PE Username</th>
+                                                                    <th>PE Status</th>
+                                                                    <th>LE Name</th>
+                                                                    <th>LE Email</th>
+                                                                    <th>LE Username</th>
+                                                                    <th>LE Status</th>
+                                                                    <th>Date Created</th>
+                                                                    <th>Date Updated</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </article>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -127,95 +170,14 @@
             </div>
         </div>
     </div>
-    @*@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "frmValidation", @novalidate = "" }))*@
-    @using (Html.BeginForm("InsertEmployee", "Admin", FormMethod.Post, new { @id = "frmEmployeeCreate", @class = "form-horizontal", role = "form", @novalidate = "" }))
-    {
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <p class="divider-text">
-                            <span class="bg-light">Employee Details</span>
-                        </p>
-                        <div class="form-group">
-                            @Html.Hidden("id", "hiddenid", new { @class = "" })
-                            <label for="txtFirstName">First Name</label>
-                            <input id="txtFirstName" name="txtFirstName" type="text" class="form-control" placeholder="First Name" required>
-                            <div class="invalid-feedback">
-                                Please enter First name
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtLastName">Last Name</label>
-                            <input id="txtLastName" name="txtLastName" type="text" class="form-control" placeholder="Last Name" required>
-                            <div class="invalid-feedback">
-                                Please enter Last name
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtEmailAddress">Email Address</label>
-                            <input id="txtEmailAddress" name="txtEmailAddress" type="email" class="form-control" placeholder="Email Address" required>
-                            <div class="invalid-feedback">
-                                Please enter valid Email address
-                            </div>
-                        </div>
-                        <p class="divider-text">
-                            <span class="bg-light">Account Details</span>
-                        </p>
-                        <div class="form-group">
-                            <label for="ddUserAccess">User Access</label>
-                            <select id="ddUserAccess" name="ddUserAccess" class="form-control" required>
-                                @*<option value=''>Select ...</option>
-                                    <option value='Avocado'>Avocado</option>
-                                    <option value='Bell Pepper'>Bell Pepper</option>
-                                    <option value='Bitter Melon'>Bitter Melon</option>
-                                    <option value='Chayote'>Chayote</option>
-                                    <option value='Cucumber'>Cucumber</option>
-                                    <option value='Ivy'>Ivy</option> Gourd*@
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select access type
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtUserName">Username</label>
-                            <input id="txtUserName" type="text" name="txtUserName" class="form-control" placeholder="User Name" required>
-                            <div class="invalid-feedback">
-                                Please enter valid Username
-                            </div>
-                        </div>
-                        <p class="divider-text">
-                            <span class="bg-light">Additional Access</span>
-                        </p>
-                        <div class="form-check mb-1">
-                            <input type="checkbox" id="chkManager" name="chkManager" class="form-check-input">
-                            <label class="form-check-label" for="chkManager">Manager</label>
-                        </div>
-                        <div class="form-check mb-1">
-                            <input type="checkbox" id="chkEditorial" name="chkEditorial" class="form-check-input">
-                            <label class="form-check-label" for="chkEditorial">Editorial Contact</label>
-                        </div>
-                        <div class="form-check mb-1">
-                            <input type="checkbox" id="chkEmailList" name="chkEmailList" class="form-check-input">
-                            <label class="form-check-label" for="chkEmailList">Email List</label>
-                        </div>
-                        <div class="form-check mb-1">
-                            <input type="checkbox" id="chkMandatory" name="chkMandatory" class="form-check-input">
-                            <label class="form-check-label" for="chkMandatory">Mandatory Receipient</label>
-                        </div>
-                        <div class="form-check mb-1">
-                            <input type="checkbox" id="chkShowUser" name="chkShowUser" class="form-check-input">
-                            <label class="form-check-label" for="chkShowUser">Show User</label>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="btnEmployeeSubmit">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+    
+    @Html.Partial("_EditEmployeeView")
+
+    <div id="publication-edit-container">
+        @Html.Partial("_EditPublicationView")
+    </div>
+
+    <!-- no use -->
     <div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -234,21 +196,13 @@
 @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>*@
 
 <script type="text/javascript">
-    let template = null;
-    $('.modal').on('show.bs.modal', function (event) {
-        template = $(this).html();
-    });
-
-    $('.modal').on('hidden.bs.modal', function (e) {
-        $(this).html(template);
-    });
     $(document).ready(function () {
         $('#mytabs a[href="#ViewAll"]').tab('show');
         $("#tblEmployeeViewAll").DataTable({
                 "processing": true, // for show progress bar
                 "searching": true,
                 "responsive": true,
-                "scrollX": true,
+                //"scrollX": true,
                 "autoWidth": true,
                 "bLengthChange": true,
                 "lengthMenu": [[10, 50, -1], [10, 50, "All"]],
@@ -324,8 +278,19 @@
             $('#myModal').modal("show");
         });
         LoadUserAccess();
+        loadTablePublication();
     });
-        //LOB
+
+    let template = null;
+    $('.modal').on('show.bs.modal', function (event) {
+        template = $(this).html();
+    });
+
+    $('.modal').on('hidden.bs.modal', function (e) {
+        $(this).html(template);
+    });
+
+    //LOB
     function LoadUserAccess() {
         $.ajax({
             type: 'POST',
@@ -351,6 +316,7 @@
             }
         });
     }
+
     $("#btnEmployeeSubmit").click(function (e) {
         e.preventDefault();
         $.ajax({
@@ -419,5 +385,108 @@
 
     }
 
+    function loadTablePublication() {
+        $('#tblPublicationAssignment').DataTable({
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            searching: true,
+            responsive: true,
+            //serverSide: true,
+            autoWidth: false,
+            paging: true,
+            bFilter: true,
+            bSort: true,
+            bPaginate: true,
+            dom: 'Bfrtip',
+
+            ajax: {
+                url: '/Admin/GetPublicationAssignments',
+                type: 'POST',
+                dataType: 'json',
+                dataSrc: function (data) {
+                    return data.Collection;
+                }
+            },
+            columns: [
+                { data: 'PublicationAssignmentID' },
+                { data: 'BPSProductID' },
+                { data: 'CompleteNameOfPublication' },
+                { data: 'PublicationTier' },
+                { data: 'PEName' },
+                { data: 'PEEmail' },
+                { data: 'PEUserName' },
+                { data: 'PEStatus' },
+                { data: 'LEName' },
+                { data: 'LEEmail' },
+                { data: 'LEUserName' },
+                { data: 'LEStatus' },
+                { data: 'DateCreated' },
+                { data: 'CreatedEmployeeID' },
+                { data: 'DateUpdated' },
+                { data: 'UpdateEmployeeID' }
+            ],
+            buttons: {
+                dom: {
+                    button: {
+                        tag: 'i',
+                        className: ''
+                    }
+                },
+                buttons: [
+                    {
+                        titleAttr: 'Copy',
+                        extend: 'copyHtml5',
+                        className: 'custom-btn fa fa-clipboard',
+                        text: ''
+                    },
+                    {
+                        titleAttr: 'Download as Excel',
+                        extend: 'excelHtml5',
+                        className: 'custom-btn fa fa-file-excel-o',
+                        text: ''
+                    },
+                    {
+                        titleAttr: 'Download as CSV',
+                        extend: 'csvHtml5',
+                        className: 'custom-btn fa fa-file-text-o',
+                        text: ''
+                    },
+                    {
+                        titleAttr: 'Download as PDF',
+                        extend: 'pdfHtml5',
+                        className: 'custom-btn fa fa-file-pdf-o',
+                        text: ''
+                    }
+                ]
+            },
+        });
+    }
+
+    function onclickPublicationSubmit() {
+        // form data
+        let formDataToSubmit = new FormData();
+        let formData = $('#formPublication').serializeArray();
+        $(formData).each(function (index, obj) {
+            formDataToSubmit.append(obj.name, obj.value);
+        });
+
+        // process data to api
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/UpdatePublicationAssignment',
+            data: formDataToSubmit,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (response) {
+
+                if (response.IsSuccess) {
+                    alert('Successfully added.');
+                    window.location.reload();
+                }
+                else
+                    alert('Error update.');
+            }
+        });
+    }
 </script>
 
