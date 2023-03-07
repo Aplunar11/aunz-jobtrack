@@ -26,13 +26,20 @@ namespace JobTrack.Controllers
         public ProductDatabaseModel dbManuModel = new ProductDatabaseModel();
 
         private readonly IPublicationAssignService _publicationAssignService;
+        private readonly IEmployeeService _employeeService;
 
-        public AdminController(IPublicationAssignService publicationAssignService)
+        public AdminController(IPublicationAssignService publicationAssignService, IEmployeeService employeeService)
         {
             _publicationAssignService = publicationAssignService;
+            _employeeService = employeeService;
         }
 
         public ActionResult _EditEmployeeView()
+        {
+            return PartialView();
+        }
+
+        public ActionResult _EditEmployeeView2()
         {
             return PartialView();
         }
@@ -43,6 +50,11 @@ namespace JobTrack.Controllers
         }
 
         public ActionResult _TextFieldView(FormFieldModel model)
+        {
+            return PartialView(model);
+        }
+
+        public ActionResult _CheckboxView(FormFieldModel model)
         {
             return PartialView(model);
         }
@@ -331,6 +343,24 @@ namespace JobTrack.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> UpdateEmployee(EmployeeData model)
+        {
+            var result = new JsonResultModel();
+
+            try
+            {
+                result.Collection = await _employeeService.UpdateEmployeeAsync(model);
+                result.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Json(result);
+        }
+
         private bool IsUserExist(string username, string email)
         {
             bool IsUserExist = false;
@@ -352,55 +382,56 @@ namespace JobTrack.Controllers
             }
             return IsUserExist;
         }
-        [HttpGet]
-        public ActionResult UpdateEmployee(int? EmployeeID)
-        {
-            dbConnModel.Employees = new List<EmployeeData>();
 
-            //string userID = user_ID;
-            //userID = Session["EmployeeID"].ToString();
+        //[HttpGet]
+        //public ActionResult UpdateEmployee(int? EmployeeID)
+        //{
+        //    dbConnModel.Employees = new List<EmployeeData>();
 
-            dbConnection.Open();
+        //    //string userID = user_ID;
+        //    //userID = Session["EmployeeID"].ToString();
 
-            string storedProcName;
-            storedProcName = "GetUserByUserID";
+        //    dbConnection.Open();
 
-            using (MySqlCommand command = new MySqlCommand(storedProcName, dbConnection))
-            {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@p_UserID", EmployeeID);
+        //    string storedProcName;
+        //    storedProcName = "GetUserByUserID";
 
-                MySqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
+        //    using (MySqlCommand command = new MySqlCommand(storedProcName, dbConnection))
+        //    {
+        //        command.CommandType = System.Data.CommandType.StoredProcedure;
+        //        command.Parameters.AddWithValue("@p_UserID", EmployeeID);
 
-                        dbConnModel.Employees.Add(new EmployeeData()
-                        {
-                            EmployeeID = int.Parse(reader[0].ToString()),
-                            UserAccess = reader[1].ToString(),
-                            CreatedDate = DateTime.Parse(reader[2].ToString()),
-                            UserName = reader[3].ToString(),
-                            FirstName = reader[4].ToString(),
-                            LastName = reader[5].ToString(),
-                            EmailAddress = reader[6].ToString(),
-                            isManager = int.Parse(reader[7].ToString()),
-                            isEditorialContact = int.Parse(reader[8].ToString()),
-                            isEmailList = int.Parse(reader[9].ToString()),
-                            isMandatoryRecepient = int.Parse(reader[10].ToString()),
-                            isShowUser = int.Parse(reader[11].ToString()),
-                            PasswordUpdateDate = DateTime.Parse(reader[12].ToString())
+        //        MySqlDataReader reader = command.ExecuteReader();
+        //        if (reader.HasRows)
+        //        {
+        //            while (reader.Read())
+        //            {
 
-                        });
-                    }
-                }
-                reader.Close();
-            }
-            dbConnection.Close();
+        //                dbConnModel.Employees.Add(new EmployeeData()
+        //                {
+        //                    EmployeeID = int.Parse(reader[0].ToString()),
+        //                    UserAccess = reader[1].ToString(),
+        //                    CreatedDate = DateTime.Parse(reader[2].ToString()),
+        //                    UserName = reader[3].ToString(),
+        //                    FirstName = reader[4].ToString(),
+        //                    LastName = reader[5].ToString(),
+        //                    EmailAddress = reader[6].ToString(),
+        //                    isManager = int.Parse(reader[7].ToString()),
+        //                    isEditorialContact = int.Parse(reader[8].ToString()),
+        //                    isEmailList = int.Parse(reader[9].ToString()),
+        //                    isMandatoryRecepient = int.Parse(reader[10].ToString()),
+        //                    isShowUser = int.Parse(reader[11].ToString()),
+        //                    PasswordUpdateDate = DateTime.Parse(reader[12].ToString())
 
-            return Json(dbConnModel.Employees, JsonRequestBehavior.AllowGet);
-        }
+        //                });
+        //            }
+        //        }
+        //        reader.Close();
+        //    }
+        //    dbConnection.Close();
+
+        //    return Json(dbConnModel.Employees, JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult AddNewProductDatabase()
         {

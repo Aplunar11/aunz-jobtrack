@@ -65,13 +65,9 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div id="properties1" data-0="top:20%; width: 100%;" data-150="display:block;" data-500="top:100%;">
-                                    <div class="container-fluid px-0">
-                                        <div class="row">
-                                            <div class="col text-center align-items-center text-black-50">
-                                                <h3>Employees</h3>
-                                            </div>
-                                        </div>
+                                <div class="row">
+                                    <div class="col text-center align-items-center text-black-50">
+                                        <h3>Employees</h3>
                                     </div>
                                 </div>
                                 <!-- Nav tabs -->
@@ -317,11 +313,11 @@
         });
     }
 
-    $("#btnEmployeeSubmit").click(function (e) {
+    @*$("#btnEmployeeSubmit").click(function (e) {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            "url": "@Url.Action("InsertEmployee", "Admin")",
+            //"url": "@Url.Action("InsertEmployee", "Admin")",
             /*url: '/Admin/InsertEmployee',*/
             data: JSON.stringify({ pFirstName: $("#txtFirstName").val(), pLastName: $("#txtLastName").val(), pEmailAddress: $("#txtEmailAddress").val(), pUserAccess: $("#ddUserAccess").find('option:selected').text(), pUsername: $("#txtUserName").val(), pHiddenField: $('[id*=hiddenid]').val() }),
             dataType: 'json',
@@ -339,9 +335,9 @@
             }
         });
 
-    });
+    });*@
 
-    function UpdateEmployee(EmployeeID) {
+    @*function UpdateEmployee(EmployeeID) {
         alert(EmployeeID);
         //var EmployeeID = $(this).attr("id");
         //var UserAccess;
@@ -363,8 +359,7 @@
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json',
-            @*url: "@Url.Action("UpdateEmployee", "Admin")",*@
-            "url": "@Url.Action("UpdateEmployee", "Admin")",
+            //"url": "@Url.Action("UpdateEmployee", "Admin")",
             /*url: "/Admin/UpdateEmployee?EmployeeID=" + EmployeeID,*/
             data: { EmployeeID: EmployeeID },
             /*data: JSON.stringify({ EmployeeID: EmployeeID }), // Hardcoded: UserID*/
@@ -382,7 +377,36 @@
                 alert(errormessage.responseText);
             }
         });
+    }*@
 
+    function onclickEmployeeSubmit() {
+        // form data
+        let formDataToSubmit = new FormData();
+        let formData = $('#formEmployee').serializeArray();
+        $(formData).each(function (index, obj) {
+
+            // if value is "on" set to "1"
+            formDataToSubmit.append(obj.name, obj.value == "on" ? 1 : obj.value);
+        });
+
+        //process data to api
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/UpdateEmployee',
+            data: formDataToSubmit,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (response) {
+
+                if (response.IsSuccess) {
+                    alert('Successfully added.');
+                    window.location.reload();
+                }
+                else
+                    alert('Error update.');
+            }
+        });
     }
 
     function loadTablePublication() {

@@ -241,7 +241,9 @@
     <Compile Include="Models\QuerySTP\STPDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthenticationWrapper.cs" />
+    <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\EncryptionLibrary.cs" />
+    <Compile Include="Services\Interfaces\IEmployeeService.cs" />
     <Compile Include="Services\Interfaces\IPublicationAssignService.cs" />
     <Compile Include="Services\Interfaces\IQueryCoversheetService.cs" />
     <Compile Include="Services\Interfaces\IQueryManuscriptService.cs" />
@@ -5727,6 +5729,8 @@
     <Content Include="Views\Admin\_EditEmployeeView.cshtml" />
     <Content Include="Views\Admin\_EditPublicationView.cshtml" />
     <Content Include="Views\Admin\_TextFieldView.cshtml" />
+    <Content Include="Views\Admin\_EditEmployeeView2.cshtml" />
+    <Content Include="Views\Admin\_CheckboxView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
