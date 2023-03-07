@@ -34,7 +34,7 @@ namespace JobTrack.Services
                 command.Parameters.AddWithValue("@p_ID", model.ID);
                 command.Parameters.AddWithValue("@p_UserAccessID", model.UserAccess);
                 command.Parameters.AddWithValue("@p_UserName", model.UserName);
-                command.Parameters.AddWithValue("@p_Password", model.Password);
+                command.Parameters.AddWithValue("@p_Password", model.UserName);
                 command.Parameters.AddWithValue("@p_FirstName", model.FirstName);
                 command.Parameters.AddWithValue("@p_LastName", model.LastName);
                 command.Parameters.AddWithValue("@p_EmailAddress", model.EmailAddress);
