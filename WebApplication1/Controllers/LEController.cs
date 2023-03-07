@@ -24,6 +24,7 @@ namespace JobTrack.Controllers
         {
             return PartialView("_SidebarRegular");
         }
+
         public ActionResult MainForm()
         {
             #region Check Session
@@ -36,6 +37,7 @@ namespace JobTrack.Controllers
 
             return View();
         }
+
         public ActionResult AllJob()
         {
             #region Check Session
