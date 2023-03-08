@@ -16,7 +16,6 @@ namespace JobTrack.Controllers
 {
     public class JobController : Controller
     {
-        // CONNECTION STRING
         public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();
@@ -529,15 +528,11 @@ namespace JobTrack.Controllers
         public ActionResult EditJob()
         {
             JobData mdata = new JobData();
-            //LastManuscriptID mid = new LastManuscriptID();
-            //this.ViewBag.Service = new SelectList(mid.GetLastManuscriptID(), "service_id", "service_no");
+
             try
             {
                 mdata.DateUpdated = DateTime.Now;
-                //TempData["ManuscriptTier"] = new SelectList(GetAllPubschedTier(), "PubSchedTier", "PubSchedTier");
                 TempData["JobNumber"] = new SelectList(GetJobDetails(), "JobNumber", "JobNumber");
-                //ConfigureViewModel(mdata);
-                //TempData["UpdateType"] = new SelectList(GetAllTurnAroundTime(), "TurnAroundTimeID", "UpdateType");
                 return PartialView(mdata);
             }
             catch (Exception ex)
@@ -547,63 +542,7 @@ namespace JobTrack.Controllers
                 return PartialView(mdata);
             }
         }
-        
-        [HttpPost]
-        public JsonResult GetJobDataByID(int? jobnumber)
-        {
 
-            if (jobnumber != null)
-            {
-                List<JobData> lst = new List<JobData>();
-                if (dbConnection.State == ConnectionState.Closed)
-                    dbConnection.Open();
-
-
-
-                string storedProcName;
-                storedProcName = "GetJobDataByID";
-
-                using (MySqlCommand command = new MySqlCommand(storedProcName, dbConnection))
-                {
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@p_JobNumber", jobnumber);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            //DateTime d = Convert.ToDateTime(reader[3].ToString());
-                            lst.Add(new JobData
-                            {
-                                ManuscriptTier = reader[2].ToString(),
-                                BPSProductID = reader[3].ToString(),
-                                ServiceNumber = reader[4].ToString(),
-                                TargetPressDate = Convert.ToDateTime(reader[5].ToString()),
-                                //ActualPressDate = Convert.ToDateTime(reader[6].ToString()),
-                                CopyEditStatus = reader[7].ToString(),
-                                CodingStatus = reader[8].ToString(),
-                                OnlineStatus = reader[9].ToString(),
-                                STPStatus = reader[10].ToString(),
-                                DateCreated = Convert.ToDateTime(reader[11].ToString()),
-                                DateUpdated = Convert.ToDateTime(reader[13].ToString()),
-                                //PubschedTargetPressDate = Convert.ToDateTime(reader[3], CultureInfo.CurrentCulture).ToString("yyyy-MM-dd")
-                                //PubschedTargetPressDate = DateTime.ParseExact(reader[3].ToString(), "yyyy-MM-dd", CultureInfo.InvariantCulture)
-                            });
-                        }
-                    }
-                    else
-                    {
-                        lst = new List<JobData>();
-                    }
-                    reader.Close();
-                }
-                dbConnection.Close();
-
-                return Json(lst, JsonRequestBehavior.AllowGet);
-            }
-            return Json(new EmptyResult(), JsonRequestBehavior.AllowGet);
-        }
-        
         [HttpPost]
         public JsonResult EditJob(ManuscriptData mdata, JobData jdata)
         {
@@ -728,10 +667,68 @@ namespace JobTrack.Controllers
             //{
             //    dbConnection.Close();
             //}
+
+
             mdata.Response = "N";
             mdata.ErrorMessage = "Function under maintencance";
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult GetJobDataByID(int? jobnumber)
+        {
+
+            if (jobnumber != null)
+            {
+                List<JobData> lst = new List<JobData>();
+                if (dbConnection.State == ConnectionState.Closed)
+                    dbConnection.Open();
+
+
+
+                string storedProcName;
+                storedProcName = "GetJobDataByID";
+
+                using (MySqlCommand command = new MySqlCommand(storedProcName, dbConnection))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@p_JobNumber", jobnumber);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            //DateTime d = Convert.ToDateTime(reader[3].ToString());
+                            lst.Add(new JobData
+                            {
+                                ManuscriptTier = reader[2].ToString(),
+                                BPSProductID = reader[3].ToString(),
+                                ServiceNumber = reader[4].ToString(),
+                                TargetPressDate = Convert.ToDateTime(reader[5].ToString()),
+                                //ActualPressDate = Convert.ToDateTime(reader[6].ToString()),
+                                CopyEditStatus = reader[7].ToString(),
+                                CodingStatus = reader[8].ToString(),
+                                OnlineStatus = reader[9].ToString(),
+                                STPStatus = reader[10].ToString(),
+                                DateCreated = Convert.ToDateTime(reader[11].ToString()),
+                                DateUpdated = Convert.ToDateTime(reader[13].ToString()),
+                                //PubschedTargetPressDate = Convert.ToDateTime(reader[3], CultureInfo.CurrentCulture).ToString("yyyy-MM-dd")
+                                //PubschedTargetPressDate = DateTime.ParseExact(reader[3].ToString(), "yyyy-MM-dd", CultureInfo.InvariantCulture)
+                            });
+                        }
+                    }
+                    else
+                    {
+                        lst = new List<JobData>();
+                    }
+                    reader.Close();
+                }
+                dbConnection.Close();
+
+                return Json(lst, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new EmptyResult(), JsonRequestBehavior.AllowGet);
+        }       
 
         public void SendEmail(ManuscriptData mdata)
         {
