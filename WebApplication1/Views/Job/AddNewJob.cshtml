@@ -5,6 +5,7 @@
         height: 40px;
     }
 </style>
+
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="AddNewJobModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -228,7 +229,10 @@
                             $("#spanMsgClientEdit").text("Job data posted successfully");
                             $("#divMsgClientEdit").show();
 
-                            EnableSave(true);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                            //EnableSave(true);
                         }
                         else {
                             $("#divMsgClientEdit").addClass("alert-warning");

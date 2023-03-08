@@ -337,16 +337,21 @@
 
 @section scripts
 {
-
     <script type="text/javascript">
         //TBD
         moment.updateLocale(moment.locale(), { invalidDate: "TBD" });
+
         // Setup - add a text input to each footer cell
         $('#tblData tfoot th').each(function () {
             var title = $(this).text();
             $(this).html('<input type="text" placeholder="' + title + '" />');
         });
+
         $(document).ready(function () {
+            loadTableManuscript();
+        });
+
+        function loadTableManuscript() {
             var tableData = $('#tblData').DataTable({
                 "ajax": {
                     "url": "@Url.Action("GetJobDataByUserName", "Job")",
@@ -382,7 +387,7 @@
                         "defaultContent": ''
                     },
                     { "data": "JobID" },
-                    { "data": "JobNumber" },
+                    { "data": "JobNumberText" },
                     { "data": "ManuscriptTier" },
                     { "data": "BPSProductID" },
                     { "data": "ServiceNumber" },
@@ -461,6 +466,7 @@
                     //console.log('rowCallback');
                 }
             });
+
             //Add event listener for opening and closing first level childdetails
             $('#tblData tbody').on('click', 'td.details-control', function () {
                 var tr = $(this).closest('tr');
@@ -793,7 +799,6 @@
                 });
             });
 
-
             //************Show New User Modal**************
             $("#btnAddNew").click(function () {
                 var length = tableData.data().count() + 1;
@@ -810,6 +815,7 @@
                     }
                 });
             });
+
             //************Show New User Modal**************
             $("#btnEdit").click(function () {
                 //var datacount = $("#lblCount").text();
@@ -826,8 +832,7 @@
                     }
                 });
             });
-        });
+        }
         //***************End*******************8
-
     </script>
 }

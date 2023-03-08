@@ -31,6 +31,7 @@ namespace JobTrack.Controllers
         {
             return PartialView("_SidebarRegular");
         }
+
         public ActionResult MainForm()
         {
             #region Check Session
@@ -42,6 +43,7 @@ namespace JobTrack.Controllers
             #endregion
             return View();
         }
+
         public ActionResult AllJob()
         {
             #region Check Session
@@ -53,6 +55,7 @@ namespace JobTrack.Controllers
             #endregion
             return View();
         }
+
         public ActionResult PEIndex()
         {
             return View();

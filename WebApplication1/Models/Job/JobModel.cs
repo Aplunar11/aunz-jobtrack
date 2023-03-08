@@ -28,6 +28,7 @@ namespace JobTrack.Models.Job
         public string PESTPStatus { get; set; }
         public List<ManuscriptViewModel> ManuscriptDetails { get; set; }
     }
+
     public class ManuscriptViewModel
     {
         public int ManuscriptID { get; set; }
@@ -50,12 +51,15 @@ namespace JobTrack.Models.Job
         public List<JobData> ListJob { get; set; }
         public string ErrorMessage { get; set; }
     }
+
     public class JobData
     {
         public int JobID { get; set; }
+
         [Display(Name = "Job Number")]
-        //[Required(ErrorMessage = "Please select job number")]
         public string JobNumber { get; set; }
+
+        public string JobNumberText { get { return JobNumber.PadLeft(8, '0'); } }
 
         [Display(Name = "Tier")]
         [Required(ErrorMessage = "Please select tier")]
@@ -78,31 +82,34 @@ namespace JobTrack.Models.Job
         public DateTime? TargetPressDate { get; set; }
 
         [Display(Name = "Actual Press Date")]
-        //[Required(ErrorMessage = "Please select actual press date")]
         public DateTime? ActualPressDate { get; set; }
 
         [Display(Name = "Copyediting")]
-        //[Required(ErrorMessage = "Please enter Copyediting")]
         public string CopyEditStatus { get; set; }
+
         [Display(Name = "Coding")]
-        //[Required(ErrorMessage = "Please enter Coding")]
         public string CodingStatus { get; set; }
+
         [Display(Name = "Online")]
-        //[Required(ErrorMessage = "Please enter Online")]
         public string OnlineStatus { get; set; }
+
         [Display(Name = "STP")]
-        //[Required(ErrorMessage = "Please enter STP")]
         public string STPStatus { get; set; }
+
         [Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
+
         public int CreatedEmployeeID { get; set; }
+
         [Display(Name = "Date Updated")]
         public DateTime DateUpdated { get; set; }
+
         public int UpdateEmployeeID { get; set; }
+
         public int RowCount { get; set; }
+
         public string Response { get; set; }
+
         public string ErrorMessage { get; set; }
-
     }
-
 }

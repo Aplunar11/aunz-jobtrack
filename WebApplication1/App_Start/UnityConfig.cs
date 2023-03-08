@@ -22,6 +22,7 @@ namespace JobTrack
             container.RegisterType<IPublicationAssignService, PublicationAssignService>();
             container.RegisterType<IEmployeeService, EmployeeService>();
             container.RegisterType<IJobdataService, JobdataService>();
+            container.RegisterType<ITransactionLogService, TransactionLogService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
