@@ -409,19 +409,25 @@
         // [Manuscript]
         $('#tblData tfoot th').each(function () {
             var title = $(this).text();
-            $(this).html('<input type="text" placeholder="' + title + '" />');
+            if (title != '') {
+                $(this).html('<input type="text" placeholder="' + title + '" />');
+            }
         });
 
         // [Coversheet]
         $('#tblDataCoversheet tfoot th').each(function () {
             var title = $(this).text();
-            $(this).html('<input type="text" placeholder="' + title + '" />');
+            if (title != '') {
+                $(this).html('<input type="text" placeholder="' + title + '" />');
+            }
         });
 
         // [STP]
         $('#tblDataSTP tfoot th').each(function () {
             var title = $(this).text();
-            $(this).html('<input type="text" placeholder="' + title + '" />');
+            if (title != '') {
+                $(this).html('<input type="text" placeholder="' + title + '" />');
+            }
         });
         // ================= SETUP INPUT FOOTER [end] =================
 
@@ -559,7 +565,7 @@
                 var index = row.index();
                 //console.log(index);
                 var data = tableData.row(this).data(); //undefined
-                //console.log(data);
+                console.log('data ', data);
 
                 if (row.child.isShown()) {
                     // This row is already open - close it
@@ -568,29 +574,7 @@
                 }
                 else {
                     // Open this row
-                    row.child(
-                        '<div class="inner"><table class="child_table display nowrap" id = "child_details' + index + '" cellpadding="0" cellspacing="0" border="0" style="width:100%;">' +
-                        '<thead><tr><th></th><th></th><th>ManuscriptID</th><th>Job Number</th><th>Tier</th>' +
-                        '<th>Product</th><th>Service Number</th><th>Manuscript or Leg Title</th><th>Status</th>' +
-                        '<th>Target Press Date</th><th>Actual Press Date</th><th>Latup Attribution</th><th>Date Received From Author</th><th>Date Created</th>' +
-                        '<th>Update Type</th><th>Job Specific Instruction</th><th>Task Type</th><th>Guide Card</th>' +
-                        '<th></th><th>Task Number</th><th>Revised Online Due Date</th><th>Copyedit Due Date</th>' +
-                        '<th>Copyedit Start Date</th><th>Copyedit Done Date</th><th>Copyedit Status</th><th>Coding Due Date</th>' +
-                        '<th>Coding Done Date</th><th>Coding Status</th><th>Online Due Date</th><th>Online Done Date</th>' +
-                        '<th>Online Status</th><th>STP Status</th><th>Estimated Pages</th><th>Actual TAT</th>' +
-                        '<th>Online Timeliness</th><th>Reason If Late</th><th>Coversheet Number</th>' +
-                        '</tr></thead>' +
-                        '<tfoot><tr><th></th><th></th><th>ManuscriptID</th><th>Job Number</th><th>Tier</th>' +
-                        '<th>Product</th><th>Service Number</th><th>Manuscript or Leg Title</th><th>Status</th>' +
-                        '<th>Target Press Date</th><th>Actual Press Date</th><th>Latup Attribution</th><th>Date Received From Author</th><th>Date Created</th>' +
-                        '<th>Update Type</th><th>Job Specific Instruction</th><th>Task Type</th><th>Guide Card</th>' +
-                        '<th></th><th>Task Number</th><th>Revised Online Due Date</th><th>Copyedit Due Date</th>' +
-                        '<th>Copyedit Start Date</th><th>Copyedit Done Date</th><th>Copyedit Status</th><th>Coding Due Date</th>' +
-                        '<th>Coding Done Date</th><th>Coding Status</th><th>Online Due Date</th><th>Online Done Date</th>' +
-                        '<th>Online Status</th><th>STP Status</th><th>Estimated Pages</th><th>Actual TAT</th>' +
-                        '<th>Online Timeliness</th><th>Reason If Late</th><th>Coversheet Number</th>' +
-                        '</tr></tfoot>' +
-                        '</table ></div > ').show();
+                    row.child(generateChildRowForManuscript(index)).show();
 
                     $('#child_details' + index + ' tfoot th').each(function () {
                         var title = $(this).text();
@@ -611,187 +595,147 @@
                                 d.servicenumber = data['ServiceNumber'];
                             }
                         },
-                        "columnDefs": [
-                            //center all data
-                            { "className": "dt-center", "targets": "_all" },
+                        select: { style: 'os', selector: 'td:first-child' },
+                        columnDefs: [
+                            { "className": "dt-center", "targets": "_all" },    //center all data
+                            {
+                                targets: [2],
+                                searchable: false,
+                                orderable: false,
+                                render: function (rowData) {
+                                    return '<input type="checkbox" name="' + data['JobNumberText'] + '" value="' + rowData + '" />';
+                                }
+                            },
                             {
                                 //manuscriptid
-                                "targets": [2],
-                                "visible": false,
-                                "searchable": false
+                                targets: [3],
+                                visible: false,
+                                searchable: false
                             },
                             {
-                                //targetpressdate
-                                "targets": [9],
-                                "render": function (data) {
+                                targets: [10, 11, 13, 14, 20, 21, 22, 23, 24, 26, 27, 29, 30],
+                                render: function (data) {
                                     return moment(data).format('YYYY/MM/DD');
                                 }
                             },
                             {
-                                //actualpressdate
-                                "targets": [10],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                            },
-                            {
-                                //datereceivedfromauthor
-                                "targets": [12],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                            },
-                            {
-                                //datecreated
-                                "targets": [13],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                            },
-
-                            {
-                                //pecheckbox
                                 "targets": [18],
                                 "visible": false,
                                 "searchable": false
-                                //orderable: false,
-                                //className: 'select-checkbox'
-                            },
-
-                            {
-                                //tasknumber
-                                "targets": [19],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                                //"render": function (data, type, full, meta) {
-                                //    var aFormat = moment(data).format('YYYY/MM/DD');
-                                //    return '<a href="https://localhost:44354/LE/Mainform' + aFormat + '">[CREATE TASK LINK]</a>';
-                                //}
-                            },
-                            {
-                                //revisedonline
-                                "targets": [20],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                            },
-                            {
-                                //copyeditdue
-                                "targets": [21],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                            },
-                            {
-                                //copyeditstartdate
-                                "targets": [22],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                                //"render": function (data, type, full, meta) {
-                                //    var aFormat = moment(data).format('YYYY/MM/DD');
-                                //    return '<a href="https://localhost:44354/LE/Mainform' + aFormat + '">[START LINK]</a>';
-                                //}
-                            },
-                            {
-                                //copyeditdone
-                                "targets": [23],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                            },
-                            {
-                                //codingduedate
-                                "targets": [25],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                            },
-                            {
-                                //codingdonedate
-                                "targets": [26],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                            },
-                            {
-                                //onlineduedate
-                                "targets": [28],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                            },
-                            {
-                                //onlinedonedate
-                                "targets": [29],
-                                "render": function (data) {
-                                    return moment(data).format('YYYY/MM/DD');
-                                }
-                            }
-                            ],
+                            }],
                         columns: [
                             {
-                                "className": 'details-control1',
-                                "orderable": false,
-                                "data": null,
-                                "defaultContent": ''
+                                className: 'details-control1',
+                                orderable: false,
+                                data: null,
+                                defaultContent: ''
                             },
                             {
-                                "className": 'details-control4',
-                                "orderable": false,
-                                "data": null,
-                                "defaultContent": ''
+                                className: 'details-control4',
+                                orderable: false,
+                                data: null,
+                                defaultContent: ''
                             },
-                            { "data": "ManuscriptID" },
-                            { "data": "JobNumberText" },
-                            { "data": "ManuscriptTier" },
-                            { "data": "BPSProductID" },
-                            { "data": "ServiceNumber" },
-                            { "data": "ManuscriptLegTitle" },
-                            { "data": "ManuscriptStatus" },
-                            { "data": "TargetPressDate" },
-                            { "data": "ActualPressDate" },
-                            { "data": "LatupAttribution" },
-                            { "data": "DateReceivedFromAuthor" },
-                            { "data": "DateCreated" },
-                            { "data": "UpdateType" },
-                            { "data": "JobSpecificInstruction" },
-                            { "data": "TaskType" },
-                            { "data": "PEGuideCard" },
-                            { "data": "PECheckbox" },
-                            { "data": "PETaskNumber" },
-                            { "data": "RevisedOnlineDueDate" },
-                            { "data": "CopyEditDueDate" },
-                            { "data": "CopyEditStartDate" },
-                            { "data": "CopyEditDoneDate" },
-                            { "data": "CopyEditStatus" },
-                            { "data": "CodingDueDate" },
-                            { "data": "CodingDoneDate" },
-                            { "data": "CodingStatus" },
-                            { "data": "OnlineDueDate" },
-                            { "data": "OnlineDoneDate" },
-                            { "data": "OnlineStatus" },
-                            { "data": "STPStatus" },
-                            { "data": "EstimatedPages" },
-                            { "data": "ActualTurnAroundTime" },
-                            { "data": "OnlineTimeliness" },
-                            { "data": "ReasonIfLate" },
-                            { "data": "PECoversheetNumber" },
+                            { data: "ManuscriptID" },
+                            { data: "ManuscriptID" },
+                            { data: "JobNumberText" },
+                            { data: "ManuscriptTier" },
+                            { data: "BPSProductID" },
+                            { data: "ServiceNumber" },
+                            { data: "ManuscriptLegTitle" },
+                            { data: "ManuscriptStatus" },
+                            { data: "TargetPressDate" },
+                            { data: "ActualPressDate" },
+                            { data: "LatupAttribution" },
+                            { data: "DateReceivedFromAuthor" },
+                            { data: "DateCreated" },
+                            { data: "UpdateType" },
+                            { data: "JobSpecificInstruction" },
+                            { data: "TaskType" },
+                            { data: "PEGuideCard" },
+                            { data: "PECheckbox" },
+                            { data: "PETaskNumber" },
+                            { data: "RevisedOnlineDueDate" },
+                            { data: "CopyEditDueDate" },
+                            { data: "CopyEditStartDate" },
+                            { data: "CopyEditDoneDate" },
+                            { data: "CopyEditStatus" },
+                            { data: "CodingDueDate" },
+                            { data: "CodingDoneDate" },
+                            { data: "CodingStatus" },
+                            { data: "OnlineDueDate" },
+                            { data: "OnlineDoneDate" },
+                            { data: "OnlineStatus" },
+                            { data: "STPStatus" },
+                            { data: "EstimatedPages" },
+                            { data: "ActualTurnAroundTime" },
+                            { data: "OnlineTimeliness" },
+                            { data: "ReasonIfLate" },
+                            { data: "PECoversheetNumber" },
                         ],
                         dom: 'Bfrtip',
                         buttons: {
-                            //reset class and change the rendered tag
-                            //from <button> to <i>
                             dom: {
                                 button: {
                                     tag: 'i',
                                     className: ''
                                 }
                             },
-                            //since we now have completely unstyled icons add
-                            //some space between them trough a .custom-btn class
                             buttons: [
+                                {
+                                    titleAttr: 'Create Task',
+                                    extend: '',
+                                    className: 'custom-btn fa fa-tasks',
+                                    text: ' Create Task&nbsp;&nbsp;',
+                                    action: function () {
+                                        //var manuscriptids = childTable.rows({ selected: true }).data().pluck('ManuscriptID').toArray();
+                                        //var selecteddata = childTable.row({ selected: true }).data();
+
+                                        //get all selected ids
+                                        let manuscriptids = [];
+                                        $(childTable.$('input[name="' + data['JobNumberText'] + '"]:checked').each(function () {
+                                            manuscriptids.push($(this).val());
+                                        }));
+
+                                        if (manuscriptids.length > 0) {
+                                            $.ajax({
+                                                url: "@Url.Action("AddNewJobCoversheet", "JobCoversheet")",
+                                                type: "GET",
+                                                dataType: "json",
+                                                contentType: "application/json; charset=utf-8",
+                                                data: {
+                                                    manuscriptids: manuscriptids.join(','),
+                                                    bpsproductid: data['BPSProductID'],
+                                                    serviceno: data['ServiceNumber']
+                                                },
+                                                success: function (data) {
+                                                    $('#modalWrapper').html(data);
+                                                    $('#AddNewJobCoversheetModal').modal('show');
+                                                }
+                                            });
+                                        }
+                                        else
+                                            alert('No selected manuscript data.');
+                                    },
+                                    enabled: true
+                                },
+                                {
+                                    //titleAttr: 'Select All',
+                                    //extend: 'selectAll',
+                                    //className: 'custom-btn fa fa-check-square',
+                                    //text: '',
+                                    //action: function () {
+                                    //    childTable.rows(function (idx, data, node) {
+                                    //        return data['PECheckbox'] === 'Checked' || data['CopyEditStatus'] === 'New' || data['CopyEditStatus'] === 'On-Going' ? false : true;
+                                    //    }).select();
+                                    //}
+                                },
+                                {
+                                    titleAttr: 'Select None',
+                                    extend: 'selectNone',
+                                    className: 'custom-btn fa fa-times-rectangle',
+                                    text: ''
+                                },
                                 {
                                     titleAttr: 'Copy',
                                     extend: 'copyHtml5',
@@ -1296,6 +1240,104 @@
             });
         }
 
+        function loadSelectedTab() {
+            // save and display selected tab
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                console.log("tab shown...");
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            if (activeTab)
+                $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+        }
+
+        function generateChildRowForManuscript(index) {
+            return '<div class="inner"><table class="child_table display nowrap" id = "child_details' + index + '" cellpadding="0" cellspacing="0" border="0" style="width:100%;">' +
+                '<thead><tr>' +
+                '<th></th>' +
+                '<th></th>' +
+                '<th></th>' +
+                '<th>ManuscriptID</th>' +
+                '<th>Job Number</th>' +
+                '<th>Tier</th>' +
+                '<th>Product</th>' +
+                '<th>Service Number</th>' +
+                '<th>Manuscript or Leg Title</th>' +
+                '<th>Status</th>' +
+                '<th>Target Press Date</th>' +
+                '<th>Actual Press Date</th>' +
+                '<th>Latup Attribution</th>' +
+                '<th>Date Received From Author</th>' +
+                '<th>Date Created</th>' +
+                '<th>Update Type</th>' +
+                '<th>Job Specific Instruction</th>' +
+                '<th>Task Type</th>' +
+                '<th>Guide Card</th>' +
+                '<th></th>' +
+                '<th>Task Number</th>' +
+                '<th>Revised Online Due Date</th>' +
+                '<th>Copyedit Due Date</th>' +
+                '<th>Copyedit Start Date</th>' +
+                '<th>Copyedit Done Date</th>' +
+                '<th>Copyedit Status</th>' +
+                '<th>Coding Due Date</th>' +
+                '<th>Coding Done Date</th>' +
+                '<th>Coding Status</th>' +
+                '<th>Online Due Date</th>' +
+                '<th>Online Done Date</th>' +
+                '<th>Online Status</th>' +
+                '<th>STP Status</th>' +
+                '<th>Estimated Pages</th>' +
+                '<th>Actual TAT</th>' +
+                '<th>Online Timeliness</th>' +
+                '<th>Reason If Late</th>' +
+                '<th>Coversheet Number</th>' +
+                '</tr></thead>' +
+
+                //----- footer -----
+                '<tfoot><tr>' +
+                '<th></th>' +
+                '<th></th>' +
+                '<th></th>' +
+                '<th>ManuscriptID</th>' +
+                '<th>Job Number</th>' +
+                '<th>Tier</th>' +
+                '<th>Product</th>' +
+                '<th>Service Number</th>' +
+                '<th>Manuscript or Leg Title</th>' +
+                '<th>Status</th>' +
+                '<th>Target Press Date</th>' +
+                '<th>Actual Press Date</th>' +
+                '<th>Latup Attribution</th>' +
+                '<th>Date Received From Author</th>' +
+                '<th>Date Created</th>' +
+                '<th>Update Type</th>' +
+                '<th>Job Specific Instruction</th>' +
+                '<th>Task Type</th>' +
+                '<th>Guide Card</th>' +
+                '<th></th>' +
+                '<th>Task Number</th>' +
+                '<th>Revised Online Due Date</th>' +
+                '<th>Copyedit Due Date</th>' +
+                '<th>Copyedit Start Date</th>' +
+                '<th>Copyedit Done Date</th>' +
+                '<th>Copyedit Status</th>' +
+                '<th>Coding Due Date</th>' +
+                '<th>Coding Done Date</th>' +
+                '<th>Coding Status</th>' +
+                '<th>Online Due Date</th>' +
+                '<th>Online Done Date</th>' +
+                '<th>Online Status</th>' +
+                '<th>STP Status</th>' +
+                '<th>Estimated Pages</th>' +
+                '<th>Actual TAT</th>' +
+                '<th>Online Timeliness</th>' +
+                '<th>Reason If Late</th>' +
+                '<th>Coversheet Number</th>' +
+                '</tr></tfoot>' +
+                '</table></div>';
+        }
+
         function generateChildRowForCoversheet(index) {
             return '<div class="inner"><table class="child_table2 display nowrap" id="childTableCoversheet' + index + '" cellpadding="5" cellspacing="0" border="0">' +
                 '<thead><tr>' +
@@ -1349,17 +1391,6 @@
                 '<th>Job Owner</th>' +
                 '</tr></tfoot>' +
                 '</table></div>';
-        }
-
-        function loadSelectedTab() {
-            // save and display selected tab
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                console.log("tab shown...");
-                localStorage.setItem('activeTab', $(e.target).attr('href'));
-            });
-            var activeTab = localStorage.getItem('activeTab');
-            if (activeTab)
-                $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
         }
 
         // ====== old code [start] ======

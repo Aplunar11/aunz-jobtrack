@@ -16,12 +16,10 @@ namespace JobTrack.Controllers
 {
     public class AdminController : Controller
     {
-        // CONNECTION STRING
         public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();
 
-        // DECLARE MODEL
         public EmployeeModel dbConnModel = new EmployeeModel();
         public ProductDatabaseModel dbManuModel = new ProductDatabaseModel();
 

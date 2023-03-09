@@ -13,7 +13,6 @@ namespace JobTrack.Controllers
 {
     public class CoversheetController : Controller
     {
-        // CONNECTION STRING
         public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();
@@ -119,6 +118,7 @@ namespace JobTrack.Controllers
                 throw;
             }
         }
+
         public CoversheetData ManuscriptData(string prodid, string serno)
         {
             //try
@@ -159,6 +159,7 @@ namespace JobTrack.Controllers
             //    throw;
             //}
         }
+
         public CoversheetData CoversheetData(string prodid, string serno)
         {
             try
@@ -199,6 +200,7 @@ namespace JobTrack.Controllers
             }
             return mdata;
         }
+
         public List<CoversheetData> GetManuscriptData()
         {
 
@@ -232,6 +234,7 @@ namespace JobTrack.Controllers
             }
             return mdata;
         }
+
         public List<CoversheetData> GetCoversheetDetails()
         {
 
@@ -287,12 +290,14 @@ namespace JobTrack.Controllers
             }
             return lst;
         }
+
         public ActionResult GetTaskType(string selectedItem)
         {
             var data = GetAllTurnAroundTime().Where(model => model.UpdateType == selectedItem).FirstOrDefault();
 
             return Json(data.TaskType, JsonRequestBehavior.AllowGet);
         }
+
         //public ActionResult GetTATCopyEdit(int selectedItem)
         //{
         //    var data = GetAllTurnAroundTime().Where(model => model.TurnAroundTimeID == selectedItem).FirstOrDefault();
@@ -307,6 +312,7 @@ namespace JobTrack.Controllers
             DateTime d = AddBusinessDays(datecreated, data.TATCoding);
             return Json(d.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult GetTATOnline(string selectedItem, DateTime datecreated)
         {
             var data = GetAllTurnAroundTime().Where(model => model.UpdateType == selectedItem).FirstOrDefault();
@@ -347,6 +353,7 @@ namespace JobTrack.Controllers
             return date.AddDays(extraDays);
 
         }
+
         //[HttpPost]
         //public JsonResult AddNewCoversheet(CoversheetData mdata)
         //{
@@ -615,6 +622,7 @@ namespace JobTrack.Controllers
             dbConnection.Close();
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
+
         [HttpGet]
         public ActionResult EditCoversheet(string coversheetid, string bpsproductid, string servicenumber)
         {
@@ -689,6 +697,7 @@ namespace JobTrack.Controllers
                 return PartialView(mdata);
             }
         }
+
         [HttpGet]
         public ActionResult EditCodingTLCoversheet(string coversheetid, string bpsproductid, string servicenumber)
         {
@@ -762,6 +771,7 @@ namespace JobTrack.Controllers
                 return PartialView(mdata);
             }
         }
+
         [HttpGet]
         public ActionResult EditPECoversheet(string coversheetid, string bpsproductid, string servicenumber)
         {
@@ -1173,6 +1183,7 @@ namespace JobTrack.Controllers
             }
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         public JsonResult UpdateDoneDateCoding(EditCoversheetViewModelBase mdata)
         {

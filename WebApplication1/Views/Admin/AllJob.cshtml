@@ -388,12 +388,16 @@
         // Setup - add a text input to each footer cell
         $('#tblData tfoot th').each(function () {
             var title = $(this).text();
-            $(this).html('<input type="text" placeholder="' + title + '" />');
+            if (title != '') {
+                $(this).html('<input type="text" placeholder="' + title + '" />');
+            }
         });
 
         $('#tblDataCoversheet tfoot th').each(function () {
             var title = $(this).text();
-            $(this).html('<input type="text" placeholder="' + title + '" />');
+            if (title != '') {
+                $(this).html('<input type="text" placeholder="' + title + '" />');
+            }
         });
 
         function loadTableManuscript() {
@@ -1152,6 +1156,8 @@
                 '<th>Remarks</th>' +
                 '<th>Job Owner</th>' +
                 '</tr></thead>' +
+
+                //----- footer -----
                 '<tfoot><tr>' +
                 '<th></th>' +
                 '<th></th>' +

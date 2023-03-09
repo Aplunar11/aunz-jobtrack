@@ -176,7 +176,6 @@ namespace JobTrack.Controllers
 
         public List<JobCoversheetData> GetPubSchedData()
         {
-
             List<JobCoversheetData> mdata = new List<JobCoversheetData>();
             DataTable dt = new DataTable();
 
