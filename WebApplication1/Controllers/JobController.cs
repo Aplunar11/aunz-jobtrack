@@ -544,147 +544,32 @@ namespace JobTrack.Controllers
         }
 
         [HttpPost]
-        public JsonResult EditJob(ManuscriptData mdata, JobData jdata)
+        public async Task<JsonResult> EditJob(ManuscriptData mdata, JobData jdata)
         {
-            //try
-            //{
-            //    if (ModelState.IsValid)
-            //    {
-            //        if (!string.IsNullOrEmpty(jdata.BPSProductID) && !string.IsNullOrEmpty(jdata.ServiceNumber))
-            //        {
-            //            var result = IsJobExists(jdata.BPSProductID, jdata.ServiceNumber);
-            //            if (result != null)
-            //            {
-            //                if (result.JobID == 0 || result.JobID < 0)
-            //                {
-            //                    mdata.Response = "N";
-            //                    mdata.ErrorMessage = "Entered invalid Product or Service Number";
-            //                }
-            //                else
-            //                {
-            //                    var Username = Session["UserName"];
-            //                    //var JobNumber = Session["JobNumber"];
-            //                    MySqlCommand com = new MySqlCommand("InsertManuscript", dbConnection);
-            //                    com.CommandType = CommandType.StoredProcedure;
-            //                    com.Parameters.AddWithValue("@p_Username", Username);
-            //                    //com.Parameters.AddWithValue("@p_JobNumber", JobNumber);
-            //                    com.Parameters.AddWithValue("@p_ManuscriptTier", mdata.ManuscriptTier);
-            //                    com.Parameters.AddWithValue("@p_BPSProductID", mdata.BPSProductID);
-            //                    com.Parameters.AddWithValue("@p_ServiceNumber", mdata.ServiceNumber);
-            //                    com.Parameters.AddWithValue("@p_ManuscriptLegTitle", mdata.ManuscriptLegTitle);
-            //                    com.Parameters.AddWithValue("@p_TargetPressDate", mdata.TargetPressDate);
-            //                    //com.Parameters.AddWithValue("@p_ActualPressDate", mdata.ActualPressDate);
-            //                    com.Parameters.AddWithValue("@p_LatupAttribution", mdata.LatupAttribution);
-            //                    com.Parameters.AddWithValue("@p_DateReceivedFromAuthor", mdata.DateReceivedFromAuthor);
-            //                    com.Parameters.AddWithValue("@p_UpdateType", mdata.UpdateType);
-            //                    com.Parameters.AddWithValue("@p_JobSpecificInstruction", mdata.JobSpecificInstruction);
-            //                    com.Parameters.AddWithValue("@p_TaskType", mdata.TaskType);
-            //                    com.Parameters.AddWithValue("@p_CopyEditDueDate", mdata.CopyEditDueDate);
-            //                    //com.Parameters.AddWithValue("@p_CopyEditStatus", mdata.CopyEditStatus);
-            //                    com.Parameters.AddWithValue("@p_CodingDueDate", mdata.CodingDueDate);
-            //                    com.Parameters.AddWithValue("@p_OnlineDueDate", mdata.OnlineDueDate);
-            //                    //com.Parameters.AddWithValue("@p_STPStatus", mdata.STPStatus);
-            //                    if (dbConnection.State == ConnectionState.Closed)
-            //                        dbConnection.Open();
-            //                    int Count = com.ExecuteNonQuery();
+            var userName = (string)Session["UserName"];
 
-            //                    if (Count > 0)
-            //                    {
-            //                        mdata.Response = "Y";
-            //                    }
-            //                    else
-            //                    {
-            //                        mdata.Response = "N";
-            //                        mdata.ErrorMessage = "Manuscript data could not be added";
-            //                    }
-
-            //                }
-            //            }
-            //            else
-            //            {
-            //                try
-            //                {
-            //                    var Username = Session["UserName"];
-            //                    MySqlCommand com = new MySqlCommand("InsertJob", dbConnection);
-            //                    com.CommandType = CommandType.StoredProcedure;
-            //                    com.Parameters.AddWithValue("@p_Username", Username);
-            //                    com.Parameters.AddWithValue("@p_ManuscriptTier", mdata.ManuscriptTier);
-            //                    com.Parameters.AddWithValue("@p_BPSProductID", mdata.BPSProductID);
-            //                    com.Parameters.AddWithValue("@p_ServiceNumber", mdata.ServiceNumber);
-            //                    com.Parameters.AddWithValue("@p_ManuscriptLegTitle", mdata.ManuscriptLegTitle);
-            //                    com.Parameters.AddWithValue("@p_TargetPressDate", mdata.TargetPressDate);
-            //                    com.Parameters.AddWithValue("@p_LatupAttribution", mdata.LatupAttribution);
-            //                    com.Parameters.AddWithValue("@p_DateReceivedFromAuthor", mdata.DateReceivedFromAuthor);
-            //                    com.Parameters.AddWithValue("@p_UpdateType", mdata.UpdateType);
-            //                    com.Parameters.AddWithValue("@p_JobSpecificInstruction", mdata.JobSpecificInstruction);
-            //                    com.Parameters.AddWithValue("@p_TaskType", mdata.TaskType);
-            //                    com.Parameters.AddWithValue("@p_CopyEditDueDate", mdata.CopyEditDueDate);
-            //                    com.Parameters.AddWithValue("@p_CodingDueDate", mdata.CodingDueDate);
-            //                    com.Parameters.AddWithValue("@p_OnlineDueDate", mdata.OnlineDueDate);
-            //                    if (dbConnection.State == ConnectionState.Closed)
-            //                        dbConnection.Open();
-            //                    int Count = com.ExecuteNonQuery();
-            //                    mdata.Response = "Y";
-            //                }
-            //                catch
-            //                {
-            //                    mdata.Response = "N";
-            //                    mdata.ErrorMessage = "Job data could not be added";
-            //                    //mdata.ErrorMessage = resultExecute;
-            //                }
-            //                finally
-            //                {
-            //                    dbConnection.Close();
-            //                }
-
-            //                // Json(new { success = false, responseText = "registration failed, please check", JsonRequestBehavior.AllowGet);
-            //            }
-            //        }
-
-            //    }
-            //    else
-            //    {
-            //        foreach (var Key in ModelState.Keys)
-            //        {
-            //            if (ModelState[Key].Errors.Count > 0)
-            //            {
-            //                mdata.Response = "N";
-            //                mdata.ErrorMessage = ModelState[Key].Errors[0].ErrorMessage;
-
-            //                //return Json(new { success = false, responseText = "registration failed, please check", JsonRequestBehavior.AllowGet);
-            //            }
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    ModelState.AddModelError("ErrorMessage", ex.Message);
-            //    ViewBag.ErrorMessage = ex.Message;
-            //    mdata.Response = "N";
-            //    mdata.ErrorMessage = "Error : " + ex.Message;
-            //}
-            //finally
-            //{
-            //    dbConnection.Close();
-            //}
-
-
-            mdata.Response = "N";
-            mdata.ErrorMessage = "Function under maintencance";
+            try
+            {
+                await _jobdataService.UpdateJobData(jdata, userName);
+                mdata.Response = "Y";
+            }
+            catch (Exception ex)
+            {
+                mdata.Response = "N";
+                mdata.ErrorMessage = "Function under maintencance: " + ex.Message;
+            }
+            
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public JsonResult GetJobDataByID(int? jobnumber)
         {
-
             if (jobnumber != null)
             {
                 List<JobData> lst = new List<JobData>();
                 if (dbConnection.State == ConnectionState.Closed)
                     dbConnection.Open();
-
-
 
                 string storedProcName;
                 storedProcName = "GetJobDataByID";
@@ -701,11 +586,12 @@ namespace JobTrack.Controllers
                             //DateTime d = Convert.ToDateTime(reader[3].ToString());
                             lst.Add(new JobData
                             {
+                                JobID = Convert.ToInt32(reader[0]),
                                 ManuscriptTier = reader[2].ToString(),
                                 BPSProductID = reader[3].ToString(),
                                 ServiceNumber = reader[4].ToString(),
                                 TargetPressDate = Convert.ToDateTime(reader[5].ToString()),
-                                //ActualPressDate = Convert.ToDateTime(reader[6].ToString()),
+                                ActualPressDate = Convert.ToDateTime(reader[6].ToString()),
                                 CopyEditStatus = reader[7].ToString(),
                                 CodingStatus = reader[8].ToString(),
                                 OnlineStatus = reader[9].ToString(),
@@ -727,6 +613,7 @@ namespace JobTrack.Controllers
 
                 return Json(lst, JsonRequestBehavior.AllowGet);
             }
+
             return Json(new EmptyResult(), JsonRequestBehavior.AllowGet);
         }       
 

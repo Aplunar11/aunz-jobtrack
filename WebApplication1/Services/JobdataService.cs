@@ -42,5 +42,35 @@ namespace JobTrack.Services
             var list = JsonConvert.DeserializeObject<List<JobData>>(JsonConvert.SerializeObject(dataTable));
             return await Task.FromResult(list);
         }
+
+        public async Task<JobData> UpdateJobData(JobData model, string username)
+        {
+            var storedProcedure = "UpdateJobData";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_id", model.JobID);
+                command.Parameters.AddWithValue("@p_TargetPressDate", model.TargetPressDate);
+                command.Parameters.AddWithValue("@p_ActualPressDate", model.ActualPressDate);
+                command.Parameters.AddWithValue("@p_CopyEditStatus", model.CopyEditStatus);
+                command.Parameters.AddWithValue("@p_CodingStatus", model.CodingStatus);
+                command.Parameters.AddWithValue("@p_OnlineStatus", model.OnlineStatus);
+                command.Parameters.AddWithValue("@p_STPStatus", model.STPStatus);
+                command.Parameters.AddWithValue("@p_Username", username);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<JobData>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list.FirstOrDefault());
+        }
     }
 }

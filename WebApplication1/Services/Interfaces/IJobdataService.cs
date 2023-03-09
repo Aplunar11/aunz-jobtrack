@@ -10,5 +10,7 @@ namespace JobTrack.Services.Interfaces
     public interface IJobdataService
     {
         Task<List<JobData>> GetJobdataByUserNameLEAsync(string userName);
+
+        Task<JobData> UpdateJobData(JobData model, string username);
     }
 }
