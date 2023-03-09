@@ -15,7 +15,7 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using JobTrack.Models.Manuscript;
 using JobTrack.Models.Job;
-
+using JobTrack.Services.Interfaces;
 
 namespace JobTrack.Controllers
 {
@@ -25,6 +25,13 @@ namespace JobTrack.Controllers
         public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();
+
+        private readonly IManuscriptDataService _manuscriptDataService;
+
+        public ManuscriptController(IManuscriptDataService manuscriptDataService)
+        {
+            _manuscriptDataService = manuscriptDataService;
+        }
 
         [HttpGet]
         public ActionResult AddNewManuscript()
@@ -386,6 +393,7 @@ namespace JobTrack.Controllers
                 throw;
             }
         }
+
         public List<JobData> GetJobData()
         {
 
@@ -413,80 +421,84 @@ namespace JobTrack.Controllers
             dbConnection.Close();
             return mdata;
         }
-        public ActionResult GetManuscriptData(string bpsproductid, string servicenumber)
+
+        public async Task<ActionResult> GetManuscriptData(string bpsproductid, string servicenumber)
         {
-            if (dbConnection.State == ConnectionState.Closed)
-                dbConnection.Open();
+            //if (dbConnection.State == ConnectionState.Closed)
+            //    dbConnection.Open();
 
-            List<ManuscriptData> mdata = new List<ManuscriptData>();
-            DataTable dt = new DataTable();
+            //List<ManuscriptData> mdata = new List<ManuscriptData>();
+            //DataTable dt = new DataTable();
 
-            cmd = new MySqlCommand("GetManuscriptDataByID", dbConnection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@p_BPSProductID", bpsproductid);
-            cmd.Parameters.AddWithValue("@p_ServiceNumber", servicenumber);
-            adp = new MySqlDataAdapter(cmd);
-            adp.Fill(dt);
+            //cmd = new MySqlCommand("GetManuscriptDataByID", dbConnection);
+            //cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.Clear();
+            //cmd.Parameters.AddWithValue("@p_BPSProductID", bpsproductid);
+            //cmd.Parameters.AddWithValue("@p_ServiceNumber", servicenumber);
+            //adp = new MySqlDataAdapter(cmd);
+            //adp.Fill(dt);
 
-            try
-            {
-                foreach (DataRow dr in dt.Rows)
-                {
-                    mdata.Add(new ManuscriptData
-                    {
-                        ManuscriptID = Convert.ToInt32(dr["ManuscriptID"].ToString()),
-                        JobNumber = dr["JobNumber"].ToString().PadLeft(8, '0'),
-                        ManuscriptTier = dr["ManuscriptTier"].ToString(),
-                        BPSProductID = dr["BPSProductID"].ToString(),
-                        ServiceNumber = dr["ServiceNumber"].ToString(),
-                        ManuscriptLegTitle = dr["ManuscriptLegTitle"].ToString(),
-                        ManuscriptStatus = dr["ManuscriptStatus"].ToString(),
-                        TargetPressDate = Convert.ToDateTime(dr["TargetPressDate"].ToString()),
-                        //ActualPressDate = Convert.ToDateTime(dr["ActualPressDate"].ToString()),
-                        ActualPressDate = dr.Field<DateTime?>("ActualPressDate"),
-                        //TargetPressDate = DateTime.ParseExact(dr["TargetPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-                        //ActualPressDate = DateTime.ParseExact(dr["ActualPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-                        LatupAttribution = dr["LatupAttribution"].ToString(),
-                        DateReceivedFromAuthor = dr.Field<DateTime?>("DateReceivedFromAuthor"),
-                        UpdateType = dr["UpdateType"].ToString(),
-                        JobSpecificInstruction = dr["JobSpecificInstruction"].ToString(),
-                        TaskType = dr["TaskType"].ToString(),
-                        PEGuideCard = dr["PEGuideCard"].ToString(),
-                        PECheckbox = dr["PECheckbox"].ToString(),
-                        PETaskNumber = dr["PETaskNumber"].ToString(),
-                        RevisedOnlineDueDate = dr.Field<DateTime?>("RevisedOnlineDueDate"),
-                        CopyEditDueDate = Convert.ToDateTime(dr["CopyEditDueDate"].ToString()),
-                        CopyEditStartDate = dr.Field<DateTime?>("CopyEditStartDate"),
-                        CopyEditDoneDate = dr.Field<DateTime?>("CopyEditDoneDate"),
-                        CopyEditStatus = dr["CopyEditStatus"].ToString(),
-                        CodingDueDate = Convert.ToDateTime(dr["CodingDueDate"].ToString()),
-                        CodingDoneDate = dr.Field<DateTime?>("CodingDoneDate"),
-                        CodingStatus = dr["CodingStatus"].ToString(),
-                        OnlineDueDate = Convert.ToDateTime(dr["OnlineDueDate"].ToString()),
-                        OnlineDoneDate = dr.Field<DateTime?>("OnlineDoneDate"),
-                        OnlineStatus = dr["OnlineStatus"].ToString(),
-                        STPStatus = dr["PESTPStatus"].ToString(),
-                        //EstimatedPages = Convert.ToInt32(dr["EstimatedPages"].ToString()),
-                        //ActualTurnAroundTime = Convert.ToInt32(dr["ActualTurnAroundTime"].ToString()),
-                        EstimatedPages = dr.Field<Int32?>("EstimatedPages"),
-                        ActualTurnAroundTime = dr.Field<Int32?>("ActualTurnAroundTime"),
-                        OnlineTimeliness = dr["OnlineTimeliness"].ToString(),
-                        ReasonIfLate = dr["ReasonIfLate"].ToString(),
-                        PECoversheetNumber = dr["PECoversheetNumber"].ToString(),
-                        DateCreated = Convert.ToDateTime(dr["DateCreated"].ToString())
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            //try
+            //{
+            //    foreach (DataRow dr in dt.Rows)
+            //    {
+            //        mdata.Add(new ManuscriptData
+            //        {
+            //            ManuscriptID = Convert.ToInt32(dr["ManuscriptID"].ToString()),
+            //            JobNumber = dr["JobNumber"].ToString().PadLeft(8, '0'),
+            //            ManuscriptTier = dr["ManuscriptTier"].ToString(),
+            //            BPSProductID = dr["BPSProductID"].ToString(),
+            //            ServiceNumber = dr["ServiceNumber"].ToString(),
+            //            ManuscriptLegTitle = dr["ManuscriptLegTitle"].ToString(),
+            //            ManuscriptStatus = dr["ManuscriptStatus"].ToString(),
+            //            TargetPressDate = Convert.ToDateTime(dr["TargetPressDate"].ToString()),
+            //            //ActualPressDate = Convert.ToDateTime(dr["ActualPressDate"].ToString()),
+            //            ActualPressDate = dr.Field<DateTime?>("ActualPressDate"),
+            //            //TargetPressDate = DateTime.ParseExact(dr["TargetPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
+            //            //ActualPressDate = DateTime.ParseExact(dr["ActualPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
+            //            LatupAttribution = dr["LatupAttribution"].ToString(),
+            //            DateReceivedFromAuthor = dr.Field<DateTime?>("DateReceivedFromAuthor"),
+            //            UpdateType = dr["UpdateType"].ToString(),
+            //            JobSpecificInstruction = dr["JobSpecificInstruction"].ToString(),
+            //            TaskType = dr["TaskType"].ToString(),
+            //            PEGuideCard = dr["PEGuideCard"].ToString(),
+            //            PECheckbox = dr["PECheckbox"].ToString(),
+            //            PETaskNumber = dr["PETaskNumber"].ToString(),
+            //            RevisedOnlineDueDate = dr.Field<DateTime?>("RevisedOnlineDueDate"),
+            //            CopyEditDueDate = Convert.ToDateTime(dr["CopyEditDueDate"].ToString()),
+            //            CopyEditStartDate = dr.Field<DateTime?>("CopyEditStartDate"),
+            //            CopyEditDoneDate = dr.Field<DateTime?>("CopyEditDoneDate"),
+            //            CopyEditStatus = dr["CopyEditStatus"].ToString(),
+            //            CodingDueDate = Convert.ToDateTime(dr["CodingDueDate"].ToString()),
+            //            CodingDoneDate = dr.Field<DateTime?>("CodingDoneDate"),
+            //            CodingStatus = dr["CodingStatus"].ToString(),
+            //            OnlineDueDate = Convert.ToDateTime(dr["OnlineDueDate"].ToString()),
+            //            OnlineDoneDate = dr.Field<DateTime?>("OnlineDoneDate"),
+            //            OnlineStatus = dr["OnlineStatus"].ToString(),
+            //            STPStatus = dr["PESTPStatus"].ToString(),
+            //            //EstimatedPages = Convert.ToInt32(dr["EstimatedPages"].ToString()),
+            //            //ActualTurnAroundTime = Convert.ToInt32(dr["ActualTurnAroundTime"].ToString()),
+            //            EstimatedPages = dr.Field<Int32?>("EstimatedPages"),
+            //            ActualTurnAroundTime = dr.Field<Int32?>("ActualTurnAroundTime"),
+            //            OnlineTimeliness = dr["OnlineTimeliness"].ToString(),
+            //            ReasonIfLate = dr["ReasonIfLate"].ToString(),
+            //            PECoversheetNumber = dr["PECoversheetNumber"].ToString(),
+            //            DateCreated = Convert.ToDateTime(dr["DateCreated"].ToString())
+            //        });
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw;
+            //}
 
-            //return PartialView(mdata);
-            dbConnection.Close();
+            ////return PartialView(mdata);
+            //dbConnection.Close();
+
+            var mdata = await _manuscriptDataService.GetManuscriptDataByIdAsync(bpsproductid, servicenumber);
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
+
         [HttpGet]
         public ActionResult EditManuscript(string manuscriptid, string bpsproductid, string servicenumber)
         {
@@ -557,6 +569,7 @@ namespace JobTrack.Controllers
                 return PartialView(mdata);
             }
         }
+
         [HttpGet]
         public ActionResult EditPEManuscript(string manuscriptid, string bpsproductid, string servicenumber)
         {
@@ -627,6 +640,7 @@ namespace JobTrack.Controllers
                 return PartialView(mdata);
             }
         }
+
         [HttpPost]
         public JsonResult EditPEManuscript(ManuscriptData mdata)
         {
@@ -710,6 +724,7 @@ namespace JobTrack.Controllers
             }
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         public JsonResult UpdateStartDate(ManuscriptData mdata)
         {

@@ -46,6 +46,8 @@ namespace JobTrack.Models.Manuscript
         [Display(Name = "Job Number:")]
         public string JobNumber { get; set; }
 
+        public string JobNumberText { get { return !string.IsNullOrEmpty(JobNumber) ? JobNumber.PadLeft(8, '0') : string.Empty; } }
+
         [Display(Name = "Tier:")]
         //[Required(ErrorMessage = "Please select tier")]
         public string ManuscriptTier { get; set; }
