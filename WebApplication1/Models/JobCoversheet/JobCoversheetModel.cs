@@ -86,7 +86,7 @@ namespace JobTrack.Models.JobCoversheet
         [Display(Name = "Online - Done Date")]
         public DateTime? OnlineDoneDate { get; set; }
         [Display(Name = "Online - Status")]
-        public bool OnlineStatus { get; set; }
+        public string OnlineStatus { get; set; }
 
         [Display(Name = "Attachment/s")]
         public string Attachment { get; set; }

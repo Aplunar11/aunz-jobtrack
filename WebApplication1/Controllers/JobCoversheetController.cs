@@ -9,27 +9,43 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using System.Net.Mail;
 using JobTrack.Models.JobCoversheet;
+using JobTrack.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace JobTrack.Controllers
 {
     public class JobCoversheetController : Controller
     {
-        // CONNECTION STRING
         public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();
 
-        public ActionResult AddNewJobCoversheet(string manuscriptids, string bpsproductid, string serviceno)
+        private readonly IPubSchedService _pubSchedService;
+        private readonly IManuscriptDataService _manuscriptDataService;
+        private readonly IJobCoversheetService _jobCoversheetService;
+
+        public JobCoversheetController(IPubSchedService pubSchedService
+            , IManuscriptDataService manuscriptDataService
+            , IJobCoversheetService jobCoversheetService)
         {
-            //no record
+            _pubSchedService = pubSchedService;
+            _manuscriptDataService = manuscriptDataService;
+            _jobCoversheetService = jobCoversheetService;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddNewJobCoversheet(string manuscriptids, string bpsproductid, string serviceno)
+        {
             if ((manuscriptids ?? bpsproductid ?? serviceno) == null)
             {
-                JobCoversheetData mdata = new JobCoversheetData
+                //no record
+                var mdata = new JobCoversheetData
                 {
                     DateCreated = DateTime.Now,
                     XMLEditing = true,
-                    OnlineStatus = true
+                    OnlineStatus = true ? "New" : null
                 };
+
                 try
                 {
                     TempData["UpdateTypes"] = new SelectList(GetAllTurnAroundTime(), "UpdateType", "UpdateType");
@@ -43,27 +59,31 @@ namespace JobTrack.Controllers
                     return PartialView(mdata);
                 }
             }
-            //with record
             else
             {
-                JobCoversheetData mdata = new JobCoversheetData
+                //with record
+                var mdata = new JobCoversheetData
                 {
-                    //DateCreated = DateTime.Now,
-                    //ManuscriptID = manuscriptids.Trim('[', ']'),
-
                     BPSProductID = bpsproductid,
                     ServiceNumber = serviceno,
                     XMLEditing = true,
-                    OnlineStatus = true
+                    OnlineStatus = true ? "New" : null
                 };
+
                 try
                 {
                     Session["ManuscriptIDs"] = manuscriptids.Trim('[', ']');
 
-                    var resultpubsched = PubSchedData(mdata.BPSProductID, mdata.ServiceNumber);
-                    var resultmanuscript = ManuscriptData(mdata.BPSProductID, mdata.ServiceNumber);
-                    TempData["UpdateTypes"] = new SelectList(GetAllTurnAroundTime(), "UpdateType", "UpdateType", resultmanuscript.UpdateType);
-                    var resultcover = JobCoversheetData(mdata.BPSProductID, mdata.ServiceNumber);
+                    //var resultpubsched = PubSchedData(mdata.BPSProductID, mdata.ServiceNumber);
+                    var resultpubsched = await _pubSchedService.GetPubSchedDataByProductAndServiceAsync(mdata);
+
+                    //var resultmanuscript = ManuscriptData(mdata.BPSProductID, mdata.ServiceNumber);
+                    var resultmanuscript = await _manuscriptDataService.GetManuscriptDataByProductAndServiceAsync(mdata);
+
+                    //var resultcover = JobCoversheetData(mdata.BPSProductID, mdata.ServiceNumber);
+                    var resultcover = await _jobCoversheetService.GetJobCoversheetDataByProductAndServiceAsync(mdata);
+
+                    TempData["UpdateTypes"] = new SelectList(GetAllTurnAroundTime(), "UpdateType", "UpdateType", resultmanuscript.UpdateType);                    
 
                     mdata.Editor = resultpubsched.Editor;
                     mdata.ChargeCode = resultpubsched.ChargeCode;
@@ -73,22 +93,13 @@ namespace JobTrack.Controllers
                     mdata.CodingDueDate = resultmanuscript.CodingDueDate;
                     mdata.OnlineDueDate = resultmanuscript.OnlineDueDate;
                     mdata.DateCreated = resultmanuscript.DateCreated;
+                    mdata.TaskNumber = resultcover == null ? "1" : resultcover.TaskNumber;
 
-                    //tasknumber counter
-                    int val = 0;
-                    if
-                    (resultcover == null)
+                    if (resultcover != null)
                     {
-                        mdata.TaskNumber = "1";
+                        //tasknumber counter
+                        mdata.TaskNumber = Convert.ToString(Convert.ToInt32(mdata.TaskNumber) + 1);
                     }
-                    else
-                    {
-                        mdata.TaskNumber = resultcover.TaskNumber;
-                        val = Convert.ToInt32(mdata.TaskNumber);
-                        val++;
-                        mdata.TaskNumber = Convert.ToString(val);
-                    }
-
 
                     mdata.CoversheetNumber = bpsproductid + '_' + serviceno + '_' + mdata.TaskNumber;
                     //TempData["ManuscriptTier"] = new SelectList(GetAllPubschedTier(), "PubSchedTier", "PubSchedTier");
@@ -107,6 +118,72 @@ namespace JobTrack.Controllers
             }
         }
 
+        public async Task<ActionResult> _AddNewJobCoversheetView(string manuscriptids, string bpsproductid, string serviceno)
+        {
+
+            if ((manuscriptids ?? bpsproductid ?? serviceno) == null)
+            {
+                //no record
+                var model = new JobCoversheetData
+                {
+                    DateCreated = DateTime.Now,
+                    XMLEditing = true,
+                    OnlineStatus = true ? "New" : null
+                };
+
+                TempData["UpdateTypes"] = new SelectList(GetAllTurnAroundTime(), "UpdateType", "UpdateType");
+                return PartialView(model);
+            }
+
+            //with record
+            var model2 = new JobCoversheetData
+            {
+                BPSProductID = bpsproductid,
+                ServiceNumber = serviceno,
+                XMLEditing = true,
+                OnlineStatus = true ? "New" : null
+            };
+
+            Session["ManuscriptIDs"] = manuscriptids.Trim('[', ']');
+
+            try
+            {
+                //var resultpubsched = PubSchedData(mdata.BPSProductID, mdata.ServiceNumber);
+                var resultpubsched = await _pubSchedService.GetPubSchedDataByProductAndServiceAsync(model2);
+
+                //var resultmanuscript = ManuscriptData(mdata.BPSProductID, mdata.ServiceNumber);
+                var resultmanuscript = await _manuscriptDataService.GetManuscriptDataByProductAndServiceAsync(model2);
+
+                //var resultcover = JobCoversheetData(mdata.BPSProductID, mdata.ServiceNumber);
+                var resultcover = await _jobCoversheetService.GetJobCoversheetDataByProductAndServiceAsync(model2);
+
+                TempData["UpdateTypes"] = new SelectList(GetAllTurnAroundTime(), "UpdateType", "UpdateType", resultmanuscript.UpdateType);
+                TempData["OnlineStatuses"] = new SelectList(new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "New", Value = "New" },
+                    new SelectListItem { Text = "Completed", Value = "Completed" }
+                }, "Text", "Value");
+
+                model2.Editor = resultpubsched.Editor;
+                model2.ChargeCode = resultpubsched.ChargeCode;
+                model2.CoversheetTier = resultmanuscript.CoversheetTier;
+                model2.TargetPressDate = resultmanuscript.TargetPressDate;
+                model2.TaskType = resultmanuscript.TaskType;
+                model2.CodingDueDate = resultmanuscript.CodingDueDate;
+                model2.OnlineDueDate = resultmanuscript.OnlineDueDate;
+                model2.DateCreated = resultmanuscript.DateCreated;
+                model2.TaskNumber = resultcover.TaskNumber;
+
+                model2.CoversheetNumber = bpsproductid + '_' + serviceno + '_' + model2.TaskNumber;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return PartialView(model2);
+        }
+
         public JobCoversheetData PubSchedData(string prodid, string serno)
         {
             try
@@ -120,6 +197,7 @@ namespace JobTrack.Controllers
                 throw;
             }
         }
+
         public JobCoversheetData ManuscriptData(string prodid, string serno)
         {
             //try
@@ -160,6 +238,7 @@ namespace JobTrack.Controllers
             //    throw;
             //}
         }
+
         public JobCoversheetData JobCoversheetData(string prodid, string serno)
         {
             try
@@ -197,8 +276,10 @@ namespace JobTrack.Controllers
                     ServiceNumber = Convert.ToString(dr[17])
                 });
             }
+
             return mdata;
         }
+
         public List<JobCoversheetData> GetManuscriptData()
         {
 
@@ -232,6 +313,7 @@ namespace JobTrack.Controllers
             }
             return mdata;
         }
+
         public List<JobCoversheetData> GetJobCoversheetDetails()
         {
 
@@ -287,18 +369,14 @@ namespace JobTrack.Controllers
             }
             return lst;
         }
+
         public ActionResult GetTaskType(string selectedItem)
         {
             var data = GetAllTurnAroundTime().Where(model => model.UpdateType == selectedItem).FirstOrDefault();
 
             return Json(data.TaskType, JsonRequestBehavior.AllowGet);
         }
-        //public ActionResult GetTATCopyEdit(int selectedItem)
-        //{
-        //    var data = GetAllTurnAroundTime().Where(model => model.TurnAroundTimeID == selectedItem).FirstOrDefault();
-        //    DateTime d = DateTime.Now.AddDays(data.TATCopyEdit);
-        //    return Json(d.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
-        //}
+
         public ActionResult GetTATCoding(string selectedItem, DateTime datecreated)
         {
             var data = GetAllTurnAroundTime().Where(model => model.UpdateType == selectedItem).FirstOrDefault();
@@ -307,6 +385,7 @@ namespace JobTrack.Controllers
             DateTime d = AddBusinessDays(datecreated, data.TATCoding);
             return Json(d.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult GetTATOnline(string selectedItem, DateTime datecreated)
         {
             var data = GetAllTurnAroundTime().Where(model => model.UpdateType == selectedItem).FirstOrDefault();
@@ -315,6 +394,7 @@ namespace JobTrack.Controllers
             DateTime d = AddBusinessDays(datecreated, data.TATOnline);
             return Json(d.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
         }
+
         public static DateTime AddBusinessDays(DateTime date, int days)
         {
             if (days < 0)
@@ -346,6 +426,7 @@ namespace JobTrack.Controllers
             return date.AddDays(extraDays);
 
         }
+
         [HttpPost]
         public JsonResult AddNewJobCoversheet(CoversheetData mdata, JobCoversheetData jdata)
         {
@@ -647,6 +728,7 @@ namespace JobTrack.Controllers
             return Json(mdata, JsonRequestBehavior.AllowGet);
 
         }
+
         public ActionResult GetJobCoversheetData()
         {
             //#region Check Session
@@ -694,6 +776,7 @@ namespace JobTrack.Controllers
             dbConnection.Close();
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
+
         public JobCoversheetData IsJobExists(string bpsproductid, string servicenumber)
         {
             try
@@ -707,6 +790,7 @@ namespace JobTrack.Controllers
                 throw;
             }
         }
+
         public List<JobCoversheetData> GetJobData()
         {
 
@@ -735,142 +819,6 @@ namespace JobTrack.Controllers
             dbConnection.Close();
             return mdata;
         }
-        //public ActionResult GetJobCoversheetDatafields2()
-        //{
-        //    //#region Check Session
-        //    //if (Session["Username"] == null)
-        //    //{
-        //    //    TempData["Message"] = "You must log in to continue";
-        //    //    TempData["Toastr"] = "error";
-        //    //    return RedirectToAction("Login", "Login");
-        //    //}
-        //    //#endregion
-        //    if (dbConnection.State == ConnectionState.Closed)
-        //        dbConnection.Open();
-
-        //    List<CoversheetData> mdata = new List<CoversheetData>();
-        //    DataTable dt = new DataTable();
-
-        //    cmd = new MySqlCommand("GetAllCoversheetData", dbConnection);
-        //    cmd.CommandType = CommandType.StoredProcedure;
-        //    cmd.Parameters.Clear();
-        //    //cmd.Parameters.AddWithValue("@int_owner", owner);
-        //    adp = new MySqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    //DateTime? temp = null; //this is fine
-        //    //var indexOfYourColumn = dt.Columns.IndexOf(dt.Columns[6]);
-        //    foreach (DataRow dr in dt.Rows)
-        //    {
-        //        //temp = dr[indexOfYourColumn] != DBNull.Value ? (DateTime?)null : DateTime.Parse(dr[indexOfYourColumn].ToString());
-        //        mdata.Add(new CoversheetData
-        //        {
-
-        //            CoversheetID = Convert.ToInt32(dr["CoversheetID"].ToString()),
-        //            ManuscriptID = dr["ManuscriptID"].ToString(),
-        //            //JobNumber = Convert.ToInt32(dr["JobNumber"].ToString()),
-        //            CoversheetNumber = dr["CoversheetNumber"].ToString(),
-        //            CoversheetTier = dr["CoversheetTier"].ToString(),
-        //            TaskNumber = dr["TaskNumber"].ToString(),
-
-        //            BPSProductID = dr["BPSProductID"].ToString(),
-        //            ServiceNumber = dr["ServiceNumber"].ToString(),
-        //            GuideCard = dr["GuideCard"].ToString(),
-        //            FurtherInstructions = dr["FurtherInstruction"].ToString(),
-        //            SpecialInstruction = dr["SpecialInstruction"].ToString(),
-
-        //            CurrentTask = dr["CurrentTask"].ToString(),
-        //            TaskStatus = dr["TaskStatus"].ToString(),
-
-        //            TargetPressDate = dr.Field<DateTime?>("TargetPressDate"),
-        //            ActualPressDate = dr.Field<DateTime?>("ActualPressDate"),
-        //            //TargetPressDate = DateTime.ParseExact(dr["TargetPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-        //            //ActualPressDate = DateTime.ParseExact(dr["ActualPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-        //            CodingDueDate = dr.Field<DateTime?>("CodingDueDate"),
-        //            CodingStartDate = dr.Field<DateTime?>("CodingStartDate"),
-        //            CodingDoneDate = dr.Field<DateTime?>("CodingDoneDate"),
-        //            SubsequentPass = dr["SubsequentPass"].ToString(),
-        //            OnlineDueDate = dr.Field<DateTime?>("OnlineDueDate"),
-        //            OnlineStartDate = dr.Field<DateTime?>("OnlineStartDate"),
-        //            OnlineDoneDate = dr.Field<DateTime?>("OnlineDoneDate"),
-        //            OnlineTimeliness = dr["OnlineTimeliness"].ToString(),
-        //            ReasonIfLate = dr["ReasonIfLate"].ToString()
-
-        //        });
-        //    }
-        //    dbConnection.Close();
-        //    return Json(mdata, JsonRequestBehavior.AllowGet);
-        //}
-        //[HttpGet]
-        //public ActionResult EditJobCoversheet(string coversheetid, string bpsproductid, string servicenumber)
-        //{
-        //    CoversheetData mdata = new CoversheetData();
-        //    try
-        //    {
-        //        DataTable dt = new DataTable();
-
-        //        cmd = new MySqlCommand("GetCoversheetDataByCoversheetID", dbConnection);
-        //        cmd.CommandType = CommandType.StoredProcedure;
-
-        //        cmd.Parameters.Clear();
-        //        cmd.Parameters.AddWithValue("@p_CoversheetID", coversheetid);
-        //        adp = new MySqlDataAdapter(cmd);
-        //        adp.Fill(dt);
-
-        //        foreach (DataRow dr in dt.Rows)
-        //        {
-
-        //            mdata.CoversheetID = Convert.ToInt32(dr["CoversheetID"].ToString());
-        //            mdata.ManuscriptID = dr["ManuscriptID"].ToString();
-        //            mdata.CoversheetNumber = dr["CoversheetNumber"].ToString();
-        //            mdata.BPSProductID = dr["BPSProductID"].ToString();
-        //            mdata.ServiceNumber = dr["ServiceNumber"].ToString();
-        //            mdata.TaskNumber = dr["TaskNumber"].ToString();
-        //            mdata.CoversheetTier = dr["CoversheetTier"].ToString();
-        //            mdata.Editor = dr["Editor"].ToString();
-        //            mdata.ChargeCode = dr["ChargeCode"].ToString();
-        //            mdata.TargetPressDate = dr.Field<DateTime?>("TargetPressDate");
-        //            mdata.ActualPressDate = dr.Field<DateTime?>("ActualPressDate");
-        //            mdata.CurrentTask = dr["CurrentTask"].ToString();
-        //            mdata.TaskStatus = dr["TaskStatus"].ToString();
-        //            mdata.TaskType = dr["TaskType"].ToString();
-        //            mdata.GuideCard = dr["GuideCard"].ToString();
-        //            mdata.FurtherInstructions = dr["FurtherInstruction"].ToString();
-        //            mdata.UpdateType = dr["UpdateType"].ToString();
-        //            mdata.GeneralData = dr["GeneralData"].ToString();
-        //            mdata.SpecialInstruction = dr["SpecialInstruction"].ToString();
-        //            mdata.AcceptedDate = dr.Field<DateTime?>("AcceptedDate");
-        //            mdata.JobOwner = dr["JobOwner"].ToString();
-        //            mdata.UpdateEmailCC = dr["UpdateEmailCC"].ToString();
-        //            mdata.XMLEditing = (bool)dr["XMLEditing"];
-        //            mdata.CodingDueDate = dr.Field<DateTime?>("CodingDueDate");
-        //            mdata.CodingDoneDate = dr.Field<DateTime?>("CodingDoneDate");
-        //            mdata.SubsequentPass = dr["SubsequentPass"].ToString();
-        //            mdata.SubTask = dr["SubTask"].ToString();
-        //            mdata.PDFQC = dr["PDFQC"].ToString();
-        //            mdata.OnlineDueDate = dr.Field<DateTime?>("OnlineDueDate");
-        //            mdata.OnlineStartDate = dr.Field<DateTime?>("OnlineStartDate");
-        //            mdata.OnlineDoneDate = dr.Field<DateTime?>("OnlineDoneDate");
-        //            mdata.OnlineStatus = (bool)dr["OnlineStatus"];
-        //            mdata.Attachment = dr["Attachment"].ToString();
-        //            mdata.CorrectionDueDate = dr.Field<DateTime?>("CorrectionDueDate");
-        //            mdata.CorrectionData = dr["CorrectionData"].ToString();
-        //            mdata.OnlineTimeliness = dr["OnlineTimeliness"].ToString();
-        //            mdata.ReasonIfLate = dr["ReasonIfLate"].ToString();
-        //            mdata.DateCreated = Convert.ToDateTime(dr["DateCreated"].ToString());
-
-        //        }
-        //        return PartialView(mdata);
-        //    }
-
-
-
-        //    catch (Exception ex)
-        //    {
-        //        ModelState.AddModelError("ErrorMessage", ex.Message);
-        //        mdata.ErrorMessage = ex.Message;
-        //        return PartialView(mdata);
-        //    }
-        //}
 
         public void SendEmail(JobCoversheetData mdata)
         {

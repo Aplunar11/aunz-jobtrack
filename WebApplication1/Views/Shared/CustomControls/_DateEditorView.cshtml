@@ -1,0 +1,6 @@
+﻿@model JobTrack.Models.FormFieldModel
+
+<div class="form-group">
+    <label>@Model.Label</label>
+    @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control datepicker", autocomplete = "off" } })
+</div>

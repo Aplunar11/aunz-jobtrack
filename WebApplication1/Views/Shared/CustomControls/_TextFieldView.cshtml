@@ -1,0 +1,17 @@
+﻿@model JobTrack.Models.FormFieldModel
+
+<div class="form-group">
+    <label for="@Model.Name">@Model.Label</label>
+    <input type="text"
+           class="form-control @(!string.IsNullOrEmpty(Model.Class) ? Model.Class : "")"
+           id="@Model.Name" 
+           name="@Model.Name"
+           placeholder="@Model.Label" 
+           value="@Model.Value" 
+           @(Model.IsReadOnly ? "readonly" : "") 
+           required>
+
+    <div class="invalid-feedback">
+        Please @Model.Label
+    </div>
+</div>

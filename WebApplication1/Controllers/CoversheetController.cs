@@ -291,35 +291,27 @@ namespace JobTrack.Controllers
             return lst;
         }
 
+        [HttpPost]
         public ActionResult GetTaskType(string selectedItem)
         {
             var data = GetAllTurnAroundTime().Where(model => model.UpdateType == selectedItem).FirstOrDefault();
-
             return Json(data.TaskType, JsonRequestBehavior.AllowGet);
         }
 
-        //public ActionResult GetTATCopyEdit(int selectedItem)
-        //{
-        //    var data = GetAllTurnAroundTime().Where(model => model.TurnAroundTimeID == selectedItem).FirstOrDefault();
-        //    DateTime d = DateTime.Now.AddDays(data.TATCopyEdit);
-        //    return Json(d.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
-        //}
+        [HttpPost]
         public ActionResult GetTATCoding(string selectedItem, DateTime datecreated)
         {
             var data = GetAllTurnAroundTime().Where(model => model.UpdateType == selectedItem).FirstOrDefault();
-            //DateTime d = DateTime.Now.AddDays(data.TATCoding);
-            //DateTime d = AddBusinessDays(DateTime.Now, data.TATCoding);
-            DateTime d = AddBusinessDays(datecreated, data.TATCoding);
-            return Json(d.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
+            DateTime date = AddBusinessDays(datecreated, data.TATCoding);
+            return Json(date.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public ActionResult GetTATOnline(string selectedItem, DateTime datecreated)
         {
             var data = GetAllTurnAroundTime().Where(model => model.UpdateType == selectedItem).FirstOrDefault();
-            //DateTime d = DateTime.Now.AddDays(data.TATOnline);
-            //DateTime d = AddBusinessDays(DateTime.Now, data.TATOnline);
-            DateTime d = AddBusinessDays(datecreated, data.TATOnline);
-            return Json(d.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
+            DateTime date = AddBusinessDays(datecreated, data.TATOnline);
+            return Json(date.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
         }
 
         public static DateTime AddBusinessDays(DateTime date, int days)

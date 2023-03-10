@@ -244,16 +244,20 @@
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\EncryptionLibrary.cs" />
     <Compile Include="Services\Interfaces\IEmployeeService.cs" />
+    <Compile Include="Services\Interfaces\IJobCoversheetService.cs" />
     <Compile Include="Services\Interfaces\IJobdataService.cs" />
     <Compile Include="Services\Interfaces\IManuscriptDataService.cs" />
     <Compile Include="Services\Interfaces\IPublicationAssignService.cs" />
+    <Compile Include="Services\Interfaces\IPubSchedService.cs" />
     <Compile Include="Services\Interfaces\IQueryCoversheetService.cs" />
     <Compile Include="Services\Interfaces\IQueryManuscriptService.cs" />
     <Compile Include="Services\Interfaces\IQuerySTPService.cs" />
     <Compile Include="Services\Interfaces\ITransactionLogService.cs" />
+    <Compile Include="Services\JobCoversheetService.cs" />
     <Compile Include="Services\JobdataService.cs" />
     <Compile Include="Services\ManuscriptDataService.cs" />
     <Compile Include="Services\PublicationAssignService.cs" />
+    <Compile Include="Services\PubSchedService.cs" />
     <Compile Include="Services\QueryCoversheetService.cs" />
     <Compile Include="Services\QueryManuscriptService.cs" />
     <Compile Include="Services\QuerySTPService.cs" />
@@ -423,6 +427,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\src\custom_index.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />
@@ -5734,9 +5739,13 @@
     <Content Include="Views\QuerySTP\_ReplyBox.cshtml" />
     <Content Include="Views\Admin\_EditEmployeeView.cshtml" />
     <Content Include="Views\Admin\_EditPublicationView.cshtml" />
-    <Content Include="Views\Admin\_TextFieldView.cshtml" />
     <Content Include="Views\Admin\_EditEmployeeView2.cshtml" />
-    <Content Include="Views\Admin\_CheckboxView.cshtml" />
+    <Content Include="Views\JobCoversheet\_AddNewJobCoversheetView.cshtml" />
+    <Content Include="Views\Shared\CustomControls\_TextFieldView.cshtml" />
+    <Content Include="Views\Shared\CustomControls\_CheckboxView.cshtml" />
+    <Content Include="Views\Shared\CustomControls\_DropdownListView.cshtml" />
+    <Content Include="Views\Shared\CustomControls\_DateEditorView.cshtml" />
+    <Content Include="Views\Shared\CustomControls\_TextareaView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

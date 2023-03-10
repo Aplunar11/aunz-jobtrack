@@ -47,16 +47,6 @@ namespace JobTrack.Controllers
             return PartialView();
         }
 
-        public ActionResult _TextFieldView(FormFieldModel model)
-        {
-            return PartialView(model);
-        }
-
-        public ActionResult _CheckboxView(FormFieldModel model)
-        {
-            return PartialView(model);
-        }
-
         public ActionResult TopMenu()
         {
             return PartialView("_Topbar");

@@ -1,4 +1,5 @@
-﻿using JobTrack.Models.Manuscript;
+﻿using JobTrack.Models.JobCoversheet;
+using JobTrack.Models.Manuscript;
 using JobTrack.Services.Interfaces;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
@@ -49,6 +50,30 @@ namespace JobTrack.Services
 
             var list = JsonConvert.DeserializeObject<List<ManuscriptData>>(JsonConvert.SerializeObject(dataTable));
             return await Task.FromResult(list);
+        }
+
+        public async Task<JobCoversheetData> GetManuscriptDataByProductAndServiceAsync(JobCoversheetData model)
+        {
+            var storedProcedure = "GetManuscriptDataByProductAndService";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_BPSProductID", model.BPSProductID);
+                command.Parameters.AddWithValue("@p_ServiceNumber", model.ServiceNumber);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<JobCoversheetData>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list.FirstOrDefault());
         }
     }
 }
