@@ -46,6 +46,7 @@
   <ItemGroup>
     <Content Include="Database\db %28with data%29.sql" />
     <Content Include="Database\db with data %282%29.sql" />
+    <Content Include="Database\db with data %283%29.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
