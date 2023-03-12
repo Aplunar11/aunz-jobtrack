@@ -20,7 +20,7 @@ namespace JobTrack.Services
 
         public JobdataService() { }
 
-        public async Task<List<JobData>> GetJobdataByUserNameLEAsync(string userName)
+        public async Task<List<JobData>> GetJobdataByUserNameLEorPEAsync(string userName)
         {
             var storedProcedure = "GetAllJobDataByUserNameLE";
             var dataTable = new DataTable();

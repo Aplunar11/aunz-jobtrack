@@ -1,6 +1,6 @@
 ﻿@model JobTrack.Models.FormFieldModel
 
-<div class="form-group">
+<div class="form-group" style="display: @(Model.DontDisplay ? "none" : "block")">
     <label for="@Model.Name">@Model.Label</label>
     <input type="text"
            class="form-control @(!string.IsNullOrEmpty(Model.Class) ? Model.Class : "")"

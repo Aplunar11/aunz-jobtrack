@@ -55,3 +55,33 @@
         </div>
     </div>
 </div>
+
+<script>
+    function onclickPublicationSubmit() {
+        // form data
+        let formDataToSubmit = new FormData();
+        let formData = $('#formPublication').serializeArray();
+        $(formData).each(function (index, obj) {
+            formDataToSubmit.append(obj.name, obj.value);
+        });
+
+        // process data to api
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/UpdatePublicationAssignment',
+            data: formDataToSubmit,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (response) {
+
+                if (response.IsSuccess) {
+                    alert('Successfully added.');
+                    window.location.reload();
+                }
+                else
+                    alert('Error update.');
+            }
+        });
+    }
+</script>

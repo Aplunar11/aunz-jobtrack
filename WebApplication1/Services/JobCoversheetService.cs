@@ -20,6 +20,51 @@ namespace JobTrack.Services
 
         public JobCoversheetService() { }
 
+        public async Task<List<JobCoversheetData>> GetAllJobCoversheetDataAsync()
+        {
+            var storedProcedure = "GetAllJobCoversheetData";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<JobCoversheetData>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list);
+        }
+
+        public async Task<List<JobCoversheetData>> GetAllJobCoversheetDataByUserNameLEorPEAsync(string username)
+        {
+            var storedProcedure = "GetAllJobCoversheetDataByUserNameLEorPE";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_Username", username);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<JobCoversheetData>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list);
+        }
+
         public async Task<JobCoversheetData> GetJobCoversheetDataByProductAndServiceAsync(JobCoversheetData model)
         {
             var storedProcedure = "GetJobCoversheetDataByProductAndService";
@@ -42,6 +87,17 @@ namespace JobTrack.Services
 
             var list = JsonConvert.DeserializeObject<List<JobCoversheetData>>(JsonConvert.SerializeObject(dataTable));
             return await Task.FromResult(list.FirstOrDefault());
+        }
+
+        public async Task<bool> IsJobExists(string bpsproductid, string servicenumber)
+        {
+            var result = await GetJobCoversheetDataByProductAndServiceAsync(new JobCoversheetData
+            {
+                BPSProductID = bpsproductid,
+                ServiceNumber = servicenumber
+            });
+
+            return result.JobCoversheetID > 0;
         }
     }
 }

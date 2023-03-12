@@ -21,6 +21,8 @@ namespace JobTrack.Models
 
         public bool IsReadOnly { get; set; }
 
+        public bool DontDisplay { get; set; }
+
         public string OnChangeEvent { get; set; }
     }
 }

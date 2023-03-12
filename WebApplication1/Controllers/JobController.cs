@@ -69,10 +69,10 @@ namespace JobTrack.Controllers
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> GetJobDataByUserNameLE()
+        public async Task<ActionResult> GetJobDataByUserNameLEorPE()
         {
             var userName = (string)Session["UserName"];
-            var result = await _jobdataService.GetJobdataByUserNameLEAsync(userName);
+            var result = await _jobdataService.GetJobdataByUserNameLEorPEAsync(userName);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -80,7 +80,7 @@ namespace JobTrack.Controllers
         public async Task<ActionResult> GetJobDataByUserName()
         {
             var userName = (string)Session["UserName"];
-            var result = await _jobdataService.GetJobdataByUserNameLEAsync(userName);
+            var result = await _jobdataService.GetJobdataByUserNameLEorPEAsync(userName);
 
             return Json(result, JsonRequestBehavior.AllowGet);
 

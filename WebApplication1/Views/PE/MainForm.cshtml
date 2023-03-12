@@ -407,7 +407,7 @@
         moment.updateLocale(moment.locale(), { invalidDate: "TBD" });
 
         // ================= SETUP INPUT FOOTER [start] =================
-        // [Manuscript]
+        // [Manuscript footer]
         $('#tblData tfoot th').each(function () {
             var title = $(this).text();
             if (title != '') {
@@ -415,7 +415,7 @@
             }
         });
 
-        // [Coversheet]
+        // [Coversheet footer]
         $('#tblDataCoversheet tfoot th').each(function () {
             var title = $(this).text();
             if (title != '') {
@@ -423,7 +423,7 @@
             }
         });
 
-        // [STP]
+        // [STP footer]
         $('#tblDataSTP tfoot th').each(function () {
             var title = $(this).text();
             if (title != '') {
@@ -442,7 +442,7 @@
         function loadTableManuscript() {
             var tableData = $('#tblData').DataTable({
                 "ajax": {
-                    "url": "@Url.Action("GetJobDataByUserName", "Job")",
+                    "url": "@Url.Action("GetJobDataByUserNameLEorPE", "Job")",
                     "dataSrc": "",
                     "type": "GET",
                     "datatype": "json"
@@ -726,10 +726,10 @@
                                     //}
                                 },
                                 {
-                                    titleAttr: 'Select None',
-                                    extend: 'selectNone',
-                                    className: 'custom-btn fa fa-times-rectangle',
-                                    text: ''
+                                    //titleAttr: 'Select None',
+                                    //extend: 'selectNone',
+                                    //className: 'custom-btn fa fa-times-rectangle',
+                                    //text: ''
                                 },
                                 {
                                     titleAttr: 'Copy',
@@ -849,7 +849,8 @@
             let tableCoversheet = $('#tblDataCoversheet').DataTable({
                 dom: 'Bfrtip',
                 ajax: {
-                    url: "@Url.Action("GetJobCoversheetData", "JobCoversheet")",
+                    //url: "@Url.Action("GetJobCoversheetData", "JobCoversheet")",
+                    url: "@Url.Action("GetAllJobCoversheetDataByUserNameLEorPE", "JobCoversheet")",
                     type: 'GET',
                     dataType: 'json',
                     dataSrc: ''
@@ -1025,8 +1026,13 @@
                         columnDefs: [
                             //center all data
                             { "className": "dt-center", "targets": "_all" },
+                            {
+                                targets: [12, 13, 14, 15, 16, 17, 18, 19],
+                                render: function (data) {
+                                    return moment(data).format('YYYY/MM/DD');
+                                }
+                            }
                         ],
-                        order: [[2, 'asc']],
                         buttons: {
                             //reset class and change the rendered tag
                             //from <button> to <i>

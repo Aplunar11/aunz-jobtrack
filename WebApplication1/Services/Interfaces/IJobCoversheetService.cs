@@ -9,6 +9,12 @@ namespace JobTrack.Services.Interfaces
 {
     public interface IJobCoversheetService
     {
+        Task<List<JobCoversheetData>> GetAllJobCoversheetDataAsync();
+
+        Task<List<JobCoversheetData>> GetAllJobCoversheetDataByUserNameLEorPEAsync(string username);
+
         Task<JobCoversheetData> GetJobCoversheetDataByProductAndServiceAsync(JobCoversheetData model);
+
+        Task<bool> IsJobExists(string bpsproductid, string servicenumber);
     }
 }

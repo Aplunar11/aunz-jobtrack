@@ -13,5 +13,7 @@ namespace JobTrack.Services.Interfaces
         Task<List<ManuscriptData>> GetManuscriptDataByIdAsync(string bpsProductid, string serviceNumber);
 
         Task<JobCoversheetData> GetManuscriptDataByProductAndServiceAsync(JobCoversheetData model);
+
+        Task<ManuscriptData> GetManuscriptDataMaxTurnAroundTimeAsync(JobCoversheetData model, string manuscriptIds);
     }
 }

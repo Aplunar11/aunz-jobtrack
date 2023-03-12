@@ -241,8 +241,10 @@
     <Compile Include="Models\QuerySTP\STPDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthenticationWrapper.cs" />
+    <Compile Include="Services\CoversheetService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\EncryptionLibrary.cs" />
+    <Compile Include="Services\Interfaces\ICoversheetService.cs" />
     <Compile Include="Services\Interfaces\IEmployeeService.cs" />
     <Compile Include="Services\Interfaces\IJobCoversheetService.cs" />
     <Compile Include="Services\Interfaces\IJobdataService.cs" />

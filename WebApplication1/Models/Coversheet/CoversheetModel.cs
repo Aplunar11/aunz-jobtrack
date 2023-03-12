@@ -141,7 +141,7 @@ namespace JobTrack.Models.Coversheet
         [Display(Name = "Online - Done Date")]
         public DateTime? OnlineDoneDate { get; set; }
         [Display(Name = "Online - Status")]
-        public bool OnlineStatus { get; set; }
+        public string OnlineStatus { get; set; }
 
         //[Display(Name = "Attachment/s")]
         //public string Attachment { get; set; }
@@ -165,5 +165,34 @@ namespace JobTrack.Models.Coversheet
         public string Response { get; set; }
         public string ErrorMessage { get; set; }
 
+        public bool Commentary { get; set; }
+
+        public bool LegAmmendments { get; set; }
+
+        public bool NewLeg { get; set; }
+
+        public bool Predicaments { get; set; }
+
+        public bool LegRefCheck { get; set; }
+
+        public bool TOC { get; set; }
+
+        public bool TOS { get; set; }
+
+        public bool Reprints { get; set; }
+
+        public bool FascicleInsertion { get; set; }
+
+        public bool GraphicLink { get; set; }
+
+        public bool GraphicEmbed { get; set; }
+
+        public bool Handtooling { get; set; }
+
+        public bool NonContent { get; set; }
+
+        public bool SamplePages { get; set; }
+
+        public bool ComplexTask { get; set; }
     }
 }

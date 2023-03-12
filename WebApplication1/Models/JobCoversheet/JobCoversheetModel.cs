@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobTrack.Models.Coversheet;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,7 +13,6 @@ namespace JobTrack.Models.JobCoversheet
     }
     public class JobCoversheetData
     {
-
         public int JobCoversheetID { get; set; }
         public string ManuscriptID { get; set; }
         [Display(Name = "Coversheet Number")]
@@ -115,7 +115,6 @@ namespace JobTrack.Models.JobCoversheet
         public int RowCount { get; set; }
         public string Response { get; set; }
         public string ErrorMessage { get; set; }
-
     }
     //public class GetPubSchedTier
     //{

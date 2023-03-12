@@ -379,36 +379,6 @@
         });
     }*@
 
-    function onclickEmployeeSubmit() {
-        // form data
-        let formDataToSubmit = new FormData();
-        let formData = $('#formEmployee').serializeArray();
-        $(formData).each(function (index, obj) {
-
-            // if value is "on" set to "1"
-            formDataToSubmit.append(obj.name, obj.value == "on" ? 1 : obj.value);
-        });
-
-        //process data to api
-        $.ajax({
-            type: 'POST',
-            url: '/Admin/UpdateEmployee',
-            data: formDataToSubmit,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            success: function (response) {
-
-                if (response.IsSuccess) {
-                    alert('Successfully added.');
-                    window.location.reload();
-                }
-                else
-                    alert('Error update.');
-            }
-        });
-    }
-
     function loadTablePublication() {
         $('#tblPublicationAssignment').DataTable({
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -483,34 +453,6 @@
                 ]
             },
         });
-    }
-
-    function onclickPublicationSubmit() {
-        // form data
-        let formDataToSubmit = new FormData();
-        let formData = $('#formPublication').serializeArray();
-        $(formData).each(function (index, obj) {
-            formDataToSubmit.append(obj.name, obj.value);
-        });
-
-        // process data to api
-        $.ajax({
-            type: 'POST',
-            url: '/Admin/UpdatePublicationAssignment',
-            data: formDataToSubmit,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            success: function (response) {
-
-                if (response.IsSuccess) {
-                    alert('Successfully added.');
-                    window.location.reload();
-                }
-                else
-                    alert('Error update.');
-            }
-        });
-    }
+    }    
 </script>
 

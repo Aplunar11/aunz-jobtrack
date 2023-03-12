@@ -31,3 +31,27 @@ async function ProcessAsync(url, type, obj, includeAntiforgeToken, returnType) {
         }
     });
 }
+
+function submitForm(formId, link, objData, callback) {
+    //let formDataToSubmit = new FormData();
+    let formData = $('#' + formId).serializeArray();
+    let dataSource = {}
+    $(formData).each(function (index, obj) {
+
+        // if value is "on" set to "1"
+        //formDataToSubmit.append(obj.name, obj.value == "on" ? 1 : obj.value);
+        dataSource[obj.name] = obj.value == "on" ? true : obj.value;
+    });
+
+    GotoControllerAsync(link
+        , 'POST'
+        , dataSource
+        , false
+        , 'json'
+        , function (response) {
+
+            if (callback != null && typeof callback == 'function') {
+                callback(response);
+            }
+        });
+}
