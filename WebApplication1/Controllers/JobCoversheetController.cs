@@ -77,18 +77,18 @@ namespace JobTrack.Controllers
                     new SelectListItem { Text = "New", Value = "New" },
                     new SelectListItem { Text = "Completed", Value = "Completed" }
                 }, "Text", "Value");
+                               
 
                 viewModel.Editor = pubschedData.Editor;
                 viewModel.ChargeCode = pubschedData.ChargeCode;
-                //viewModel.CoversheetTier = manuscriptData.CoversheetTier;
                 viewModel.CoversheetTier = manuscriptData.ManuscriptTier;
                 viewModel.TargetPressDate = manuscriptData.TargetPressDate;
                 viewModel.TaskType = manuscriptData.TaskType;
                 viewModel.CodingDueDate = manuscriptData.CodingDueDate;
                 viewModel.OnlineDueDate = manuscriptData.OnlineDueDate;
-                viewModel.DateCreated = manuscriptData.DateCreated;
-                viewModel.TaskNumber = resultcover.TaskNumber;
-                viewModel.GuideCard = manuscriptData.PEGuideCard;
+                viewModel.DateCreated = manuscriptData.DateCreated;                
+                viewModel.GuideCard = manuscriptData.PEGuideCard;                
+                viewModel.TaskNumber = resultcover.TaskNumber == null ? "Task1" : $"Task{Convert.ToInt32(resultcover.TaskNumber)}";
                 viewModel.CoversheetNumber = bpsproductid + '_' + serviceno + '_' + viewModel.TaskNumber;
             }
             catch (Exception ex)
@@ -109,17 +109,30 @@ namespace JobTrack.Controllers
             {
                 if (!string.IsNullOrEmpty(model.BPSProductID) && !string.IsNullOrEmpty(model.ServiceNumber))
                 {
-                    var isExist = await _jobCoversheetService.IsJobExists(model.BPSProductID, model.ServiceNumber);
-                    
-                    if (!isExist)
+                    var data = await _jobCoversheetService.IsJobExists(model.BPSProductID, model.ServiceNumber);
+                    if (data != null)
                     {
+                        if (data.JobCoversheetID == 0 || data.JobCoversheetID < 0)
+                        {
+                            //mdata.Response = "N";
+                            //mdata.ErrorMessage = "Entered invalid Product or Service Number";
+                            result.ErrorMessage = "Entered invalid Product or Service Number";
+                            return Json(result);
+                        }
+
                         model.ManuscriptID = manuscriptIds;
                         model.CoversheetNumber = model.CoversheetNumber + "_" + model.GuideCard;
-                        var response = await _coversheetService.InsertCoversheetAsync(model, username);
-                    }
-                }
+                        model.GuideCard = model.GuideCard.Replace("\"", "");
+                        result = await _coversheetService.InsertCoversheetAsync(model, username);
 
-                result.IsSuccess = true;
+                        return Json(result);
+                    }
+
+                    model.ManuscriptID = manuscriptIds;
+                    model.CoversheetNumber = model.CoversheetNumber + "_" + model.GuideCard;
+                    model.GuideCard = model.GuideCard.Replace("\"", "");
+                    result = await _jobCoversheetService.InsertJobCoversheetAsync(model, username);
+                }
             }
             catch (Exception ex)
             {

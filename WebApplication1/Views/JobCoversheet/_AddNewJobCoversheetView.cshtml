@@ -39,7 +39,7 @@
 
                             @if (TempData["UpdateTypes"] != null)
                             {
-                                @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Update Types", Name = "UpdateType", TempDataName = "UpdateTypes", Id = "UpdateType" })
+                                @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Update Types", Name = "UpdateType", TempDataName = "UpdateTypes" })
                             }
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "General Data", Name = "GeneralData", Value = Model.GeneralData })
@@ -119,6 +119,8 @@
                                IsReadOnly = true })
                         </div>
                     </div>
+
+                    <input type="hidden" name="CoversheetTier" value="@Model.CoversheetTier" />
                 </form>
             </div>
 
@@ -159,8 +161,19 @@
     });
 
     function onclickSaveCoversheet() {
-        submitForm('formJobCoversheet', '/JobCoversheet/AddNewJobCoversheet', null, function () {
+        submitForm('formJobCoversheet', '/JobCoversheet/AddNewJobCoversheet', null, function (response) {
+            //console.log('response: ', response);
 
+            if (response.IsSuccess) {
+                refreshTable('tblDataCoversheet');
+
+                alert('Add new coversheet successful.');
+
+                $('#btnNavProductCoversheet').click();
+                $('#modal-jobcoversheet').modal('hide');
+            }
+            else
+                alert("Error: ", response.ErrorMessage);
         });
     }
 </script>

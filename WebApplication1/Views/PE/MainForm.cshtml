@@ -246,13 +246,13 @@
                                     <div class="tabs-container">
                                         <ul class="nav nav-tabs container" role="tablist" id="myTabs1">
                                             <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab" href="#ProductJobs"><span><i class="fa fa-briefcase"></i>&nbsp;&nbsp;Manuscript</span></a>
+                                                <a class="nav-link" data-toggle="tab" href="#ProductJobs" id="btnNavProductJobs"><span><i class="fa fa-briefcase"></i>&nbsp;&nbsp;Manuscript</span></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab" href="#ProductCoversheet"><span><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Coversheet</span></a>
+                                                <a class="nav-link" data-toggle="tab" href="#ProductCoversheet" id="btnNavProductCoversheet"><span><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Coversheet</span></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab" href="#ProductSTP"><span><i class="fa fa-print"></i>&nbsp;&nbsp;Send To Print</span></a>
+                                                <a class="nav-link active" data-toggle="tab" href="#ProductSTP" id="btnNavProductSTP"><span><i class="fa fa-print"></i>&nbsp;&nbsp;Send To Print</span></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -559,9 +559,7 @@
 
                 //get index to use for child table ID
                 var index = row.index();
-                //console.log(index);
                 var data = tableData.row(this).data(); //undefined
-                console.log('data ', data);
 
                 if (row.child.isShown()) {
                     // This row is already open - close it
@@ -1247,6 +1245,10 @@
             var activeTab = localStorage.getItem('activeTab');
             if (activeTab)
                 $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+        }
+
+        function refreshTable(tableId) {
+            $('#' + tableId).DataTable().ajax.reload();
         }
 
         function generateChildRowForManuscript(index) {

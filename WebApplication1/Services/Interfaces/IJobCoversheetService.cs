@@ -1,4 +1,6 @@
-﻿using JobTrack.Models.JobCoversheet;
+﻿using JobTrack.Models;
+using JobTrack.Models.Coversheet;
+using JobTrack.Models.JobCoversheet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,8 @@ namespace JobTrack.Services.Interfaces
 
         Task<JobCoversheetData> GetJobCoversheetDataByProductAndServiceAsync(JobCoversheetData model);
 
-        Task<bool> IsJobExists(string bpsproductid, string servicenumber);
+        Task<JsonResultModel> InsertJobCoversheetAsync(CoversheetData model, string username);
+
+        Task<JobCoversheetData> IsJobExists(string bpsproductid, string servicenumber);
     }
 }

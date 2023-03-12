@@ -217,6 +217,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Employee\PublicationAssignmentModel.cs" />
     <Compile Include="Models\Enums\UserAccessEnum.cs" />
+    <Compile Include="Models\Extensions\Extensions.cs" />
     <Compile Include="Models\FormFieldModel.cs" />
     <Compile Include="Models\QueryCoversheet\CoversheetDataModel.cs" />
     <Compile Include="Models\QueryCoversheet\QueryCoversheetModel.cs" />

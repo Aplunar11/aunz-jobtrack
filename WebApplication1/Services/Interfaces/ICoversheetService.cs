@@ -1,4 +1,5 @@
-﻿using JobTrack.Models.Coversheet;
+﻿using JobTrack.Models;
+using JobTrack.Models.Coversheet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,6 @@ namespace JobTrack.Services.Interfaces
     {
         Task<List<CoversheetData>> GetCoversheetDataByProductAndServiceAsync(string bpsproductid, string servicenumber);
 
-        Task<bool> InsertCoversheetAsync(CoversheetData model, string username);
+        Task<JsonResultModel> InsertCoversheetAsync(CoversheetData model, string username);
     }
 }

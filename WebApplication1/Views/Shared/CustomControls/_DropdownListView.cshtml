@@ -2,5 +2,6 @@
 
 <div class="form-group">
     <label>@Model.Label</label>
-    @Html.DropDownListFor(model => model.Name, TempData[Model.TempDataName] as SelectList, new { @class = "selects show-tick form-control", @id = Model.Id })
+    @*@Html.DropDownListFor(model => model.Name, TempData[Model.TempDataName] as SelectList, new { @class = "selects show-tick form-control" })*@
+    @Html.DropDownList(Model.Name, (SelectList)TempData[Model.TempDataName], htmlAttributes: new { @class = "selects show-tick form-control" })
 </div>
