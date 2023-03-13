@@ -48,6 +48,7 @@
     <Content Include="Database\db with data %282%29.sql" />
     <Content Include="Database\db with data %283%29.sql" />
     <Content Include="Database\db with data %284%29.sql" />
+    <Content Include="Database\jobtrackaunz_v1.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
