@@ -5,6 +5,10 @@ using System.Configuration;
 using System.Data;
 using JobTrack.Models.Job;
 using MySql.Data.MySqlClient;
+using System.Threading.Tasks;
+using JobTrack.Services.Interfaces;
+using JobTrack.Models.Enums;
+using System.Linq;
 
 namespace JobTrack.Controllers
 {
@@ -13,6 +17,15 @@ namespace JobTrack.Controllers
         public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();
+
+        private readonly IJobDashboardService _jobDashboardService;
+        private readonly ICoversheetService _coversheetService;
+
+        public LEController(IJobDashboardService jobDashboardService, ICoversheetService coversheetService)
+        {
+            _jobDashboardService = jobDashboardService;
+            _coversheetService = coversheetService;
+        }
 
         public ActionResult TopMenu()
         {
@@ -24,15 +37,21 @@ namespace JobTrack.Controllers
             return PartialView("_SidebarRegular");
         }
 
-        public ActionResult MainForm()
+        public async Task<ActionResult> MainForm()
         {
-            #region Check Session
+            // relogin for new session
             if (Session["UserName"] == null)
             {
                 TempData["alertMessage"] = "You must log in to continue";
                 return RedirectToAction("Login", "Login");
             }
-            #endregion
+
+            var username = (string)Session["UserName"];
+            var productsAndServices = await _coversheetService.GetAllProductAndServiceByUsernameAsync(username, UserAccessEnum.Client_LE);
+            var productIds = string.Join(",", productsAndServices.Select(x => x.BPSProductID).Distinct());
+            var serviceNumbers = string.Join(",", productsAndServices.Select(x => x.ServiceNumber));
+
+            ViewBag.MyJobs = await _jobDashboardService.GetAllMyJobsByProductAndServiceAsync(productIds, serviceNumbers, UserAccessEnum.Client_LE);
 
             return View();
         }

@@ -10,9 +10,9 @@ namespace JobTrack.Services.Interfaces
 {
     public interface IJobDashboardService
     {
-        Task<int> GetAllMyJobsByProductAndServiceAsync(string bpsProductIds, string serviceNumbers);
+        Task<int> GetAllMyJobsByProductAndServiceAsync(string bpsProductIds, string serviceNumbers, UserAccessEnum userAccess);
 
-        Task<int> GetAllJobsByProductAndServiceAndStatusAsync(string bpsProductIds, string serviceNumbers, CodingStatusEnum codingStatus);
+        Task<int> GetAllJobsByProductAndServiceAndStatusAsync(string bpsProductIds, string serviceNumbers, CodingStatusEnum codingStatus, UserAccessEnum userAccess);
 
         Task<int> GetAllJobsByProductAndServiceAndDueStatus(string bpsProductIds, string serviceNumbers, CodingStatusEnum codingStatus);
     }

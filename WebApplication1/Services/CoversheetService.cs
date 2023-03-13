@@ -1,5 +1,6 @@
 ﻿using JobTrack.Models;
 using JobTrack.Models.Coversheet;
+using JobTrack.Models.Enums;
 using JobTrack.Models.Extensions;
 using JobTrack.Services.Interfaces;
 using MySql.Data.MySqlClient;
@@ -46,9 +47,9 @@ namespace JobTrack.Services
             return await Task.FromResult(list);
         }
 
-        public async Task<List<CoversheetData>> GetAllProductAndServiceByUsernameAsync(string userName)
+        public async Task<List<CoversheetData>> GetAllProductAndServiceByUsernameAsync(string userName, UserAccessEnum userAccess)
         {
-            var storedProcedure = "GetAllProductAndServiceByUsername";
+            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ? "GetAllProductAndServiceByUsername" : "GetAllProductAndServiceByUserNameLE";
             var dataTable = new DataTable();
 
             dbConnection.Open();
