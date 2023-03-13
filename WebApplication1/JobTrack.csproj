@@ -216,9 +216,11 @@
     <Compile Include="Models\Admin\ProductDatabaseModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Employee\PublicationAssignmentModel.cs" />
+    <Compile Include="Models\Enums\CodingStatusEnum.cs" />
     <Compile Include="Models\Enums\UserAccessEnum.cs" />
     <Compile Include="Models\Extensions\Extensions.cs" />
     <Compile Include="Models\FormFieldModel.cs" />
+    <Compile Include="Models\JobCountModel.cs" />
     <Compile Include="Models\QueryCoversheet\CoversheetDataModel.cs" />
     <Compile Include="Models\QueryCoversheet\QueryCoversheetModel.cs" />
     <Compile Include="Models\Coversheet\CoversheetModel.cs" />
@@ -248,6 +250,7 @@
     <Compile Include="Services\Interfaces\ICoversheetService.cs" />
     <Compile Include="Services\Interfaces\IEmployeeService.cs" />
     <Compile Include="Services\Interfaces\IJobCoversheetService.cs" />
+    <Compile Include="Services\Interfaces\IJobDashboardService.cs" />
     <Compile Include="Services\Interfaces\IJobdataService.cs" />
     <Compile Include="Services\Interfaces\IManuscriptDataService.cs" />
     <Compile Include="Services\Interfaces\IPublicationAssignService.cs" />
@@ -257,6 +260,7 @@
     <Compile Include="Services\Interfaces\IQuerySTPService.cs" />
     <Compile Include="Services\Interfaces\ITransactionLogService.cs" />
     <Compile Include="Services\JobCoversheetService.cs" />
+    <Compile Include="Services\JobDashboardService.cs" />
     <Compile Include="Services\JobdataService.cs" />
     <Compile Include="Services\ManuscriptDataService.cs" />
     <Compile Include="Services\PublicationAssignService.cs" />

@@ -34,17 +34,14 @@
         padding-bottom: 20px;
     }
 
-    /*    div.inner {
-        max-width: 900px;
-        overflow: hidden;
-    }*/
     div.inner {
-        max-width: 1000px;
+        /*max-width: 1000px;*/
         justify-content: left;
         /*max-width: 20%;*/
         overflow: hidden;
         padding-left: 10px;
     }
+
     /*custom search button on footer*/
     tfoot input {
         width: 100%;
@@ -176,51 +173,86 @@
 
     <div class="container-fluid mt-3">
         <div class="row">
-            <div class="col-lg-3 col-sm-6">
+            <!-- my jobs -->
+            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('myJobs')">
                 <div class="card gradient-9">
                     <div class="card-body">
                         <h3 class="card-title text-white">My Jobs</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
+                            <h2 class="text-white">@ViewBag.MyJobs</h2>
                             <p class="text-white mb-0"></p>
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6">
+
+            <!-- open jobs -->
+            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
                 <div class="card gradient-7">
                     <div class="card-body">
                         <h3 class="card-title text-white">Open Jobs</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
+                            <h2 class="text-white">@ViewBag.OpenJobs</h2>
                             <p class="text-white mb-0"></p>
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6">
+
+            <!-- late jobs -->
+            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('LateJobs')">
                 <div class="card gradient-3">
                     <div class="card-body">
                         <h3 class="card-title text-white">Late Jobs</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
+                            <h2 class="text-white">@ViewBag.LateJobs</h2>
                             <p class="text-white mb-0"></p>
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6">
+
+            <!-- due jobs -->
+            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('DueJobs')">
                 <div class="card gradient-2">
                     <div class="card-body">
                         <h3 class="card-title text-white">Due Jobs</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
+                            <h2 class="text-white">@ViewBag.DueJobs</h2>
                             <p class="text-white mb-0"></p>
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- cancelled jobs -->
+            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('CancelledJobs')">
+                <div class="card bg-danger">
+                    <div class="card-body">
+                        <h3 class="card-title text-white">Cancelled Jobs</h3>
+                        <div class="d-inline-block">
+                            <h2 class="text-white">@ViewBag.CancelledJobs</h2>
+                            <p class="text-white mb-0"></p>
+                        </div>
+                        <span class="float-right display-5 opacity-5"><i class="fa fa-stop"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- completed jobs -->
+            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('CompletedJobs')">
+                <div class="card bg-success">
+                    <div class="card-body">
+                        <h3 class="card-title text-white">Completed Jobs</h3>
+                        <div class="d-inline-block">
+                            <h2 class="text-white">@ViewBag.CompleteJobs</h2>
+                            <p class="text-white mb-0"></p>
+                        </div>
+                        <span class="float-right display-5 opacity-5"><i class="fa fa-check-square"></i></span>
                     </div>
                 </div>
             </div>
@@ -886,16 +918,12 @@
                     },
                 ],
                 buttons: {
-                    //reset class and change the rendered tag
-                    //from <button> to <i>
                     dom: {
                         button: {
                             tag: 'i',
                             className: ''
                         }
                     },
-                    //since we now have completely unstyled icons add
-                    //some space between them trough a .custom-btn class
                     buttons: [
                         {
                             titleAttr: 'Copy',
@@ -1339,7 +1367,7 @@
         }
 
         function generateChildRowForCoversheet(index) {
-            return '<div class="inner"><table class="child_table2 display nowrap" id="childTableCoversheet' + index + '" cellpadding="5" cellspacing="0" border="0">' +
+            return '<div class="inner"><table class="child_table2 display nowrap" id="childTableCoversheet' + index + '" cellpadding="5" cellspacing="0" border="0" style="width: 100%">' +
                 '<thead><tr>' +
                 '<th></th>' +
                 '<th></th>' +
@@ -1391,6 +1419,14 @@
                 '<th>Job Owner</th>' +
                 '</tr></tfoot>' +
                 '</table></div>';
+        }
+
+        function onclickJobType(jobType) {
+            let controls = $('#tblDataCoversheet td.details-control');
+
+            controls.toArray().forEach((dataItem) => {
+                dataItem.click();
+            });
         }
 
         // ====== old code [start] ======

@@ -12,6 +12,8 @@ namespace JobTrack.Services.Interfaces
     {
         Task<List<CoversheetData>> GetCoversheetDataByProductAndServiceAsync(string bpsproductid, string servicenumber);
 
+        Task<List<CoversheetData>> GetAllProductAndServiceByUsernameAsync(string userName);
+
         Task<JsonResultModel> InsertCoversheetAsync(CoversheetData model, string username);
     }
 }

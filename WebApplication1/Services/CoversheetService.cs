@@ -24,7 +24,7 @@ namespace JobTrack.Services
 
         public async Task<List<CoversheetData>> GetCoversheetDataByProductAndServiceAsync(string bpsproductid, string servicenumber)
         {
-            var storedProcedure = "GetCoversheetDataById";
+            var storedProcedure = "GetAllCoversheetDataByProductAndService";
             var dataTable = new DataTable();
 
             dbConnection.Open();
@@ -34,6 +34,29 @@ namespace JobTrack.Services
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@p_BPSProductID", bpsproductid);
                 command.Parameters.AddWithValue("@p_ServiceNumber", servicenumber);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<CoversheetData>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list);
+        }
+
+        public async Task<List<CoversheetData>> GetAllProductAndServiceByUsernameAsync(string userName)
+        {
+            var storedProcedure = "GetAllProductAndServiceByUsername";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_Username", userName);
 
                 var reader = command.ExecuteReader();
                 dataTable.Load(reader);

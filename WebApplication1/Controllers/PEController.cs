@@ -12,6 +12,9 @@ using JobTrack.Models.Job;
 using JobTrack.Models.Coversheet;
 using MySql.Data.MySqlClient;
 using System.Globalization;
+using JobTrack.Services.Interfaces;
+using System.Threading.Tasks;
+using JobTrack.Models.Enums;
 
 namespace JobTrack.Controllers
 {
@@ -20,6 +23,15 @@ namespace JobTrack.Controllers
         public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();
+
+        private readonly IJobDashboardService _jobDashboardService;
+        private readonly ICoversheetService _coversheetService;
+
+        public PEController(IJobDashboardService jobDashboardService, ICoversheetService coversheetService)
+        {
+            _jobDashboardService = jobDashboardService;
+            _coversheetService = coversheetService;
+        }
 
         public ActionResult TopMenu()
         {
@@ -31,15 +43,28 @@ namespace JobTrack.Controllers
             return PartialView("_SidebarRegular");
         }
 
-        public ActionResult MainForm()
+        public async Task<ActionResult> MainForm()
         {
-            #region Check Session
+            // relogin for new session
             if (Session["UserName"] == null)
             {
                 TempData["alertMessage"] = "You must log in to continue";
                 return RedirectToAction("Login", "Login");
             }
-            #endregion
+
+
+            var username = (string)Session["UserName"];
+            var productsAndServices = await _coversheetService.GetAllProductAndServiceByUsernameAsync(username);
+            var productIds = string.Join(",", productsAndServices.Select(x => x.BPSProductID));
+            var serviceNumbers = string.Join(",", productsAndServices.Select(x => x.ServiceNumber));
+
+            ViewBag.MyJobs = await _jobDashboardService.GetAllMyJobsByProductAndServiceAsync(productIds, serviceNumbers);
+            ViewBag.OpenJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndStatusAsync(productIds, serviceNumbers, CodingStatusEnum.New);
+            ViewBag.CompleteJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndStatusAsync(productIds, serviceNumbers, CodingStatusEnum.Completed);
+            ViewBag.CancelledJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndStatusAsync(productIds, serviceNumbers, CodingStatusEnum.Cancelled);
+            ViewBag.LateJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndDueStatus(productIds, serviceNumbers, CodingStatusEnum.Late);
+            ViewBag.DueJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndDueStatus(productIds, serviceNumbers, CodingStatusEnum.Due);
+
             return View();
         }
 

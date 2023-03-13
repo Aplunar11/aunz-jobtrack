@@ -75,7 +75,8 @@ namespace JobTrack.Controllers
                 TempData["OnlineStatuses"] = new SelectList(new List<SelectListItem>
                 {
                     new SelectListItem { Text = "New", Value = "New" },
-                    new SelectListItem { Text = "Completed", Value = "Completed" }
+                    new SelectListItem { Text = "Completed", Value = "Completed" },
+                    new SelectListItem { Text = "Cancelled", Value = "Cancelled" }
                 }, "Text", "Value");
                                
 
@@ -835,7 +836,7 @@ namespace JobTrack.Controllers
             var username = (string)Session["Username"];
             var result = await _jobCoversheetService.GetAllJobCoversheetDataByUserNameLEorPEAsync(username);
             return Json(result, JsonRequestBehavior.AllowGet);
-        }        
+        }
 
         public JobCoversheetData IsJobExists(string bpsproductid, string servicenumber)
         {
