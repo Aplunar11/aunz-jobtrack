@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2023 at 05:06 PM
+-- Generation Time: Mar 13, 2023 at 05:19 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -1892,7 +1892,9 @@ CREATE TABLE `coverreplies` (
 --
 
 INSERT INTO `coverreplies` (`ID`, `QueryID`, `Message`, `DatePosted`, `PostedBy`) VALUES
-(1, 1, '', '2023-03-09 15:43:27', 'Patricia.Artajo');
+(1, 1, '', '2023-03-09 15:43:27', 'Patricia.Artajo'),
+(2, 2, '', '2023-03-13 16:14:31', 'Patricia.Artajo'),
+(3, 2, '', '2023-03-13 16:14:39', 'Patricia.Artajo');
 
 -- --------------------------------------------------------
 
@@ -2008,7 +2010,8 @@ INSERT INTO `coversheetdata` (`CoversheetID`, `CoversheetNumber`, `BPSProductID`
 (61, 'ABCE_68_Task1_guide 1 test', 'ABCE', '68', 'Task1', 'Tier 3', 'Andrew Badaoui', 'ABC', '2021-02-26 00:00:00', NULL, NULL, 'New', 'COMMENTARY', 'guide 1 test', NULL, '1', '1', '1', '1', '1', '0', '1', '0', '0', '0', '0', 'test further', 'TOC', NULL, NULL, NULL, '1', '2023-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2023-03-01 00:00:00', NULL, NULL, NULL, NULL, NULL, '2023-03-12 21:37:12', 24, '2023-03-12 21:37:12', 24, '75', NULL, NULL),
 (62, 'ABCE_68_Task1_guide 1 test', 'ABCE', '68', 'Task1', 'Tier 3', 'Andrew Badaoui', 'ABC', '2021-02-26 00:00:00', NULL, NULL, 'New', 'COMMENTARY', 'guide 1 test', NULL, '1', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', 'test further', 'Ed Mns-Lgt', NULL, NULL, NULL, '1', '2023-03-06 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2023-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, '2023-03-12 21:43:40', 24, '2023-03-12 21:43:40', 24, '76', NULL, NULL),
 (63, 'ABCE_68_Task1_guide 1 test', 'ABCE', '68', 'Task1', 'Tier 3', 'Andrew Badaoui', 'ABC', '2021-02-26 00:00:00', NULL, NULL, 'New', 'COMMENTARY', 'guide 1 test', NULL, '1', '0', '1', '0', '0', '0', '0', '1', '0', '0', '0', 'test', 'Ed Mns-Hvy', NULL, NULL, NULL, '1', '2023-03-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2023-03-17 00:00:00', NULL, NULL, NULL, NULL, NULL, '2023-03-12 21:44:52', 24, '2023-03-12 21:44:52', 24, '75', NULL, NULL),
-(64, 'ABCE_68_Task1_guide 1 test', 'ABCE', '68', 'Task1', 'Tier 3', 'Andrew Badaoui', 'ABC', '2021-02-26 00:00:00', NULL, NULL, 'New', 'COMMENTARY', 'guide 1 test', NULL, '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', 'test', 'Manus-Light', NULL, NULL, NULL, '0', '2023-03-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2023-03-14 00:00:00', NULL, NULL, NULL, NULL, NULL, '2023-03-12 22:03:49', 24, '2023-03-12 22:03:49', 24, '75', NULL, NULL);
+(64, 'ABCE_68_Task1_guide 1 test', 'ABCE', '68', 'Task1', 'Tier 3', 'Andrew Badaoui', 'ABC', '2021-02-26 00:00:00', NULL, NULL, 'New', 'COMMENTARY', 'guide 1 test', NULL, '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', 'test', 'Manus-Light', NULL, NULL, NULL, '0', '2023-03-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2023-03-14 00:00:00', NULL, NULL, NULL, NULL, NULL, '2023-03-12 22:03:49', 24, '2023-03-12 22:03:49', 24, '75', NULL, NULL),
+(65, 'DEF_92_Task1_\"dump guidecard\"', 'DEF', '92', 'Task1', 'Tier 2', 'Genevieve Corish', 'DEF', '2021-08-12 00:00:00', NULL, NULL, 'New', 'COMMENTARY', 'dump guidecard', NULL, '1', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', NULL, 'Manus-Heavy', NULL, NULL, NULL, '0', '2022-09-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2022-09-12 00:00:00', NULL, NULL, NULL, NULL, NULL, '2023-03-14 00:17:51', 24, '2023-03-14 00:17:51', 24, '10', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2034,7 +2037,8 @@ CREATE TABLE `coversheetquery` (
 --
 
 INSERT INTO `coversheetquery` (`ID`, `CoversheetNo`, `QueryID`, `CoversheetID`, `covertopic_mt_ID`, `coverstatus_mt_ID`, `covertype_mt_ID`, `FilePath`, `DatePosted`, `PostedBy`) VALUES
-(1, NULL, NULL, 1, 1, 1, 1, '', '2023-03-09 15:43:27', 'Patricia.Artajo');
+(1, NULL, NULL, 1, 1, 1, 1, '', '2023-03-09 15:43:27', 'Patricia.Artajo'),
+(2, NULL, NULL, 64, 1, 2, 2, '', '2023-03-13 16:14:31', 'Patricia.Artajo');
 
 -- --------------------------------------------------------
 
@@ -4449,6 +4453,13 @@ CREATE TABLE `stpquery` (
   `PostedBy` varchar(128) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `stpquery`
+--
+
+INSERT INTO `stpquery` (`ID`, `STPNo`, `QueryID`, `StpID`, `stptopic_mt_ID`, `stpstatus_mt_ID`, `stptype_mt_ID`, `FilePath`, `DatePosted`, `PostedBy`) VALUES
+(1, NULL, NULL, 3, 1, 1, 1, '', '2023-03-13 16:14:54', 'Patricia.Artajo');
+
 -- --------------------------------------------------------
 
 --
@@ -4462,6 +4473,13 @@ CREATE TABLE `stpreplies` (
   `DatePosted` datetime DEFAULT NULL,
   `PostedBy` varchar(128) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `stpreplies`
+--
+
+INSERT INTO `stpreplies` (`ID`, `QueryID`, `Message`, `DatePosted`, `PostedBy`) VALUES
+(1, 1, '', '2023-03-13 16:14:54', 'Patricia.Artajo');
 
 -- --------------------------------------------------------
 
@@ -5320,19 +5338,19 @@ ALTER TABLE `audittb`
 -- AUTO_INCREMENT for table `coverreplies`
 --
 ALTER TABLE `coverreplies`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `coversheetdata`
 --
 ALTER TABLE `coversheetdata`
-  MODIFY `CoversheetID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `CoversheetID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `coversheetquery`
 --
 ALTER TABLE `coversheetquery`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `coversheet_mt`
@@ -5506,13 +5524,13 @@ ALTER TABLE `stp`
 -- AUTO_INCREMENT for table `stpquery`
 --
 ALTER TABLE `stpquery`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `stpreplies`
 --
 ALTER TABLE `stpreplies`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `stpstatus_mt`
