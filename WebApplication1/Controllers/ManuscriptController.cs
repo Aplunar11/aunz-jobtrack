@@ -214,6 +214,7 @@ namespace JobTrack.Controllers
             return date.AddDays(extraDays);
 
         }
+
         public JsonResult GetJobData(string servicenumber, string bpsproductid)
         {
             List<ManuscriptData> mdata = new List<ManuscriptData>();
@@ -251,6 +252,7 @@ namespace JobTrack.Controllers
             }
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         public JsonResult AddNewManuscript(ManuscriptData mdata, JobData jdata)
         {
@@ -424,6 +426,9 @@ namespace JobTrack.Controllers
 
         public async Task<ActionResult> GetManuscriptData(string bpsproductid, string servicenumber)
         {
+            var mdata = await _manuscriptDataService.GetManuscriptDataByIdAsync(bpsproductid, servicenumber);
+            return Json(mdata, JsonRequestBehavior.AllowGet);
+
             //if (dbConnection.State == ConnectionState.Closed)
             //    dbConnection.Open();
 
@@ -494,9 +499,6 @@ namespace JobTrack.Controllers
 
             ////return PartialView(mdata);
             //dbConnection.Close();
-
-            var mdata = await _manuscriptDataService.GetManuscriptDataByIdAsync(bpsproductid, servicenumber);
-            return Json(mdata, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

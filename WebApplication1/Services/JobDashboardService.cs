@@ -21,9 +21,9 @@ namespace JobTrack.Services
 
         public JobDashboardService() { }
 
-        public async Task<int> GetAllMyJobsByProductAndServiceAsync(string bpsProductIds, string serviceNumbers)
+        public async Task<int> GetAllMyJobsByProductAndServiceAsync(string bpsProductIds, string serviceNumbers, UserAccessEnum userAccess)
         {
-            var storedProcedure = "GetAllMyJobsByProductAndService";
+            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ? "GetAllMyJobsByProductAndService" : "GetAllMyJobsByProductAndServiceForLE";
             var dataTable = new DataTable();
 
             dbConnection.Open();
@@ -45,9 +45,12 @@ namespace JobTrack.Services
             return await Task.FromResult(list.FirstOrDefault().JobCount);
         }
 
-        public async Task<int> GetAllJobsByProductAndServiceAndStatusAsync(string bpsProductIds, string serviceNumbers, CodingStatusEnum codingStatus)
+        public async Task<int> GetAllJobsByProductAndServiceAndStatusAsync(string bpsProductIds
+            , string serviceNumbers
+            , CodingStatusEnum codingStatus
+            , UserAccessEnum userAccess)
         {
-            var storedProcedure = "GetAllJobsByProductAndServiceAndStatus";
+            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ?  "GetAllJobsByProductAndServiceAndStatus" : "";
             var dataTable = new DataTable();
 
             dbConnection.Open();
