@@ -89,7 +89,7 @@ namespace JobTrack.Controllers
                 viewModel.OnlineDueDate = manuscriptData.OnlineDueDate;
                 viewModel.DateCreated = manuscriptData.DateCreated;                
                 viewModel.GuideCard = manuscriptData.PEGuideCard;                
-                viewModel.TaskNumber = resultcover.TaskNumber == null ? "Task1" : $"Task{Convert.ToInt32(resultcover.TaskNumber)}";
+                viewModel.TaskNumber = resultcover == null ? "Task1" : $"Task{Convert.ToInt32(resultcover.TaskNumber)}";
                 viewModel.CoversheetNumber = bpsproductid + '_' + serviceno + '_' + viewModel.TaskNumber;
             }
             catch (Exception ex)
