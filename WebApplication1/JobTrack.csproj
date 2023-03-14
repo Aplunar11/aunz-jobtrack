@@ -372,7 +372,9 @@
     <Content Include="Image\default-avatar.jpg" />
     <Content Include="Image\details_close.png" />
     <Content Include="Image\details_info.png" />
-    <Content Include="Image\details_link.png" />
+    <Content Include="Image\details_link.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Image\details_open.png" />
     <Content Include="Image\jobtrackaunz.png" />
     <Content Include="Image\lnlogo.png" />
