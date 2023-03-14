@@ -175,7 +175,7 @@
     <div class="container-fluid mt-3">
         <div class="row">
             <!-- my jobs -->
-            <div class="col-lg-3 col-sm-6">
+            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('MyJobs')">
                 <div class="card gradient-9">
                     <div class="card-body">
                         <h3 class="card-title text-white">My Jobs</h3>
@@ -189,7 +189,7 @@
             </div>
 
             <!-- open jobs -->
-            <div class="col-lg-3 col-sm-6">
+            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
                 <div class="card gradient-7">
                     <div class="card-body">
                         <h3 class="card-title text-white">Open Jobs</h3>
@@ -203,7 +203,7 @@
             </div>
 
             <!-- late jobs -->
-            <div class="col-lg-3 col-sm-6">
+            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('LateJobs')">
                 <div class="card gradient-3">
                     <div class="card-body">
                         <h3 class="card-title text-white">Late Jobs</h3>
@@ -217,7 +217,7 @@
             </div>
 
             <!-- revised jobs -->
-            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
+            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('RevisedJobs')">
                 <div class="card gradient-7">
                     <div class="card-body">
                         <h3 class="card-title text-white">Revised Press Date</h3>
@@ -231,7 +231,7 @@
             </div>
 
             <!-- due jobs -->
-            <div class="col-lg-3 col-sm-6">
+            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('DueJobs')">
                 <div class="card gradient-2">
                     <div class="card-body">
                         <h3 class="card-title text-white">Due Jobs</h3>
@@ -833,6 +833,14 @@
                 '<th>Date Created</th>' +
                 '</tr></tfoot>' +
                 '</table ></div>';
+        }
+
+        function onclickJobType(jobType) {
+            let controls = $('#tblData td.details-control');
+
+            controls.toArray().forEach((dataItem) => {
+                dataItem.click();
+            });
         }
     </script>
 }
