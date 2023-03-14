@@ -158,6 +158,10 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+
+    .card-body {
+        padding: 15px !important;
+    }
 </style>
 
 <div class="content-body">
@@ -174,7 +178,7 @@
     <div class="container-fluid mt-3">
         <div class="row">
             <!-- my jobs -->
-            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('myJobs')">
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('myJobs')">
                 <div class="card gradient-9">
                     <div class="card-body">
                         <h3 class="card-title text-white">My Jobs</h3>
@@ -188,7 +192,7 @@
             </div>
 
             <!-- open jobs -->
-            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
                 <div class="card gradient-7">
                     <div class="card-body">
                         <h3 class="card-title text-white">Open Jobs</h3>
@@ -202,7 +206,7 @@
             </div>
 
             <!-- late jobs -->
-            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('LateJobs')">
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('LateJobs')">
                 <div class="card gradient-3">
                     <div class="card-body">
                         <h3 class="card-title text-white">Late Jobs</h3>
@@ -216,7 +220,7 @@
             </div>
 
             <!-- revised jobs -->
-            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
+            @*<div class="col-lg-3 col-sm-3" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
                 <div class="card gradient-7">
                     <div class="card-body">
                         <h3 class="card-title text-white">Revised Press Date</h3>
@@ -227,10 +231,10 @@
                         <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
                     </div>
                 </div>
-            </div>
+            </div>*@
 
             <!-- due jobs -->
-            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('DueJobs')">
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('DueJobs')">
                 <div class="card gradient-2">
                     <div class="card-body">
                         <h3 class="card-title text-white">Due Jobs</h3>
@@ -244,7 +248,7 @@
             </div>
 
             <!-- cancelled jobs -->
-            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('CancelledJobs')">
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('CancelledJobs')">
                 <div class="card bg-danger">
                     <div class="card-body">
                         <h3 class="card-title text-white">Cancelled Jobs</h3>
@@ -258,7 +262,7 @@
             </div>
 
             <!-- completed jobs -->
-            <div class="col-lg-3 col-sm-6" style="cursor: pointer" onclick="onclickJobType('CompletedJobs')">
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('CompletedJobs')">
                 <div class="card bg-success">
                     <div class="card-body">
                         <h3 class="card-title text-white">Completed Jobs</h3>

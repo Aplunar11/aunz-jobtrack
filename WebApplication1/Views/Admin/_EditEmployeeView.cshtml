@@ -8,11 +8,11 @@
                         <span class="bg-light">Employee Details</span>
                     </p>
 
-                    @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "First Name", Name = "FirstName", Value = null })
+                    @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "First Name", Name = "FirstName", Value = null })
 
-                    @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Last Name", Name = "LastName", Value = null })
+                    @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Last Name", Name = "LastName", Value = null })
 
-                    @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Email Address", Name = "EmailAddress", Value = null })
+                    @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Email Address", Name = "EmailAddress", Value = null })
 
                     <p class="divider-text">
                         <span class="bg-light">Account Details</span>
@@ -27,21 +27,21 @@
                         </div>
                     </div>
 
-                    @Html.Partial("_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "User Name", Name = "UserName", Value = null })
+                    @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "User Name", Name = "UserName", Value = null })
 
                     <p class="divider-text">
                         <span class="bg-light">Additional Access</span>
                     </p>
 
-                    @Html.Partial("_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Manager", Name = "isManager" })
+                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Manager", Name = "isManager" })
 
-                    @Html.Partial("_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Editorial Contact", Name = "isEditorialContact" })
+                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Editorial Contact", Name = "isEditorialContact" })
 
-                    @Html.Partial("_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Email List", Name = "isEmailList" })
+                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Email List", Name = "isEmailList" })
 
-                    @Html.Partial("_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Mandatory Receipient", Name = "isMandatoryRecepient" })
+                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Mandatory Receipient", Name = "isMandatoryRecepient" })
 
-                    @Html.Partial("_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Show User", Name = "isShowUser" })
+                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Show User", Name = "isShowUser" })
                 </form>
             </div>
 

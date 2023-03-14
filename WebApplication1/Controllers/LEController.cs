@@ -46,12 +46,12 @@ namespace JobTrack.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
-            var username = (string)Session["UserName"];
-            var productsAndServices = await _coversheetService.GetAllProductAndServiceByUsernameAsync(username, UserAccessEnum.Client_LE);
-            var productIds = string.Join(",", productsAndServices.Select(x => x.BPSProductID).Distinct());
-            var serviceNumbers = string.Join(",", productsAndServices.Select(x => x.ServiceNumber));
+            //var username = (string)Session["UserName"];
+            //var productsAndServices = await _coversheetService.GetAllProductAndServiceByUsernameAsync(username, UserAccessEnum.Client_LE);
+            //var productIds = string.Join(",", productsAndServices.Select(x => x.BPSProductID).Distinct());
+            //var serviceNumbers = string.Join(",", productsAndServices.Select(x => x.ServiceNumber));
 
-            ViewBag.MyJobs = await _jobDashboardService.GetAllMyJobsByProductAndServiceAsync(productIds, serviceNumbers, UserAccessEnum.Client_LE);
+            //ViewBag.MyJobs = await _jobDashboardService.GetAllMyJobsByProductAndServiceAsync(productIds, serviceNumbers, UserAccessEnum.Client_LE);
 
             return View();
         }
