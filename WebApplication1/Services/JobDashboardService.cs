@@ -21,9 +21,11 @@ namespace JobTrack.Services
 
         public JobDashboardService() { }
 
-        public async Task<int> GetAllMyJobsByProductAndServiceAsync(string bpsProductIds, string serviceNumbers, UserAccessEnum userAccess)
+        public async Task<int> GetAllMyJobsByProductAndServiceAsync(string bpsProductIds
+            , string serviceNumbers
+            , UserAccessEnum userAccess)
         {
-            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ? "GetAllMyJobsByProductAndService" : "GetAllMyJobsByProductAndServiceForLE";
+            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ? "GetAllMyJobsByProductAndService" : "GetAllMyJobsByProductAndServiceLE";
             var dataTable = new DataTable();
 
             dbConnection.Open();
@@ -50,7 +52,7 @@ namespace JobTrack.Services
             , CodingStatusEnum codingStatus
             , UserAccessEnum userAccess)
         {
-            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ?  "GetAllJobsByProductAndServiceAndStatus" : "";
+            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ?  "GetAllJobsByProductAndServiceAndStatus" : "GetAllJobsByProductAndServiceAndStatusLE";
             var dataTable = new DataTable();
 
             dbConnection.Open();
@@ -73,9 +75,12 @@ namespace JobTrack.Services
             return await Task.FromResult(list.FirstOrDefault().JobCount);
         }
 
-        public async Task<int> GetAllJobsByProductAndServiceAndDueStatus(string bpsProductIds, string serviceNumbers, CodingStatusEnum codingStatus)
+        public async Task<int> GetAllJobsByProductAndServiceAndDueStatus(string bpsProductIds
+            , string serviceNumbers
+            , CodingStatusEnum codingStatus
+            , UserAccessEnum userAccess)
         {
-            var storedProcedure = "GetAllJobsByProductAndServiceAndDueStatus";
+            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ? "GetAllJobsByProductAndServiceAndDueStatus" : "GetAllJobsByProductAndServiceAndDueStatusLE";
             var dataTable = new DataTable();
 
             dbConnection.Open();

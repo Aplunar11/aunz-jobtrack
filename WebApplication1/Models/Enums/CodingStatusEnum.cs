@@ -12,6 +12,7 @@ namespace JobTrack.Models.Enums
         Cancelled = 3,
         Late = 4,
         Due = 5,
-        Revised = 6
+        Revised = 6,
+        On_Going = 7
     }
 }

@@ -14,6 +14,6 @@ namespace JobTrack.Services.Interfaces
 
         Task<int> GetAllJobsByProductAndServiceAndStatusAsync(string bpsProductIds, string serviceNumbers, CodingStatusEnum codingStatus, UserAccessEnum userAccess);
 
-        Task<int> GetAllJobsByProductAndServiceAndDueStatus(string bpsProductIds, string serviceNumbers, CodingStatusEnum codingStatus);
+        Task<int> GetAllJobsByProductAndServiceAndDueStatus(string bpsProductIds, string serviceNumbers, CodingStatusEnum codingStatus, UserAccessEnum userAccess);
     }
 }
