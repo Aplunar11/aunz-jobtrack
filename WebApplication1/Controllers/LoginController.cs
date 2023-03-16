@@ -19,11 +19,10 @@ namespace JobTrack.Controllers
 {
     public class LoginController : Controller
     {
-        // CONNECTION STRING
         MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();
-        // GET: Login
+        
         [HttpGet]
         public ActionResult Login()
         {

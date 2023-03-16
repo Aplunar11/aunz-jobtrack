@@ -69,7 +69,7 @@ namespace JobTrack.Controllers
                 var manuscriptData = await _manuscriptDataService.GetManuscriptDataMaxTurnAroundTimeAsync(viewModel, manuscriptids);
 
                 //var resultcover = JobCoversheetData(mdata.BPSProductID, mdata.ServiceNumber);
-                var resultcover = await _jobCoversheetService.GetJobCoversheetDataByProductAndServiceAsync(viewModel);
+                var jobCoversheet = await _jobCoversheetService.GetJobCoversheetDataByProductAndServiceAsync(viewModel);
 
                 TempData["UpdateTypes"] = new SelectList(GetAllTurnAroundTime(), "UpdateType", "UpdateType", manuscriptData.UpdateType);
                 TempData["OnlineStatuses"] = new SelectList(new List<SelectListItem>
@@ -89,7 +89,7 @@ namespace JobTrack.Controllers
                 viewModel.OnlineDueDate = manuscriptData.OnlineDueDate;
                 viewModel.DateCreated = manuscriptData.DateCreated;                
                 viewModel.GuideCard = manuscriptData.PEGuideCard;                
-                viewModel.TaskNumber = resultcover == null ? "Task1" : $"Task{Convert.ToInt32(resultcover.TaskNumber)}";
+                viewModel.TaskNumber = jobCoversheet == null ? "Task1" : $"Task{Convert.ToInt32(jobCoversheet.TaskNumber)}";
                 viewModel.CoversheetNumber = bpsproductid + '_' + serviceno + '_' + viewModel.TaskNumber;
             }
             catch (Exception ex)
@@ -124,7 +124,7 @@ namespace JobTrack.Controllers
                         model.ManuscriptID = manuscriptIds;
                         model.CoversheetNumber = model.CoversheetNumber + "_" + model.GuideCard;
                         model.GuideCard = model.GuideCard.Replace("\"", "");
-                        result = await _coversheetService.InsertCoversheetAsync(model, username);
+                        result = await _coversheetService.InsertCoversheetDataAsync(model, username);
 
                         return Json(result);
                     }

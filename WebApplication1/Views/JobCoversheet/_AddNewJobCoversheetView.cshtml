@@ -162,18 +162,17 @@
 
     function onclickSaveCoversheet() {
         submitForm('formJobCoversheet', '/JobCoversheet/AddNewJobCoversheet', null, function (response) {
-            //console.log('response: ', response);
-
             if (response.IsSuccess) {
+
                 refreshTable('tblDataCoversheet');
-
                 alert('Add new coversheet successful.');
-
-                $('#btnNavProductCoversheet').click();
                 $('#modal-jobcoversheet').modal('hide');
+                setTimeout(function () {
+                    $('#btnNavProductCoversheet').click();
+                }, 1000);
             }
             else
-                alert("Error: ", response.ErrorMessage);
+                alert("Error: " + response.ErrorMessage);
         });
     }
 </script>

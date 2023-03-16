@@ -70,7 +70,7 @@ namespace JobTrack.Services
             return await Task.FromResult(list);
         }
 
-        public async Task<JsonResultModel> InsertCoversheetAsync(CoversheetData model, string username)
+        public async Task<JsonResultModel> InsertCoversheetDataAsync(CoversheetData model, string username)
         {
             var result = new JsonResultModel();
             var storedProcedure = "InsertCoversheet";

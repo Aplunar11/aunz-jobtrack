@@ -1,0 +1,96 @@
+﻿@model JobTrack.Models.QuerySTP.STPDataModel
+
+<div class="modal fade" id="modal-stp" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#009688;color:white">
+                <h5 class="modal-title" id="confirmModalLabel">Add New STP</h5>
+                <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="formSTP">
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Send to Print Number", Name = "SendToPrintNumber", Value = Model.SendToPrintNumber, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Tier", Name = "SendToPrintTier", Value = Model.SendToPrintTier, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Product ID", Name = "BPSProductID", Value = Model.BPSProductID, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Service Number", Name = "ServiceNumber", Value = Model.ServiceNumber, IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Target Press Date", Name = "TargetPressDate", Value = Model.TargetPressDate.Value.ToString("yyyy-MM-dd"), IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Date Created", Name = "DateCreated", Value = Model.DateCreated, DontDisplay = true })
+
+                            <div class="form-group">
+                                <div class="col-sm-12 checkbox-wrapper border" style="padding-top: 5px">
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsConsoHighlight", Label = "Conso Highlight" })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsFilingInstruction", Label = "Filing Instruction" })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsDummyFiling1", Label = "Dummy Filing 1" })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsDummyFiling2", Label = "Dummy Filing 2" })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsUECJ", Label = "UECJ" })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsPC1PC2", Label = "PC1/PC2" })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsReadyToPrint", Label = "Ready to Print" })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsSendingFinalPages", Label = "Sending final pages to puddingburn" })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsPostBack", Label = "Posting back stable data" })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsUpdateEBinder", Label = "Updating of binder" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Path of input files", Name = "PathOfInputFiles", Value = Model.PathOfInputFiles })
+
+                            @Html.Partial("CustomControls/_TextareaView", new JobTrack.Models.FormFieldModel { Label = "Special Instructions", Name = "SpecialInstruction", Value = Model.SpecialInstruction })
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="ID" value="@Model.ID" />
+                    <input type="hidden" name="CoversheetIDs" value="@Model.CoversheetIDs" />
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="onclickSaveSTP();" id="btnSave">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function onclickSaveSTP() {
+        submitForm('formSTP', '/CodingSTP/AddNewSTP', null, function (response) {
+            console.log('response: ', response);
+
+            if (response.IsSuccess) {
+
+                refreshTable('tblDataSTP');
+                alert('Adding of new STP has been successful.');
+                $('#modal-stp').modal('hide');
+                setTimeout(function () {
+                    $('#btnNavProductSTP').click();
+                }, 1000);
+            }
+            else
+                alert("Error: " + response.ErrorMessage);
+        });
+    }
+</script>

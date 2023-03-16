@@ -565,9 +565,7 @@
                         },
 
                         "columnDefs": [
-                            //center all data
                             { "className": "dt-center", "targets": "_all" },
-                            //targetpressdate
                             {
                                 "targets": [9, 10, 12, 18, 19, 20, 21, 23, 24, 27, 35, 36],
                                 "render": function (data) {
@@ -685,6 +683,7 @@
                     });
                     tr.addClass('shown');
                 }
+
                 $('.child_table tbody').off().on('click', 'td.details-control1', function () {
                     var c_tr = $(this).closest('tr');
                     var c_row = childTable.row(c_tr);

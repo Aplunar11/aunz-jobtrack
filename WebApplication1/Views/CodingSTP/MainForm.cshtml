@@ -177,51 +177,100 @@
 
     <div class="container-fluid mt-3">
         <div class="row">
-            <div class="col-lg-3 col-sm-6">
+            <!-- my jobs -->
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('myJobs')">
                 <div class="card gradient-9">
                     <div class="card-body">
                         <h3 class="card-title text-white">My Jobs</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
+                            <h2 class="text-white">@ViewBag.MyJobs</h2>
                             <p class="text-white mb-0"></p>
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6">
+
+            <!-- open jobs -->
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
                 <div class="card gradient-7">
                     <div class="card-body">
                         <h3 class="card-title text-white">Open Jobs</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
+                            <h2 class="text-white">@ViewBag.OpenJobs</h2>
                             <p class="text-white mb-0"></p>
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6">
+
+            <!-- late jobs -->
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('LateJobs')">
                 <div class="card gradient-3">
                     <div class="card-body">
                         <h3 class="card-title text-white">Late Jobs</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
+                            <h2 class="text-white">@ViewBag.LateJobs</h2>
                             <p class="text-white mb-0"></p>
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6">
+
+            <!-- revised jobs -->
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
+                <div class="card gradient-7">
+                    <div class="card-body">
+                        <h3 class="card-title text-white">Revised Press Date</h3>
+                        <div class="d-inline-block">
+                            <h2 class="text-white">@ViewBag.RevisedJobs</h2>
+                            <p class="text-white mb-0"></p>
+                        </div>
+                        <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- due jobs -->
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('DueJobs')">
                 <div class="card gradient-2">
                     <div class="card-body">
                         <h3 class="card-title text-white">Due Jobs</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
+                            <h2 class="text-white">@ViewBag.DueJobs</h2>
                             <p class="text-white mb-0"></p>
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- cancelled jobs -->
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('CancelledJobs')">
+                <div class="card bg-danger">
+                    <div class="card-body">
+                        <h3 class="card-title text-white">Cancelled Jobs</h3>
+                        <div class="d-inline-block">
+                            <h2 class="text-white">@ViewBag.CancelledJobs</h2>
+                            <p class="text-white mb-0"></p>
+                        </div>
+                        <span class="float-right display-5 opacity-5"><i class="fa fa-stop"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- completed jobs -->
+            <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('CompletedJobs')">
+                <div class="card bg-success">
+                    <div class="card-body">
+                        <h3 class="card-title text-white">Completed Jobs</h3>
+                        <div class="d-inline-block">
+                            <h2 class="text-white">@ViewBag.CompleteJobs</h2>
+                            <p class="text-white mb-0"></p>
+                        </div>
+                        <span class="float-right display-5 opacity-5"><i class="fa fa-check-square"></i></span>
                     </div>
                 </div>
             </div>
@@ -398,6 +447,9 @@
     <!-- #/ container -->
 </div>
 
+<!-- Edit Modal -->
+<div id="modalWrapper"></div>
+
 @section scripts
 {
     <script type="text/javascript">
@@ -439,9 +491,9 @@
                         "defaultContent": ''
                     },
                     { data: 'ID' },
-                    { data: 'STPNo' },
-                    { data: 'Tier' },
-                    { data: 'Product' },
+                    { data: 'SendToPrintNumber' },
+                    { data: 'SendToPrintTier' },
+                    { data: 'BPSProductID' },
                     { data: 'ServiceNumber' },
                     { data: 'CurrentTask' },
                     { data: 'SendToPrintStatus' },

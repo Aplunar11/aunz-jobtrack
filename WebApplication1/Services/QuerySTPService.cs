@@ -16,7 +16,6 @@ namespace JobTrack.Services
 {
     public class QuerySTPService : IQuerySTPService
     {
-        // CONNECTION STRING
         public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();

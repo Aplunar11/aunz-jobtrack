@@ -55,3 +55,7 @@ function submitForm(formId, link, objData, callback) {
             }
         });
 }
+
+function refreshTable(tableId) {
+    $('#' + tableId).DataTable().ajax.reload();
+}
