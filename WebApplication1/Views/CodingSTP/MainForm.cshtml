@@ -2,6 +2,8 @@
 @{ ViewBag.Title = "MainForm";
     Layout = "~/Views/Shared/_JobTrackLayout.cshtml"; }
 
+<script src="~/Scripts/src/custom_index.js"></script>
+
 <style type="text/css">
     /*table icons*/
     td.details-control, td.details-control2 {
@@ -223,7 +225,7 @@
             <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
                 <div class="card gradient-7">
                     <div class="card-body">
-                        <h3 class="card-title text-white">Revised Press Date</h3>
+                        <h3 class="card-title text-white">Revised Date</h3>
                         <div class="d-inline-block">
                             <h2 class="text-white">@ViewBag.RevisedJobs</h2>
                             <p class="text-white mb-0"></p>
@@ -601,6 +603,14 @@
 
                 window.location.href = "/QuerySTP/Index?id=" + dataNew['ID'] + "&u=" + @((int)JobTrack.Models.Enums.UserAccessEnum.CodingSTP);
             });
+        }
+
+        function onclickJobType(jobType) {
+            //let controls = $('#tblDataSTP td.details-control');
+
+            //controls.toArray().forEach((dataItem) => {
+            //    dataItem.click();
+            //});
         }
     </script>
 }

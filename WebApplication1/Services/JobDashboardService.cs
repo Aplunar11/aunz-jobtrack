@@ -67,7 +67,24 @@ namespace JobTrack.Services
             , CodingStatusEnum codingStatus
             , UserAccessEnum userAccess)
         {
-            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ?  "GetAllJobsByProductAndServiceAndStatus" : "GetAllJobsByProductAndServiceAndStatusLE";
+            //var storedProcedure = userAccess == UserAccessEnum.Straive_PE ?  "GetAllJobsByProductAndServiceAndStatus" : "GetAllJobsByProductAndServiceAndStatusLE";
+
+            var storedProcedure = string.Empty;
+            switch (userAccess)
+            {
+                case UserAccessEnum.Straive_PE:
+                    storedProcedure = "GetAllJobsByProductAndServiceAndStatus";
+                    break;
+
+                case UserAccessEnum.Client_LE:
+                    storedProcedure = "GetAllJobsByProductAndServiceAndStatusLE";
+                    break;
+
+                case UserAccessEnum.CodingSTP:
+                    storedProcedure = "GetAllJobsByProductAndServiceAndStatusSTP";
+                    break;
+            }
+
             var dataTable = new DataTable();
 
             dbConnection.Open();

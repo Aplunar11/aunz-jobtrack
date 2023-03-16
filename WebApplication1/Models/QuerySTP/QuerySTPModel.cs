@@ -27,6 +27,10 @@ namespace JobTrack.Models.QuerySTP
 
         public string DateText { get { return DatePosted.HasValue ? DatePosted.Value.ToShortDateString() : null; } }
 
+        public DateTime? ClosedDate { get; set; }
+
+        public string ClosedDateText { get { return ClosedDate.HasValue ? ClosedDate.Value.ToShortDateString() : "TBD"; } }
+
         public string PostedBy { get; set; }
 
         public string RepliedBy { get; set; }

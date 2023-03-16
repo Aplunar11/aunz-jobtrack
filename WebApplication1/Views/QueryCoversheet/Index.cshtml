@@ -99,7 +99,7 @@
                         <div class="row" style="font-size: 12px; padding-bottom: 0; margin-bottom: 0">
                             <div class="col-md">
                                 <div class="form-group" style="margin-bottom: 0">
-                                    <label>Message</label>
+                                    <label>Query Details</label>
                                     <div>
                                         <textarea rows="3" name="Message" style="padding: 5px; width: 100%; border: 1px solid #ccc"></textarea>
                                     </div>
@@ -125,6 +125,7 @@
                         Add New
                     </button>
 
+                    <!-- filter -->
                     <select class="form-control" style="float: right; width: 200px" onchange="onchangeFilter()" id="filterDropdown">
                         <option value="0">All</option>
                         <option value="1">Open</option>
@@ -133,7 +134,6 @@
                         <option value="4">Replied by Client</option>
                         <option value="5">Replied by Straive</option>
                     </select>
-
 
                     <!-- query table -->
                     <table class="table table-bordered table-striped" id="coverTable">
@@ -145,6 +145,7 @@
                                 <th>Topic Title</th>
                                 <th>Query Type</th>
                                 <th>Date Posted</th>
+                                <th>Closed Date</th>
                                 <th>Replied By</th>
                                 <th>Posted By</th>
                                 <th style="width: 145px !important">Action</th>
@@ -224,6 +225,7 @@
                 { data: 'CoverTopicTitle' },
                 { data: 'CoverType' },
                 { data: 'DateText' },
+                { data: 'ClosedDateText' },
                 { data: 'RepliedBy' },
                 { data: 'PostedBy' },
                 { data: 'ID' }
@@ -244,7 +246,7 @@
                     }
                 },
                 {
-                    targets: [6],
+                    targets: [7],
                     render: function (data, type, row, meta) {
 
                         // if repliedBy is not admin, add color code
@@ -258,7 +260,7 @@
                     }
                 },
                 {
-                    targets: [8],
+                    targets: [9],
                     render: function (data, type, row, meta) {
                         return ''
                             // + '<button type="button" class="btn btn-info" onclick="onclickUpdate(' + data + ')">Update</button> &nbsp;'
