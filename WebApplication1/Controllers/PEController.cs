@@ -20,10 +20,6 @@ namespace JobTrack.Controllers
 {
     public class PEController : Controller
     {
-        public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
-        public MySqlCommand cmd = new MySqlCommand();
-        public MySqlDataAdapter adp = new MySqlDataAdapter();
-
         private readonly IJobDashboardService _jobDashboardService;
         private readonly ICoversheetService _coversheetService;
 
@@ -84,90 +80,5 @@ namespace JobTrack.Controllers
         {
             return View();
         }
-        //public ActionResult GetJobTrackData()
-        //{
-        //    if (dbConnection.State == ConnectionState.Closed)
-        //        dbConnection.Open();
-
-        //    List<JobData> mdata = new List<JobData>();
-        //    DataTable dt = new DataTable();
-
-        //    cmd = new MySqlCommand("GetAllJobData", dbConnection);
-        //    cmd.CommandType = CommandType.StoredProcedure;
-        //    cmd.Parameters.Clear();
-        //    adp = new MySqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    foreach (DataRow dr in dt.Rows)
-        //    {
-        //        mdata.Add(new JobData
-        //        {
-
-
-        //            JobID = Convert.ToInt32(dr["JobID"].ToString()),
-        //            //JobNumber = Convert.ToInt32(dr["JobNumber"].ToString()),
-        //            JobNumber = dr["JobNumber"].ToString().PadLeft(8, '0'),
-        //            ManuscriptTier = dr["ManuscriptTier"].ToString(),
-        //            BPSProductID = dr["BPSProductID"].ToString(),
-        //            ServiceNumber = dr["ServiceNumber"].ToString(),
-        //            TargetPressDate = Convert.ToDateTime(dr["TargetPressDate"].ToString()),
-
-        //            ActualPressDate = dr.Field<DateTime?>("ActualPressDate"),
-        //            //TargetPressDate = DateTime.ParseExact(dr["TargetPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-        //            //ActualPressDate = DateTime.ParseExact(dr["ActualPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-        //            CopyEditStatus = dr["CopyEditStatus"].ToString(),
-        //            CodingStatus = dr["CodingStatus"].ToString(),
-        //            OnlineStatus = dr["OnlineStatus"].ToString(),
-        //            STPStatus = dr["STPStatus"].ToString()
-
-        //        });
-        //    }
-        //    dbConnection.Close();
-        //    return Json(mdata, JsonRequestBehavior.AllowGet);
-        //}
-        //public ActionResult GetJobTrackDataByUserName()
-        //{
-        //    var Username = Session["UserName"];
-        //    if (dbConnection.State == ConnectionState.Closed)
-        //        dbConnection.Open();
-
-        //    List<JobData> mdata = new List<JobData>();
-        //    DataTable dt = new DataTable();
-
-        //    cmd = new MySqlCommand("GetAllJobDataByUserName", dbConnection);
-        //    cmd.CommandType = CommandType.StoredProcedure;
-        //    cmd.Parameters.Clear();
-        //    cmd.Parameters.AddWithValue("@p_Username", Username);
-        //    adp = new MySqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    //DateTime? temp = null; //this is fine
-        //    //var indexOfYourColumn = dt.Columns.IndexOf(dt.Columns[6]);
-        //    foreach (DataRow dr in dt.Rows)
-        //    {
-        //        //temp = dr[indexOfYourColumn] != DBNull.Value ? (DateTime?)null : DateTime.Parse(dr[indexOfYourColumn].ToString());
-        //        mdata.Add(new JobData
-        //        {
-
-
-        //            JobID = Convert.ToInt32(dr["JobID"].ToString()),
-        //            //JobNumber = Convert.ToInt32(dr["JobNumber"].ToString()),
-        //            JobNumber = dr["JobNumber"].ToString().PadLeft(8, '0'),
-        //            ManuscriptTier = dr["ManuscriptTier"].ToString(),
-        //            BPSProductID = dr["BPSProductID"].ToString(),
-        //            ServiceNumber = dr["ServiceNumber"].ToString(),
-        //            TargetPressDate = Convert.ToDateTime(dr["TargetPressDate"].ToString()),
-
-        //            ActualPressDate = dr.Field<DateTime?>("ActualPressDate"),
-        //            //TargetPressDate = DateTime.ParseExact(dr["TargetPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-        //            //ActualPressDate = DateTime.ParseExact(dr["ActualPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-        //            CopyEditStatus = dr["CopyEditStatus"].ToString(),
-        //            CodingStatus = dr["CodingStatus"].ToString(),
-        //            OnlineStatus = dr["OnlineStatus"].ToString(),
-        //            STPStatus = dr["STPStatus"].ToString()
-
-        //        });
-        //    }
-        //    dbConnection.Close();
-        //    return Json(mdata, JsonRequestBehavior.AllowGet);
-        //}
     }
 }

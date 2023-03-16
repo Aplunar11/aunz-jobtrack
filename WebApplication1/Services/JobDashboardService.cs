@@ -25,7 +25,22 @@ namespace JobTrack.Services
             , string serviceNumbers
             , UserAccessEnum userAccess)
         {
-            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ? "GetAllMyJobsByProductAndService" : "GetAllMyJobsByProductAndServiceLE";
+            var storedProcedure = string.Empty;
+            switch (userAccess)
+            {
+                case UserAccessEnum.Straive_PE:
+                    storedProcedure = "GetAllMyJobsByProductAndService";
+                    break;
+
+                case UserAccessEnum.Client_LE:
+                    storedProcedure = "GetAllMyJobsByProductAndServiceLE";
+                    break;
+
+                case UserAccessEnum.CodingSTP:
+                    storedProcedure = "GetAllMyJobsByProductAndServiceSTP";
+                    break;
+            }
+
             var dataTable = new DataTable();
 
             dbConnection.Open();
@@ -80,7 +95,22 @@ namespace JobTrack.Services
             , CodingStatusEnum codingStatus
             , UserAccessEnum userAccess)
         {
-            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ? "GetAllJobsByProductAndServiceAndDueStatus" : "GetAllJobsByProductAndServiceAndDueStatusLE";
+            var storedProcedure = string.Empty;
+            switch (userAccess)
+            {
+                case UserAccessEnum.Straive_PE:
+                    storedProcedure = "GetAllJobsByProductAndServiceAndDueStatus";
+                    break;
+
+                case UserAccessEnum.Client_LE:
+                    storedProcedure = "GetAllJobsByProductAndServiceAndDueStatusLE";
+                    break;
+
+                case UserAccessEnum.CodingSTP:
+                    storedProcedure = "GetAllJobsByProductAndServiceAndDueStatusSTP";
+                    break;
+            }
+
             var dataTable = new DataTable();
 
             dbConnection.Open();

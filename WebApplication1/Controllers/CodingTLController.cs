@@ -12,6 +12,7 @@ using JobTrack.Models.Job;
 using JobTrack.Models.Coversheet;
 using MySql.Data.MySqlClient;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace JobTrack.Controllers
 {
@@ -30,15 +31,23 @@ namespace JobTrack.Controllers
         {
             return PartialView("_SidebarRegular");
         }
-        public ActionResult MainForm()
+        public async Task<ActionResult> MainForm()
         {
-            #region Check Session
+            // relogin for new session
             if (Session["UserName"] == null)
             {
                 TempData["alertMessage"] = "You must log in to continue";
                 return RedirectToAction("Login", "Login");
             }
-            #endregion
+
+            ViewBag.MyJobs = 0;
+            ViewBag.OpenJobs = 0;
+            ViewBag.CompleteJobs = 0;
+            ViewBag.CancelledJobs = 0;
+            ViewBag.LateJobs = 0;
+            ViewBag.DueJobs = 0;
+            ViewBag.RevisedJobs = 0;
+
             return View();
         }
         public ActionResult AllJob()

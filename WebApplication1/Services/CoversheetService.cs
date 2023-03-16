@@ -49,7 +49,22 @@ namespace JobTrack.Services
 
         public async Task<List<CoversheetData>> GetAllProductAndServiceByUsernameAsync(string userName, UserAccessEnum userAccess)
         {
-            var storedProcedure = userAccess == UserAccessEnum.Straive_PE ? "GetAllProductAndServiceByUsername" : "GetAllProductAndServiceByUserNameLE";
+            var storedProcedure = string.Empty;
+            switch (userAccess)
+            {
+                case UserAccessEnum.Straive_PE:
+                    storedProcedure = "GetAllProductAndServiceByUsername";
+                    break;
+
+                case UserAccessEnum.Client_LE:
+                    storedProcedure = "GetAllProductAndServiceByUserNameLE";
+                    break;
+
+                case UserAccessEnum.CodingSTP:
+                    storedProcedure = "GetAllProductAndServiceByUsernameSTP";
+                    break;
+            }
+            
             var dataTable = new DataTable();
 
             dbConnection.Open();

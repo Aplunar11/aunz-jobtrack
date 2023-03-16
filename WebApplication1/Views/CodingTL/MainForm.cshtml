@@ -175,192 +175,241 @@
         </div>
     }
 
-    <div class="container-fluid mt-3">
-        <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="card gradient-9">
-                    <div class="card-body">
-                        <h3 class="card-title text-white">My Jobs</h3>
-                        <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
-                            <p class="text-white mb-0"></p>
-                        </div>
-                        <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
+<div class="container-fluid mt-3">
+    <div class="row">
+        <!-- my jobs -->
+        <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('myJobs')">
+            <div class="card gradient-9">
+                <div class="card-body">
+                    <h3 class="card-title text-white">My Jobs</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">@ViewBag.MyJobs</h2>
+                        <p class="text-white mb-0"></p>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="card gradient-7">
-                    <div class="card-body">
-                        <h3 class="card-title text-white">Open Jobs</h3>
-                        <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
-                            <p class="text-white mb-0"></p>
-                        </div>
-                        <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="card gradient-3">
-                    <div class="card-body">
-                        <h3 class="card-title text-white">Late Jobs</h3>
-                        <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
-                            <p class="text-white mb-0"></p>
-                        </div>
-                        <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="card gradient-2">
-                    <div class="card-body">
-                        <h3 class="card-title text-white">Due Jobs</h3>
-                        <div class="d-inline-block">
-                            <h2 class="text-white">0</h2>
-                            <p class="text-white mb-0"></p>
-                        </div>
-                        <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
-                    </div>
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div id="properties2">
-                                    <div class="container-fluid px-0">
-                                        <div class="row">
-                                            <div class="col text-center align-items-center text-black-50">
-                                                <h3>My Jobs</h3>
-                                            </div>
+        <!-- open jobs -->
+        <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
+            <div class="card gradient-7">
+                <div class="card-body">
+                    <h3 class="card-title text-white">Open Jobs</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">@ViewBag.OpenJobs</h2>
+                        <p class="text-white mb-0"></p>
+                    </div>
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- late jobs -->
+        <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('LateJobs')">
+            <div class="card gradient-3">
+                <div class="card-body">
+                    <h3 class="card-title text-white">Late Jobs</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">@ViewBag.LateJobs</h2>
+                        <p class="text-white mb-0"></p>
+                    </div>
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- revised jobs -->
+        @*<div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
+            <div class="card gradient-7">
+                <div class="card-body">
+                    <h3 class="card-title text-white">Revised Press Date</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">@ViewBag.RevisedJobs</h2>
+                        <p class="text-white mb-0"></p>
+                    </div>
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+                </div>
+            </div>
+        </div>*@
+
+        <!-- due jobs -->
+        <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('DueJobs')">
+            <div class="card gradient-2">
+                <div class="card-body">
+                    <h3 class="card-title text-white">Due Jobs</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">@ViewBag.DueJobs</h2>
+                        <p class="text-white mb-0"></p>
+                    </div>
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- cancelled jobs -->
+        <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('CancelledJobs')">
+            <div class="card bg-danger">
+                <div class="card-body">
+                    <h3 class="card-title text-white">Cancelled Jobs</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">@ViewBag.CancelledJobs</h2>
+                        <p class="text-white mb-0"></p>
+                    </div>
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-stop"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- completed jobs -->
+        <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('CompletedJobs')">
+            <div class="card bg-success">
+                <div class="card-body">
+                    <h3 class="card-title text-white">Completed Jobs</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">@ViewBag.CompleteJobs</h2>
+                        <p class="text-white mb-0"></p>
+                    </div>
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-check-square"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="properties2">
+                                <div class="container-fluid px-0">
+                                    <div class="row">
+                                        <div class="col text-center align-items-center text-black-50">
+                                            <h3>My Jobs</h3>
                                         </div>
                                     </div>
                                 </div>
-                                <section id="MainTable">
+                            </div>
+                            <section id="MainTable">
 
-                                    <!-- Nav tabs -->
-                                    <div class="tabs-container">
-                                        <ul class="nav nav-tabs container" role="tablist" id="myTabs1">
-                                            <li class="nav-item">
-                                                <a class="nav-link disabled" data-toggle="tab" href="#ProductJobs"><span><i class="fa fa-briefcase"></i>&nbsp;&nbsp;Manuscript</span></a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab" href="#ProductCoversheet"><span><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Task | Coding</span></a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link disabled" data-toggle="tab" href="#ProductSTP"><span><i class="fa fa-print"></i>&nbsp;&nbsp;Send To Print</span></a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <!-- Nav tabs -->
+                                <div class="tabs-container">
+                                    <ul class="nav nav-tabs container" role="tablist" id="myTabs1">
+                                        <li class="nav-item">
+                                            <a class="nav-link disabled" data-toggle="tab" href="#ProductJobs"><span><i class="fa fa-briefcase"></i>&nbsp;&nbsp;Manuscript</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" href="#ProductCoversheet"><span><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Task | Coding</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link disabled" data-toggle="tab" href="#ProductSTP"><span><i class="fa fa-print"></i>&nbsp;&nbsp;Send To Print</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
 
-                                    <!-- Tab panes -->
-                                    <div class="tab-content tabcontent-border">
-                                        <div class="tab-pane fade show" id="ProductJobs" role="tabpanel">
-                                            <div class="card bg-light">
-                                                @*<div class="d-flex p-3">
-                                                        <div class="p-2">
-                                                            <button id="btnAddNew" class="btn btn-success btn-circle float-right"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Add New</button>
-                                                        </div>
-                                                    </div>*@
-                                            </div>
+                                <!-- Tab panes -->
+                                <div class="tab-content tabcontent-border">
+                                    <div class="tab-pane fade show" id="ProductJobs" role="tabpanel">
+                                        <div class="card bg-light">
+                                            @*<div class="d-flex p-3">
+                                                    <div class="p-2">
+                                                        <button id="btnAddNew" class="btn btn-success btn-circle float-right"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Add New</button>
+                                                    </div>
+                                                </div>*@
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="tab-pane fade show active" id="ProductCoversheet" role="tabpanel">
+                                <div class="tab-pane fade show active" id="ProductCoversheet" role="tabpanel">
+                                    <div class="card bg-light">
+                                        <div class="container-fluid mb-3">
+
+                                            <!-- table coversheet -->
+                                            <table class="display nowrap" id="tblDataCoversheet" style="width: 100%;">
+                                                <thead class="table-header-footer">
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>CoversheetID</th>
+                                                        <th>Tier</th>
+                                                        <th>Product</th>
+                                                        <th>Service Number</th>
+                                                        <th>Latest Task Number</th>
+                                                        <th>Coding Status</th>
+                                                        <th>PDF QA Status</th>
+                                                        <th>Online Status</th>
+                                                        <th>Date Created</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot class="table-header-footer">
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>CoversheetID</th>
+                                                        <th>Tier</th>
+                                                        <th>Product</th>
+                                                        <th>Service Number</th>
+                                                        <th>Latest Task Number</th>
+                                                        <th>Coding Status</th>
+                                                        <th>PDF QA Status</th>
+                                                        <th>Online Status</th>
+                                                        <th>Date Created</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="ProductSTP" role="tabpanel">
+                                    <div class="table-responsive">
                                         <div class="card bg-light">
                                             <div class="container-fluid mb-3">
 
-                                                <!-- table coversheet -->
-                                                <table class="display nowrap" id="tblDataCoversheet" style="width: 100%;">
-                                                    <thead class="table-header-footer">
+                                                <!-- table STP -->
+                                                <table class="display nowrap" id="tblDataSTP" style="width: 100%;">
+                                                    <thead class="table-header-footer table_mainrow">
                                                         <tr>
                                                             <th></th>
-                                                            <th>CoversheetID</th>
+                                                            <th></th>
+                                                            <th>ID</th>
+                                                            <th>Send to Print Number</th>
                                                             <th>Tier</th>
-                                                            <th>Product</th>
+                                                            <th>Product ID</th>
                                                             <th>Service Number</th>
-                                                            <th>Latest Task Number</th>
-                                                            <th>Coding Status</th>
-                                                            <th>PDF QA Status</th>
-                                                            <th>Online Status</th>
-                                                            <th>Date Created</th>
+                                                            <th>Current Task</th>
+                                                            <th>Send to Print Status</th>
+                                                            <th>Target Press Date</th>
+                                                            <th>Actual Press Date</th>
+                                                            <th>Conso Highlight Done</th>
+                                                            <th>Filing Instruction Start</th>
+                                                            <th>Filing Instruction Done</th>
+                                                            <th>Dummy Filing 1 Start</th>
+                                                            <th>Dummy Filing 1 Done</th>
+                                                            <th>Dummy Filing 2 Start</th>
+                                                            <th>Dummy Filing 2 Done</th>
+                                                            <th>UECJ Start</th>
+                                                            <th>UECJ Done</th>
+                                                            <th>PC1/PC2 Start</th>
+                                                            <th>PC1/PC2 Done</th>
+                                                            <th>Updating of eBinder Start</th>
+                                                            <th>Updating of eBinder Done</th>
+                                                            <th>Posting Back to Stable Data Start</th>
+                                                            <th>Posting Back to Stable Data Start</th>
                                                         </tr>
                                                     </thead>
-                                                    <tfoot class="table-header-footer">
-                                                        <tr>
-                                                            <th></th>
-                                                            <th>CoversheetID</th>
-                                                            <th>Tier</th>
-                                                            <th>Product</th>
-                                                            <th>Service Number</th>
-                                                            <th>Latest Task Number</th>
-                                                            <th>Coding Status</th>
-                                                            <th>PDF QA Status</th>
-                                                            <th>Online Status</th>
-                                                            <th>Date Created</th>
-                                                        </tr>
-                                                    </tfoot>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="tab-pane fade" id="ProductSTP" role="tabpanel">
-                                        <div class="table-responsive">
-                                            <div class="card bg-light">
-                                                <div class="container-fluid mb-3">
-
-                                                    <!-- table STP -->
-                                                    <table class="display nowrap" id="tblDataSTP" style="width: 100%;">
-                                                        <thead class="table-header-footer table_mainrow">
-                                                            <tr>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <th>ID</th>
-                                                                <th>Send to Print Number</th>
-                                                                <th>Tier</th>
-                                                                <th>Product ID</th>
-                                                                <th>Service Number</th>
-                                                                <th>Current Task</th>
-                                                                <th>Send to Print Status</th>
-                                                                <th>Target Press Date</th>
-                                                                <th>Actual Press Date</th>
-                                                                <th>Conso Highlight Done</th>
-                                                                <th>Filing Instruction Start</th>
-                                                                <th>Filing Instruction Done</th>
-                                                                <th>Dummy Filing 1 Start</th>
-                                                                <th>Dummy Filing 1 Done</th>
-                                                                <th>Dummy Filing 2 Start</th>
-                                                                <th>Dummy Filing 2 Done</th>
-                                                                <th>UECJ Start</th>
-                                                                <th>UECJ Done</th>
-                                                                <th>PC1/PC2 Start</th>
-                                                                <th>PC1/PC2 Done</th>
-                                                                <th>Updating of eBinder Start</th>
-                                                                <th>Updating of eBinder Done</th>
-                                                                <th>Posting Back to Stable Data Start</th>
-                                                                <th>Posting Back to Stable Data Start</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                            </div>
+                                </div>
+                            </section>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
     <!-- #/ container -->
 </div>
 

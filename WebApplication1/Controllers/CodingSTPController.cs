@@ -1,4 +1,5 @@
 ﻿using JobTrack.Models;
+using JobTrack.Models.Enums;
 using JobTrack.Models.JobCoversheet;
 using JobTrack.Models.QuerySTP;
 using JobTrack.Services.Interfaces;
@@ -16,14 +17,20 @@ namespace JobTrack.Controllers
         private readonly ISTPService _sTPService;
         private readonly IQuerySTPService _querySTPService;
         private readonly IJobCoversheetService _jobCoversheetService;
+        private readonly IJobDashboardService _jobDashboardService;
+        private readonly ICoversheetService _coversheetService;
 
         public CodingSTPController(ISTPService sTPService
             , IQuerySTPService querySTPService
-            , IJobCoversheetService jobCoversheetService)
+            , IJobCoversheetService jobCoversheetService
+            , IJobDashboardService jobDashboardService
+            , ICoversheetService coversheetService)
         {
             _sTPService = sTPService;
             _querySTPService = querySTPService;
             _jobCoversheetService = jobCoversheetService;
+            _jobDashboardService = jobDashboardService;
+            _coversheetService = coversheetService;
         }
 
         public ActionResult Index()
@@ -31,15 +38,27 @@ namespace JobTrack.Controllers
             return View();
         }
 
-        public ActionResult MainForm()
+        public async Task<ActionResult> MainForm()
         {
-            ViewBag.MyJobs = 0;
-            ViewBag.OpenJobs = 0;
-            ViewBag.CompleteJobs = 0;
-            ViewBag.CancelledJobs = 0;
-            ViewBag.LateJobs = 0;
-            ViewBag.DueJobs = 0;
-            ViewBag.RevisedJobs = 0;
+            // relogin for new session
+            if (Session["UserName"] == null)
+            {
+                TempData["alertMessage"] = "You must log in to continue";
+                return RedirectToAction("Login", "Login");
+            }
+
+            var username = (string)Session["UserName"];
+            var productsAndServices = await _coversheetService.GetAllProductAndServiceByUsernameAsync(username, UserAccessEnum.CodingSTP);
+            var productIds = string.Join(",", productsAndServices.Select(x => x.BPSProductID));
+            var serviceNumbers = string.Join(",", productsAndServices.Select(x => x.ServiceNumber));
+
+            ViewBag.MyJobs = await _jobDashboardService.GetAllMyJobsByProductAndServiceAsync(productIds, serviceNumbers, UserAccessEnum.CodingSTP);
+            ViewBag.OpenJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndStatusAsync(productIds, serviceNumbers, CodingStatusEnum.New, UserAccessEnum.CodingSTP);
+            ViewBag.CompleteJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndStatusAsync(productIds, serviceNumbers, CodingStatusEnum.Completed, UserAccessEnum.CodingSTP);
+            ViewBag.CancelledJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndStatusAsync(productIds, serviceNumbers, CodingStatusEnum.Cancelled, UserAccessEnum.CodingSTP);
+            ViewBag.LateJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndDueStatus(productIds, serviceNumbers, CodingStatusEnum.Late, UserAccessEnum.CodingSTP);
+            ViewBag.DueJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndDueStatus(productIds, serviceNumbers, CodingStatusEnum.Due, UserAccessEnum.CodingSTP);
+            ViewBag.RevisedJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndDueStatus(productIds, serviceNumbers, CodingStatusEnum.Revised, UserAccessEnum.CodingSTP);
 
             return View();
         }
