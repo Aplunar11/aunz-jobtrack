@@ -1,17 +1,35 @@
 ﻿@model  JobTrack.Models.QueryManuscript.ReplyModel
 
-<div class="row">
-    <div class="col-md">
-        <div style="width: 100%; padding: 5px; border: 1px solid #ccc">
-            <div>
-                Posted by <b>@Model.PostedBy</b>
-            </div>
 
-            <div style="width: 100%; text-align: center">
-                @Model.Message
-            </div>
+@if (Model.PostedBy == ViewBag.UserName)
+{
+    <div class="row mb-2">
+        <div class="col-md"></div>
+        <div class="col-md-6">
+            <div class="chat-box-right">
+                <p class="name"><b>@Model.PostedBy</b></p>
+                <div style="width: 100%; text-align: center">
+                    @Model.Message
+                </div>
 
-            <div style="font-size: 10px; width: 100%; text-align: end">@Model.DatePosted.ToString()</div>
+                <div style="font-size: 10px; float: right">@Model.DatePosted.ToString()</div>
+            </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <div class="row mb-2">        
+        <div class="col-md-6">
+            <div class="chat-box-left">
+                <p class="name"><b>@Model.PostedBy</b></p>
+                <div style="width: 100%; text-align: center">
+                    @Model.Message
+                </div>
+
+                <div style="font-size: 10px; float: right">@Model.DatePosted.ToString()</div>
+            </div>
+        </div>
+        <div class="col-md"></div>
+    </div>
+}

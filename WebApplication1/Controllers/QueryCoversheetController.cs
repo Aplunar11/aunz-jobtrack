@@ -33,6 +33,13 @@ namespace JobTrack.Controllers
 
         public async Task<ActionResult> Reply(int id, int queryid, bool v, int u)
         {
+            // relogin for new session
+            if (Session["UserName"] == null)
+            {
+                TempData["alertMessage"] = "You must log in to continue";
+                return RedirectToAction("Login", "Login");
+            }
+
             // v (isViewOnly)
             var model = new ReplyModel { QueryID = queryid };
             model.Replies = await _queryCoversheetService.GetCoverRepliesAsync(queryid);
@@ -44,6 +51,7 @@ namespace JobTrack.Controllers
             model.CoversheetID = id;
 
             ViewBag.UserAccess = (UserAccessEnum)u;
+            ViewBag.UserName = !(Session["UserName"] is null) ? Session["UserName"] : "system";
             ViewBag.IsViewOnly = v;
 
             return View(model);

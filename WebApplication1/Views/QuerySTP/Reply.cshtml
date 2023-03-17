@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link href="~/temp/chatbox.css" rel="stylesheet" />
     <script src="https://cdn.ckeditor.com/4.15.1/standard-all/ckeditor.js"></script>
     <title>Query STP</title>
 </head>
@@ -86,10 +87,12 @@
                         </div>
                     }
 
-                    @foreach (var reply in Model.Replies)
-                    {
-                        { Html.RenderPartial("_ReplyBox", reply); }
-                    }
+                    <div class="chat-container">
+                        @foreach (var reply in Model.Replies)
+                        {
+                            { Html.RenderPartial("_ReplyBox", reply); }
+                        }
+                    </div>
 
                     <div class="mb-3"></div>
                     <button type="button" class="btn btn-link" onclick="location.href='/QuerySTP/Index?id=@Model.StpID&u=@((int)ViewBag.UserAccess)'">< Go Back</button>

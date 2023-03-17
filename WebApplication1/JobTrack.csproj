@@ -508,6 +508,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="temp\chatbox.css" />
     <Content Include="temp\css\datatable.css" />
     <Content Include="temp\css\style.css" />
     <Content Include="temp\icons\cryptocoins\css\cryptocoins-colors.css" />
