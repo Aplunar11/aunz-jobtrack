@@ -39,6 +39,8 @@ namespace JobTrack.Models.QueryCoversheet
 
         public string FilePath { get; set; }
 
+        public bool IsReplied { get; set; }
+
         public HttpPostedFileBase FileToUpload { get; set; }
     }
 }

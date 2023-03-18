@@ -39,6 +39,8 @@ namespace JobTrack.Models.QuerySTP
 
         public string FilePath { get; set; }
 
+        public bool IsReplied { get; set; }
+
         public HttpPostedFileBase FileToUpload { get; set; }
     }
 }

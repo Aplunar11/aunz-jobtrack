@@ -259,15 +259,7 @@
                 {
                     targets: [8],
                     render: function (data, type, row, meta) {
-
-                        // if repliedBy is not admin, add color code
-                        if (data != 'admin') {
-
-                            let color = data == 'LE' ? 'orange' : 'green';
-                            return '<div style="padding: 6px; background-color: ' + color + '; color: white; border-radius: 5px; font-weight: 600">' + data + '</div>';
-                        }
-                        else
-                            return data;
+                        return row.IsReplied ? '<div style="padding: 6px; background-color: #323941; color: white; border-radius: 5px; font-weight: 600">' + data + '</div>' : 'TBD';
                     }
                 },
                 {
