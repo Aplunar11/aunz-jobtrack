@@ -38,42 +38,39 @@
                             </div>
 
                             <div class="row mb-2">
+                                <div class="col-md">
 
-                                <div class="col-md-4">
                                     <div class="row">
                                         <div class="col-md">
 
                                             <label><b>Query Status: </b></label> &nbsp;
                                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                <label class="btn btn-outline-secondary" style="width: 100px; border-radius: 0" hidden id="label-open">
+                                                <span class="btn btn-outline-secondary" style="width: 100px; border-radius: 0" hidden id="label-open">
                                                     <input type="radio" name="QueryStatusID" value="1" /> Open
-                                                </label>
+                                                </span>
 
-                                                <label class="btn btn-outline-danger" style="width: 100px">
-                                                    <input type="radio" name="QueryStatusID" value="2" /> Cancel
-                                                </label>
+                                                <span class="btn btn-outline-danger" style="width: 100px" onclick="onclickStatus('cancel')">
+                                                    <input type="radio" name="QueryStatusID" value="2" id="input-cancel" /> Cancel
+                                                </span>
 
-                                                <label class="btn btn-outline-success" style="width: 100px; border-radius: 0">
-                                                    <input type="radio" name="QueryStatusID" value="3" /> Close
-                                                </label>
+                                                <span class="btn btn-outline-success" style="width: 100px; border-radius: 0" onclick="onclickStatus('close')">
+                                                    <input type="radio" name="QueryStatusID" value="3" id="input-close" /> Close
+                                                </span>
                                             </div>
+
+                                            @if (!(bool)ViewBag.IsViewOnly)
+                                            {
+                                                <button type="button" class="btn btn-primary" style="width: 100px" onclick="openComment();">Replied</button>
+                                            }
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- display submit in reply mode -->
-                                <div class="col-md" style="text-align: right">
-                                    @if (!(bool)ViewBag.IsViewOnly)
-                                    {
-                                        <button type="button" class="btn btn-primary mb-1" onclick="onclickSubmit();">Submit</button>
-                                    }
-                                </div>
                             </div>
 
-                            <!-- user can't comment when in view mode only -->
-                            <textarea rows="5"
-                                      style="width: 100%; padding: 5px; color: black" name="Message"
-                                      placeholder="Post a comment here..." @((bool)ViewBag.IsViewOnly ? "readonly" : "")></textarea>
+                            @if (!(bool)ViewBag.IsViewOnly)
+                            {
+                                @Html.Partial("CustomControls/_CommentPopupView", new JobTrack.Models.CommentModel { IsViewOnly = (bool)ViewBag.IsViewOnly })
+                            }
 
                             <input type="hidden" name="QueryID" value="@Model.QueryID" />
                         </form>
@@ -106,7 +103,7 @@
 <script>
     $(document).ready(function () {
         // set value
-        $(':radio[name="QueryStatusID"][value="@(Model.QueryStatusID > 0 ? Model.QueryStatusID : 1)"]').attr('checked', 'checked').addClass('active');
+        $(':radio[name="QueryStatusID"][value="@(Model.QueryStatusID > 0 ? Model.QueryStatusID : 1)"]').attr('checked', 'checked').parent().addClass('active');
 
         // set active status
         if (@Model.QueryStatusID > 1) {
@@ -144,5 +141,17 @@
                     alert('Error update.');
             }
         });
+    }
+
+    function onclickStatus(status) {
+        let isOk = confirm("Are you sure you want to change status?");
+        if (!isOk) {
+            $('#input-' + status + ":checked").attr('checked', false);
+            $('#input-' + status + ":checked").parent().removeClass('active');
+        }
+    }
+
+    function openComment() {
+        $('#modal-comment').modal('show');
     }
 </script>

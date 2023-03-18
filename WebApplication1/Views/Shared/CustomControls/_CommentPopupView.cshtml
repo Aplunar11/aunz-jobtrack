@@ -1,0 +1,29 @@
+﻿@model  JobTrack.Models.CommentModel
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-comment">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <!-- header -->
+            <div class="modal-header">
+                <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- body -->
+            <div class="modal-body">
+                <!-- user can't comment when in view mode only -->
+                <textarea rows="5"
+                          style="width: 100%; padding: 5px; color: black; border: 1px solid #ccc" name="Message"
+                          placeholder="Post a reply here..."></textarea>
+            </div>
+
+            <!-- footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="onclickSubmit();">&nbsp; Post &nbsp;</button> &nbsp;
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

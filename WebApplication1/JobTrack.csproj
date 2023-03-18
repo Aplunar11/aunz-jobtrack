@@ -215,6 +215,7 @@
     <Compile Include="Models\Admin\IdentityModels.cs" />
     <Compile Include="Models\Admin\ProductDatabaseModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\Employee\PublicationAssignmentModel.cs" />
     <Compile Include="Models\Enums\CodingStatusEnum.cs" />
     <Compile Include="Models\Enums\UserAccessEnum.cs" />
@@ -5759,6 +5760,7 @@
     <Content Include="Views\Shared\CustomControls\_DateEditorView.cshtml" />
     <Content Include="Views\Shared\CustomControls\_TextareaView.cshtml" />
     <Content Include="Views\CodingSTP\_AddNewSTPView.cshtml" />
+    <Content Include="Views\Shared\CustomControls\_CommentPopupView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
