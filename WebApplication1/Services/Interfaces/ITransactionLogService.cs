@@ -10,6 +10,6 @@ namespace JobTrack.Services.Interfaces
 {
     public interface ITransactionLogService
     {
-        Task<JsonResultModel> UpdateTransactionTionLogAsync(JobData model, string userName);
+        Task<JsonResultModel> UpdateTransactionLogAsync(JobData model, string userName);
     }
 }

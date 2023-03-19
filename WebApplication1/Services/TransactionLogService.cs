@@ -20,7 +20,7 @@ namespace JobTrack.Services
 
         public TransactionLogService() { }
 
-        public async Task<JsonResultModel> UpdateTransactionTionLogAsync(JobData model, string userName)
+        public async Task<JsonResultModel> UpdateTransactionLogAsync(JobData model, string userName)
         {
             var result = new JsonResultModel();
             var storedProcedure = "InsertJobTransactionLog";

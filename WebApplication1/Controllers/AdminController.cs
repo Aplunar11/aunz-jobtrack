@@ -557,30 +557,6 @@ namespace JobTrack.Controllers
         public async Task<ActionResult> GetHistoryTrail()
         {
             var list = await _historyTrailService.GetAllHistoryTrailAsync();
-            list.Add(new HistoryTrailModel
-            {
-                JobNumber = "29",
-                TransactionDate = DateTime.Now.Date,
-                Transactions = "Transaction 1",
-                NewValue = "Value 1"
-            });
-
-            list.Add(new HistoryTrailModel
-            {
-                JobNumber = "29",
-                TransactionDate = DateTime.Now.Date,
-                Transactions = "Transaction 2",
-                NewValue = "Value 2"
-            });
-
-            list.Add(new HistoryTrailModel
-            {
-                JobNumber = "29",
-                TransactionDate = DateTime.Now.Date,
-                Transactions = "Transaction 3",
-                NewValue = "Value 3"
-            });
-
             return Json(list, JsonRequestBehavior.AllowGet);
         }
     }

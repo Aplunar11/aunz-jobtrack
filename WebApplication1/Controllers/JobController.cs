@@ -191,7 +191,7 @@ namespace JobTrack.Controllers
 
                                 if (Count > 0)
                                 {
-                                    var jsonResult = await _transactionLogService.UpdateTransactionTionLogAsync(jdata, Username);
+                                    var jsonResult = await _transactionLogService.UpdateTransactionLogAsync(jdata, Username);
                                     if (jsonResult.IsSuccess)
                                     {
                                         mdata.Response = "Y";
@@ -230,7 +230,7 @@ namespace JobTrack.Controllers
                                     dbConnection.Open();
                                 int Count = com.ExecuteNonQuery();
 
-                                var jsonResult = await _transactionLogService.UpdateTransactionTionLogAsync(jdata, Username);
+                                var jsonResult = await _transactionLogService.UpdateTransactionLogAsync(jdata, Username);
                                 if (jsonResult.IsSuccess)
                                 {
                                     mdata.Response = "Y";
