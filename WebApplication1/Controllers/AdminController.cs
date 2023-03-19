@@ -25,11 +25,13 @@ namespace JobTrack.Controllers
 
         private readonly IPublicationAssignService _publicationAssignService;
         private readonly IEmployeeService _employeeService;
+        private readonly IHistoryTrailService _historyTrailService;
 
-        public AdminController(IPublicationAssignService publicationAssignService, IEmployeeService employeeService)
+        public AdminController(IPublicationAssignService publicationAssignService, IEmployeeService employeeService, IHistoryTrailService historyTrailService)
         {
             _publicationAssignService = publicationAssignService;
             _employeeService = employeeService;
+            _historyTrailService = historyTrailService;
         }
 
         public ActionResult _EditEmployeeView()
@@ -538,6 +540,48 @@ namespace JobTrack.Controllers
             }
 
             return Json(result);
+        }
+
+        public async Task<ActionResult> HistoryTrail()
+        {
+            // relogin for new session
+            if (Session["UserName"] == null)
+            {
+                TempData["alertMessage"] = "You must log in to continue";
+                return RedirectToAction("Login", "Login");
+            }
+
+            return View();
+        }
+
+        public async Task<ActionResult> GetHistoryTrail()
+        {
+            var list = await _historyTrailService.GetAllHistoryTrailAsync();
+            list.Add(new HistoryTrailModel
+            {
+                JobNumber = "29",
+                TransactionDate = DateTime.Now.Date,
+                Transactions = "Transaction 1",
+                NewValue = "Value 1"
+            });
+
+            list.Add(new HistoryTrailModel
+            {
+                JobNumber = "29",
+                TransactionDate = DateTime.Now.Date,
+                Transactions = "Transaction 2",
+                NewValue = "Value 2"
+            });
+
+            list.Add(new HistoryTrailModel
+            {
+                JobNumber = "29",
+                TransactionDate = DateTime.Now.Date,
+                Transactions = "Transaction 3",
+                NewValue = "Value 3"
+            });
+
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
     }
 }

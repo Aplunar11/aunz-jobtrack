@@ -221,6 +221,7 @@
     <Compile Include="Models\Enums\UserAccessEnum.cs" />
     <Compile Include="Models\Extensions\Extensions.cs" />
     <Compile Include="Models\FormFieldModel.cs" />
+    <Compile Include="Models\HistoryTrailModel.cs" />
     <Compile Include="Models\JobCountModel.cs" />
     <Compile Include="Models\QueryCoversheet\CoversheetDataModel.cs" />
     <Compile Include="Models\QueryCoversheet\QueryCoversheetModel.cs" />
@@ -248,8 +249,10 @@
     <Compile Include="Services\CoversheetService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\EncryptionLibrary.cs" />
+    <Compile Include="Services\HistoryTrailService.cs" />
     <Compile Include="Services\Interfaces\ICoversheetService.cs" />
     <Compile Include="Services\Interfaces\IEmployeeService.cs" />
+    <Compile Include="Services\Interfaces\IHistoryTrailService.cs" />
     <Compile Include="Services\Interfaces\IJobCoversheetService.cs" />
     <Compile Include="Services\Interfaces\IJobDashboardService.cs" />
     <Compile Include="Services\Interfaces\IJobdataService.cs" />
@@ -5761,6 +5764,7 @@
     <Content Include="Views\Shared\CustomControls\_TextareaView.cshtml" />
     <Content Include="Views\CodingSTP\_AddNewSTPView.cshtml" />
     <Content Include="Views\Shared\CustomControls\_CommentPopupView.cshtml" />
+    <Content Include="Views\Admin\HistoryTrail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
