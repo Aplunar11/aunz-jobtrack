@@ -53,6 +53,7 @@
     <Content Include="Database\jobtrackaunz_v1 %283%29.sql" />
     <Content Include="Database\jobtrackaunz_v1 %284%29.sql" />
     <Content Include="Database\jobtrackaunz_v1 %285%29.sql" />
+    <Content Include="Database\jobtrackaunz_v1 %286%29.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
