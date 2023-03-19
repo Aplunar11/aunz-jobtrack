@@ -49,6 +49,7 @@ namespace JobTrack.Controllers
             model.CoverTopicTitle = querycoversheet.CoverTopicTitle;
             model.CoverType = querycoversheet.CoverType;
             model.CoversheetID = id;
+            model.IsReplied = querycoversheet.IsReplied;
 
             ViewBag.UserAccess = (UserAccessEnum)u;
             ViewBag.UserName = !(Session["UserName"] is null) ? Session["UserName"] : "system";

@@ -49,6 +49,7 @@ namespace JobTrack.Controllers
             model.STPTopicTitle = querystp.STPTopicTitle;
             model.STPType = querystp.STPType;
             model.StpID = id;
+            model.IsReplied = querystp.IsReplied;
 
             ViewBag.UserAccess = (UserAccessEnum)u;
             ViewBag.UserName = !(Session["UserName"] is null) ? Session["UserName"] : "system";

@@ -41,6 +41,8 @@ namespace JobTrack.Models.QueryManuscript
 
         public string STPType { get; set; }
 
+        public bool IsReplied { get; set; }
+
         public List<ReplyModel> Replies { get; set; }
 
         public ReplyModel()

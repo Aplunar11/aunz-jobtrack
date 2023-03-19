@@ -49,6 +49,7 @@ namespace JobTrack.Controllers
             model.QueryTopicTitle = queryManuscript.QueryTopicTitle;
             model.QueryType = queryManuscript.QueryType;
             model.ManuscriptID = id;
+            model.IsReplied = queryManuscript.IsReplied;
 
             ViewBag.UserAccess = (UserAccessEnum)u;
             ViewBag.UserName = !(Session["UserName"] is null) ? Session["UserName"] : "system";

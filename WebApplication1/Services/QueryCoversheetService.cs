@@ -228,6 +228,7 @@ namespace JobTrack.Services
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@p_id", model.QueryID);
                     command.Parameters.AddWithValue("@p_coverstatus_id", model.CoverStatusID);
+                    command.Parameters.AddWithValue("@p_repliedby", model.PostedBy);
 
                     int rowAffected = command.ExecuteNonQuery();
                 }

@@ -256,6 +256,7 @@ namespace JobTrack.Services
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@p_id", model.QueryID);
                     command.Parameters.AddWithValue("@p_querystatus_id", model.QueryStatusID);
+                    command.Parameters.AddWithValue("@p_repliedby", model.PostedBy);
 
                     int rowAffected = command.ExecuteNonQuery();
                 }
