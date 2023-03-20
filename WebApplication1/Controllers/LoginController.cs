@@ -35,12 +35,12 @@ namespace JobTrack.Controllers
         {
             try
             {
-                if (!this.IsCaptchaValid("Captcha is not valid"))
-                {
-                    ViewBag.errormessage = "Captcha entered is not valid";
+                //if (!this.IsCaptchaValid("Captcha is not valid"))
+                //{
+                //    ViewBag.errormessage = "Captcha entered is not valid";
 
-                    return View(loginViewModel);
-                }
+                //    return View(loginViewModel);
+                //}
                 if (!string.IsNullOrEmpty(loginViewModel.Username) && !string.IsNullOrEmpty(loginViewModel.Password))
                 {
                     var result = IsUserValid(loginViewModel.Username, loginViewModel.Password);
