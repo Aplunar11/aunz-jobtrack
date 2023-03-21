@@ -44,19 +44,18 @@
                                         <div class="col-md">
 
                                             <label><b>Query Status: </b></label> &nbsp;
-                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                <span class="btn btn-outline-secondary" style="width: 100px; border-radius: 0" hidden id="label-open">
-                                                    <input type="radio" name="QueryStatusID" value="1" /> Open
-                                                </span>
 
-                                                <span class="btn btn-outline-danger" style="width: 100px" onclick="onclickStatus('cancel')">
-                                                    <input type="radio" name="QueryStatusID" value="2" id="input-cancel" /> Cancel
-                                                </span>
-
-                                                <span class="btn btn-outline-success" style="width: 100px; border-radius: 0" onclick="onclickStatus('close')">
-                                                    <input type="radio" name="QueryStatusID" value="3" id="input-close" /> Close
-                                                </span>
+                                            <!-- button select -->
+                                            <button type="button" class="btn btn-outline-secondary" onclick="onclickStatus('open');" id="btn-open" hidden>Open</button>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-outline-danger" onclick="onclickStatus('cancel');" id="btn-cancel">Cancel</button>
+                                                <button type="button" class="btn btn-outline-success" onclick="onclickStatus('close');" id="btn-close">Close</button>
                                             </div>
+
+                                            <!-- hidden radiobutton -->
+                                            <input type="radio" name="QueryStatusID" value="1" id="radio-open" hidden />
+                                            <input type="radio" name="QueryStatusID" value="2" id="radio-cancel" hidden />
+                                            <input type="radio" name="QueryStatusID" value="3" id="radio-close" hidden />
 
                                             @if (!(bool)ViewBag.IsViewOnly)
                                             {
@@ -105,19 +104,7 @@
     $(document).ready(function () {
         // set value
         $(':radio[name="QueryStatusID"][value="@(Model.QueryStatusID > 0 ? Model.QueryStatusID : 1)"]').attr('checked', 'checked').parent().addClass('active');
-
-        // set active status
-        if (@Model.QueryStatusID > 1) {
-            $("input[name='QueryStatusID']:checked").parent().addClass('active').removeAttr('hidden');
-        }
-        else
-            $("input[name='QueryStatusID']:checked").parent().addClass('active');
-
-        // if it's view only mode, hide unselected status
-        if ('@ViewBag.IsViewOnly' == 'True') {
-            $("input[name='QueryStatusID']").parent().attr('hidden', true);
-            $("input[name='QueryStatusID']:checked").parent().addClass('active').removeAttr('hidden');
-        }
+        setupButtons(@Model.QueryStatusID, '@ViewBag.IsViewOnly' == 'True');
     });
 
     function onclickSubmit() {
@@ -127,6 +114,10 @@
         $(formData).each(function (index, obj) {
             datasource[obj.name] = obj.value;
         });
+
+        if (datasource.Message === '') {
+            datasource.Message = datasource.QueryStatusID === '2' ? "Cancelled" : "Closed";
+        }
 
         // process data to api
         $.ajax({
@@ -144,11 +135,40 @@
         });
     }
 
-    function onclickStatus(status) {
-        let isOk = confirm("Are you sure you want to change status?");
-        if (!isOk) {
-            $('#input-' + status + ":checked").attr('checked', false);
-            $('#input-' + status + ":checked").parent().removeClass('active');
+    function onclickStatus(id) {
+        let isOk = confirm('Are you sure you want to change status? it will save automatically.');
+        if (!isOk)
+            return;
+
+        $('#radio-' + id).prop('checked', true);
+        setTimeout(function () {
+            onclickSubmit();
+        }, 500);
+    }
+
+    function setupButtons(statusId, isRead) {
+        $('#btn-open').css('pointer-events', 'none');
+        $('.btn-group').css('pointer-events', isRead ? 'none' : 'auto');
+
+        switch (statusId) {
+            case 1:
+                $('.btn-group').attr('hidden', true);
+                $('#btn-open').removeAttr('hidden');
+                $('#btn-open').addClass('active');
+                break;
+
+            case 2:
+                $('#btn-cancel').addClass('active');
+                break;
+
+            case 3:
+                $('#btn-close').addClass('active');
+                break;
+        }
+
+        if (!isRead) {
+            $('#btn-open').attr('hidden', true);
+            $('.btn-group').removeAttr('hidden');
         }
     }
 

@@ -44,7 +44,7 @@
                                     <div class="col-md">
 
                                         <label><b>Cover Status: </b></label> &nbsp;
-                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        @*<div class="btn-group btn-group-toggle" data-toggle="buttons">
                                             <label class="btn btn-outline-secondary" style="width: 100px; border-radius: 0" hidden id="label-open">
                                                 <input type="radio" name="CoverStatusID" value="1" /> Open
                                             </label>
@@ -56,7 +56,19 @@
                                             <label class="btn btn-outline-success" style="width: 100px; border-radius: 0" onclick="onclickStatus('close')">
                                                 <input type="radio" name="CoverStatusID" value="3" id="input-close" /> Close
                                             </label>
+                                        </div>*@
+
+                                        <!-- button select -->
+                                        <button type="button" class="btn btn-outline-secondary" onclick="onclickStatus('open');" id="btn-open" hidden>Open</button>
+                                        <div class="btn-group">                                            
+                                            <button type="button" class="btn btn-outline-danger" onclick="onclickStatus('cancel');" id="btn-cancel">Cancel</button>
+                                            <button type="button" class="btn btn-outline-success" onclick="onclickStatus('close');" id="btn-close">Close</button>
                                         </div>
+
+                                        <!-- hidden radiobutton -->
+                                        <input type="radio" name="CoverStatusID" value="1" id="radio-open" hidden/>
+                                        <input type="radio" name="CoverStatusID" value="2" id="radio-cancel" hidden/>
+                                        <input type="radio" name="CoverStatusID" value="3" id="radio-close" hidden/>
 
                                         @if (!(bool)ViewBag.IsViewOnly)
                                         {
@@ -105,19 +117,7 @@
     $(document).ready(function () {
         // set value
         $(':radio[name="CoverStatusID"][value="@(Model.CoverStatusID > 0 ? Model.CoverStatusID : 1)"]').attr('checked', 'checked').parent().addClass('active');
-
-        // set active status
-        if (@Model.CoverStatusID > 1) {
-            $("input[name='CoverStatusID']:checked").parent().addClass('active').removeAttr('hidden');
-        }
-        else
-            $("input[name='CoverStatusID']:checked").parent().addClass('active');
-
-        // if it's view only mode, hide unselected status
-        if ('@ViewBag.IsViewOnly' == 'True') {
-            $("input[name='CoverStatusID']").parent().attr('hidden', true);
-            $("input[name='CoverStatusID']:checked").parent().addClass('active').removeAttr('hidden');
-        }
+        setupButtons(@Model.CoverStatusID, '@ViewBag.IsViewOnly' == 'True');
     });
 
     function onclickSubmit() {
@@ -127,6 +127,10 @@
         $(formData).each(function (index, obj) {
             datasource[obj.name] = obj.value;
         });
+
+        if (datasource.Message === '') {
+            datasource.Message = datasource.CoverStatusID === '2' ? "Cancelled" : "Closed";
+        }
 
         // process data to api
         $.ajax({
@@ -144,11 +148,40 @@
         });
     }
 
-    function onclickStatus(status) {
-        let isOk = confirm("Are you sure you want to change status?");
-        if (!isOk) {
-            $('#input-' + status + ":checked").attr('checked', false);
-            $('#input-' + status + ":checked").parent().removeClass('active');
+    function onclickStatus(id) {
+        let isOk = confirm('Are you sure you want to change status? it will save automatically.');
+        if (!isOk)
+            return;
+
+        $('#radio-' + id).prop('checked', true);
+        setTimeout(function () {
+            onclickSubmit();
+        }, 500);
+    }
+
+    function setupButtons(statusId, isRead) {
+        $('#btn-open').css('pointer-events', 'none');
+        $('.btn-group').css('pointer-events', isRead ? 'none' : 'auto');
+
+        switch (statusId) {
+            case 1:
+                $('.btn-group').attr('hidden', true);
+                $('#btn-open').removeAttr('hidden');
+                $('#btn-open').addClass('active');
+                break;
+
+            case 2:
+                $('#btn-cancel').addClass('active');
+                break;
+
+            case 3:
+                $('#btn-close').addClass('active');
+                break;
+        }
+
+        if (!isRead) {
+            $('#btn-open').attr('hidden', true);
+            $('.btn-group').removeAttr('hidden');
         }
     }
 
