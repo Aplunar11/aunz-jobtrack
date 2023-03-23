@@ -337,6 +337,7 @@ namespace JobTrack.Controllers
         public async Task<ActionResult> UpdateEmployee(EmployeeData model)
         {
             var result = new JsonResultModel();
+            model.User = (string)Session["UserName"];
 
             try
             {

@@ -39,10 +39,11 @@ namespace JobTrack.Services
                 command.Parameters.AddWithValue("@p_LastName", model.LastName);
                 command.Parameters.AddWithValue("@p_EmailAddress", model.EmailAddress);
                 command.Parameters.AddWithValue("@p_IsManager", model.isManager);
-                command.Parameters.AddWithValue("@p_IsEditoralContact", model.isEditorialContact);
+                command.Parameters.AddWithValue("@p_IsEditorialContact", model.isEditorialContact);
                 command.Parameters.AddWithValue("@p_IsEmailList", model.isEmailList);
                 command.Parameters.AddWithValue("@p_IsMandatoryRecepient", model.isMandatoryRecepient);
                 command.Parameters.AddWithValue("@p_IsShowUser", model.isShowUser);
+                command.Parameters.AddWithValue("@p_User", model.User);
 
                 var reader = command.ExecuteReader();
                 dataTable.Load(reader);

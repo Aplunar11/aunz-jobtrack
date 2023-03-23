@@ -40,6 +40,8 @@ namespace JobTrack.Models.Employee
         public int isMandatoryRecepient { get; set; }
         public int isShowUser { get; set; }
         public DateTime PasswordUpdateDate { get; set; }
+
+        public string User { get; set; }
     }
 
     public class EmployeeAccess
