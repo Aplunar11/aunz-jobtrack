@@ -38,5 +38,7 @@ namespace JobTrack.Models.Employee
         public DateTime? DateUpdated { get; set; }
 
         public int UpdateEmployeeID { get; set; }
+
+        public string User { get; set; }
     }
 }

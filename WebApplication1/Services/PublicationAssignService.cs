@@ -64,6 +64,7 @@ namespace JobTrack.Services
                 command.Parameters.AddWithValue("@p_LEEmail", model.LEEmail);
                 command.Parameters.AddWithValue("@p_LEUserName", model.LEUserName);
                 command.Parameters.AddWithValue("@p_LEStatus", model.LEStatus);
+                command.Parameters.AddWithValue("@p_User", model.User);
                 command.Parameters.AddWithValue("@p_CreatedEmployeeID", 1);
                 command.Parameters.AddWithValue("@p_UpdateEmployeeID", 1);
 

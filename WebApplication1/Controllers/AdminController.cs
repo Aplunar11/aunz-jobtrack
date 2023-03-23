@@ -529,6 +529,7 @@ namespace JobTrack.Controllers
         public async Task<ActionResult> UpdatePublicationAssignment(PublicationAssignmentModel model)
         {
             var result = new JsonResultModel();
+            model.User = (string)Session["UserName"];
 
             try
             {
