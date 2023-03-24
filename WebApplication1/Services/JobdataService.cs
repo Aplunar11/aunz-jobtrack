@@ -9,6 +9,7 @@ using MySql.Data.MySqlClient;
 using System.Configuration;
 using Newtonsoft.Json;
 using JobTrack.Models.Job;
+using JobTrack.Models.Enums;
 
 namespace JobTrack.Services
 {
@@ -20,9 +21,9 @@ namespace JobTrack.Services
 
         public JobdataService() { }
 
-        public async Task<List<JobData>> GetJobdataByUserNameLEorPEAsync(string userName)
+        public async Task<List<JobData>> GetJobdataByUserNameLEorPEAsync(string userName, UserAccessEnum userAccess)
         {
-            var storedProcedure = "GetAllJobDataByUserNameLE";
+            var storedProcedure = userAccess == UserAccessEnum.Client_LE ? "GetAllJobDataByUserNameLE" : "GetAllJobDataByUserNamePE";
             var dataTable = new DataTable();
 
             dbConnection.Open();
@@ -31,6 +32,47 @@ namespace JobTrack.Services
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@p_Username", userName);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<JobData>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list);
+        }
+
+        public async Task<List<JobData>> GetJobdataByUserAsync(string userName, UserAccessEnum userAccess)
+        {
+            var storedProcedure = string.Empty;
+
+            switch (userAccess)
+            {
+                case UserAccessEnum.Admin:
+                    storedProcedure = "GetAllJobData";
+                    break;
+
+                case UserAccessEnum.Client_LE:
+                    storedProcedure = "GetAllJobDataByUserNameLE";
+                    break;
+
+                case UserAccessEnum.Straive_PE:
+                    storedProcedure = "GetAllJobDataByUserNamePE";
+                    break;
+            }
+
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                
+                if (userAccess != UserAccessEnum.Admin)
+                    command.Parameters.AddWithValue("@p_Username", userName);
 
                 var reader = command.ExecuteReader();
                 dataTable.Load(reader);

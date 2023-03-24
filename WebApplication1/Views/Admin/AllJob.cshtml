@@ -403,7 +403,8 @@
         function loadTableManuscript() {
             var tableData = $('#tblData').DataTable({
                 "ajax": {
-                    "url": "@Url.Action("GetJobData", "Job")",
+                    "url": "@Url.Action("GetJobDataByUser", "Job")",
+                    "data": { userAccessType: 1 },
                     "dataSrc": "",
                     "type": "GET",
                     "datatype": "json"
@@ -437,7 +438,7 @@
                         "defaultContent": ''
                     },
                     { "data": "JobID" },
-                    { "data": "JobNumber" },
+                    { "data": "JobNumberText" },
                     { "data": "ManuscriptTier" },
                     { "data": "BPSProductID" },
                     { "data": "ServiceNumber" },
@@ -712,7 +713,7 @@
                                 "defaultContent": ''
                             },
                             { "data": "ManuscriptID" },
-                            { "data": "JobNumber" },
+                            { "data": "JobNumberText" },
                             { "data": "ManuscriptTier" },
                             { "data": "BPSProductID" },
                             { "data": "ServiceNumber" },
