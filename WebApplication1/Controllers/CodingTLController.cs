@@ -18,10 +18,6 @@ namespace JobTrack.Controllers
 {
     public class CodingTLController : Controller
     {
-        // CONNECTION STRING
-        public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
-        public MySqlCommand cmd = new MySqlCommand();
-        public MySqlDataAdapter adp = new MySqlDataAdapter();
         public ActionResult TopMenu()
         {
             return PartialView("_Topbar");
@@ -31,6 +27,7 @@ namespace JobTrack.Controllers
         {
             return PartialView("_SidebarRegular");
         }
+
         public async Task<ActionResult> MainForm()
         {
             // relogin for new session

@@ -603,6 +603,12 @@
                                 "data": null,
                                 "defaultContent": ''
                             },
+                            {
+                                "className": 'details-control4',
+                                "orderable": false,
+                                "data": null,
+                                "defaultContent": ''
+                            },
                             { "data": "CoversheetID" },
                             { "data": "CoversheetID" },
                             { "data": "CoversheetNumber" },
@@ -629,7 +635,7 @@
                         columnDefs: [
                             { "className": "dt-center", "targets": "_all" },
                             {
-                                targets: [1],
+                                targets: [2],
                                 searchable: false,
                                 orderable: false,
                                 render: function (rowData) {
@@ -736,7 +742,7 @@
                     let rowData = c_row.data();
                     let dataNew = childTableCoversheet.row(this).data();
 
-                    window.location.href = "/QueryCoversheet/Index?id=" + dataNew['CoversheetID'] + "&u=" + @((int)JobTrack.Models.Enums.UserAccessEnum.Straive_PE);
+                    window.location.href = "/QueryCoversheet/Index?id=" + dataNew['CoversheetID'] + "&u=" + @((int)JobTrack.Models.Enums.UserAccessEnum.Coding_TL);
                 });
             });
         }
@@ -877,6 +883,7 @@
                 '<thead><tr>' +
                 '<th></th>' +
                 '<th></th>' +
+                '<th></th>' +
                 '<th>CoversheetID</th>' +
                 '<th>Coversheet Number</th>' +
                 '<th>Tier</th>' +
@@ -902,6 +909,7 @@
 
                 // footer
                 '<tfoot><tr>' +
+                '<th></th>' +
                 '<th></th>' +
                 '<th></th>' +
                 '<th>CoversheetID</th>' +

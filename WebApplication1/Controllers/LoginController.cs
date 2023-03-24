@@ -57,39 +57,36 @@ namespace JobTrack.Controllers
 
                             Session["UserAccess"] = Convert.ToString(result.UserAccess);
                             Session["UserName"] = Convert.ToString(result.UserName);
+                            Session["EmployeeID"] = Convert.ToString(result.EmployeeID);
+
                             if (UserAccess == "Admin")
                             {
-                                Session["EmployeeID"] = Convert.ToString(result.EmployeeID);
                                 return RedirectToAction("AllJob", "Admin");
                             }
                             else if (UserAccess == "Client(LE)")
                             {
-                                Session["EmployeeID"] = Convert.ToString(result.EmployeeID);
                                 return RedirectToAction("Mainform", "LE");
-                                //return RedirectToAction("AllJob", "Admin");
                             }
                             else if (UserAccess == "Straive(PE)")
                             {
-                                Session["EmployeeID"] = Convert.ToString(result.EmployeeID);
-                                //return RedirectToAction("PEIndex", "PE");
                                 return RedirectToAction("MainForm", "PE");
                             }
                             else if (UserAccess == "Coding")
                             {
-                                Session["EmployeeID"] = Convert.ToString(result.EmployeeID);
                                 return RedirectToAction("Mainform", "Coding");
                             }
                             else if (UserAccess == "Coding TL")
                             {
-                                Session["EmployeeID"] = Convert.ToString(result.EmployeeID);
                                 return RedirectToAction("Mainform", "CodingTL");
                             }
                             else if (UserAccess == "Coding(STP)")
                             {
-                                Session["EmployeeID"] = Convert.ToString(result.EmployeeID);
                                 return RedirectToAction("MainForm", "CodingSTP");
                             }
-                            
+                            else if (UserAccess == "Coding(STP) TL")
+                            {
+                                return RedirectToAction("MainForm", "CodingSTPTL");
+                            }
                         }
                     }
                     else

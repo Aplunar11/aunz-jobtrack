@@ -196,6 +196,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CodingController.cs" />
     <Compile Include="Controllers\CodingSTPController.cs" />
+    <Compile Include="Controllers\CodingSTPTLController.cs" />
     <Compile Include="Controllers\CodingTLController.cs" />
     <Compile Include="Controllers\CoversheetController.cs" />
     <Compile Include="Controllers\JobController.cs" />
@@ -5765,6 +5766,7 @@
     <Content Include="Views\CodingSTP\_AddNewSTPView.cshtml" />
     <Content Include="Views\Shared\CustomControls\_CommentPopupView.cshtml" />
     <Content Include="Views\Admin\HistoryTrail.cshtml" />
+    <Content Include="Views\CodingSTPTL\MainForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
