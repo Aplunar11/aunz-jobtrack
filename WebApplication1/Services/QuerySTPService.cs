@@ -22,9 +22,9 @@ namespace JobTrack.Services
 
         public QuerySTPService() { }
 
-        public async Task<List<STPDataModel>> GetAllSTPDataAsync()
+        public async Task<List<STPDataModel>> GetAllSTPDataAsync(string userName, UserAccessEnum userAccess)
         {
-            var storedProcedure = "GetAllSTPData";
+            var storedProcedure = userAccess == UserAccessEnum.CodingSTP ? "GetAllSTPDataByUser" : "GetAllSTPData";
             var dataTable = new DataTable();
 
             dbConnection.Open();
@@ -32,6 +32,9 @@ namespace JobTrack.Services
             using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
             {
                 command.CommandType = CommandType.StoredProcedure;
+
+                if (userAccess == UserAccessEnum.CodingSTP)
+                    command.Parameters.AddWithValue("@p_Username", userName);
 
                 var reader = command.ExecuteReader();
                 dataTable.Load(reader);

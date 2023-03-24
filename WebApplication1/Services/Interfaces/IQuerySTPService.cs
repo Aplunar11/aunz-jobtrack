@@ -11,7 +11,7 @@ namespace JobTrack.Services.Interfaces
 {
     public interface IQuerySTPService
     {
-        Task<List<STPDataModel>> GetAllSTPDataAsync();
+        Task<List<STPDataModel>> GetAllSTPDataAsync(string userName, UserAccessEnum userAccess);
 
         Task<STPDataModel> GetSTPDataByIdAsync(int id);
 

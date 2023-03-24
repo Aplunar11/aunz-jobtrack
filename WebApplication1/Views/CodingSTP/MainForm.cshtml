@@ -475,6 +475,7 @@
                 dom: 'Bfrtip',
                 ajax: {
                     url: "@Url.Action("GetSTPData", "CodingSTP")",
+                    data: { userAccessType: 7 },   // CodingSTP
                     type: 'GET',
                     dataType: 'json',
                     dataSrc: ''
@@ -532,16 +533,12 @@
                     },
                 ],
                 buttons: {
-                    //reset class and change the rendered tag
-                    //from <button> to <i>
                     dom: {
                         button: {
                             tag: 'i',
                             className: ''
                         }
                     },
-                    //since we now have completely unstyled icons add
-                    //some space between them trough a .custom-btn class
                     buttons: [
                         {
                             titleAttr: 'Copy',
@@ -603,14 +600,6 @@
 
                 window.location.href = "/QuerySTP/Index?id=" + dataNew['ID'] + "&u=" + @((int)JobTrack.Models.Enums.UserAccessEnum.CodingSTP);
             });
-        }
-
-        function onclickJobType(jobType) {
-            //let controls = $('#tblDataSTP td.details-control');
-
-            //controls.toArray().forEach((dataItem) => {
-            //    dataItem.click();
-            //});
         }
     </script>
 }

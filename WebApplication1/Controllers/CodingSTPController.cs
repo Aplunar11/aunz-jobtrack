@@ -63,14 +63,18 @@ namespace JobTrack.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetSTPData()
+        public async Task<ActionResult> GetSTPData(int userAccessType)
         {
-            var mdata = await _querySTPService.GetAllSTPDataAsync();
+            var username = (string)Session["UserName"];
+            var mdata = await _querySTPService.GetAllSTPDataAsync(username, (UserAccessEnum)userAccessType);
 
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> _AddNewSTPView(string coversheetids, string bpsproductid, string serviceno)
+        public async Task<ActionResult> _AddNewSTPView(string coversheetids
+            , string bpsproductid
+            , string serviceno
+            , int userAccessType)
         {
             var maxID = await _sTPService.GetSTPMaxIDAsync();
 
