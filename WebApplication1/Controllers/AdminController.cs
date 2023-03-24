@@ -39,11 +39,6 @@ namespace JobTrack.Controllers
             return PartialView();
         }
 
-        public ActionResult _EditEmployeeView2()
-        {
-            return PartialView();
-        }
-
         public ActionResult _EditPublicationView()
         {
             return PartialView();

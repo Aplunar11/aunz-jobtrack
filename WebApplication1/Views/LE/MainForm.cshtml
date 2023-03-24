@@ -458,19 +458,15 @@
                     { "data": "OnlineStatus" },
                     { "data": "STPStatus" }
                 ],
-                order: [[2, 'asc']],
+                order: [[1, 'desc']],
                 dom: 'Bfrtip',
                 buttons: {
-                    //reset class and change the rendered tag
-                    //from <button> to <i>
                     dom: {
                         button: {
                             tag: 'i',
                             className: ''
                         }
                     },
-                    //since we now have completely unstyled icons add
-                    //some space between them trough a .custom-btn class
                     buttons: [
                         {
                             titleAttr: 'Copy',
