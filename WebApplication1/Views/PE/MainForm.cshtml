@@ -35,7 +35,7 @@
     }
 
     div.inner {
-        /*max-width: 1000px;*/
+        max-width: 1000px;
         justify-content: left;
         /*max-width: 20%;*/
         overflow: hidden;
@@ -898,7 +898,6 @@
             let tableCoversheet = $('#tblDataCoversheet').DataTable({
                 dom: 'Bfrtip',
                 ajax: {
-                    //url: "@Url.Action("GetJobCoversheetData", "JobCoversheet")",
                     url: "@Url.Action("GetAllJobCoversheetDataByUserNameLEorPE", "JobCoversheet")",
                     type: 'GET',
                     dataType: 'json',
@@ -922,7 +921,6 @@
                     { data: 'DateCreated' }
                 ],
                 columnDefs: [
-                    //center all data
                     { className: "dt-center", "targets": "_all" },
                     {
                         targets: [1],
@@ -1004,7 +1002,7 @@
                 //get index to use for child table ID
                 let index = row.index();
                 let data = tableCoversheet.row(this).data();
-                console.log('job coversheet: ', data);
+                //console.log('job coversheet: ', data);
 
                 if (row.child.isShown()) {
                     // close row
@@ -1117,7 +1115,8 @@
                                                 data: {
                                                     coversheetids: coversheetids.join(','),
                                                     bpsproductid: data['BPSProductID'],
-                                                    serviceno: data['ServiceNumber']
+                                                    serviceno: data['ServiceNumber'],
+                                                    userAccessType: 3   // Straive(PE)
                                                 },
                                                 success: function (response) {
                                                     $('#modalWrapper').html(response);
@@ -1193,6 +1192,7 @@
                 dom: 'Bfrtip',
                 ajax: {
                     url: "@Url.Action("GetSTPData", "CodingSTP")",
+                    data: { userAccessType: @((int)JobTrack.Models.Enums.UserAccessEnum.Straive_PE) },
                     type: 'GET',
                     dataType: 'json',
                     dataSrc: ''
@@ -1238,7 +1238,7 @@
                 columnDefs: [
                     { className: "dt-center", "targets": "_all" },
                     {
-                        targets: [2],
+                        targets: [0, 2],
                         visible: false,
                         searchable: false
                     },
@@ -1300,7 +1300,7 @@
                 createdRow: function (row, data, index) {
                     if (data.extn === '') {
                         let td = $(row).find("td:first");
-                        td.removeClass('details-control');
+                        td.removeClass('details-control3');
                     }
                 },
                 rowCallback: function (row, data, index) {
@@ -1308,8 +1308,25 @@
                 }
             });
 
-            // assign link icon to main table row
-            $('#tblDataSTP tbody').off().on('click', 'td.details-control4', function () {
+            // info icon
+            $('#tblDataSTP tbody').on('click', 'td.details-control3', function () {
+                let tr = $(this).closest('tr');
+                let row = tableSTP.row(tr);
+                let rowData2 = row.data();
+                let dataNew = tableSTP.row(this).data();
+                let obj = {
+                    userAccessType: @((int)JobTrack.Models.Enums.UserAccessEnum.Straive_PE),
+                    StpID: dataNew['ID']
+                }
+
+                GotoControllerAsync('/CodingSTP/_EditSTPView', 'POST', obj, false, 'html', function (response) {
+                    $('#modalWrapper').html(response);
+                    $('#modal-stp').modal('show');
+                });
+            });
+
+            // query icon
+            $('#tblDataSTP tbody').on('click', 'td.details-control4', function () {
                 let tr = $(this).closest('tr');
                 let row = tableSTP.row(tr);
                 let rowData2 = row.data();

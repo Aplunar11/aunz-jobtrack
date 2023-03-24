@@ -458,7 +458,6 @@
         });
 
         function loadTableCoversheet() {
-            // main row
             let tableCoversheet = $('#tblDataCoversheet').DataTable({
                 dom: 'Bfrtip',
                 ajax: {
@@ -676,7 +675,8 @@
                                             let obj = {
                                                 coversheetids: coversheetids.join(','),
                                                 bpsproductid: data['BPSProductID'],
-                                                serviceno: data['ServiceNumber']
+                                                serviceno: data['ServiceNumber'],
+                                                userAccessType: 4   // CodingTL
                                             };
 
                                             GotoControllerAsync('/CodingSTP/_AddNewSTPView', 'POST', obj, false, 'html', function (response) {
@@ -744,137 +744,6 @@
 
                     window.location.href = "/QueryCoversheet/Index?id=" + dataNew['CoversheetID'] + "&u=" + @((int)JobTrack.Models.Enums.UserAccessEnum.Coding_TL);
                 });
-            });
-        }
-
-        function loadTableSTP() {
-            let tableSTP = $('#tblDataSTP').DataTable({
-                dom: 'Bfrtip',
-                ajax: {
-                    url: "@Url.Action("GetSTPData", "CodingSTP")",
-                    type: 'GET',
-                    dataType: 'json',
-                    dataSrc: ''
-                },
-                columns: [
-                    {
-                        "className": 'details-control3',
-                        "orderable": false,
-                        "data": null,
-                        "defaultContent": ''
-                    },
-                    {
-                        "className": 'details-control4',
-                        "orderable": false,
-                        "data": null,
-                        "defaultContent": ''
-                    },
-                    { data: 'ID' },
-                    { data: 'SendToPrintNumber' },
-                    { data: 'SendToPrintTier' },
-                    { data: 'BPSProductID' },
-                    { data: 'ServiceNumber' },
-                    { data: 'CurrentTask' },
-                    { data: 'SendToPrintStatus' },
-                    { data: 'TargetPressDate' },
-                    { data: 'ActualPressDate' },
-                    { data: 'IsConsoHighlight' },
-                    { data: 'FilingInstructionStartDate' },
-                    { data: 'FilingInstructionEndDate' },
-                    { data: 'DummyFiling1StartDate' },
-                    { data: 'DummyFiling1EndDate' },
-                    { data: 'DummyFiling2StartDate' },
-                    { data: 'DummyFiling2EndDate' },
-                    { data: 'UECJStartDate' },
-                    { data: 'UECJEndDate' },
-                    { data: 'PC1PC2StartDate' },
-                    { data: 'PC1PC2EndDate' },
-                    { data: 'UpdateEBinderStartDate' },
-                    { data: 'UpdateEBinderEndDate' },
-                    { data: 'PostBackStartDate' },
-                    { data: 'PostBackEndDate' }
-                ],
-                columnDefs: [
-                    { className: "dt-center", "targets": "_all" },
-                    {
-                        targets: [2],
-                        visible: false,
-                        searchable: false
-                    },
-                    {
-                        targets: [9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
-                        render: function (data) {
-                            return moment(data).format('YYYY/MM/DD');
-                        }
-                    },
-                ],
-                buttons: {
-                    dom: {
-                        button: {
-                            tag: 'i',
-                            className: ''
-                        }
-                    },
-                    buttons: [
-                        {
-                            titleAttr: 'Copy',
-                            extend: 'copyHtml5',
-                            className: 'custom-btn fa fa-clipboard',
-                            text: ''
-                        },
-                        {
-                            titleAttr: 'Download as Excel',
-                            extend: 'excelHtml5',
-                            className: 'custom-btn fa fa-file-excel-o',
-                            text: ''
-                        },
-                        {
-                            titleAttr: 'Download as CSV',
-                            extend: 'csvHtml5',
-                            className: 'custom-btn fa fa-file-text-o',
-                            text: ''
-                        },
-                        {
-                            titleAttr: 'Download as PDF',
-                            extend: 'pdfHtml5',
-                            className: 'custom-btn fa fa-file-pdf-o',
-                            text: ''
-                        }
-                    ]
-                },
-                initComplete: function () {
-                    // Apply the search
-                    //scrollx initiator
-                    $('#tblDataSTP').wrap("<div style='overflow: auto; width: 100%; position: relative;'></div>");
-                    //init = false;
-                    this.api().columns().every(function () {
-                        var that = this;
-                        $('input', this.footer()).on('keyup change clear', function () {
-                            if (that.search() !== this.value) {
-                                that.search(this.value).draw();
-                            }
-                        });
-                    });
-                },
-                createdRow: function (row, data, index) {
-                    if (data.extn === '') {
-                        let td = $(row).find("td:first");
-                        td.removeClass('details-control');
-                    }
-                },
-                rowCallback: function (row, data, index) {
-                    //console.log('rowCallback');
-                }
-            });
-
-            // assign link icon to main table row
-            $('#tblDataSTP tbody').off().on('click', 'td.details-control4', function () {
-                let tr = $(this).closest('tr');
-                let row = tableSTP.row(tr);
-                let rowData2 = row.data();
-                let dataNew = tableSTP.row(this).data();
-
-                window.location.href = "/QuerySTP/Index?id=" + dataNew['ID'] + "&u=" + @((int)JobTrack.Models.Enums.UserAccessEnum.Straive_PE);
             });
         }
 

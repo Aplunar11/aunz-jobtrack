@@ -475,7 +475,7 @@
                 dom: 'Bfrtip',
                 ajax: {
                     url: "@Url.Action("GetSTPData", "CodingSTP")",
-                    data: { userAccessType: 7 },   // CodingSTP
+                    data: { userAccessType: @((int)JobTrack.Models.Enums.UserAccessEnum.CodingSTP)},   // CodingSTP
                     type: 'GET',
                     dataType: 'json',
                     dataSrc: ''
@@ -591,8 +591,25 @@
                 }
             });
 
-            // assign link icon to main table row
-            $('#tblDataSTP tbody').off().on('click', 'td.details-control4', function () {
+            // info icon
+            $('#tblDataSTP tbody').on('click', 'td.details-control3', function () {
+                let tr = $(this).closest('tr');
+                let row = tableSTP.row(tr);
+                let rowData2 = row.data();
+                let dataNew = tableSTP.row(this).data();
+                let obj = {
+                    userAccessType: @((int)JobTrack.Models.Enums.UserAccessEnum.CodingSTP),
+                    StpID: dataNew['ID']
+                }
+
+                GotoControllerAsync('/CodingSTP/_EditSTPView', 'POST', obj, false, 'html', function (response) {
+                    $('#modalWrapper').html(response);
+                    $('#modal-stp').modal('show');
+                });
+            });
+
+            // query icon
+            $('#tblDataSTP tbody').on('click', 'td.details-control4', function () {
                 let tr = $(this).closest('tr');
                 let row = tableSTP.row(tr);
                 let rowData2 = row.data();

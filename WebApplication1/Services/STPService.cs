@@ -21,6 +21,29 @@ namespace JobTrack.Services
 
         public STPService() { }
 
+        public async Task<STPDataModel> GetSTPDataByIDAsync(int id)
+        {
+            var sp = "GetSTPDataById";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(sp, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_id", id);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<STPDataModel>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list.FirstOrDefault());
+        }
+
         public async Task<int> GetSTPMaxIDAsync()
         {
             var sp = "GetSTPMaxID";
@@ -48,7 +71,7 @@ namespace JobTrack.Services
 
         public async Task<STPDataModel> InsertSendToPrintAsync(STPDataModel model, string username)
         {
-            var storedProcedure = "InsertSendToPrint";
+            var storedProcedure = model.ID > 0 ? "UpdateSendToPrint" : "InsertSendToPrint";
             var dataTable = new DataTable();
 
             dbConnection.Open();
@@ -74,7 +97,14 @@ namespace JobTrack.Services
                 command.Parameters.AddWithValue("@p_IsPostBack", model.IsPostBack.ToInt());
                 command.Parameters.AddWithValue("@p_IsUpdateEBinder", model.IsUpdateEBinder.ToInt());
                 command.Parameters.AddWithValue("@p_CoversheetIDs", model.CoversheetIDs);
-                command.Parameters.AddWithValue("@p_Username", username);
+                command.Parameters.AddWithValue("@p_SendToPrintStatus", model.SendToPrintStatus);
+                command.Parameters.AddWithValue("@p_Username", username);                
+
+                if (model.ID > 0)
+                {
+                    command.Parameters.AddWithValue("@p_ID", model.ID);
+                    command.Parameters.AddWithValue("@p_JobOwnerID", model.OwnerUserID);
+                }
 
                 var reader = command.ExecuteReader();
                 dataTable.Load(reader);

@@ -54,17 +54,25 @@
                         </div>
                     </div>
 
+                    <hr />
+
                     <div class="row">
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Path of input files", Name = "PathOfInputFiles", Value = Model.PathOfInputFiles })
+                            @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Job Owner", Name = "OwnerUserID", TempDataName = "JobOwners" })
 
-                            @Html.Partial("CustomControls/_TextareaView", new JobTrack.Models.FormFieldModel { Label = "Special Instructions", Name = "SpecialInstruction", Value = Model.SpecialInstruction })
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Owner Email", Name = "OwnerEmail", IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Path of input files", Name = "PathOfInputFiles", Value = Model.PathOfInputFiles, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextareaView", new JobTrack.Models.FormFieldModel { Label = "Special Instructions", Name = "SpecialInstruction", Value = Model.SpecialInstruction, IsReadOnly = true })
                         </div>
                     </div>
 
                     <input type="hidden" name="ID" value="@Model.ID" />
                     <input type="hidden" name="CoversheetIDs" value="@Model.CoversheetIDs" />
-                    <input type="hidden" name="CoversheetIDs" value="@Model.SendToPrintStatus" />
+                    <input type="hidden" name="SendToPrintStatus" value="@Model.SendToPrintStatus" />
                 </form>
             </div>
 
@@ -77,6 +85,29 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        $('#OwnerUserID').on("change", function () {
+            let url = '@Url.Action("GetEmployeeEmail", "CodingSTP")' + '?id=' + encodeURIComponent($(this).val());
+
+            GotoControllerAsync(url
+                , 'POST'
+                , null
+                , false
+                , 'json'
+                , function (response) {
+                    console.log('response ', response);
+                    $('#OwnerEmail').val(response.replace(/['"]+/g, ''));
+                });
+        });
+
+        $('#OwnerUserID').trigger('change');
+
+        if ('@((JobTrack.Models.Enums.UserAccessEnum)ViewBag.UserAccess == JobTrack.Models.Enums.UserAccessEnum.CodingSTP)' == 'True') {
+            $('#OwnerUserID').css('pointer-events', 'none');
+            $('#OwnerUserID').css('background', '#e9ecef');
+        }
+    });
+
     function onclickSaveSTP() {
         submitForm('formSTP', '/CodingSTP/AddNewSTP', null, function (response) {
             console.log('response: ', response);

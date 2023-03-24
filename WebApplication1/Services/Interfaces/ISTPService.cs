@@ -9,6 +9,8 @@ namespace JobTrack.Services.Interfaces
 {
     public interface ISTPService
     {
+        Task<STPDataModel> GetSTPDataByIDAsync(int id);
+
         Task<int> GetSTPMaxIDAsync();
 
         Task<STPDataModel> InsertSendToPrintAsync(STPDataModel model, string username);

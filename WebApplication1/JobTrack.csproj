@@ -5767,6 +5767,7 @@
     <Content Include="Views\Shared\CustomControls\_CommentPopupView.cshtml" />
     <Content Include="Views\Admin\HistoryTrail.cshtml" />
     <Content Include="Views\CodingSTPTL\MainForm.cshtml" />
+    <Content Include="Views\CodingSTP\_EditSTPView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

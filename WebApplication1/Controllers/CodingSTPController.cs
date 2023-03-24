@@ -19,18 +19,21 @@ namespace JobTrack.Controllers
         private readonly IJobCoversheetService _jobCoversheetService;
         private readonly IJobDashboardService _jobDashboardService;
         private readonly ICoversheetService _coversheetService;
+        private readonly IEmployeeService _employeeService;
 
         public CodingSTPController(ISTPService sTPService
             , IQuerySTPService querySTPService
             , IJobCoversheetService jobCoversheetService
             , IJobDashboardService jobDashboardService
-            , ICoversheetService coversheetService)
+            , ICoversheetService coversheetService
+            , IEmployeeService employeeService)
         {
             _sTPService = sTPService;
             _querySTPService = querySTPService;
             _jobCoversheetService = jobCoversheetService;
             _jobDashboardService = jobDashboardService;
             _coversheetService = coversheetService;
+            _employeeService = employeeService;
         }
 
         public ActionResult Index()
@@ -97,6 +100,16 @@ namespace JobTrack.Controllers
             return PartialView(viewModel);
         }
 
+        public async Task<ActionResult> _EditSTPView(int StpID, UserAccessEnum userAccessType)
+        {
+            var model = await _sTPService.GetSTPDataByIDAsync(StpID);
+            var owners = await _employeeService.GetAllEmployeeByAccess(UserAccessEnum.CodingSTP);
+
+            ViewBag.UserAccess = userAccessType;
+            TempData["JobOwners"] = new SelectList(owners, "ID", "UserName", model.OwnerUserID);
+            return PartialView(model);
+        }
+
         public async Task<ActionResult> AddNewSTP(STPDataModel model)
         {
             var result = new JsonResultModel();
@@ -113,6 +126,13 @@ namespace JobTrack.Controllers
             }
 
             return Json(result);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetEmployeeEmail(int id)
+        {
+            var owners = await _employeeService.GetAllEmployeeByAccess(UserAccessEnum.CodingSTP);
+            return Json(owners.FirstOrDefault(x => x.ID == id).EmailAddress, JsonRequestBehavior.AllowGet);
         }
     }
 }
