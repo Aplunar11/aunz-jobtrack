@@ -48,8 +48,6 @@ namespace JobTrack.Controllers
             {
                 mdata.Add(new JobData
                 {
-
-
                     JobID = Convert.ToInt32(dr["JobID"].ToString()),
                     JobNumber = dr["JobNumber"].ToString().PadLeft(8, '0'),
                     ManuscriptTier = dr["ManuscriptTier"].ToString(),

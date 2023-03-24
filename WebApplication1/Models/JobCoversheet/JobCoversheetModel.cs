@@ -107,7 +107,7 @@ namespace JobTrack.Models.JobCoversheet
         public DateTime DateUpdated { get; set; }
         public int UpdateEmployeeID { get; set; }
         //additional columns
-        public string LatestTaskNumber { get; set; }
+        public int LatestTaskNumber { get; set; }
         public string CodingStatus { get; set; }
         public string PDFQAStatus { get; set; }
         public string OnlineStatus1 { get; set; }

@@ -50,6 +50,7 @@ namespace JobTrack.Controllers
 
             return View();
         }
+
         public ActionResult AllJob()
         {
             #region Check Session

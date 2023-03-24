@@ -95,7 +95,7 @@ namespace JobTrack.Services
         public async Task<JsonResultModel> InsertJobCoversheetAsync(CoversheetData model, string username)
         {
             var result = new JsonResultModel();
-            var storedProcedure = "InsertCoversheet";
+            var storedProcedure = "InsertJobCoversheet";
             var dataTable = new DataTable();
 
             try

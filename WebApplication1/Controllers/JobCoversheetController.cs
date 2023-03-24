@@ -78,7 +78,6 @@ namespace JobTrack.Controllers
                     new SelectListItem { Text = "Completed", Value = "Completed" },
                     new SelectListItem { Text = "Cancelled", Value = "Cancelled" }
                 }, "Text", "Value");
-                               
 
                 viewModel.Editor = pubschedData.Editor;
                 viewModel.ChargeCode = pubschedData.ChargeCode;
@@ -89,7 +88,7 @@ namespace JobTrack.Controllers
                 viewModel.OnlineDueDate = manuscriptData.OnlineDueDate;
                 viewModel.DateCreated = manuscriptData.DateCreated;                
                 viewModel.GuideCard = manuscriptData.PEGuideCard;                
-                viewModel.TaskNumber = jobCoversheet == null ? "Task1" : $"Task{Convert.ToInt32(jobCoversheet.TaskNumber)}";
+                viewModel.TaskNumber = jobCoversheet == null ? "Task1" : $"Task{jobCoversheet.LatestTaskNumber + 1}";
                 viewModel.CoversheetNumber = bpsproductid + '_' + serviceno + '_' + viewModel.TaskNumber;
             }
             catch (Exception ex)
@@ -111,27 +110,23 @@ namespace JobTrack.Controllers
                 if (!string.IsNullOrEmpty(model.BPSProductID) && !string.IsNullOrEmpty(model.ServiceNumber))
                 {
                     var data = await _jobCoversheetService.IsJobExists(model.BPSProductID, model.ServiceNumber);
-                    if (data != null)
-                    {
-                        if (data.JobCoversheetID == 0 || data.JobCoversheetID < 0)
-                        {
-                            //mdata.Response = "N";
-                            //mdata.ErrorMessage = "Entered invalid Product or Service Number";
-                            result.ErrorMessage = "Entered invalid Product or Service Number";
-                            return Json(result);
-                        }
-
-                        model.ManuscriptID = manuscriptIds;
-                        model.CoversheetNumber = model.CoversheetNumber + "_" + model.GuideCard;
-                        model.GuideCard = model.GuideCard.Replace("\"", "");
-                        result = await _coversheetService.InsertCoversheetDataAsync(model, username);
-
-                        return Json(result);
-                    }
 
                     model.ManuscriptID = manuscriptIds;
                     model.CoversheetNumber = model.CoversheetNumber + "_" + model.GuideCard;
                     model.GuideCard = model.GuideCard.Replace("\"", "");
+
+                    if (data != null)
+                    {
+                        if (data.JobCoversheetID == 0 || data.JobCoversheetID < 0)
+                        {
+                            result.ErrorMessage = "Entered invalid Product or Service Number";
+                            return Json(result);
+                        }
+                        
+                        result = await _coversheetService.InsertCoversheetDataAsync(model, username);
+                        return Json(result);
+                    }
+
                     result = await _jobCoversheetService.InsertJobCoversheetAsync(model, username);
                 }
             }

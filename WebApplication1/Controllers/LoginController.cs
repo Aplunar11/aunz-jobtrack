@@ -89,6 +89,7 @@ namespace JobTrack.Controllers
                                 Session["EmployeeID"] = Convert.ToString(result.EmployeeID);
                                 return RedirectToAction("MainForm", "CodingSTP");
                             }
+                            
                         }
                     }
                     else
