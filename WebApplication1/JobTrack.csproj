@@ -210,6 +210,7 @@
     <Compile Include="Controllers\QueryCoversheetController.cs" />
     <Compile Include="Controllers\QueryManuscriptController.cs" />
     <Compile Include="Controllers\QuerySTPController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -263,6 +264,7 @@
     <Compile Include="Services\Interfaces\IQueryCoversheetService.cs" />
     <Compile Include="Services\Interfaces\IQueryManuscriptService.cs" />
     <Compile Include="Services\Interfaces\IQuerySTPService.cs" />
+    <Compile Include="Services\Interfaces\IReportService.cs" />
     <Compile Include="Services\Interfaces\ISTPService.cs" />
     <Compile Include="Services\Interfaces\ITransactionLogService.cs" />
     <Compile Include="Services\JobCoversheetService.cs" />
@@ -274,6 +276,7 @@
     <Compile Include="Services\QueryCoversheetService.cs" />
     <Compile Include="Services\QueryManuscriptService.cs" />
     <Compile Include="Services\QuerySTPService.cs" />
+    <Compile Include="Services\ReportService.cs" />
     <Compile Include="Services\STPService.cs" />
     <Compile Include="Services\TransactionLogService.cs" />
     <Compile Include="Services\XOR.cs" />
@@ -5768,6 +5771,7 @@
     <Content Include="Views\Admin\HistoryTrail.cshtml" />
     <Content Include="Views\CodingSTPTL\MainForm.cshtml" />
     <Content Include="Views\CodingSTP\_EditSTPView.cshtml" />
+    <Content Include="Views\Report\GenerateReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
