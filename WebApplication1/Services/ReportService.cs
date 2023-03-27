@@ -1,4 +1,5 @@
 ﻿using JobTrack.Models.Coversheet;
+using JobTrack.Models.JobCoversheet;
 using JobTrack.Models.Manuscript;
 using JobTrack.Models.QuerySTP;
 using JobTrack.Services.Interfaces;
@@ -49,10 +50,36 @@ namespace JobTrack.Services
             return await Task.FromResult(list);
         }
 
-        //public async Task<List<CoversheetData>> GetAllCoversheetDataAsync()
-        //{
+        public async Task<List<JobCoversheetData>> GetAllJobCoversheetDataAsync()
+        {
+            var storedProcedure = "GetAllJobCoversheetData";
+            var dataTable = new DataTable();
 
-        //}
+            dbConnection.Open();
+
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    var reader = command.ExecuteReader();
+                    dataTable.Load(reader);
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<JobCoversheetData>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list);
+        }
+
+        
 
         //public async Task<List<STPDataModel>> GetAllSTPDataAsync()
         //{
