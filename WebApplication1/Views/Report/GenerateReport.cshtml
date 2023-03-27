@@ -635,7 +635,7 @@
             });
             var childTable1 = $('#tblData2').DataTable({
                         "ajax": {
-                            "url": "@Url.Action("GetAllCoversheetData", "Coversheet")",
+                            "url": "@Url.Action("GetAllCoversheetData", "Report")",
                             "dataSrc": "",
                             "type": "GET",
                             "datatype": "json"
@@ -785,7 +785,7 @@
             });
             var tableData3 = $('#tblData3').DataTable({
                 "ajax": {
-                    "url": "@Url.Action("GetAllSendToPrintData", "SendToPrint")",
+                    "url": "@Url.Action("GetAllSendToPrintData", "Report")",
                     "dataSrc": "",
                     "type": "GET",
                     "datatype": "json"
