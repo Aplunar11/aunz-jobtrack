@@ -50,7 +50,7 @@ namespace JobTrack.Services
             return await Task.FromResult(list);
         }
 
-        public async Task<List<JobCoversheetData>> GetAllJobCoversheetDataAsync()
+        public async Task<List<CoversheetData>> GetAllCoversheetDataAsync()
         {
             var storedProcedure = "GetAllJobCoversheetData";
             var dataTable = new DataTable();
@@ -75,7 +75,7 @@ namespace JobTrack.Services
 
             dbConnection.Close();
 
-            var list = JsonConvert.DeserializeObject<List<JobCoversheetData>>(JsonConvert.SerializeObject(dataTable));
+            var list = JsonConvert.DeserializeObject<List<CoversheetData>>(JsonConvert.SerializeObject(dataTable));
             return await Task.FromResult(list);
         }
 

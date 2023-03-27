@@ -35,10 +35,8 @@ namespace JobTrack.Controllers
 
         public async Task<ActionResult> GetAllJobCoversheetData()
         {
-            var mdata = await _reportService.GetAllJobCoversheetDataAsync();
+            var mdata = await _reportService.GetAllCoversheetDataAsync();
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
-
-
     }
 }
