@@ -38,7 +38,5 @@ namespace JobTrack.Controllers
             var mdata = await _reportService.GetAllCoversheetDataAsync();
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
-
-
     }
 }
