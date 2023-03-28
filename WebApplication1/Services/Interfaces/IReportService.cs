@@ -12,5 +12,8 @@ namespace JobTrack.Services.Interfaces
     {
         Task<List<ManuscriptData>> GetAllManuscriptDataAsync();
         Task<List<CoversheetData>> GetAllCoversheetDataAsync();
+        Task<List<STPData>> GetAllSTPDataAsync();
+
+
     }
 }

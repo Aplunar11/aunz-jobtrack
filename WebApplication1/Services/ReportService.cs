@@ -52,7 +52,7 @@ namespace JobTrack.Services
 
         public async Task<List<CoversheetData>> GetAllCoversheetDataAsync()
         {
-            var storedProcedure = "GetAllJobCoversheetData";
+            var storedProcedure = "GetAllCoversheetData";
             var dataTable = new DataTable();
 
             dbConnection.Open();
@@ -78,8 +78,37 @@ namespace JobTrack.Services
             var list = JsonConvert.DeserializeObject<List<CoversheetData>>(JsonConvert.SerializeObject(dataTable));
             return await Task.FromResult(list);
         }
+        public async Task<List<STPData>> GetAllSTPDataAsync()
+        {
+            var storedProcedure = "GetAllSTPData";
+            var dataTable = new DataTable();
 
-        
+            dbConnection.Open();
+
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    var reader = command.ExecuteReader();
+                    dataTable.Load(reader);
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<STPData>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list);
+        }
+
+
+
 
         //public async Task<List<STPDataModel>> GetAllSTPDataAsync()
         //{

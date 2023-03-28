@@ -267,6 +267,7 @@
     <Compile Include="Services\Interfaces\IReportService.cs" />
     <Compile Include="Services\Interfaces\ISTPService.cs" />
     <Compile Include="Services\Interfaces\ITransactionLogService.cs" />
+    <Compile Include="Services\Interfaces\STPData.cs" />
     <Compile Include="Services\JobCoversheetService.cs" />
     <Compile Include="Services\JobDashboardService.cs" />
     <Compile Include="Services\JobdataService.cs" />
