@@ -161,7 +161,7 @@ namespace JobTrack.Services
         public async Task<bool> UpdateQueryReplyAsync(ReplyModel model)
         {
             var isSuccess = false;
-            var storedProcedure = "UpdateQueryReply";
+            var storedProcedure = "UpdateReplyManuscript";
 
             try
             {

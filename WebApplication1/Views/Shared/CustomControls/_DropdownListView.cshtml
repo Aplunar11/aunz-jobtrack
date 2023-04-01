@@ -1,6 +1,10 @@
 ﻿@model JobTrack.Models.FormFieldModel
 
 <div class="form-group">
-    <label>@Model.Label</label>
+    @if (!string.IsNullOrEmpty(Model.Label)) 
+    {
+        <label>@Model.Label</label>
+    }
+
     @Html.DropDownList(Model.Name, (SelectList)TempData[Model.TempDataName], htmlAttributes: new { @class = "selects show-tick form-control" })
 </div>

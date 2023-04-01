@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<JobTrack.Models.Manuscript.ManuscriptData>
 
 @{ ViewBag.Title = "Homepage";
-    Layout = "~/Views/Shared/_JobTrackLayout_Coding.cshtml"; }
+    Layout = "~/Views/Shared/_JobTrackLayout.cshtml"; }
+
+<script src="~/Scripts/src/custom_index.js"></script>
 
 <style type="text/css">
     /*table icons*/
@@ -154,7 +156,6 @@
         -moz-osx-font-smoothing: grayscale;
     }
 </style>
-
 
 <div class="content-body">
     @if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "")

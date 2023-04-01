@@ -1,0 +1,12 @@
+﻿@model JobTrack.Models.NotificationModel
+
+<li class="@(!Model.IsViewed ? "notification-unread" : "")" >
+    <a href="#" onclick='onclickRedirectToReply(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)));'>
+        <img class="float-left mr-3 avatar-img" src="../Image/default-avatar.jpg" alt="">
+        <div class="notification-content">
+            <div class="notification-heading" style="color: @(Model.IsViewed ? "#333": "#843cf6")">Query @Model.QueryID|@Model.JobType|@Model.FirstName</div>
+            <div class="notification-timestamp">@Model.DatePostedAgo</div>
+            <div class="notification-text">@Model.Message</div>
+        </div>
+    </a>
+</li>

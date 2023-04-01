@@ -45,30 +45,30 @@
 
                                         <label><b>Cover Status: </b></label> &nbsp;
                                         @*<div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                            <label class="btn btn-outline-secondary" style="width: 100px; border-radius: 0" hidden id="label-open">
-                                                <input type="radio" name="CoverStatusID" value="1" /> Open
-                                            </label>
+                                <label class="btn btn-outline-secondary" style="width: 100px; border-radius: 0" hidden id="label-open">
+                                    <input type="radio" name="CoverStatusID" value="1" /> Open
+                                </label>
 
-                                            <label class="btn btn-outline-danger" style="width: 100px" onclick="onclickStatus('cancel')">
-                                                <input type="radio" name="CoverStatusID" value="2" id="input-cancel" /> Cancel
-                                            </label>
+                                <label class="btn btn-outline-danger" style="width: 100px" onclick="onclickStatus('cancel')">
+                                    <input type="radio" name="CoverStatusID" value="2" id="input-cancel" /> Cancel
+                                </label>
 
-                                            <label class="btn btn-outline-success" style="width: 100px; border-radius: 0" onclick="onclickStatus('close')">
-                                                <input type="radio" name="CoverStatusID" value="3" id="input-close" /> Close
-                                            </label>
-                                        </div>*@
+                                <label class="btn btn-outline-success" style="width: 100px; border-radius: 0" onclick="onclickStatus('close')">
+                                    <input type="radio" name="CoverStatusID" value="3" id="input-close" /> Close
+                                </label>
+                            </div>*@
 
                                         <!-- button select -->
                                         <button type="button" class="btn btn-outline-secondary" onclick="onclickStatus('open');" id="btn-open" hidden>Open</button>
-                                        <div class="btn-group">                                            
+                                        <div class="btn-group">
                                             <button type="button" class="btn btn-outline-danger" onclick="onclickStatus('cancel');" id="btn-cancel">Cancel</button>
                                             <button type="button" class="btn btn-outline-success" onclick="onclickStatus('close');" id="btn-close">Close</button>
                                         </div>
 
                                         <!-- hidden radiobutton -->
-                                        <input type="radio" name="CoverStatusID" value="1" id="radio-open" hidden/>
-                                        <input type="radio" name="CoverStatusID" value="2" id="radio-cancel" hidden/>
-                                        <input type="radio" name="CoverStatusID" value="3" id="radio-close" hidden/>
+                                        <input type="radio" name="CoverStatusID" value="1" id="radio-open" hidden />
+                                        <input type="radio" name="CoverStatusID" value="2" id="radio-cancel" hidden />
+                                        <input type="radio" name="CoverStatusID" value="3" id="radio-close" hidden />
 
                                         @if (!(bool)ViewBag.IsViewOnly)
                                         {
@@ -105,7 +105,14 @@
                     </div>
 
                     <div class="mb-3"></div>
-                    <button type="button" class="btn btn-link" onclick="location.href='/QueryCoversheet/Index?id=@Model.CoversheetID&u=@((int)ViewBag.UserAccess)'">< Go Back</button>
+                    @if ((bool)ViewBag.IsFromIndex)
+                    {
+                        <button type="button" class="btn btn-link" onclick="history.back();">< Go Back</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-link" onclick="location.href='/QueryCoversheet/Index?id=@Model.CoversheetID&u=@((int)ViewBag.UserAccess)'">< Go Back</button>
+                    }
                 </div>
             </div>
         </div>

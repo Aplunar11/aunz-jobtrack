@@ -1,0 +1,159 @@
+﻿<table class="display nowrap" id="tblCoversheet" style="width: 100%;">
+    <thead class="table-header-footer">
+        <tr>
+            <th>CoversheetID</th>
+            @*<th>Coversheet Checkbox</th>*@
+            <th>Coversheet Number</th>
+            <th>Tier</th>
+            <th>Product</th>
+            <th>Service Number</th>
+            <th>Guide Card(s)</th>
+            <th>Location Of Manuscript</th>
+            <th>Further Instructions</th>
+            <th>Current Task</th>
+            <th>Status</th>
+            <th>Target Press Date</th>
+            <th>Actual Press Date</th>
+            <th>Coding Due Date</th>
+            <th>Coding Start</th>
+            <th>Coding Done</th>
+            <th>Online Due Date</th>
+            <th>Online Start</th>
+            <th>Online Done</th>
+            <th>Online Timeliness</th>
+            <th>Remarks</th>
+            <th>Job Owner</th>
+            <th>Online Status</th>
+        </tr>
+    </thead>
+    <tfoot class="table-header-footer">
+        <tr>
+            <th>CoversheetID</th>
+            @*<th>Coversheet Checkbox</th>*@
+            <th>Coversheet Number</th>
+            <th>Tier</th>
+            <th>Product</th>
+            <th>Service Number</th>
+            <th>Guide Card(s)</th>
+            <th>Location Of Manuscript</th>
+            <th>Further Instructions</th>
+            <th>Current Task</th>
+            <th>Status</th>
+            <th>Target Press Date</th>
+            <th>Actual Press Date</th>
+            <th>Coding Due Date</th>
+            <th>Coding Start</th>
+            <th>Coding Done</th>
+            <th>Online Due Date</th>
+            <th>Online Start</th>
+            <th>Online Done</th>
+            <th>Online Timeliness</th>
+            <th>Remarks</th>
+            <th>Job Owner</th>
+            <th>Online Status</th>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    $(document).ready(function () {
+        let table2 = $('#tblCoversheet').DataTable({
+            "ajax": {
+                url: "@Url.Action("GetAllCoversheetData", "Report")",
+                data: function (d) {
+                    d.filterBy = $('#FilterCoversheet').val();
+                    d.selected = $('#FilterCoversheetValue').val();
+                },
+                dataSrc: "",
+                type: "GET",
+                datatype: "json"
+            },
+            order: [[0, 'desc']],
+            dom: 'Bfrtip',
+            buttons: {
+                dom: {
+                    button: {
+                        tag: 'i',
+                        className: ''
+                    }
+                },
+                buttons: [
+                    {
+                        titleAttr: 'Copy',
+                        extend: 'copyHtml5',
+                        className: 'custom-btn fa fa-clipboard',
+                        text: ''
+                    },
+                    {
+                        titleAttr: 'Download as Excel',
+                        extend: 'excelHtml5',
+                        className: 'custom-btn fa fa-file-excel-o',
+                        text: ''
+                    },
+                    {
+                        titleAttr: 'Download as CSV',
+                        extend: 'csvHtml5',
+                        className: 'custom-btn fa fa-file-text-o',
+                        text: ''
+                    },
+                    {
+                        titleAttr: 'Download as PDF',
+                        extend: 'pdfHtml5',
+                        className: 'custom-btn fa fa-file-pdf-o',
+                        text: ''
+                    }]
+            },
+            "columnDefs": [
+                { "className": "dt-center", "targets": "_all" },
+                {
+                    "targets": [10, 12, 13, 14, 15, 16, 17, 18, 19],
+                    "render": function (data) {
+                        return moment(data).format('D/MMM/YY');
+                    }
+                }
+            ],
+            columns: [
+                { "data": "CoversheetID" },
+                /*{ "data": "CoversheetCheckbox" },*/
+                { "data": "CoversheetNumber" },
+                { "data": "CoversheetTier" },
+                { "data": "BPSProductID" },
+                { "data": "ServiceNumber" },
+                { "data": "GuideCard" },
+                { "data": "LocationOfManuscript" },
+                { "data": "FurtherInstructions" },
+                { "data": "CurrentTask" },
+                { "data": "TaskStatus" },
+                { "data": "TargetPressDate" },
+                { "data": "ActualPressDate" },
+                { "data": "CodingDueDate" },
+                { "data": "CodingStartDate" },
+                { "data": "CodingDoneDate" },
+                { "data": "OnlineDueDate" },
+                { "data": "OnlineStartDate" },
+                { "data": "OnlineDoneDate" },
+                { "data": "OnlineTimeliness" },
+                { "data": "ReasonIfLate" },
+                { "data": "JobOwner" },
+                { "data": "OnlineStatus" }
+            ],
+            initComplete: function (settings, json) {
+                // Apply the search
+                //init = false;
+                //scrollx initiator
+                $('#tblCoversheet').wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");
+                    this.api().columns().every(function () {
+                        var that = this;
+                        $('input', this.footer()).on('keyup change clear', function () {
+                            if (that.search() !== this.value) {
+                                that
+                                    .search(this.value)
+                                    .draw();
+                            }
+                        });
+                    });
+            },
+            destroy: true
+        });
+    });
+</script>

@@ -31,6 +31,7 @@ namespace JobTrack
             container.RegisterType<ISTPService, STPService>();
             container.RegisterType<IHistoryTrailService, HistoryTrailService>();
             container.RegisterType<IReportService, ReportService>();
+            container.RegisterType<INotificationService, NotificationService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

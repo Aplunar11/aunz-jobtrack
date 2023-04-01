@@ -220,11 +220,16 @@
     <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\Employee\PublicationAssignmentModel.cs" />
     <Compile Include="Models\Enums\CodingStatusEnum.cs" />
+    <Compile Include="Models\Enums\ReportFilterCoversheetEnum.cs" />
+    <Compile Include="Models\Enums\ReportFilterManuscriptEnum.cs" />
+    <Compile Include="Models\Enums\ReportFilterSTPEnum.cs" />
     <Compile Include="Models\Enums\UserAccessEnum.cs" />
     <Compile Include="Models\Extensions\Extensions.cs" />
+    <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\FormFieldModel.cs" />
     <Compile Include="Models\HistoryTrailModel.cs" />
     <Compile Include="Models\JobCountModel.cs" />
+    <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\QueryCoversheet\CoversheetDataModel.cs" />
     <Compile Include="Models\QueryCoversheet\QueryCoversheetModel.cs" />
     <Compile Include="Models\Coversheet\CoversheetModel.cs" />
@@ -246,6 +251,7 @@
     <Compile Include="Models\QueryModel.cs" />
     <Compile Include="Models\QuerySTP\QuerySTPModel.cs" />
     <Compile Include="Models\QuerySTP\STPDataModel.cs" />
+    <Compile Include="Models\TopMenuModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthenticationWrapper.cs" />
     <Compile Include="Services\CoversheetService.cs" />
@@ -259,6 +265,7 @@
     <Compile Include="Services\Interfaces\IJobDashboardService.cs" />
     <Compile Include="Services\Interfaces\IJobdataService.cs" />
     <Compile Include="Services\Interfaces\IManuscriptDataService.cs" />
+    <Compile Include="Services\Interfaces\INotificationService.cs" />
     <Compile Include="Services\Interfaces\IPublicationAssignService.cs" />
     <Compile Include="Services\Interfaces\IPubSchedService.cs" />
     <Compile Include="Services\Interfaces\IQueryCoversheetService.cs" />
@@ -267,11 +274,11 @@
     <Compile Include="Services\Interfaces\IReportService.cs" />
     <Compile Include="Services\Interfaces\ISTPService.cs" />
     <Compile Include="Services\Interfaces\ITransactionLogService.cs" />
-    <Compile Include="Services\Interfaces\STPData.cs" />
     <Compile Include="Services\JobCoversheetService.cs" />
     <Compile Include="Services\JobDashboardService.cs" />
     <Compile Include="Services\JobdataService.cs" />
     <Compile Include="Services\ManuscriptDataService.cs" />
+    <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\PublicationAssignService.cs" />
     <Compile Include="Services\PubSchedService.cs" />
     <Compile Include="Services\QueryCoversheetService.cs" />
@@ -5773,6 +5780,11 @@
     <Content Include="Views\CodingSTPTL\MainForm.cshtml" />
     <Content Include="Views\CodingSTP\_EditSTPView.cshtml" />
     <Content Include="Views\Report\GenerateReport.cshtml" />
+    <Content Include="Views\Shared\CustomControls\_NotificationBoxView.cshtml" />
+    <Content Include="Views\Report\_ManuscriptView.cshtml" />
+    <Content Include="Views\Report\_CoversheetView.cshtml" />
+    <Content Include="Views\Report\_SendToPrintView.cshtml" />
+    <Content Include="Views\Report\_FilterView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

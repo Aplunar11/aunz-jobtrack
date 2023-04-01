@@ -22,16 +22,28 @@ namespace JobTrack.Controllers
     {
         private readonly IJobDashboardService _jobDashboardService;
         private readonly ICoversheetService _coversheetService;
+        private readonly INotificationService _notificationService;
 
-        public PEController(IJobDashboardService jobDashboardService, ICoversheetService coversheetService)
+        public PEController(IJobDashboardService jobDashboardService
+            , ICoversheetService coversheetService
+            , INotificationService notificationService)
         {
             _jobDashboardService = jobDashboardService;
             _coversheetService = coversheetService;
+            _notificationService = notificationService;
         }
 
-        public ActionResult TopMenu()
+        public async Task<ActionResult> TopMenu()
         {
-            return PartialView("_Topbar");
+            var userName = (string)Session["UserName"];
+            var notifications = await _notificationService.GetNoticationByUserAsync(userName);
+            var viewModel = new TopMenuModel
+            {
+                UnreadCount = notifications.Where(x => !x.IsViewed).Count(),
+                Notifications = notifications
+            };
+
+            return PartialView("_Topbar", viewModel);
         }
 
         public ActionResult SideMenu()

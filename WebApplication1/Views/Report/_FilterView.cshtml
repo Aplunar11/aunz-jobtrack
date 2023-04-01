@@ -1,0 +1,99 @@
+﻿<!-- manuscript filter -->
+<div class="p-2" id="filterManuscript">
+    @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Name = "FilterManuscript", TempDataName = "Manuscript" })
+</div>
+
+<div class="p-2" id="filterManuscriptValues">
+    @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Name = "FilterManuscriptValue", TempDataName = "ManuscriptFilter" })
+</div>
+
+<!-- coversheet filter -->
+<div class="p-2" id="filterCoversheet">
+    @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Name = "FilterCoversheet", TempDataName = "Coversheet" })
+</div>
+
+<div class="p-2" id="filterCoversheetValues">
+    @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Name = "FilterCoversheetValue", TempDataName = "CoversheetFilter" })
+</div>
+
+<!-- stp filter -->
+<div class="p-2" id="filterSTP">
+    @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Name = "FilterSTP", TempDataName = "STP" })
+</div>
+
+<div class="p-2" id="filterSTPValues">
+    @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Name = "FilterSTPValue", TempDataName = "STPFilter" })
+</div>
+
+<!-- hidden containers for dropdown to fix datatable reload -->
+<input type="hidden" value="0" id="FilterManuscriptInput" />
+<input type="hidden" value="0" id="FilterManuscriptValuesInput" />
+<input type="hidden" value="0" id="FilterCoversheetInput" />
+<input type="hidden" value="0" id="FilterCoversheetValuesInput" />
+<input type="hidden" value="0" id="FilterSTPInput" />
+<input type="hidden" value="0" id="FilterSTPValuesInput" />
+
+<script>
+    $(document).ready(function () {
+        OnChangeFilterManuscript();
+        OnChangeFilterCoversheet();
+        OnChangeFilterSTP();
+        OnChangeFilterManuscriptValue();
+        OnChangeFilterCoversheetValue();
+        OnChangeFilterSTPValue();
+    });
+
+    function OnChangeFilterManuscript() {
+        $('#FilterManuscript').on('change', function () {
+            $('#FilterManuscriptValue').empty();
+
+            GotoControllerAsync('/Report/GetFilterManuscriptValues', 'POST', { filter: this.value }, false, 'json', function (response) {
+                $.each(response, function (index, row) {
+                    $("#FilterManuscriptValue").append("<option value='" + row.FilterValue + "'>" + row.FilterValue + "</option>");
+                });
+            });
+        });
+    }
+
+    function OnChangeFilterCoversheet() {
+        $('#FilterCoversheet').on('change', function () {
+            $('#FilterCoversheetValue').empty();
+
+            GotoControllerAsync('/Report/GetFilterCoversheetValues', 'POST', { filter: this.value }, false, 'json', function (response) {
+                $.each(response, function (index, row) {
+                    $("#FilterCoversheetValue").append("<option value='" + row.FilterValue + "'>" + row.FilterValue + "</option>");
+                });
+            });
+        });
+    }
+
+    function OnChangeFilterSTP() {
+        $('#FilterSTP').on('change', function () {
+            $('#FilterSTPValue').empty();
+
+            GotoControllerAsync('/Report/GetFilterSTPValues', 'POST', { filter: this.value }, false, 'json', function (response) {
+                $.each(response, function (index, row) {
+                    $("#FilterSTPValue").append("<option value='" + row.FilterValue + "'>" + row.FilterValue + "</option>");
+                });
+            });
+        });
+    }
+
+    function OnChangeFilterManuscriptValue() {
+        $('#FilterManuscriptValue').on('change', function () {
+            refreshTable('tblManuscript');
+        });
+    }
+
+    function OnChangeFilterCoversheetValue() {
+        $('#FilterCoversheetValue').on('change', function () {
+            refreshTable('tblCoversheet');
+        });
+    }
+
+    function OnChangeFilterSTPValue() {
+        $('#FilterSTPValue').on('change', function () {
+            refreshTable('tblSTP');
+        });
+    }
+</script>

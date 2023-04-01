@@ -1,4 +1,6 @@
-﻿<!--**********************************
+﻿@model  JobTrack.Models.TopMenuModel
+
+<!--**********************************
     Header start
 ***********************************-->
 <div class="header">
@@ -18,18 +20,24 @@
                 <li class="icons dropdown">
                     <a href="javascript:void(0)" data-toggle="dropdown">
                         <i class="mdi mdi-email-outline"></i>
-                        <span class="badge badge-pill gradient-1">3</span>
+                        <span class="badge badge-pill gradient-1">@Model.UnreadCount</span>
                     </a>
                     <div class="drop-down animated fadeIn dropdown-menu">
                         <div class="dropdown-content-heading d-flex justify-content-between">
-                            <span class="">3 New Messages</span>
+                            <span>@Model.UnreadCount New Messages</span>
                             <a href="javascript:void()" class="d-inline-block">
-                                <span class="badge badge-pill gradient-1">3</span>
+                                <span class="badge badge-pill gradient-1">@Model.UnreadCount</span>
                             </a>
                         </div>
+
                         <div class="dropdown-content-body">
                             <ul>
-                                <li class="notification-unread">
+                                @foreach (var item in Model.Notifications) 
+                                { 
+                                    @Html.Partial("CustomControls/_NotificationBoxView", item)
+                                }
+
+                                @*<li class="notification-unread">
                                     <a href="javascript:void()">
                                         <img class="float-left mr-3 avatar-img" src="../Image/default-avatar.jpg" alt="">
                                         <div class="notification-content">
@@ -68,9 +76,8 @@
                                             <div class="notification-text">Hello</div>
                                         </div>
                                     </a>
-                                </li>
+                                </li>*@
                             </ul>
-
                         </div>
                     </div>
                 </li>

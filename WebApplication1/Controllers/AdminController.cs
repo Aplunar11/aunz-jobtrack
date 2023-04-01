@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using JobTrack.Models;
 using JobTrack.Services.Interfaces;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace JobTrack.Controllers
 {
@@ -26,12 +27,17 @@ namespace JobTrack.Controllers
         private readonly IPublicationAssignService _publicationAssignService;
         private readonly IEmployeeService _employeeService;
         private readonly IHistoryTrailService _historyTrailService;
+        private readonly INotificationService _notificationService;
 
-        public AdminController(IPublicationAssignService publicationAssignService, IEmployeeService employeeService, IHistoryTrailService historyTrailService)
+        public AdminController(IPublicationAssignService publicationAssignService
+            , IEmployeeService employeeService
+            , IHistoryTrailService historyTrailService
+            , INotificationService notificationService)
         {
             _publicationAssignService = publicationAssignService;
             _employeeService = employeeService;
             _historyTrailService = historyTrailService;
+            _notificationService = notificationService;
         }
 
         public ActionResult _EditEmployeeView()
@@ -44,9 +50,17 @@ namespace JobTrack.Controllers
             return PartialView();
         }
 
-        public ActionResult TopMenu()
+        public async Task<ActionResult> TopMenu()
         {
-            return PartialView("_Topbar");
+            var userName = (string)Session["UserName"];
+            var notifications = await _notificationService.GetNoticationByUserAsync(userName);
+            var viewModel = new TopMenuModel
+            {
+                UnreadCount = notifications.Where(x => !x.IsViewed).Count(),
+                Notifications = notifications
+            };            
+
+            return PartialView("_Topbar", viewModel);
         }
 
         public ActionResult SideMenu()
@@ -66,18 +80,14 @@ namespace JobTrack.Controllers
             return View();
         }
 
-        public ActionResult AllJob()
+        public async Task<ActionResult> AllJob()
         {
-            #region Check Session
             if (Session["UserName"] == null)
             {
                 TempData["alertMessage"] = "You must log in to continue";
                 return RedirectToAction("Login", "Login");
             }
 
-            var userAccess = Session["UserAccess"];
-
-            #endregion
             return View();
         }
 

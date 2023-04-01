@@ -59,3 +59,65 @@ function submitForm(formId, link, objData, callback) {
 function refreshTable(tableId) {
     $('#' + tableId).DataTable().ajax.reload();
 }
+
+function onclickRedirectToReply(model) {
+    let url = '';
+
+    switch (model.NotificationQueryTypeID) {
+        case 1:
+            url = '/QueryManuscript/Reply?id=' + model.QueryReplyID
+                + '&queryid=' + model.QueryID
+                + '&v=' + false
+                + '&u=' + model.UserAccessID
+                + '&fi=' + true
+                + '&e=' + model.EmployeeID
+                + '&ni=' + model.ID;
+            break
+        case 2:
+            url = '/QueryCoversheet/Reply?id=' + model.QueryReplyID
+                + '&queryid=' + model.QueryID
+                + '&v=' + false
+                + '&u=' + model.UserAccessID
+                + '&fi=' + true
+                + '&e=' + model.EmployeeID
+                + '&ni=' + model.ID;
+            break
+        case 3:
+            url = '/QuerySTP/Reply?id=' + model.QueryReplyID
+                + '&queryid=' + model.QueryID
+                + '&v=' + false
+                + '&u=' + model.UserAccessID
+                + '&fi=' + true
+                + '&e=' + model.EmployeeID
+                + '&ni=' + model.ID;
+            break
+    }
+
+    window.location.href = url;
+}
+
+function validateForm(formId) {
+    // true/false (validity checking)
+    let isValid = $('#' + formId)[0].checkValidity();
+    let inputs = $('#' + formId + ' :input');
+
+    if (!isValid) {
+        inputs.each(function (i) {
+
+            // invalid fields are highlighted in red
+            if (inputs[i].id != '') {
+                if (!inputs[i].checkValidity()) {
+                    $('#' + inputs[i].id).css('border-color', '#e52213');
+                }
+            }
+        });
+
+        $('#ErrorMessage').show();
+    }
+
+    return isValid;
+}
+
+function removeRedError(e) {
+    $('#' + e.id).css('border-color', '#ced4da');
+}

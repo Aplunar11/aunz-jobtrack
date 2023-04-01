@@ -12,6 +12,13 @@
             </div>
 
             <div class="modal-body">
+                <div class="alert alert-danger fade show" id="ErrorMessage">
+                    <span>Required fields are missing.</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
                 <form id="formJobCoversheet">
                     <div class="row">
                         <div class="col-md">
@@ -31,18 +38,18 @@
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Task Type", Name = "TaskType", Value = Model.TaskType, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Guide Card", Name = "GuideCard", Value = Model.GuideCard })
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Guide Card", Name = "GuideCard", Value = Model.GuideCard, IsRequired = true })
                         </div>
 
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Further Instructions", Name = "FurtherInstructions", Value = Model.FurtherInstructions })
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Further Instructions", Name = "FurtherInstructions", Value = Model.FurtherInstructions, IsRequired = true })
 
                             @if (TempData["UpdateTypes"] != null)
                             {
                                 @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Update Types", Name = "UpdateType", TempDataName = "UpdateTypes" })
                             }
 
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "General Data", Name = "GeneralData", Value = Model.GeneralData })
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "General Data", Name = "GeneralData", Value = Model.GeneralData, IsRequired = true })
 
                             <div class="form-group">
                                 <div class="col-sm-12 checkbox-wrapper border" style="padding-top: 5px">
@@ -134,6 +141,8 @@
 
 <script>
     $(document).ready(function () {
+        $('#ErrorMessage').hide();
+
         $("#UpdateType").on("change", function () {
             var url = '@Url.Action("GetTaskType", "Coversheet")' + "?selectedItem=" + encodeURIComponent($(this).val());
             var url2 = '@Url.Action("GetTATCoding", "Coversheet")' + "?selectedItem=" + encodeURIComponent($(this).val()) + "&datecreated=" + $("#DateCreated").val();
@@ -161,18 +170,21 @@
     });
 
     function onclickSaveCoversheet() {
-        submitForm('formJobCoversheet', '/JobCoversheet/AddNewJobCoversheet', null, function (response) {
-            if (response.IsSuccess) {
+        let isValid = validateForm('formJobCoversheet');
+        if (isValid) {
+            submitForm('formJobCoversheet', '/JobCoversheet/AddNewJobCoversheet', null, function (response) {
+                if (response.IsSuccess) {
 
-                refreshTable('tblDataCoversheet');
-                alert('Add new coversheet successful.');
-                $('#modal-jobcoversheet').modal('hide');
-                setTimeout(function () {
-                    $('#btnNavProductCoversheet').click();
-                }, 1000);
-            }
-            else
-                alert("Error: " + response.ErrorMessage);
-        });
+                    refreshTable('tblDataCoversheet');
+                    alert('Add new coversheet successful.');
+                    $('#modal-jobcoversheet').modal('hide');
+                    setTimeout(function () {
+                        $('#btnNavProductCoversheet').click();
+                    }, 1000);
+                }
+                else
+                    alert("Error: " + response.ErrorMessage);
+            });
+        }
     }
 </script>

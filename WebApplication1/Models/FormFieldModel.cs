@@ -24,5 +24,7 @@ namespace JobTrack.Models
         public bool DontDisplay { get; set; }
 
         public string OnChangeEvent { get; set; }
+
+        public bool IsRequired { get; set; }
     }
 }

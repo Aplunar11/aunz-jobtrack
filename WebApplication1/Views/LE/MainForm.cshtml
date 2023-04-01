@@ -3,6 +3,8 @@
 @{ ViewBag.Title = "Homepage";
     Layout = "~/Views/Shared/_JobTrackLayout_LE.cshtml"; }
 
+<script src="~/Scripts/src/custom_index.js"></script>
+
 <style type="text/css">
     /*table icons*/
     td.details-control {
@@ -224,7 +226,7 @@
             <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('LateJobs')">
                 <div class="card gradient-9">
                     <div class="card-body">
-                        <h3 class="card-title text-white">CopyEdit Jobs</h3>
+                        <h3 class="card-title text-white">CopyEdit Late Jobs</h3>
                         <div class="d-inline-block">
                             <h2 class="text-white">@ViewBag.CopyLate</h2>
                             <p class="text-white mb-0"></p>

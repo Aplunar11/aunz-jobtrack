@@ -12,6 +12,8 @@ using JobTrack.Models.Job;
 using JobTrack.Models.Coversheet;
 using MySql.Data.MySqlClient;
 using System.Globalization;
+using System.Threading.Tasks;
+using JobTrack.Services.Interfaces;
 
 namespace JobTrack.Controllers
 {
@@ -21,9 +23,25 @@ namespace JobTrack.Controllers
         public MySqlConnection dbConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString);
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataAdapter adp = new MySqlDataAdapter();
-        public ActionResult TopMenu()
+
+        private readonly INotificationService _notificationService;
+
+        public CodingController(INotificationService notificationService)
         {
-            return PartialView("_Topbar");
+            _notificationService = notificationService;
+        }
+
+        public async Task<ActionResult> TopMenu()
+        {
+            var userName = (string)Session["UserName"];
+            var notifications = await _notificationService.GetNoticationByUserAsync(userName);
+            var viewModel = new TopMenuModel
+            {
+                UnreadCount = notifications.Where(x => !x.IsViewed).Count(),
+                Notifications = notifications
+            };
+
+            return PartialView("_Topbar", viewModel);
         }
 
         public ActionResult SideMenu()

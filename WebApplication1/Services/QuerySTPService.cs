@@ -35,6 +35,14 @@ namespace JobTrack.Services
 
                 if (userAccess == UserAccessEnum.CodingSTP)
                     command.Parameters.AddWithValue("@p_Username", userName);
+                else
+                {
+                    //Default values
+                    command.Parameters.AddWithValue("@p_filterBy", 0);
+                    command.Parameters.AddWithValue("@p_BPSProductID", null);
+                    command.Parameters.AddWithValue("@p_ServiceNumber", null);
+                    command.Parameters.AddWithValue("@p_SendToPrintStatus", null);
+                }
 
                 var reader = command.ExecuteReader();
                 dataTable.Load(reader);
@@ -141,7 +149,7 @@ namespace JobTrack.Services
         public async Task<bool> UpdateSTPReplyAsync(ReplyModel model)
         {
             var isSuccess = false;
-            var storedProcedure = "UpdateSTPReply";
+            var storedProcedure = "UpdateReplySTP";
 
             try
             {

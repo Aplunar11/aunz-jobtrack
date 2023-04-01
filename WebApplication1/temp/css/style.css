@@ -7957,3 +7957,8 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     background-color: #1b2b42; }
     [data-theme-version="dark"] .footer .copyright p {
       color: #fff; }
+
+
+#MainTable .nav .nav-item {
+    z-index: 0 !important;
+}

@@ -16,10 +16,12 @@ namespace JobTrack.Controllers
     public class QueryManuscriptController : Controller
     {
         private readonly IQueryManuscriptService _queryManuscriptService;
+        private readonly INotificationService _notificationService;
 
-        public QueryManuscriptController(IQueryManuscriptService queryManuscriptService)
+        public QueryManuscriptController(IQueryManuscriptService queryManuscriptService, INotificationService notificationService)
         {
             _queryManuscriptService = queryManuscriptService;
+            _notificationService = notificationService;
         }
 
         // GET: QueryManuscript
@@ -31,8 +33,14 @@ namespace JobTrack.Controllers
             return View(viewModel);
         }
 
-        public async Task<ActionResult> Reply(int id, int queryid, bool v, int u)
+        public async Task<ActionResult> Reply(int id, int queryid, bool v, int u, bool? fi, int? e, int? ni)
         {
+            // v (isView)
+            // u (userAccess)
+            // fi (isFromIndex)
+            // e (employeeID)
+            // ni (notificationPostId)
+
             // relogin for new session
             if (Session["UserName"] == null)
             {
@@ -54,6 +62,12 @@ namespace JobTrack.Controllers
             ViewBag.UserAccess = (UserAccessEnum)u;
             ViewBag.UserName = !(Session["UserName"] is null) ? Session["UserName"] : "system";
             ViewBag.IsViewOnly = v;
+            ViewBag.IsFromIndex = fi.HasValue ? fi : false;
+
+            if (fi.HasValue)
+            {
+                var data = await _notificationService.UpdateNotificationUserRecordAsync(new NotificationModel { ID = ni.Value, EmployeeID = e.Value });
+            }
 
             return View(model);
         }

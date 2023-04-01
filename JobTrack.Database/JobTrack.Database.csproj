@@ -49,6 +49,7 @@
     <Content Include="Database\db with data %283%29.sql" />
     <Content Include="Database\db with data %284%29.sql" />
     <Content Include="Database\jobtrackaunz_v1 %281%29.sql" />
+    <Content Include="Database\jobtrackaunz_v1 %2810%29.sql" />
     <Content Include="Database\jobtrackaunz_v1 %282%29.sql" />
     <Content Include="Database\jobtrackaunz_v1 %283%29.sql" />
     <Content Include="Database\jobtrackaunz_v1 %284%29.sql" />
@@ -56,6 +57,7 @@
     <Content Include="Database\jobtrackaunz_v1 %286%29.sql" />
     <Content Include="Database\jobtrackaunz_v1 %287%29.sql" />
     <Content Include="Database\jobtrackaunz_v1 %288%29.sql" />
+    <Content Include="Database\jobtrackaunz_v1 %289%29.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

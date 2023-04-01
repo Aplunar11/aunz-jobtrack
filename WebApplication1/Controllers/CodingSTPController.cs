@@ -20,13 +20,15 @@ namespace JobTrack.Controllers
         private readonly IJobDashboardService _jobDashboardService;
         private readonly ICoversheetService _coversheetService;
         private readonly IEmployeeService _employeeService;
+        private readonly INotificationService _notificationService;
 
         public CodingSTPController(ISTPService sTPService
             , IQuerySTPService querySTPService
             , IJobCoversheetService jobCoversheetService
             , IJobDashboardService jobDashboardService
             , ICoversheetService coversheetService
-            , IEmployeeService employeeService)
+            , IEmployeeService employeeService
+            , INotificationService notificationService)
         {
             _sTPService = sTPService;
             _querySTPService = querySTPService;
@@ -34,6 +36,7 @@ namespace JobTrack.Controllers
             _jobDashboardService = jobDashboardService;
             _coversheetService = coversheetService;
             _employeeService = employeeService;
+            _notificationService = notificationService;
         }
 
         public ActionResult Index()

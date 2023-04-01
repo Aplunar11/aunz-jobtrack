@@ -17,10 +17,12 @@ namespace JobTrack.Controllers
     public class QueryCoversheetController : Controller
     {
         private readonly IQueryCoversheetService _queryCoversheetService;
+        private readonly INotificationService _notificationService;
 
-        public QueryCoversheetController(IQueryCoversheetService queryCoversheetService)
+        public QueryCoversheetController(IQueryCoversheetService queryCoversheetService, INotificationService notificationService)
         {
             _queryCoversheetService = queryCoversheetService;
+            _notificationService = notificationService;
         }
 
         public async Task<ActionResult> Index(int id, int u)
@@ -31,8 +33,14 @@ namespace JobTrack.Controllers
             return View(viewModel);
         }   
 
-        public async Task<ActionResult> Reply(int id, int queryid, bool v, int u)
+        public async Task<ActionResult> Reply(int id, int queryid, bool v, int u, bool? fi, int? e, int? ni)
         {
+            // v (isView)
+            // u (userAccess)
+            // fi (isFromIndex)
+            // e (employeeID)
+            // ni (notificationPostId)
+
             // relogin for new session
             if (Session["UserName"] == null)
             {
@@ -54,6 +62,12 @@ namespace JobTrack.Controllers
             ViewBag.UserAccess = (UserAccessEnum)u;
             ViewBag.UserName = !(Session["UserName"] is null) ? Session["UserName"] : "system";
             ViewBag.IsViewOnly = v;
+            ViewBag.IsFromIndex = fi.HasValue ? fi : false;
+
+            if (fi.HasValue)
+            {
+                var data = await _notificationService.UpdateNotificationUserRecordAsync(new NotificationModel { ID = ni.Value, EmployeeID = e.Value });
+            }
 
             return View(model);
         }
