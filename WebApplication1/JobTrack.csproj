@@ -525,7 +525,7 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="temp\chatbox.css" />
-    <Content Include="temp\css\datatable.css" />
+    <Content Include="temp\css\custom_datatable.css" />
     <Content Include="temp\css\style.css" />
     <Content Include="temp\icons\cryptocoins\css\cryptocoins-colors.css" />
     <Content Include="temp\icons\cryptocoins\css\cryptocoins.css" />
@@ -5785,6 +5785,7 @@
     <Content Include="Views\Report\_CoversheetView.cshtml" />
     <Content Include="Views\Report\_SendToPrintView.cshtml" />
     <Content Include="Views\Report\_FilterView.cshtml" />
+    <Content Include="Views\Coversheet\_EditCoversheetView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

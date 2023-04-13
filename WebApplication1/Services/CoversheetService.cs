@@ -23,9 +23,9 @@ namespace JobTrack.Services
 
         public CoversheetService() { }
 
-        public async Task<List<CoversheetData>> GetCoversheetDataByProductAndServiceAsync(string bpsproductid, string servicenumber)
+        public async Task<List<CoversheetData>> GetCoversheetDataByProductAndServiceAsync(string bpsproductid, string servicenumber, string username)
         {
-            var storedProcedure = "GetAllCoversheetDataByProductAndService";
+            var storedProcedure = string.IsNullOrEmpty(username) ? "GetAllCoversheetDataByProductAndService" : "GetAllCoversheetDataByProductAndServiceByUser";
             var dataTable = new DataTable();
 
             dbConnection.Open();
@@ -35,6 +35,9 @@ namespace JobTrack.Services
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@p_BPSProductID", bpsproductid);
                 command.Parameters.AddWithValue("@p_ServiceNumber", servicenumber);
+
+                if (!string.IsNullOrEmpty(username))
+                    command.Parameters.AddWithValue("@p_Username", username);
 
                 var reader = command.ExecuteReader();
                 dataTable.Load(reader);
@@ -83,6 +86,29 @@ namespace JobTrack.Services
 
             var list = JsonConvert.DeserializeObject<List<CoversheetData>>(JsonConvert.SerializeObject(dataTable));
             return await Task.FromResult(list);
+        }
+
+        public async Task<CoversheetData> GetCoversheetDataByIdAsync(int id)
+        {
+            var storedProcedure = "GetCoversheetDataById";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_id", id);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<CoversheetData>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list.FirstOrDefault());
         }
 
         public async Task<JsonResultModel> InsertCoversheetDataAsync(CoversheetData model, string username)

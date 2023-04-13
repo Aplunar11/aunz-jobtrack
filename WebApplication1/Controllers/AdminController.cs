@@ -80,7 +80,7 @@ namespace JobTrack.Controllers
             return View();
         }
 
-        public async Task<ActionResult> AllJob()
+        public ActionResult AllJob()
         {
             if (Session["UserName"] == null)
             {
@@ -91,51 +91,6 @@ namespace JobTrack.Controllers
             return View();
         }
 
-        //public ActionResult GetJobTrackDataByUserName()
-        //{
-        //    var Username = Session["UserName"];
-        //    if (dbConnection.State == ConnectionState.Closed)
-        //        dbConnection.Open();
-
-        //    List<JobData> mdata = new List<JobData>();
-        //    DataTable dt = new DataTable();
-
-        //    cmd = new MySqlCommand("GetAllJobDataByUserName", dbConnection);
-        //    cmd.CommandType = CommandType.StoredProcedure;
-        //    cmd.Parameters.Clear();
-        //    cmd.Parameters.AddWithValue("@p_Username", Username);
-        //    adp = new MySqlDataAdapter(cmd);
-        //    adp.Fill(dt);
-        //    //DateTime? temp = null; //this is fine
-        //    //var indexOfYourColumn = dt.Columns.IndexOf(dt.Columns[6]);
-        //    foreach (DataRow dr in dt.Rows)
-        //    {
-        //        //temp = dr[indexOfYourColumn] != DBNull.Value ? (DateTime?)null : DateTime.Parse(dr[indexOfYourColumn].ToString());
-        //        mdata.Add(new JobData
-        //        {
-
-
-        //            JobID = Convert.ToInt32(dr["JobID"].ToString()),
-        //            //JobNumber = Convert.ToInt32(dr["JobNumber"].ToString()),
-        //            JobNumber = dr["JobNumber"].ToString().PadLeft(8, '0'),
-        //            ManuscriptTier = dr["ManuscriptTier"].ToString(),
-        //            BPSProductID = dr["BPSProductID"].ToString(),
-        //            ServiceNumber = dr["ServiceNumber"].ToString(),
-        //            TargetPressDate = Convert.ToDateTime(dr["TargetPressDate"].ToString()),
-
-        //            ActualPressDate = dr.Field<DateTime?>("ActualPressDate"),
-        //            //TargetPressDate = DateTime.ParseExact(dr["TargetPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-        //            //ActualPressDate = DateTime.ParseExact(dr["ActualPressDate"].ToString(), "yyyy/MM/dd hh:mm:ss tt", CultureInfo.InvariantCulture),
-        //            CopyEditStatus = dr["CopyEditStatus"].ToString(),
-        //            CodingStatus = dr["CodingStatus"].ToString(),
-        //            OnlineStatus = dr["OnlineStatus"].ToString(),
-        //            STPStatus = dr["STPStatus"].ToString()
-
-        //        });
-        //    }
-        //    dbConnection.Close();
-        //    return Json(mdata, JsonRequestBehavior.AllowGet);
-        //}
         public ActionResult Employees()
         {
             return View();
@@ -378,56 +333,6 @@ namespace JobTrack.Controllers
             }
             return IsUserExist;
         }
-
-        //[HttpGet]
-        //public ActionResult UpdateEmployee(int? EmployeeID)
-        //{
-        //    dbConnModel.Employees = new List<EmployeeData>();
-
-        //    //string userID = user_ID;
-        //    //userID = Session["EmployeeID"].ToString();
-
-        //    dbConnection.Open();
-
-        //    string storedProcName;
-        //    storedProcName = "GetUserByUserID";
-
-        //    using (MySqlCommand command = new MySqlCommand(storedProcName, dbConnection))
-        //    {
-        //        command.CommandType = System.Data.CommandType.StoredProcedure;
-        //        command.Parameters.AddWithValue("@p_UserID", EmployeeID);
-
-        //        MySqlDataReader reader = command.ExecuteReader();
-        //        if (reader.HasRows)
-        //        {
-        //            while (reader.Read())
-        //            {
-
-        //                dbConnModel.Employees.Add(new EmployeeData()
-        //                {
-        //                    EmployeeID = int.Parse(reader[0].ToString()),
-        //                    UserAccess = reader[1].ToString(),
-        //                    CreatedDate = DateTime.Parse(reader[2].ToString()),
-        //                    UserName = reader[3].ToString(),
-        //                    FirstName = reader[4].ToString(),
-        //                    LastName = reader[5].ToString(),
-        //                    EmailAddress = reader[6].ToString(),
-        //                    isManager = int.Parse(reader[7].ToString()),
-        //                    isEditorialContact = int.Parse(reader[8].ToString()),
-        //                    isEmailList = int.Parse(reader[9].ToString()),
-        //                    isMandatoryRecepient = int.Parse(reader[10].ToString()),
-        //                    isShowUser = int.Parse(reader[11].ToString()),
-        //                    PasswordUpdateDate = DateTime.Parse(reader[12].ToString())
-
-        //                });
-        //            }
-        //        }
-        //        reader.Close();
-        //    }
-        //    dbConnection.Close();
-
-        //    return Json(dbConnModel.Employees, JsonRequestBehavior.AllowGet);
-        //}
 
         public ActionResult AddNewProductDatabase()
         {

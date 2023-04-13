@@ -11,9 +11,11 @@ namespace JobTrack.Services.Interfaces
 {
     public interface ICoversheetService
     {
-        Task<List<CoversheetData>> GetCoversheetDataByProductAndServiceAsync(string bpsproductid, string servicenumber);
+        Task<List<CoversheetData>> GetCoversheetDataByProductAndServiceAsync(string bpsproductid, string servicenumber, string username);
 
         Task<List<CoversheetData>> GetAllProductAndServiceByUsernameAsync(string userName, UserAccessEnum userAccess);
+
+        Task<CoversheetData> GetCoversheetDataByIdAsync(int id);
 
         Task<JsonResultModel> InsertCoversheetDataAsync(CoversheetData model, string username);
     }

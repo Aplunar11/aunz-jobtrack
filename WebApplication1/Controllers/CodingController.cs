@@ -48,17 +48,26 @@ namespace JobTrack.Controllers
         {
             return PartialView("_SidebarRegular");
         }
+
         public ActionResult MainForm()
         {
-            #region Check Session
             if (Session["UserName"] == null)
             {
                 TempData["alertMessage"] = "You must log in to continue";
                 return RedirectToAction("Login", "Login");
             }
-            #endregion
+
+            ViewBag.MyJobs = 0;
+            ViewBag.OpenJobs = 0;
+            ViewBag.CompleteJobs = 0;
+            ViewBag.CancelledJobs = 0;
+            ViewBag.LateJobs = 0;
+            ViewBag.DueJobs = 0;
+            ViewBag.RevisedJobs = 0;
+
             return View();
         }
+
         public ActionResult AllJob()
         {
             #region Check Session

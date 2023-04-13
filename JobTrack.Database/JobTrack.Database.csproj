@@ -59,8 +59,5 @@
     <Content Include="Database\jobtrackaunz_v1 %288%29.sql" />
     <Content Include="Database\jobtrackaunz_v1 %289%29.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Documentation\AUNZ Jobtrack Requirements Document.doc" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

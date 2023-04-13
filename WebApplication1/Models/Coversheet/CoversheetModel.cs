@@ -194,5 +194,9 @@ namespace JobTrack.Models.Coversheet
         public bool SamplePages { get; set; }
 
         public bool ComplexTask { get; set; }
+
+        public DateTime? RevisedOnlineDueDate { get; set; }
+
+        public string Remarks { get; set; }
     }
 }

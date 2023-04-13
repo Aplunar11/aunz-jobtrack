@@ -1,0 +1,188 @@
+﻿@model JobTrack.Models.Coversheet.CoversheetData
+
+<div class="modal fade" id="modal-coversheet" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#009688;color:white">
+                <h5 class="modal-title" id="confirmModalLabel">Coding Workbench</h5>
+                <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="alert alert-danger fade show" id="ErrorMessage">
+                    <span>Required fields are missing.</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form id="formCoversheet">
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Coversheet Number", Name = "CoversheetNumber", Value = Model.CoversheetNumber, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Tier", Name = "CoversheetTier", Value = Model.CoversheetTier, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Service Number", Name = "ServiceNumber", Value = Model.ServiceNumber, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Task Number", Name = "TaskNumber", Value = Model.TaskNumber, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Product ID", Name = "BPSProductID", Value = Model.BPSProductID, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Editor", Name = "Editor", Value = Model.Editor, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Charge Code", Name = "ChargeCode", Value = Model.ChargeCode, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Further Instructions", Name = "FurtherInstructions", Value = Model.FurtherInstructions, IsRequired = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Task Type", Name = "TaskType", Value = Model.TaskType, IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Guide Card", Name = "GuideCard", Value = Model.GuideCard, IsRequired = true })
+
+                            @if (TempData["UpdateTypes"] != null)
+                            {
+                                @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Update Types", Name = "UpdateType", TempDataName = "UpdateTypes" })
+                            }
+
+                            <div class="form-group">
+                                <div class="col-sm-12 checkbox-wrapper border" style="padding-top: 5px">
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "LegRefCheck", Label = "Leg Ref Check", Value = false })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "TOC", Label = "TOC", Value = false })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "FascicleInsertion", Label = "Fascicle Insertion", Value = false })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GraphicEmbed", Label = "Graphic-Embed", Value = false })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "NonContent", Label = "Non-Content", Value = false })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "ComplexTask", Label = "Complex Task", Value = false })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "TOC", Label = "TOC", Value = false })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "Reprints", Label = "Reprints", Value = false })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GraphicLink", Label = "Graphic-Link", Value = false, DontDisplay = true })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "Handtooling", Label = "Handtooling", Value = false })
+
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "SamplePages", Label = "Sample Pages", Value = false })
+                                </div>
+                            </div>
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Target Press Date", Name = "TargetPressDate", Value = Model.TargetPressDate, IsReadOnly = true })
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Status", Name = "TaskStatus", Value = Model.TaskStatus, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel
+                            {
+                                Label = "Actual Press Date",
+                                Name = "ActualPressDate",
+                                Value = Model.ActualPressDate.HasValue ? Model.ActualPressDate.Value.ToString("yyyy-MM-dd") : "TBD",
+                                Class = Model.ActualPressDate.HasValue ? "datepicker" : "",
+                                IsReadOnly = true
+                            })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel
+                            {
+                                Label = "Revised Online Due Date",
+                                Name = "RevisedOnlineDueDate",
+                                Value = Model.RevisedOnlineDueDate.HasValue ? Model.ActualPressDate.Value.ToString("yyyy-MM-dd") : "TBD",
+                                Class = Model.ActualPressDate.HasValue ? "datepicker" : "",
+                                IsReadOnly = true
+                            })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel
+                            {
+                                Label = "Accepted Date",
+                                Name = "AcceptedDate",
+                                Value = Model.AcceptedDate.HasValue ? Model.AcceptedDate.Value.ToString("yyyy-MM-dd") : "TBD",
+                                Class = Model.AcceptedDate.HasValue ? "datepicker" : "",
+                                IsReadOnly = true
+                            })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Job Owner", Name = "JobOwner", Value = Model.JobOwner, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Current Task", Name = "CurrentTask", Value = Model.CurrentTask, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Update Email CC", Name = "UpdateEmailCC", Value = Model.UpdateEmailCC, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Online Timeliness", Name = "OnlineTimeliness", Value = Model.OnlineTimeliness, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Remarks", Name = "Remarks", Value = Model.Remarks, IsReadOnly = false })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Date Created", Name = "DateCreated", Value = Model.DateCreated, IsReadOnly = true })
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel
+                            {
+                                Label = "Coding Due Date",
+                                Name = "CodingDueDate",
+                                Value = Model.CodingDueDate.HasValue ? Model.CodingDueDate.Value.ToString("yyyy-MM-dd") : "TBD",
+                                Class = Model.CodingDueDate.HasValue ? "datepicker" : "",
+                                IsReadOnly = true
+                            })
+
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel
+                            {
+                                Label = "Coding Start Date",
+                                Name = "CodingStartDate",
+                                Value = Model.CodingStartDate.HasValue ? Model.CodingStartDate.Value.ToString("yyyy-MM-dd") : "TBD",
+                                Class = Model.CodingStartDate.HasValue ? "datepicker" : "",
+                                IsReadOnly = true
+                            })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel
+                            {
+                                Label = "Coding Done Date",
+                                Name = "CodingDoneDate",
+                                Value = Model.CodingDoneDate.HasValue ? Model.CodingDoneDate.Value.ToString("yyyy-MM-dd") : "TBD",
+                                Class = Model.CodingDoneDate.HasValue ? "datepicker" : "",
+                                IsReadOnly = true
+                            })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Sub Task", Name = "SubTask", Value = Model.SubTask, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "PDF QC - Start Date", Name = "PDFQCStartDate", Value = Model.PDFQCStartDate, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "PDF QC - Done Date", Name = "PDFQCDoneDate", Value = Model.PDFQCDoneDate, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "PDF QC - Done Date", Name = "PDFQCDoneDate", Value = Model.Attac, IsReadOnly = true })
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="onclickSubmit();" id="btnSave">Submit</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#ErrorMessage').hide();
+    });
+
+    function onclickSubmit() {
+
+    }
+</script>

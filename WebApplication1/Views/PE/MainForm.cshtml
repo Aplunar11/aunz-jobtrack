@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_JobTrackLayout_PE.cshtml"; }
 
 <script src="~/Scripts/src/custom_index.js"></script>
-
+<link href="~/temp/css/custom_datatable.css" rel="stylesheet" />
 <style type="text/css">
     /*table icons*/
     td.details-control, td.details-control2 {
@@ -25,138 +25,6 @@
     td.details-control4 {
         background: url('../Image/details_link.png') no-repeat center center;
         cursor: pointer;
-    }
-
-    div.outer {
-        width: 90%;
-        margin: 0 auto;
-        overflow: hidden;
-        padding-bottom: 20px;
-    }
-
-    div.inner {
-        max-width: 1000px;
-        justify-content: left;
-        /*max-width: 20%;*/
-        overflow: hidden;
-        padding-left: 10px;
-    }
-
-    /*custom search button on footer*/
-    tfoot input {
-        width: 100%;
-        padding: 3px;
-        box-sizing: border-box;
-    }
-    /*font-awesome export button*/
-    .custom-btn {
-        cursor: pointer;
-        margin-right: 5px;
-    }
-    /*center datatables content*/
-    th.dt-center, td.dt-center {
-        text-align: center;
-    }
-    /*remove searchbar*/
-    .dataTables_filter {
-        display: none;
-    }
-
-    /*tab style*/
-    section {
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-
-    :root {
-        --m5-tabs-bg: #e1e1e1;
-        --m5-border: #aaa;
-        --m5-tab-text: #888;
-        --m5-tab-bg: #e1e1e1;
-        --m5-tab-hover-text: #009688;
-        --m5-tab-hover-bg: #e1e1e1;
-        --m5-tab-hover-bg-card: #F8F9FA;
-    }
-
-    #MainTable .nav-tabs {
-        position: relative;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: -moz-flex;
-        display: -ms-flex;
-        display: flex;
-        margin: 0 auto;
-        padding: 0;
-        max-width: 1500px;
-        list-style: none;
-        -ms-box-orient: horizontal;
-        -ms-box-pack: center;
-        -webkit-flex-flow: row wrap;
-        -moz-flex-flow: row wrap;
-        -ms-flex-flow: row wrap;
-        flex-flow: row wrap;
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        -ms-justify-content: center;
-        justify-content: center;
-        border: 0;
-    }
-
-    #MainTable .nav .nav-item {
-        position: relative;
-        z-index: 1;
-        display: block;
-        margin: 0;
-        text-align: center;
-        -webkit-flex: 1;
-        -moz-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
-    }
-
-    #MainTable .nav .nav-link {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        line-height: 2.5;
-        border: 1px solid var(--m5-border);
-        border-radius: 4;
-        padding: 0.65em 0 0.5em;
-        background: var(--m5-tab-bg);
-        color: var(--m5-tab-text);
-        line-height: 1;
-        -webkit-transition: color 0.2s;
-        transition: color 0.2s;
-        outline: unset;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-weight: 700;
-        font-size: 0.8em;
-    }
-
-        #MainTable .nav .nav-link:hover {
-            background-color: var(--m5-tab-hover-bg);
-            color: var(--m5-tab-hover-text);
-        }
-
-        #MainTable .nav .nav-link.active,
-        #MainTable .nav .nav-link.active:hover {
-            background: var(--m5-tab-hover-bg-card);
-            border-top-color: var(--m5-tab-hover-text);
-            border-bottom: none;
-            box-shadow: inset 0 3px 0 var(--m5-tab-hover-text);
-            color: var(--m5-tab-hover-text);
-        }
-
-    #MainTable .nav i {
-        display: block;
-        margin: 0;
-        font-size: 2.4em;
-        line-height: 1;
-        speak: none;
-        -webkit-backface-visibility: hidden;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
     }
 
     .card-body {
@@ -221,17 +89,17 @@
 
             <!-- revised jobs -->
             @*<div class="col-lg-3 col-sm-3" style="cursor: pointer" onclick="onclickJobType('OpenJobs')">
-                <div class="card gradient-7">
-                    <div class="card-body">
-                        <h3 class="card-title text-white">Revised Press Date</h3>
-                        <div class="d-inline-block">
-                            <h2 class="text-white">@ViewBag.RevisedJobs</h2>
-                            <p class="text-white mb-0"></p>
+                    <div class="card gradient-7">
+                        <div class="card-body">
+                            <h3 class="card-title text-white">Revised Press Date</h3>
+                            <div class="d-inline-block">
+                                <h2 class="text-white">@ViewBag.RevisedJobs</h2>
+                                <p class="text-white mb-0"></p>
+                            </div>
+                            <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
                         </div>
-                        <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
                     </div>
-                </div>
-            </div>*@
+                </div>*@
 
             <!-- due jobs -->
             <div class="col-lg-2 col-sm-3" style="cursor: pointer" onclick="onclickJobType('DueJobs')">
@@ -448,8 +316,11 @@
     <!-- #/ container -->
 </div>
 
-<!-- Edit Modal -->
+<!-- modal for jobcoversheet -->
 <div id="modalWrapper"></div>
+
+<!-- modal for coversheet -->
+<div id="modalWrapper2"></div>
 
 @section scripts
 {
@@ -1175,8 +1046,21 @@
                     tr.addClass('shown');
                 }
 
-                // assign link icon to child table
-                $('.child_table2 tbody').off().on('click', 'td.details-control4', function () {
+                // info icon
+                $('.child_table2 tbody').on('click', 'td.details-control3', function () {
+                    let c_tr = $(this).closest('tr');
+                    let c_row = childTableCoversheet.row(c_tr);
+                    let rowData = c_row.data();
+                    let dataNew = childTableCoversheet.row(this).data();
+
+                    GotoControllerAsync('/Coversheet/_EditCoversheetView', 'POST', { id: dataNew['CoversheetID'] }, false, 'html', function (response) {
+                        $('#modalWrapper2').html(response);
+                        $('#modal-coversheet').modal('show');
+                    });
+                });
+
+                // query icon
+                $('.child_table2 tbody').on('click', 'td.details-control4', function () {
                     let c_tr = $(this).closest('tr');
                     let c_row = childTableCoversheet.row(c_tr);
                     let rowData = c_row.data();
@@ -1348,7 +1232,7 @@
         }
 
         function generateChildRowForManuscript(index) {
-            return '<div class="inner"><table class="child_table display nowrap" id = "child_details' + index + '" cellpadding="0" cellspacing="0" border="0" style="width:100%;">' +
+            return '<table class="child_table display nowrap" id = "child_details' + index + '" cellpadding="0" cellspacing="0" border="0" style="width:100%;">' +
                 '<thead><tr>' +
                 '<th></th>' +
                 '<th></th>' +
@@ -1431,11 +1315,11 @@
                 '<th>Reason If Late</th>' +
                 '<th>Coversheet Number</th>' +
                 '</tr></tfoot>' +
-                '</table></div>';
+                '</table>';
         }
 
         function generateChildRowForCoversheet(index) {
-            return '<div class="inner"><table class="child_table2 display nowrap" id="childTableCoversheet' + index + '" cellpadding="5" cellspacing="0" border="0" style="width: 100%">' +
+            return '<table class="child_table2 display nowrap" id="childTableCoversheet' + index + '" cellpadding="5" cellspacing="0" border="0" style="width: 100%">' +
                 '<thead><tr>' +
                 '<th></th>' +
                 '<th></th>' +
@@ -1490,7 +1374,7 @@
                 '<th>Remarks</th>' +
                 '<th>Job Owner</th>' +
                 '</tr></tfoot>' +
-                '</table></div>';
+                '</table>';
         }
 
         function onclickJobType(jobType) {
@@ -1603,9 +1487,7 @@
                 }
                 else {
                     // Open this row
-                    row.child(
-                        '<div class="inner">' +
-                        '<table class= "child_table display nowrap" id = "child_details' + index + '" cellpadding = "5" cellspacing = "0" border = "0" style = "padding-left:50px; width:100%;" > ' +
+                    row.child('<table class= "child_table display nowrap" id = "child_details' + index + '" cellpadding = "5" cellspacing = "0" border = "0" style = "padding-left:50px; width:100%;" > ' +
                         '<thead><tr><th></th><th>ManuscriptID</th><th class="toggle-all"><i id="select_all" name="select_invoice"></i></th><th>PE Task Number</th><th>JobNumber</th><th>Tier</th>' +
                         '<th>Product</th><th>Service Number</th><th>Manuscript or Leg Title</th><th>Status</th>' +
                         '<th>Target Press Date</th><th>Actual Press Date</th><th>Latup Attribution</th><th>Date Received From Author</th>' +
@@ -1615,7 +1497,7 @@
                         '<th>Coding Done Date</th><th>Coding Status</th><th>Online Due Date</th><th>Online Done Date</th>' +
                         '<th>Online Status</th><th>STP Status</th><th>Estimated Pages</th><th>Actual TAT</th>' +
                         '<th>Online Timeliness</th><th>Reason If Late</th><th>PE Coversheet Number</th><th>Date Created</th>' +
-                        '</tr></thead><tbody></tbody></table></div>').show();
+                        '</tr></thead><tbody></tbody></table>').show();
                     var events = $('#events');
                     var childTable = $('#child_details' + index).DataTable({
                         "scrollX": true,
@@ -2064,15 +1946,13 @@
                 }
                 else {
                     // Open this row
-                    row.child(
-                        '<div class="inner2">' +
-                        '<table class= "child_table1 display nowrap" id = "child_details1' + index + '" cellpadding = "5" cellspacing = "0" border = "0" style = "width:100%;" > ' +
+                    row.child('<table class= "child_table1 display nowrap" id = "child_details1' + index + '" cellpadding = "5" cellspacing = "0" border = "0" style = "width:100%;" > ' +
                         '<thead><tr><th></th><th>CoversheetID</th><th>Coversheet Number</th><th>Tier</th><th>Product</th>' +
                         '<th>Service Number</th><th>Current Task</th><th>Status</th><th>Target Press Date</th>' +
                         '<th>Actual Press Date</th><th>Coding Due Date</th><th>Coding Start</th><th>Coding Done</th>' +
                         '<th>Subsequent Pass</th><th>Online Due Date</th><th>Online Start</th><th>Online Done</th>' +
                         '<th>Online Timeliness</th><th>Reason If Late</th>' +
-                        '</tr></thead><tbody></tbody></table></div>').show();
+                        '</tr></thead><tbody></tbody></table>').show();
                     var childTable1 = $('#child_details1' + index).DataTable({
                         "scrollX": true,
                         "ajax": {

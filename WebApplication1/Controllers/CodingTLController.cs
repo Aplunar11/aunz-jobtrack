@@ -28,7 +28,7 @@ namespace JobTrack.Controllers
             return PartialView("_SidebarRegular");
         }
 
-        public async Task<ActionResult> MainForm()
+        public ActionResult MainForm()
         {
             // relogin for new session
             if (Session["UserName"] == null)

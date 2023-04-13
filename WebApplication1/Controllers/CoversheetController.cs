@@ -10,6 +10,7 @@ using MySql.Data.MySqlClient;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using JobTrack.Services.Interfaces;
+using JobTrack.Models.JobCoversheet;
 
 namespace JobTrack.Controllers
 {
@@ -24,6 +25,12 @@ namespace JobTrack.Controllers
         public CoversheetController(ICoversheetService coversheetService)
         {
             _coversheetService = coversheetService;
+        }
+
+        public async Task<ActionResult> _EditCoversheetView(int id)
+        {
+            var viewModel = await _coversheetService.GetCoversheetDataByIdAsync(id);
+            return PartialView(viewModel);
         }
 
         public ActionResult AddNewCoversheet(string manuscriptids, string bpsproductid, string serviceno)
@@ -562,9 +569,10 @@ namespace JobTrack.Controllers
         } */
         #endregion
 
-        public async Task<ActionResult> GetCoversheetData(string bpsproductid, string servicenumber)
+        public async Task<ActionResult> GetCoversheetData(string bpsproductid, string servicenumber, int? userAccess)
         {
-            var result = await _coversheetService.GetCoversheetDataByProductAndServiceAsync(bpsproductid, servicenumber);
+            var username = userAccess.HasValue ? (string)Session["UserName"] : string.Empty;
+            var result = await _coversheetService.GetCoversheetDataByProductAndServiceAsync(bpsproductid, servicenumber, username);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
