@@ -121,3 +121,13 @@ function validateForm(formId) {
 function removeRedError(e) {
     $('#' + e.id).css('border-color', '#ced4da');
 }
+
+function setupDefaultForm() {
+    $('#ErrorMessage').hide();
+    $('.datepicker').datepicker({
+        todayHighlight: true,
+        format: 'yyyy-mm-dd',
+        clearBtn: true,
+        autoclose: true
+    });
+}

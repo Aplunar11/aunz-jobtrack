@@ -266,6 +266,7 @@
     <Compile Include="Services\Interfaces\IJobdataService.cs" />
     <Compile Include="Services\Interfaces\IManuscriptDataService.cs" />
     <Compile Include="Services\Interfaces\INotificationService.cs" />
+    <Compile Include="Services\Interfaces\IParameterService.cs" />
     <Compile Include="Services\Interfaces\IPublicationAssignService.cs" />
     <Compile Include="Services\Interfaces\IPubSchedService.cs" />
     <Compile Include="Services\Interfaces\IQueryCoversheetService.cs" />
@@ -279,6 +280,7 @@
     <Compile Include="Services\JobdataService.cs" />
     <Compile Include="Services\ManuscriptDataService.cs" />
     <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Services\ParameterService.cs" />
     <Compile Include="Services\PublicationAssignService.cs" />
     <Compile Include="Services\PubSchedService.cs" />
     <Compile Include="Services\QueryCoversheetService.cs" />
@@ -5773,7 +5775,7 @@
     <Content Include="Views\Shared\CustomControls\_CheckboxView.cshtml" />
     <Content Include="Views\Shared\CustomControls\_DropdownListView.cshtml" />
     <Content Include="Views\Shared\CustomControls\_DateEditorView.cshtml" />
-    <Content Include="Views\Shared\CustomControls\_TextareaView.cshtml" />
+    <Content Include="Views\Shared\CustomControls\_TextAreaView.cshtml" />
     <Content Include="Views\CodingSTP\_AddNewSTPView.cshtml" />
     <Content Include="Views\Shared\CustomControls\_CommentPopupView.cshtml" />
     <Content Include="Views\Admin\HistoryTrail.cshtml" />
@@ -5786,6 +5788,8 @@
     <Content Include="Views\Report\_SendToPrintView.cshtml" />
     <Content Include="Views\Report\_FilterView.cshtml" />
     <Content Include="Views\Coversheet\_EditCoversheetView.cshtml" />
+    <Content Include="Views\Coversheet\_EditCoversheetCodingTLView.cshtml" />
+    <Content Include="Views\Coversheet\_EditCoversheetCodingView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

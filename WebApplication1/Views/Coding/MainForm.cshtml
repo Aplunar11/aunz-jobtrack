@@ -281,8 +281,11 @@
     <!-- #/ container -->
 </div>
 
-<!-- Edit Modal -->
+<!-- modal for jobcoversheet -->
 <div id="modalWrapper"></div>
+
+<!-- modal for coversheet -->
+<div id="modalWrapper2"></div>
 
 @section scripts
 {
@@ -562,8 +565,21 @@
                     tr.addClass('shown');
                 }
 
+                // info icon
+                $('.child_table2 tbody').on('click', 'td.details-control3', function () {
+                    let c_tr = $(this).closest('tr');
+                    let c_row = childTableCoversheet.row(c_tr);
+                    let rowData = c_row.data();
+                    let dataNew = childTableCoversheet.row(this).data();
+
+                    GotoControllerAsync('/Coversheet/_EditCoversheetCodingView', 'POST', { id: dataNew['CoversheetID'] }, false, 'html', function (response) {
+                        $('#modalWrapper2').html(response);
+                        $('#modal-coversheet').modal('show');
+                    });
+                });
+
                 // assign link icon to child table
-                $('.child_table2 tbody').off().on('click', 'td.details-control4', function () {
+                $('.child_table2 tbody').on('click', 'td.details-control4', function () {
                     let c_tr = $(this).closest('tr');
                     let c_row = childTableCoversheet.row(c_tr);
                     let rowData = c_row.data();

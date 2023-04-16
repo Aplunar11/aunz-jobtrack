@@ -1,10 +1,25 @@
 ﻿@model JobTrack.Models.FormFieldModel
 
 <div class="form-group">
-    @if (!string.IsNullOrEmpty(Model.Label)) 
+    @if (!string.IsNullOrEmpty(Model.Label))
     {
         <label>@Model.Label</label>
     }
 
-    @Html.DropDownList(Model.Name, (SelectList)TempData[Model.TempDataName], htmlAttributes: new { @class = "selects show-tick form-control" })
+    @if (Model.IsReadOnly)
+    {
+        @Html.DropDownList(Model.Name, (SelectList)TempData[Model.TempDataName], htmlAttributes: new { @class = "selects show-tick form-control", @readonly = "readonly" })
+    }
+    else
+    {
+        @Html.DropDownList(Model.Name, (SelectList)TempData[Model.TempDataName], htmlAttributes: new { @class = "selects show-tick form-control" })
+    }
 </div>
+
+<script>
+    $(document).ready(function () {
+        if ('@Model.IsReadOnly' == 'True') {
+            $('#@Model.Name').css('pointer-events', 'none');
+        }
+    });
+</script>

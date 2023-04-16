@@ -4,6 +4,10 @@
     <label>@Model.Label</label>
     <textarea class="form-control" 
               rows="3" 
+              id="@Model.Name" 
               name="@Model.Name" 
-              @(Model.IsReadOnly ? "readonly" : "")>@Model.Value</textarea>
+              onchange="removeRedError(this)"
+              errorid="error-text-modal"
+              @(Model.IsReadOnly ? "readonly" : "")
+              @(Model.IsRequired ? "required" : "")>@Model.Value</textarea>
 </div>

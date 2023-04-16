@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_JobTrackLayout_LE.cshtml"; }
 
 <script src="~/Scripts/src/custom_index.js"></script>
-
+<link href="~/temp/css/custom_datatable.css" rel="stylesheet" />
 <style type="text/css">
     /*table icons*/
     td.details-control {
@@ -25,141 +25,6 @@
     td.details-control4 {
         background: url('../Image/details_link.png') no-repeat center center;
         cursor: pointer;
-    }
-
-    div.outer {
-        width: 90%;
-        margin: 0 auto;
-        overflow: hidden;
-        padding-bottom: 20px;
-    }
-
-    /*    div.inner {
-        max-width: 900px;
-        overflow: hidden;
-    }*/
-    div.inner {
-        max-width: 100vw;
-        justify-content: left;
-        /*max-width: 20%;*/
-        overflow: hidden;
-        padding-left: 10px;
-    }
-    /*custom search button on footer*/
-    tfoot input {
-        width: 100%;
-        padding: 3px;
-        box-sizing: border-box;
-    }
-    /*font-awesome export button*/
-    .custom-btn {
-        cursor: pointer;
-        margin-right: 5px;
-    }
-    /*center datatables content*/
-    th.dt-center, td.dt-center {
-        text-align: center;
-    }
-    /*remove searchbar*/
-    .dataTables_filter {
-        display: none;
-    }
-
-    /*tab style*/
-    section {
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-
-    :root {
-        --m5-tabs-bg: #e1e1e1;
-        --m5-border: #aaa;
-        --m5-tab-text: #888;
-        --m5-tab-bg: #e1e1e1;
-        --m5-tab-hover-text: #009688;
-        --m5-tab-hover-bg: #e1e1e1;
-        --m5-tab-hover-bg-card: #F8F9FA;
-    }
-
-    #MainTable .nav-tabs {
-        position: relative;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: -moz-flex;
-        display: -ms-flex;
-        display: flex;
-        margin: 0 auto;
-        padding: 0;
-        max-width: 1500px;
-        list-style: none;
-        -ms-box-orient: horizontal;
-        -ms-box-pack: center;
-        -webkit-flex-flow: row wrap;
-        -moz-flex-flow: row wrap;
-        -ms-flex-flow: row wrap;
-        flex-flow: row wrap;
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        -ms-justify-content: center;
-        justify-content: center;
-        border: 0;
-    }
-
-    #MainTable .nav .nav-item {
-        position: relative;
-        z-index: 1;
-        display: block;
-        margin: 0;
-        text-align: center;
-        -webkit-flex: 1;
-        -moz-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
-    }
-
-    #MainTable .nav .nav-link {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        line-height: 2.5;
-        border: 1px solid var(--m5-border);
-        border-radius: 4;
-        padding: 0.65em 0 0.5em;
-        background: var(--m5-tab-bg);
-        color: var(--m5-tab-text);
-        line-height: 1;
-        -webkit-transition: color 0.2s;
-        transition: color 0.2s;
-        outline: unset;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-weight: 700;
-        font-size: 0.8em;
-    }
-
-        #MainTable .nav .nav-link:hover {
-            background-color: var(--m5-tab-hover-bg);
-            color: var(--m5-tab-hover-text);
-        }
-
-        #MainTable .nav .nav-link.active,
-        #MainTable .nav .nav-link.active:hover {
-            background: var(--m5-tab-hover-bg-card);
-            border-top-color: var(--m5-tab-hover-text);
-            border-bottom: none;
-            box-shadow: inset 0 3px 0 var(--m5-tab-hover-text);
-            color: var(--m5-tab-hover-text);
-        }
-
-    #MainTable .nav i {
-        display: block;
-        margin: 0;
-        font-size: 2.4em;
-        line-height: 1;
-        speak: none;
-        -webkit-backface-visibility: hidden;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
     }
 
     .card-body {
@@ -734,7 +599,6 @@
                 });
             });
 
-            //************Show New User Modal**************
             $("#btnAddNew").click(function () {
                 var length = tableData.data().count() + 1;
                 $.ajax({
@@ -743,15 +607,12 @@
                     contentType: "application/json; charset=utf-8",
                     data: {jobcount: length},
                     success: function (data) {
-
                         $('#modalWrapper').html(data);
-
                         $('#AddNewJobModal').modal('show');
                     }
                 });
             });
 
-            //************Show New User Modal**************
             $("#btnEdit").click(function () {
                 //var datacount = $("#lblCount").text();
                 $.ajax({
@@ -768,7 +629,6 @@
                 });
             });
         }
-        //***************End*******************8
 
         function generatedChildTable(index) {
             return '<div class="inner"><table class="child_table display nowrap" id = "child_details' + index + '" cellpadding="0" cellspacing="0" border="0">' +

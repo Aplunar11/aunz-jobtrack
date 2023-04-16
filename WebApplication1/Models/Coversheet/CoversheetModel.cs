@@ -113,7 +113,7 @@ namespace JobTrack.Models.Coversheet
         public string UpdateEmailCC { get; set; }
 
         [Display(Name = "XML Editing")]
-        public bool XMLEditing { get; set; }
+        public bool IsXMLEditing { get; set; }
 
         [Display(Name = "Coding - Due Date")]
         public DateTime? CodingDueDate { get; set; }
@@ -129,9 +129,9 @@ namespace JobTrack.Models.Coversheet
         [Display(Name = "PDF QC")]
         public string PDFQCStatus { get; set; }
         [Display(Name = "PDF QC - Start Date")]
-        public string PDFQCStartDate { get; set; }
+        public DateTime? PDFQCStartDate { get; set; }
         [Display(Name = "PDF QC - Done Date")]
-        public string PDFQCDoneDate { get; set; }
+        public DateTime? PDFQCDoneDate { get; set; }
 
         [Display(Name = "Online - Due Date")]
         public DateTime? OnlineDueDate { get; set; }
@@ -198,5 +198,11 @@ namespace JobTrack.Models.Coversheet
         public DateTime? RevisedOnlineDueDate { get; set; }
 
         public string Remarks { get; set; }
+
+        public string CompletionEmailTemplate { get; set; }
+
+        public int? JobOwnerID { get; set; }
+
+        public bool IsOnline { get; set; }
     }
 }

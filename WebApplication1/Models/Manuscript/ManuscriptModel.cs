@@ -191,6 +191,5 @@ namespace JobTrack.Models.Manuscript
         public int TATOnline { get; set; }
         public int TATPDFQA { get; set; }
         public int BenchMarkDays { get; set; }
-
     }
 }

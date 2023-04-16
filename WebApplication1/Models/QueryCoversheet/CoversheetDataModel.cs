@@ -31,7 +31,7 @@ namespace JobTrack.Models.QueryCoversheet
 
         public string TaskNumber { get; set; }
 
-        public DateTime RevisedOnlineDueDate { get; set; }
+        public DateTime? RevisedOnlineDueDate { get; set; }
 
         public string DepositedBy { get; set; }
 

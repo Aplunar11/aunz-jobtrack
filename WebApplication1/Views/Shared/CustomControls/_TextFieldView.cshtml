@@ -8,9 +8,9 @@
            name="@Model.Name"
            placeholder="@Model.Label" 
            value="@Model.Value" 
-           @(Model.IsReadOnly ? "readonly" : "") 
            onchange="removeRedError(this)"
            errorid="error-text-modal"
+           @(Model.IsReadOnly ? "readonly" : "") 
            @(Model.IsRequired ? "required" : "")>
 
     <div class="invalid-feedback">

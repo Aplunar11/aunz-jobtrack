@@ -11,6 +11,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using JobTrack.Services.Interfaces;
 using JobTrack.Models.JobCoversheet;
+using JobTrack.Models.Enums;
 
 namespace JobTrack.Controllers
 {
@@ -21,16 +22,49 @@ namespace JobTrack.Controllers
         public MySqlDataAdapter adp = new MySqlDataAdapter();
 
         private readonly ICoversheetService _coversheetService;
+        private readonly IParameterService _parameterService;
+        private readonly IEmployeeService _employeeService;
 
-        public CoversheetController(ICoversheetService coversheetService)
+        public CoversheetController(ICoversheetService coversheetService
+            , IParameterService parameterService
+            , IEmployeeService employeeService)
         {
             _coversheetService = coversheetService;
+            _parameterService = parameterService;
+            _employeeService = employeeService;
         }
 
         public async Task<ActionResult> _EditCoversheetView(int id)
         {
             var viewModel = await _coversheetService.GetCoversheetDataByIdAsync(id);
+            var updateTypes = await _parameterService.GetAllTurnAroundTimeAsync();
+            var owners = await _employeeService.GetAllEmployeeByAccess(UserAccessEnum.Coding);
+
+            TempData["UpdateTypes"] = new SelectList(updateTypes
+                , "UpdateType"
+                , "UpdateType"
+                , updateTypes.FirstOrDefault(x => x.UpdateType == viewModel.UpdateType).UpdateType);
+
+            TempData["JobOwners"] = new SelectList(owners, "ID", "UserName", viewModel.JobOwnerID);
+
             return PartialView(viewModel);
+        }
+
+        public async Task<ActionResult> _EditCoversheetCodingTLView(int id)
+        {
+            var viewModel = await _coversheetService.GetCoversheetDataByIdAsync(id);
+            return PartialView(viewModel);
+        }
+
+        public async Task<ActionResult> _EditCoversheetCodingView(int id)
+        {
+            var viewModel = await _coversheetService.GetCoversheetDataByIdAsync(id);
+            return PartialView(viewModel);
+        }
+
+        public async Task<ActionResult> EditCoversheetData(CoversheetData model)
+        {
+            return Json("", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddNewCoversheet(string manuscriptids, string bpsproductid, string serviceno)
@@ -41,7 +75,7 @@ namespace JobTrack.Controllers
                 CoversheetData mdata = new CoversheetData
                 {
                     DateCreated = DateTime.Now,
-                    XMLEditing = true,
+                    IsXMLEditing = true,
                     //OnlineStatus = true   TODO: uncomment
                 };
                 try
@@ -67,7 +101,7 @@ namespace JobTrack.Controllers
 
                     BPSProductID = bpsproductid,
                     ServiceNumber = serviceno,
-                    XMLEditing = true,
+                    IsXMLEditing = true,
                     //OnlineStatus = true   TODO: uncomment
                 };
                 try
@@ -670,7 +704,7 @@ namespace JobTrack.Controllers
                     mdata.model1.AcceptedDate = dr.Field<DateTime?>("AcceptedDate");
                     mdata.model1.JobOwner = dr["JobOwner"].ToString();
                     mdata.model1.UpdateEmailCC = dr["UpdateEmailCC"].ToString();
-                    mdata.model1.XMLEditing = Convert.ToBoolean(Convert.ToInt32(dr["XMLEditing"]));
+                    mdata.model1.IsXMLEditing = Convert.ToBoolean(Convert.ToInt32(dr["XMLEditing"]));
                     mdata.model1.CodingDueDate = dr.Field<DateTime?>("CodingDueDate");
                     mdata.model1.CodingDoneDate = dr.Field<DateTime?>("CodingDoneDate");
                     mdata.model1.SubsequentPass = dr["SubsequentPass"].ToString();
@@ -744,7 +778,7 @@ namespace JobTrack.Controllers
                     mdata.model1.AcceptedDate = dr.Field<DateTime?>("AcceptedDate");
                     mdata.model1.JobOwner = dr["JobOwner"].ToString();
                     mdata.model1.UpdateEmailCC = dr["UpdateEmailCC"].ToString();
-                    mdata.model1.XMLEditing = Convert.ToBoolean(Convert.ToInt32(dr["XMLEditing"]));
+                    mdata.model1.IsXMLEditing = Convert.ToBoolean(Convert.ToInt32(dr["XMLEditing"]));
                     mdata.model1.CodingDueDate = dr.Field<DateTime?>("CodingDueDate");
                     mdata.model1.CodingDoneDate = dr.Field<DateTime?>("CodingDoneDate");
                     mdata.model1.SubsequentPass = dr["SubsequentPass"].ToString();
@@ -816,7 +850,7 @@ namespace JobTrack.Controllers
                     mdata.AcceptedDate = dr.Field<DateTime?>("AcceptedDate");
                     mdata.JobOwner = dr["JobOwner"].ToString();
                     mdata.UpdateEmailCC = dr["UpdateEmailCC"].ToString();
-                    mdata.XMLEditing = Convert.ToBoolean(Convert.ToInt32(dr["XMLEditing"]));
+                    mdata.IsXMLEditing = Convert.ToBoolean(Convert.ToInt32(dr["XMLEditing"]));
                     mdata.CodingDueDate = dr.Field<DateTime?>("CodingDueDate");
                     mdata.CodingDoneDate = dr.Field<DateTime?>("CodingDoneDate");
                     mdata.SubsequentPass = dr["SubsequentPass"].ToString();

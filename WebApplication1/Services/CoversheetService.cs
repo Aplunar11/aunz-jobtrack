@@ -150,7 +150,7 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_GeneralComplexTask", model.ComplexTask.ToText());
                     command.Parameters.AddWithValue("@p_FurtherInstruction", model.FurtherInstructions);
                     command.Parameters.AddWithValue("@p_CodingDueDate", model.CodingDueDate);
-                    command.Parameters.AddWithValue("@p_IsXMLEditing", model.XMLEditing.ToText());
+                    command.Parameters.AddWithValue("@p_IsXMLEditing", model.IsXMLEditing.ToText());
                     command.Parameters.AddWithValue("@p_OnlineDueDate", model.OnlineDueDate);
                     command.Parameters.AddWithValue("@p_IsOnline", true.ToText());
                     command.Parameters.AddWithValue("@p_ManuscriptID", model.ManuscriptID);
