@@ -18,5 +18,11 @@ namespace JobTrack.Services.Interfaces
         Task<CoversheetData> GetCoversheetDataByIdAsync(int id);
 
         Task<JsonResultModel> InsertCoversheetDataAsync(CoversheetData model, string username);
+
+        Task UpdateCoversheetByPE(CoversheetData model);
+
+        Task UpdateCoversheetByCodingTL(CoversheetData model);
+
+        Task UpdateCoversheetByCoding(CoversheetData model);
     }
 }

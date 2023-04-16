@@ -93,6 +93,21 @@ namespace JobTrack.Controllers
 
         public async Task<ActionResult> EditCoversheetData(CoversheetData model, UserAccessEnum userAccess)
         {
+            switch (userAccess)
+            {
+                case UserAccessEnum.Straive_PE:
+                    await _coversheetService.UpdateCoversheetByPE(model);
+                    break;
+
+                case UserAccessEnum.Coding_TL:
+                    await _coversheetService.UpdateCoversheetByCodingTL(model);
+                    break;
+
+                case UserAccessEnum.Coding:
+                    await _coversheetService.UpdateCoversheetByCoding(model);
+                    break;
+            }
+
             return Json("", JsonRequestBehavior.AllowGet);
         }
 

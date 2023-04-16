@@ -171,5 +171,20 @@ namespace JobTrack.Services
 
             return await Task.FromResult(result);
         }
+
+        public async Task UpdateCoversheetByPE(CoversheetData model)
+        {
+
+        }
+
+        public async Task UpdateCoversheetByCodingTL(CoversheetData model)
+        {
+
+        }
+
+        public async Task UpdateCoversheetByCoding(CoversheetData model)
+        {
+
+        }
     }
 }
