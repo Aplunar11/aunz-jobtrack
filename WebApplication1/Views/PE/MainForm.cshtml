@@ -370,25 +370,24 @@
                 },
 
                 "columnDefs": [
-                //center all data
-                { "className": "dt-center", "targets": "_all" },
-                {
-                    "targets": [6],
-                    "render": function (dataItem) {
-                        return moment(dataItem).format('YYYY/MM/DD');
-                    }
-                },
-                {
-                    "targets": [7],
-                    "render": function (dataItem) {
-                        return moment(dataItem).format('YYYY/MM/DD');
-                    }
-                },
-                {
-                    "targets": [1],
-                    "visible": false,
-                    "searchable": false
-                }],
+                    { "className": "dt-center", "targets": "_all" },
+                    {
+                        "targets": [6],
+                        "render": function (dataItem) {
+                            return moment(dataItem).format('YYYY/MM/DD');
+                        }
+                    },
+                    {
+                        "targets": [7],
+                        "render": function (dataItem) {
+                            return moment(dataItem).format('YYYY/MM/DD');
+                        }
+                    },
+                    {
+                        "targets": [1],
+                        "visible": false,
+                        "searchable": false
+                    }],
                 columns: [
                     {
                         "className": 'details-control',
@@ -446,9 +445,8 @@
                     ]
                 },
                 initComplete: function () {
-                    // Apply the search
                     //scrollx initiator
-                    $('#tblData').wrap("<div style='overflow:auto; width:100%;position:relative;'></div>");
+                    $('#tblData').wrap("<div style='overflow: auto; width: 100%; position: relative;'></div>");
                     //init = false;
                     this.api().columns().every(function () {
                         var that = this;
@@ -481,7 +479,7 @@
                 //get index to use for child table ID
                 var index = row.index();
                 var data = tableData.row(this).data();
-                console.log('data: ', data);
+                // console.log('data: ', data);
 
                 if (row.child.isShown()) {
                     // This row is already open - close it
@@ -511,7 +509,7 @@
                                 d.servicenumber = data['ServiceNumber'];
                             }
                         },
-                        select: { style: 'os', selector: 'td:first-child' },
+                        //select: { style: 'os', selector: 'td:first-child' },
                         columnDefs: [
                             { "className": "dt-center", "targets": "_all" },
                             {
@@ -633,23 +631,6 @@
                                     enabled: true
                                 },
                                 {
-                                    //titleAttr: 'Select All',
-                                    //extend: 'selectAll',
-                                    //className: 'custom-btn fa fa-check-square',
-                                    //text: '',
-                                    //action: function () {
-                                    //    childTable.rows(function (idx, data, node) {
-                                    //        return data['PECheckbox'] === 'Checked' || data['CopyEditStatus'] === 'New' || data['CopyEditStatus'] === 'On-Going' ? false : true;
-                                    //    }).select();
-                                    //}
-                                },
-                                {
-                                    //titleAttr: 'Select None',
-                                    //extend: 'selectNone',
-                                    //className: 'custom-btn fa fa-times-rectangle',
-                                    //text: ''
-                                },
-                                {
                                     titleAttr: 'Copy',
                                     extend: 'copyHtml5',
                                     className: 'custom-btn fa fa-clipboard',
@@ -697,7 +678,7 @@
                     tr.addClass('shown');
                 }
 
-                $('.child_table tbody').off().on('click', 'td.details-control1', function () {
+                $('.child_table tbody').on('click', 'td.details-control1', function () {
                     var c_tr = $(this).closest('tr');
                     var c_row = childTable.row(c_tr);
                     var rowData = c_row.data();
@@ -1120,7 +1101,7 @@
                 columnDefs: [
                     { className: "dt-center", "targets": "_all" },
                     {
-                        targets: [0, 2],
+                        targets: [2],
                         visible: false,
                         searchable: false
                     },
@@ -1382,673 +1363,5 @@
                 dataItem.click();
             });
         }
-
-        // ====== old code [start] ======
-        function loadManuscript() {
-            var tableData = $('#tblData').DataTable({
-                "scrollX": true,
-                responsive: {
-                    details: false
-                },
-                "ajax": {
-                    "url": "@Url.Action("GetJobDataByUserName", "Job")",
-                    /*"url": "/PE/GetJobTrackData",*/
-                    "dataSrc": "",
-                    "type": "GET",
-                    "datatype": "json"
-                },
-                "columnDefs": [{
-                    "targets": [6],
-                    "render": function (data) {
-                        return moment(data).format('YYYY/MM/DD');
-                    }
-                },
-                {
-                    "targets": [7],
-                    "render": function (data) {
-                        return moment(data).format('YYYY/MM/DD');
-                    }
-                },
-                {
-                    "targets": [1],
-                    "visible": false,
-                    "searchable": false
-                }],
-                columns: [
-                    {
-                        "className": 'details-control',
-                        "orderable": false,
-                        "data": null,
-                        "defaultContent": ''
-                    },
-                    { "data": "JobID" },
-                    { "data": "JobNumber" },
-                    { "data": "ManuscriptTier" },
-                    { "data": "BPSProductID" },
-                    { "data": "ServiceNumber" },
-                    { "data": "TargetPressDate" },
-                    { "data": "ActualPressDate" },
-                    { "data": "CopyEditStatus" },
-                    { "data": "CodingStatus" },
-                    { "data": "OnlineStatus" },
-                    { "data": "STPStatus" }
-                ],
-                order: [[2, 'asc']],
-                dom: 'Bfrtip',
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5'
-                ],
-                initComplete: function () {
-                    // Apply the search
-                    //init = false;
-                    this.api().columns().every(function () {
-                        var that = this;
-
-                        $('input', this.footer()).on('keyup change clear', function () {
-                            if (that.search() !== this.value) {
-                                that
-                                    .search(this.value)
-                                    .draw();
-                            }
-                        });
-                    });
-                },
-                createdRow: function (row, data, index) {
-                    if (data.extn === '') {
-                        var td = $(row).find("td:first");
-                        td.removeClass('details-control');
-                    }
-                },
-                rowCallback: function (row, data, index) {
-                    //console.log('rowCallback');
-                }
-            });
-            //Add event listener for opening and closing first level childdetails
-            $('#tblData tbody').on('click', 'td.details-control', function () {
-                var tr = $(this).closest('tr');
-                var row = tableData.row(tr);
-                var rowData = row.data();
-
-                //get index to use for child table ID
-                var index = row.index();
-                console.log(index);
-                var data = tableData.row(this).data(); //undefined
-                console.log(data);
-
-                if (row.child.isShown()) {
-                    // This row is already open - close it
-                    row.child.hide();
-                    tr.removeClass('shown');
-                }
-                else {
-                    // Open this row
-                    row.child('<table class= "child_table display nowrap" id = "child_details' + index + '" cellpadding = "5" cellspacing = "0" border = "0" style = "padding-left:50px; width:100%;" > ' +
-                        '<thead><tr><th></th><th>ManuscriptID</th><th class="toggle-all"><i id="select_all" name="select_invoice"></i></th><th>PE Task Number</th><th>JobNumber</th><th>Tier</th>' +
-                        '<th>Product</th><th>Service Number</th><th>Manuscript or Leg Title</th><th>Status</th>' +
-                        '<th>Target Press Date</th><th>Actual Press Date</th><th>Latup Attribution</th><th>Date Received From Author</th>' +
-                        '<th>Update Type</th><th>Job Specific Instruction</th><th>Task Type</th><th>PE Guide Card</th>' +
-                        '<th>Revised Online Due Date</th><th>Copyedit Due Date</th>' +
-                        '<th>Copyedit Start Date</th><th>Copyedit Done Date</th><th>Copyedit Status</th><th>Coding Due Date</th>' +
-                        '<th>Coding Done Date</th><th>Coding Status</th><th>Online Due Date</th><th>Online Done Date</th>' +
-                        '<th>Online Status</th><th>STP Status</th><th>Estimated Pages</th><th>Actual TAT</th>' +
-                        '<th>Online Timeliness</th><th>Reason If Late</th><th>PE Coversheet Number</th><th>Date Created</th>' +
-                        '</tr></thead><tbody></tbody></table>').show();
-                    var events = $('#events');
-                    var childTable = $('#child_details' + index).DataTable({
-                        "scrollX": true,
-                        "select": true,
-                        dom: 'Bfrtip',
-                        responsive: {
-                            details: true
-                        },
-                        "ajax": {
-                            "url": "@Url.Action("GetManuscriptData", "Manuscript")",
-                            /*"url": "/Manuscript/Manuscript",*/
-                            "dataSrc": "",
-                            "type": "GET",
-                            "datatype": "json",
-                            "data": function (d) {
-                                d.bpsproductid = data['BPSProductID'];
-                                d.servicenumber = data['ServiceNumber'];
-                            }
-                        },
-                        'select': {
-                            'style': 'multi'
-                        },
-                        buttons: [
-                            {
-                                text: 'Create Task',
-                                action: function (e, dt, node, config) {
-                                    var manuscriptids = childTable.rows({ selected: true }).data().pluck('ManuscriptID').toArray();
-                                    var selecteddata = childTable.row({ selected: true }).data();
-                                    $.ajax({
-                                        "url": "@Url.Action("AddNewJobCoversheet", "JobCoversheet")",
-                                        /*url: "/Coversheet/AddNewCoversheet",*/
-                                        contentType: "application/json; charset=utf-8",
-                                        data: {
-                                            manuscriptids: JSON.stringify(manuscriptids),
-                                            bpsproductid: selecteddata['BPSProductID'],
-                                            serviceno: selecteddata['ServiceNumber']
-                                        },
-                                        success: function (data) {
-                                            //alert(JSON.stringify(count));
-                                            //alert(selecteddata['BPSProductID']);
-                                            $('#modalWrapper').html(data);
-
-                                            $('#AddNewJobCoversheetModal').modal('show');
-                                        }
-                                    });
-                                    //events.prepend('<div>' + JSON.stringify(count) + ' row(s) selected</div>');
-                                },
-                                enabled: false
-                            }
-                        ],
-                        "columnDefs": [{
-                            "targets": [10],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [11],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        //pecheckbox
-                        {
-                            "targets": [2],
-                            orderable: false,
-                            className: 'select-checkbox'
-                        },
-                        //petasknumber
-                        //{
-                        //    "targets": [3],
-                        //    //"render": function (data) {
-                        //    //return '<a href="http://www.nature.com/submissions/'+data+'">'+data+'</a>';
-                        //    "render": function (data, type, full, meta) {
-                        //        return moment(data);
-                        //        //var aFormat = moment(data).format('YYYY/MM/DD');
-                        //        //return '<a href="https://localhost:44354/Coversheet/AddNewCoversheet' + aFormat + '">[CREATE TASK LINK]</a>';
-                        //    }
-                        //},
-                        {
-                            "targets": [18],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [19],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        //copyeditstartdate
-                        {
-                            "targets": [20],
-                            //"render": function (data) {
-                            //return '<a href="http://www.nature.com/submissions/'+data+'">'+data+'</a>';
-                            "render": function (data, type, full, meta) {
-                                //var aFormat = moment(data).format('YYYY/MM/DD');
-                                //return '<a href="https://localhost:44354/LE/Mainform' + aFormat + '">[START LINK]</a>';
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [21],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [23],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [24],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [26],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [27],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [35],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [1],
-                            "visible": false,
-                            "searchable": false
-                        }],
-                        columns: [
-                            {
-                                "className": 'details-control1',
-                                "orderable": false,
-                                "data": null,
-                                "defaultContent": ''
-                            },
-                            { "data": "ManuscriptID" },
-                            { "data": "PECheckbox" },
-                            { "data": "PETaskNumber" },
-                            { "data": "JobNumber" },
-                            { "data": "ManuscriptTier" },
-                            { "data": "BPSProductID" },
-                            { "data": "ServiceNumber" },
-                            { "data": "ManuscriptLegTitle" },
-                            { "data": "ManuscriptStatus" },
-                            { "data": "TargetPressDate" },
-                            { "data": "ActualPressDate" },
-                            { "data": "LatupAttribution" },
-                            { "data": "DateReceivedFromAuthor" },
-                            { "data": "UpdateType" },
-                            { "data": "JobSpecificInstruction" },
-                            { "data": "TaskType" },
-                            { "data": "PEGuideCard" },
-                            { "data": "RevisedOnlineDueDate" },
-                            { "data": "CopyEditDueDate" },
-                            { "data": "CopyEditStartDate" },
-                            { "data": "CopyEditDoneDate" },
-                            { "data": "CopyEditStatus" },
-                            { "data": "CodingDueDate" },
-                            { "data": "CodingDoneDate" },
-                            { "data": "CodingStatus" },
-                            { "data": "OnlineDueDate" },
-                            { "data": "OnlineDoneDate" },
-                            { "data": "OnlineStatus" },
-                            { "data": "STPStatus" },
-                            { "data": "EstimatedPages" },
-                            { "data": "ActualTurnAroundTime" },
-                            { "data": "OnlineTimeliness" },
-                            { "data": "ReasonIfLate" },
-                            { "data": "PECoversheetNumber" },
-                            { "data": "DateCreated" },
-                        ],
-                        destroy: true
-                    }).on('select.dt deselect.dt', function (evtObj) {
-                        var all = childTable.rows().nodes().length;
-                        var sel = childTable.rows(".selected").nodes().length;
-
-                        console.log(all, sel);
-
-                        if (all === sel) {
-
-                            $(".toggle-all").closest("tr").addClass("selected");
-                        }
-                        else {
-
-                            $(".toggle-all").closest("tr").removeClass("selected");
-                        }
-
-                    });
-                    tr.addClass('shown');
-                }
-                $('#child_details' + index).on('click', '.toggle-all', function () {
-                    $(this).closest("tr").toggleClass("selected");
-                    if ($(this).closest("tr").hasClass("selected")) {
-                        childTable.rows().select();
-                    }
-                    else {
-                        childTable.rows().deselect();
-                    }
-
-                });
-                $('.child_table tbody').off().on('click', 'td.details-control1', function () {
-                    var c_tr = $(this).closest('tr');
-                    var c_row = childTable.row(c_tr);
-                    var rowData = c_row.data();
-                    //var tableData2 = $('#child_details' + index);
-                    var dataNew = childTable.row(this).data();
-                    //var dataManuscript = dataNew['ManuscriptID'];
-                    //var dataBPSProductID = dataNew['BPSProductID'];
-                    //var dataServiceNumber = dataNew['ServiceNumber'];
-                    //console.log(dataNew);
-                    //alert(dataManuscript);
-
-                    //$("#btnAddNew").click(function () {
-                    //    //var datacount = $("#lblCount").text();
-                    //    $.ajax({
-                    //        url: "/Job/AddNewJob",
-                    //        contentType: "application/json; charset=utf-8",
-                    //        data: "",
-                    //        success: function (data) {
-
-                    //            $('#modalWrapper').html(data);
-
-                    //            $('#AddNewJobModal').modal('show');
-                    //            //function ActiveFirstTab() {
-
-
-                    //            //    $('a[href="#ProductManuscript"]').tab('show');
-
-                    //            //}
-                    //        }
-                    //    });
-                    //});
-
-                    //"ajax": {
-                    //    "url": "/Manuscript/Manuscript",
-                    //        "dataSrc": "",
-                    //            "type": "GET",
-                    //                "datatype": "json",
-                    //                    "data": function (d) {
-                    //                        d.bpsproductid = data['BPSProductID'];
-                    //                        d.servicenumber = data['ServiceNumber'];
-                    //                    }
-
-                    $.ajax({
-                        "url": "@Url.Action("EditPEManuscript", "Manuscript")",
-                        /*url: "/Manuscript/EditPEManuscript",*/
-                        "contentType": "application/json; charset=utf-8",
-                        data: {
-                            manuscriptid: dataNew['ManuscriptID'],
-                            bpsproductid: dataNew['BPSProductID'],
-                            servicenumber: dataNew['ServiceNumber']
-                        },
-                        success: function (data) {
-                            $('#modalWrapper').html(data);
-                            $('#EditPEManuscriptModal').modal('show');
-
-                        }
-                    });
-                });
-                //enable disable task button
-                childTable.on('select deselect', function () {
-                    var selectedRows = childTable.rows({ selected: true }).count();
-
-                    childTable.button(0).enable(selectedRows > 0);
-                });
-            });
-            //************Show New User Modal**************
-            $("#btnAddNew").click(function () {
-                //var datacount = $("#lblCount").text();
-                $.ajax({
-                    "url": "@Url.Action("AddNewManuscript", "Manuscript")",
-                    /*url: "/Manuscript/AddNewManuscript",*/
-                    contentType: "application/json; charset=utf-8",
-                    data: "",
-                    success: function (data) {
-
-                        $('#modalWrapper').html(data);
-
-                        $('#AddNewManuscriptModal').modal('show');
-                    }
-                });
-            });
-            //
-            $("#btnAddNew1").click(function () {
-                //var datacount = $("#lblCount").text();
-                $.ajax({
-                    "url": "@Url.Action("AddNewJobCoversheet", "JobCoversheet")",
-                    /*url: "/Manuscript/AddNewManuscript",*/
-                    contentType: "application/json; charset=utf-8",
-                    data: "",
-                    success: function (data) {
-
-                        $('#modalWrapper').html(data);
-
-                        $('#AddNewJobCoversheetModal').modal('show');
-                    }
-                });
-            });
-            //************Show New User Modal**************
-            @*$("#btnEdit").click(function () {
-                //var datacount = $("#lblCount").text();
-                $.ajax({
-                    "url": "@Url.Action("EditCoversheet", "Coversheet")",
-                    /*url: "/Manuscript/EditPManuscript",*/
-                    contentType: "application/json; charset=utf-8",
-                    data: "",
-                    success: function (data) {
-
-                        $('#modalWrapper').html(data);
-
-                        $('#EditCoversheetModal').modal('show');
-                    }
-                });
-            });*@
-        }
-
-        function loadCoversheet() {
-            var tableData1 = $('#tblData1').DataTable({
-                "scrollX": true,
-                responsive: {
-                    details: false
-                },
-                "ajax": {
-                    "url": "@Url.Action("GetJobCoversheetData", "JobCoversheet")",
-                    "dataSrc": "",
-                    "type": "GET",
-                    "datatype": "json"
-                },
-                "columnDefs": [
-                //    {
-                //    "targets": [7],
-                //    "render": function (data) {
-                //        return moment(data).format('YYYY/MM/DD');
-                //    }
-                //},
-                //{
-                //    "targets": [8],
-                //    "render": function (data) {
-                //        return moment(data).format('YYYY/MM/DD');
-                //    }
-                //    },
-                //    {
-                //        "targets": [9],
-                //        "render": function (data) {
-                //            return moment(data).format('YYYY/MM/DD');
-                //        }
-                //    },
-                {
-                    "targets": [1],
-                    "visible": false,
-                    "searchable": false
-                    },
-                    {
-                        "targets": [2],
-                        "visible": false,
-                        "searchable": false
-                    }],
-                columns: [
-                    {
-                        "className": 'details-control2',
-                        "orderable": false,
-                        "data": null,
-                        "defaultContent": ''
-                    },
-                    { "data": "JobCoversheetID" },
-                    { "data": "CoversheetNumber" },
-                    { "data": "CoversheetTier" },
-                    { "data": "BPSProductID" },
-                    { "data": "ServiceNumber" },
-                    { "data": "CurrentTask" },
-                    { "data": "TaskStatus" },
-                    //{ "data": "TargetPressDate" },
-                    //{ "data": "ActualPressDate" },
-                    //{ "data": "CodingDueDate" },
-                    //{ "data": "CodingStartDate" },
-                    //{ "data": "CodingDoneDate" },
-                    //{ "data": "SubsequentPass" },
-                    //{ "data": "OnlineDueDate" },
-                    //{ "data": "OnlineStartDate" },
-                    //{ "data": "OnlineDoneDate" },
-                    //{ "data": "OnlineTimeliness" },
-                    //{ "data": "ReasonIfLate" }
-                ],
-                order: [[2, 'asc']],
-                dom: 'Bfrtip',
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5'
-                ],
-                initComplete: function () {
-                    // Apply the search
-                    //init = false;
-                    this.api().columns().every(function () {
-                        var that = this;
-
-                        $('input', this.footer()).on('keyup change clear', function () {
-                            if (that.search() !== this.value) {
-                                that
-                                    .search(this.value)
-                                    .draw();
-                            }
-                        });
-                    });
-                },
-                createdRow: function (row, data, index) {
-                    if (data.extn === '') {
-                        var td = $(row).find("td:first");
-                        td.removeClass('details-control');
-                    }
-                },
-                rowCallback: function (row, data, index) {
-                    //console.log('rowCallback');
-                }
-            });
-            $('#tblData1 tbody').on('click', 'td.details-control2', function () {
-                var tr = $(this).closest('tr');
-                var row = tableData1.row(tr);
-                var rowData = row.data();
-                var data = tableData1.row(this).data();
-                //get index to use for child table ID
-                var index = row.index();
-                //console.log(index);
-                //console.log(data);
-
-                if (row.child.isShown()) {
-                    // This row is already open - close it
-                    row.child.hide();
-                    tr.removeClass('shown');
-                }
-                else {
-                    // Open this row
-                    row.child('<table class= "child_table1 display nowrap" id = "child_details1' + index + '" cellpadding = "5" cellspacing = "0" border = "0" style = "width:100%;" > ' +
-                        '<thead><tr><th></th><th>CoversheetID</th><th>Coversheet Number</th><th>Tier</th><th>Product</th>' +
-                        '<th>Service Number</th><th>Current Task</th><th>Status</th><th>Target Press Date</th>' +
-                        '<th>Actual Press Date</th><th>Coding Due Date</th><th>Coding Start</th><th>Coding Done</th>' +
-                        '<th>Subsequent Pass</th><th>Online Due Date</th><th>Online Start</th><th>Online Done</th>' +
-                        '<th>Online Timeliness</th><th>Reason If Late</th>' +
-                        '</tr></thead><tbody></tbody></table>').show();
-                    var childTable1 = $('#child_details1' + index).DataTable({
-                        "scrollX": true,
-                        "ajax": {
-                            "url": "@Url.Action("GetCoversheetData", "Coversheet")",
-                            "dataSrc": "",
-                            "type": "GET",
-                            "datatype": "json"
-                        },
-                        "columnDefs": [{
-                            "targets": [7],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [8],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [9],
-                            "render": function (data) {
-                                return moment(data).format('YYYY/MM/DD');
-                            }
-                        },
-                        {
-                            "targets": [1],
-                            "visible": false,
-                            "searchable": false
-                        },
-                        {
-                            "targets": [2],
-                            "visible": false,
-                            "searchable": false
-                        }],
-                        columns: [
-                            {
-                                "className": 'details-control3',
-                                "orderable": false,
-                                "data": null,
-                                "defaultContent": ''
-                            },
-                            { "data": "JobCoversheetID" },
-                            { "data": "CoversheetNumber" },
-                            { "data": "CoversheetTier" },
-                            { "data": "BPSProductID" },
-                            { "data": "ServiceNumber" },
-                            { "data": "CurrentTask" },
-                            { "data": "TaskStatus" },
-                            { "data": "TargetPressDate" },
-                            { "data": "ActualPressDate" },
-                            { "data": "CodingDueDate" },
-                            { "data": "CodingStartDate" },
-                            { "data": "CodingDoneDate" },
-                            { "data": "SubsequentPass" },
-                            { "data": "OnlineDueDate" },
-                            { "data": "OnlineStartDate" },
-                            { "data": "OnlineDoneDate" },
-                            { "data": "OnlineTimeliness" },
-                            { "data": "ReasonIfLate" }
-                        ],
-                        order: [[2, 'asc']],
-                        dom: 'Bfrtip',
-                        buttons: [
-                            'copyHtml5',
-                            'excelHtml5',
-                            'csvHtml5',
-                            'pdfHtml5'
-                        ],
-                        destroy: true
-                    });
-                    tr.addClass('shown');
-                }
-                $('.child_table1 tbody').off().on('click', 'td.details-control3', function () {
-                    var c_tr = $(this).closest('tr');
-                    var c_row = childTable1.row(c_tr);
-                    var rowData = c_row.data();
-                    //var tableData2 = $('#child_details' + index);
-                    var dataNew = childTable1.row(this).data();
-                    $.ajax({
-                        "url": "@Url.Action("EditCoversheet", "Coversheet")",
-                        /*url: "/Manuscript/EditPEManuscript",*/
-                        "contentType": "application/json; charset=utf-8",
-                        data: {
-                            coversheetid: dataNew['JobCoversheetID'],
-                            bpsproductid: dataNew['BPSProductID'],
-                            servicenumber: dataNew['ServiceNumber']
-                        },
-                        success: function (data) {
-                            $('#modalWrapper').html(data);
-                            $('#EditJobCoversheetModal').modal('show');
-
-                        }
-                    });
-                });
-            });
-        }
-        // ====== old code [end] ======
     </script>
 }
