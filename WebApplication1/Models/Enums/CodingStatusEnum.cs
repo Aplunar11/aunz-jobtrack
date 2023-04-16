@@ -14,6 +14,7 @@ namespace JobTrack.Models.Enums
         Due = 5,
         Revised = 6,
         On_Going = 7,
-        CopyLate = 8
+        CopyLate = 8,
+        CopyDue = 9
     }
 }

@@ -72,6 +72,7 @@ namespace JobTrack.Controllers
             ViewBag.DueJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndDueStatus(productIds, serviceNumbers, CodingStatusEnum.Due, UserAccessEnum.Client_LE);
             ViewBag.RevisedJobs = await _jobDashboardService.GetAllJobsByProductAndServiceAndDueStatus(productIds, serviceNumbers, CodingStatusEnum.Revised, UserAccessEnum.Client_LE);
             ViewBag.CopyLate = await _jobDashboardService.GetAllJobsByProductAndServiceAndDueStatus(productIds, serviceNumbers, CodingStatusEnum.CopyLate, UserAccessEnum.Client_LE);
+            ViewBag.CopyDue = await _jobDashboardService.GetAllJobsByProductAndServiceAndDueStatus(productIds, serviceNumbers, CodingStatusEnum.CopyDue, UserAccessEnum.Client_LE);
 
             return View();
         }
