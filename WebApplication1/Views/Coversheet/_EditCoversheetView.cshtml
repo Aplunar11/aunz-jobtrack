@@ -1,10 +1,10 @@
 ﻿@model JobTrack.Models.Coversheet.CoversheetData
 
 <div class="modal fade" id="modal-coversheet" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#009688;color:white">
-                <h5 class="modal-title" id="confirmModalLabel">Coding Workbench</h5>
+                <h6 class="modal-title" id="confirmModalLabel">Coding Workbench</h6>
                 <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -19,14 +19,14 @@
                 </div>
 
                 <form id="formCoversheet">
-                    <center><h5>COVERSHEET DETAILS</h5></center>
+                    <center><h6>COVERSHEET DETAILS</h6></center>
 
                     <div class="row">
                         <div class="col-md">
                             <div class="row mb-3">
                                 <div class="col-md">
-                                    <button type="button" class="btn btn-success">Proceed to online</button> &nbsp;
-                                    <button type="button" class="btn btn-success"><i class="bi bi-file-plus"></i> Subsequent Pass</button>
+                                    <button type="button" class="btn btn-success"><i class="fa fa-check-square"></i> &nbsp; Proceed to online</button> &nbsp;
+                                    <button type="button" class="btn btn-success"><i class="fa fas fa-plus-square"></i> &nbsp; Subsequent Pass</button>
                                 </div>
                             </div>
 
@@ -59,7 +59,7 @@
 
                             <div class="form-group">
                                 <div class="col-sm-12 checkbox-wrapper border" style="padding-top: 5px">
-                                    <center><h5>GENERAL</h5></center>
+                                    <center><h6>GENERAL</h6></center>
 
                                     @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "LegRefCheck", Label = "Leg Ref Check", Value = false })
 
@@ -92,7 +92,7 @@
                     <hr />
                     <div class="row">
                         <div class="col-md">
-                            <center><h5>TASK DETAILS</h5></center>
+                            <center><h6>TASK DETAILS</h6></center>
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Status", Name = "TaskStatus", Value = Model.TaskStatus, IsReadOnly = true })
 
@@ -104,10 +104,8 @@
 
                             @if (TempData["JobOwners"] != null)
                             {
-                                @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Job Owners", Name = "JobOwners", TempDataName = "JobOwners", IsReadOnly = true })
+                                @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Job Owner", Name = "JobOwners", TempDataName = "JobOwners", IsReadOnly = true })
                             }
-
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Job Owner", Name = "JobOwner", Value = Model.JobOwner, IsReadOnly = true })
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Current Task", Name = "CurrentTask", Value = Model.CurrentTask, IsReadOnly = true })
 
@@ -121,7 +119,7 @@
                         </div>
 
                         <div class="col-md">
-                            <center><h5>XML EDITING</h5></center>
+                            <center><h6>XML EDITING</h6></center>
 
                             @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "XML Editing ", Name = "IsXMLEditing", Value = Model.IsXMLEditing }) <br />
 
@@ -144,7 +142,7 @@
                     <hr />
                     <div class="row">
                         <div class="col-md">
-                            <center><h5>ONLINE</h5></center>
+                            <center><h6>ONLINE</h6></center>
 
                             @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Online", Name = "IsOnline", Value = Model.IsOnline }) <br />
 
@@ -158,6 +156,7 @@
 
                     <input type="hidden" name="CoversheetID" value="@Model.CoversheetID" />
                     <input type="hidden" name="ManuscriptID" value="@Model.ManuscriptID" />
+                    <input type="hidden" name="UserAccess" value="@((int)JobTrack.Models.Enums.UserAccessEnum.Client_LE)" />
                 </form>
             </div>
 
@@ -172,12 +171,23 @@
 <script>
     $(document).ready(function () {
         setupDefaultForm();
+
+        $('#JobOwners').on('change', function () {
+            let url = '@Url.Action("GetEmployeeEmail", "Coversheet")' + "?selectedItem=" + encodeURIComponent($(this).val());
+
+            GotoControllerAsync(url, 'POST', null, false, 'json', function (response) {
+                $('#UpdateEmailCC').val(response.replace(/['"]+/g, ''));
+            });
+        });
     });
 
     function onclickSubmit() {
         let isValid = validateForm('formCoversheet');
         if (isValid) {
-            submitForm('formCoversheet', '/Coversheet/EditCoversheetData', null, function (response) {
+            submitForm('formCoversheet', '/Coversheet/EditCoversheetData'
+                , null
+                , function (response) {
+
                 if (response.IsSuccess) {
 
                 }

@@ -40,7 +40,8 @@ namespace JobTrack.Services
 
             dbConnection.Close();
 
-            var list = JsonConvert.DeserializeObject<List<EmployeeData>>(JsonConvert.SerializeObject(dataTable));
+            var list = new List<EmployeeData> { new EmployeeData { ID = 0, UserName = "Select Owner" } };
+            list.AddRange(JsonConvert.DeserializeObject<List<EmployeeData>>(JsonConvert.SerializeObject(dataTable)));
             return await Task.FromResult(list);
         }
 

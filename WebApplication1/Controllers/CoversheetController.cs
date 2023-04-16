@@ -45,7 +45,10 @@ namespace JobTrack.Controllers
                 , "UpdateType"
                 , updateTypes.FirstOrDefault(x => x.UpdateType == viewModel.UpdateType).UpdateType);
 
-            TempData["JobOwners"] = new SelectList(owners, "ID", "UserName", viewModel.JobOwnerID);
+            TempData["JobOwners"] = new SelectList(owners
+                , "ID"
+                , "UserName"
+                , viewModel.JobOwnerID.HasValue ? viewModel.JobOwnerID.Value : 0);
 
             return PartialView(viewModel);
         }
@@ -53,16 +56,42 @@ namespace JobTrack.Controllers
         public async Task<ActionResult> _EditCoversheetCodingTLView(int id)
         {
             var viewModel = await _coversheetService.GetCoversheetDataByIdAsync(id);
+            var updateTypes = await _parameterService.GetAllTurnAroundTimeAsync();
+            var owners = await _employeeService.GetAllEmployeeByAccess(UserAccessEnum.Coding);
+
+            TempData["UpdateTypes"] = new SelectList(updateTypes
+                , "UpdateType"
+                , "UpdateType"
+                , updateTypes.FirstOrDefault(x => x.UpdateType == viewModel.UpdateType).UpdateType);
+
+            TempData["JobOwners"] = new SelectList(owners
+                , "ID"
+                , "UserName"
+                , viewModel.JobOwnerID.HasValue ? viewModel.JobOwnerID.Value : 0);
+
             return PartialView(viewModel);
         }
 
         public async Task<ActionResult> _EditCoversheetCodingView(int id)
         {
             var viewModel = await _coversheetService.GetCoversheetDataByIdAsync(id);
+            var updateTypes = await _parameterService.GetAllTurnAroundTimeAsync();
+            var owners = await _employeeService.GetAllEmployeeByAccess(UserAccessEnum.Coding);
+
+            TempData["UpdateTypes"] = new SelectList(updateTypes
+                , "UpdateType"
+                , "UpdateType"
+                , updateTypes.FirstOrDefault(x => x.UpdateType == viewModel.UpdateType).UpdateType);
+
+            TempData["JobOwners"] = new SelectList(owners
+                , "ID"
+                , "UserName"
+                , viewModel.JobOwnerID.HasValue ? viewModel.JobOwnerID.Value : 0);
+
             return PartialView(viewModel);
         }
 
-        public async Task<ActionResult> EditCoversheetData(CoversheetData model)
+        public async Task<ActionResult> EditCoversheetData(CoversheetData model, UserAccessEnum userAccess)
         {
             return Json("", JsonRequestBehavior.AllowGet);
         }
@@ -362,6 +391,14 @@ namespace JobTrack.Controllers
             var data = GetAllTurnAroundTime().Where(model => model.UpdateType == selectedItem).FirstOrDefault();
             DateTime date = AddBusinessDays(datecreated, data.TATOnline);
             return Json(date.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult GetEmployeeEmail(int selectedItem)
+        {
+            var owners = _employeeService.GetAllEmployeeByAccess(UserAccessEnum.Coding).Result;
+            var selected = owners.FirstOrDefault(x => x.ID == selectedItem);
+            return Json(selected.EmailAddress, JsonRequestBehavior.AllowGet);
         }
 
         public static DateTime AddBusinessDays(DateTime date, int days)

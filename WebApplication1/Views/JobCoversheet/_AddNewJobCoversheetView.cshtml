@@ -141,7 +141,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#ErrorMessage').hide();
+        setupDefaultForm();
 
         $("#UpdateType").on("change", function () {
             var url = '@Url.Action("GetTaskType", "Coversheet")' + "?selectedItem=" + encodeURIComponent($(this).val());
@@ -159,13 +159,6 @@
             GotoControllerAsync(url3, 'POST', null, false, 'json', function (response) {
                 $('#OnlineDueDate').val(response.replace(/['"]+/g, ''));
             });
-        });
-
-        $('.datepicker').datepicker({
-            todayHighlight: true,
-            format: 'yyyy-mm-dd',
-            clearBtn: true,
-            autoclose: true
         });
     });
 
