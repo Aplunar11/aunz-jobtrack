@@ -137,22 +137,22 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_GuideCard", model.GuideCard);
                     command.Parameters.AddWithValue("@p_LocationOfManuscript", model.LocationOfManuscript);
                     command.Parameters.AddWithValue("@p_UpdateType", model.UpdateType);
-                    command.Parameters.AddWithValue("@p_GeneralLegRefCheck", model.LegRefCheck.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralTOC", model.TOC.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralTOS", model.TOS.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralReprints", model.Reprints.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralFascicleInsertion", model.FascicleInsertion.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralGraphicLink", model.GraphicLink.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralGraphicEmbed", model.GraphicEmbed.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralHandtooling", model.Handtooling.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralNonContent", model.NonContent.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralSamplePages", model.SamplePages.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralComplexTask", model.ComplexTask.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralLegRefCheck", model.GeneralLegRefCheck);
+                    command.Parameters.AddWithValue("@p_GeneralTOC", model.GeneralTOC);
+                    command.Parameters.AddWithValue("@p_GeneralTOS", model.GeneralTOS);
+                    command.Parameters.AddWithValue("@p_GeneralReprints", model.GeneralReprints);
+                    command.Parameters.AddWithValue("@p_GeneralFascicleInsertion", model.GeneralFascicleInsertion);
+                    command.Parameters.AddWithValue("@p_GeneralGraphicLink", model.GeneralGraphicLink);
+                    command.Parameters.AddWithValue("@p_GeneralGraphicEmbed", model.GeneralGraphicEmbed);
+                    command.Parameters.AddWithValue("@p_GeneralHandtooling", model.GeneralHandtooling);
+                    command.Parameters.AddWithValue("@p_GeneralNonContent", model.GeneralNonContent);
+                    command.Parameters.AddWithValue("@p_GeneralSamplePages", model.GeneralSamplePages);
+                    command.Parameters.AddWithValue("@p_GeneralComplexTask", model.GeneralComplexTask);
                     command.Parameters.AddWithValue("@p_FurtherInstruction", model.FurtherInstruction);
                     command.Parameters.AddWithValue("@p_CodingDueDate", model.CodingDueDate);
-                    command.Parameters.AddWithValue("@p_IsXMLEditing", model.IsXMLEditing.ToText());
+                    command.Parameters.AddWithValue("@p_IsXMLEditing", model.IsXMLEditing);
                     command.Parameters.AddWithValue("@p_OnlineDueDate", model.OnlineDueDate);
-                    command.Parameters.AddWithValue("@p_IsOnline", true.ToText());
+                    command.Parameters.AddWithValue("@p_IsOnline", true);
                     command.Parameters.AddWithValue("@p_ManuscriptID", model.ManuscriptID);
 
                     var reader = command.ExecuteReader();
@@ -172,7 +172,7 @@ namespace JobTrack.Services
             return await Task.FromResult(result);
         }
 
-        public async Task<JsonResultModel> UpdateCoversheetByPE(CoversheetData model, string userName, int userAccess)
+        public async Task<JsonResultModel> UpdateCoversheetData(CoversheetData model, string userName, int userAccess)
         {
             var result = new JsonResultModel();
             var storedProcedure = "UpdateCoversheetData";
@@ -188,23 +188,26 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_CoversheetID", model.CoversheetID);
                     command.Parameters.AddWithValue("@p_Username", userName);
                     command.Parameters.AddWithValue("@p_UserAccess", userAccess);
+                    command.Parameters.AddWithValue("@p_LocationOfManuscript", model.LocationOfManuscript);
                     command.Parameters.AddWithValue("@p_FurtherInstruction", model.FurtherInstruction);
                     command.Parameters.AddWithValue("@p_GuideCard", model.GuideCard);
-                    command.Parameters.AddWithValue("@p_GeneralLegRefCheck", model.LegRefCheck.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralTOC", model.TOC.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralTOS", model.TOS.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralReprints", model.Reprints.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralFascicleInsertion", model.FascicleInsertion.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralGraphicLink", model.GraphicLink.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralGraphicEmbed", model.GraphicEmbed.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralHandtooling", model.Handtooling.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralNonContent", model.NonContent.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralSamplePages", model.SamplePages.ToText());
-                    command.Parameters.AddWithValue("@p_GeneralComplexTask", model.ComplexTask.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralLegRefCheck", model.GeneralLegRefCheck);
+                    command.Parameters.AddWithValue("@p_GeneralTOC", model.GeneralTOC);
+                    command.Parameters.AddWithValue("@p_GeneralTOS", model.GeneralTOS);
+                    command.Parameters.AddWithValue("@p_GeneralReprints", model.GeneralReprints);
+                    command.Parameters.AddWithValue("@p_GeneralFascicleInsertion", model.GeneralFascicleInsertion);
+                    command.Parameters.AddWithValue("@p_GeneralGraphicLink", model.GeneralGraphicLink);
+                    command.Parameters.AddWithValue("@p_GeneralGraphicEmbed", model.GeneralGraphicEmbed);
+                    command.Parameters.AddWithValue("@p_GeneralHandtooling", model.GeneralHandtooling);
+                    command.Parameters.AddWithValue("@p_GeneralNonContent", model.GeneralNonContent);
+                    command.Parameters.AddWithValue("@p_GeneralSamplePages", model.GeneralSamplePages);
+                    command.Parameters.AddWithValue("@p_GeneralComplexTask", model.GeneralComplexTask);
                     command.Parameters.AddWithValue("@p_RevisedOnlineDueDate", model.RevisedOnlineDueDate);
                     command.Parameters.AddWithValue("@p_Remarks", model.Remarks);
                     command.Parameters.AddWithValue("@p_IsXMLEditing", model.IsXMLEditing);
                     command.Parameters.AddWithValue("@p_IsOnline", model.IsOnline);
+                    command.Parameters.AddWithValue("@p_JobOwner", model.JobOwner);
+                    command.Parameters.AddWithValue("@p_JobOwnerID", model.JobOwnerID);
 
                     var reader = command.ExecuteReader();
                     dataTable.Load(reader);
@@ -221,16 +224,6 @@ namespace JobTrack.Services
             }
 
             return await Task.FromResult(result);
-        }
-
-        public async Task UpdateCoversheetByCodingTL(CoversheetData model)
-        {
-
-        }
-
-        public async Task UpdateCoversheetByCoding(CoversheetData model)
-        {
-
         }
     }
 }

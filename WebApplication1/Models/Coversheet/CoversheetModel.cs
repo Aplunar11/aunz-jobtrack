@@ -173,27 +173,27 @@ namespace JobTrack.Models.Coversheet
 
         public bool Predicaments { get; set; }
 
-        public bool LegRefCheck { get; set; }
+        public bool GeneralLegRefCheck { get; set; }
 
-        public bool TOC { get; set; }
+        public bool GeneralTOC { get; set; }
 
-        public bool TOS { get; set; }
+        public bool GeneralTOS { get; set; }
 
-        public bool Reprints { get; set; }
+        public bool GeneralReprints { get; set; }
 
-        public bool FascicleInsertion { get; set; }
+        public bool GeneralFascicleInsertion { get; set; }
 
-        public bool GraphicLink { get; set; }
+        public bool GeneralGraphicLink { get; set; }
 
-        public bool GraphicEmbed { get; set; }
+        public bool GeneralGraphicEmbed { get; set; }
 
-        public bool Handtooling { get; set; }
+        public bool GeneralHandtooling { get; set; }
 
-        public bool NonContent { get; set; }
+        public bool GeneralNonContent { get; set; }
 
-        public bool SamplePages { get; set; }
+        public bool GeneralSamplePages { get; set; }
 
-        public bool ComplexTask { get; set; }
+        public bool GeneralComplexTask { get; set; }
 
         public DateTime? RevisedOnlineDueDate { get; set; }
 

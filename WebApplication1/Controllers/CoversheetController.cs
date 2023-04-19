@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using JobTrack.Services.Interfaces;
 using JobTrack.Models.JobCoversheet;
 using JobTrack.Models.Enums;
+using JobTrack.Models;
 
 namespace JobTrack.Controllers
 {
@@ -94,33 +95,18 @@ namespace JobTrack.Controllers
         public async Task<ActionResult> EditCoversheetData(CoversheetData model, UserAccessEnum userAccess)
         {
             var userName = (string)Session["UserName"];
-            var isSuccess = false;
+            var result = new JsonResultModel();
 
             try
             {
-                switch (userAccess)
-                {
-                    case UserAccessEnum.Straive_PE:
-                        await _coversheetService.UpdateCoversheetByPE(model, userName, (int)userAccess);
-                        break;
-
-                    case UserAccessEnum.Coding_TL:
-                        await _coversheetService.UpdateCoversheetByCodingTL(model);
-                        break;
-
-                    case UserAccessEnum.Coding:
-                        await _coversheetService.UpdateCoversheetByCoding(model);
-                        break;
-                }
-
-                isSuccess = true;
+                result = await _coversheetService.UpdateCoversheetData(model, userName, (int)userAccess);
             }
             catch (Exception ex)
             {
-                throw;
+                result.ErrorMessage = ex.Message;
             }
 
-            return Json(new { IsSuccess = isSuccess }, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddNewCoversheet(string manuscriptids, string bpsproductid, string serviceno)
@@ -421,11 +407,11 @@ namespace JobTrack.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetEmployeeEmail(int selectedItem)
+        public ActionResult GetUserData(int selectedItem)
         {
             var owners = _employeeService.GetAllEmployeeByAccess(UserAccessEnum.Coding).Result;
             var selected = owners.FirstOrDefault(x => x.ID == selectedItem);
-            return Json(selected.EmailAddress, JsonRequestBehavior.AllowGet);
+            return Json(selected, JsonRequestBehavior.AllowGet);
         }
 
         public static DateTime AddBusinessDays(DateTime date, int days)

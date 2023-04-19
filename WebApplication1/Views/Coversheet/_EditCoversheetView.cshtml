@@ -21,7 +21,7 @@
                 <form id="formCoversheet">
                     <center><h6>COVERSHEET DETAILS</h6></center>
 
-                    <div class="row">
+                    <div class="row mb-2">
                         <div class="col-md">
                             <div class="row mb-3">
                                 <div class="col-md">
@@ -46,7 +46,7 @@
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Task Type", Name = "TaskType", Value = Model.TaskType, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Legislation/Further Instructions", Name = "FurtherInstruction", Value = Model.FurtherInstruction, IsRequired = true })
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Manuscript/Legislation/Further Instructions", Name = "LocationOfManuscript", Value = Model.LocationOfManuscript, IsRequired = true })
                         </div>
 
                         <div class="col-md">
@@ -61,31 +61,37 @@
                                 <div class="col-sm-12 checkbox-wrapper border" style="padding-top: 5px">
                                     <center><h6>GENERAL</h6></center>
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "LegRefCheck", Label = "Leg Ref Check", Value = false })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GeneralLegRefCheck", Label = "Leg Ref Check", Value = Model.GeneralLegRefCheck })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "TOC", Label = "TOC", Value = false })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GeneralTOC", Label = "TOC", Value = Model.GeneralTOC })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "FascicleInsertion", Label = "Fascicle Insertion", Value = false })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GeneralFascicleInsertion", Label = "Fascicle Insertion", Value = Model.GeneralFascicleInsertion })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GraphicEmbed", Label = "Graphic-Embed", Value = false })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GeneralGraphicEmbed", Label = "Graphic-Embed", Value = Model.GeneralGraphicEmbed })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "NonContent", Label = "Non-Content", Value = false })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GeneralNonContent", Label = "Non-Content", Value = Model.GeneralNonContent })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "ComplexTask", Label = "Complex Task", Value = false })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GeneralComplexTask", Label = "Complex Task", Value = Model.GeneralComplexTask })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "TOC", Label = "TOC", Value = false })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GeneralTOS", Label = "TOS", Value = Model.GeneralTOS })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "Reprints", Label = "Reprints", Value = false })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GeneralReprints", Label = "Reprints", Value = Model.GeneralReprints })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GraphicLink", Label = "Graphic-Link", Value = false, DontDisplay = true })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GeneralGraphicLink", Label = "Graphic-Link", Value = Model.GeneralGraphicLink, DontDisplay = true })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "Handtooling", Label = "Handtooling", Value = false })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GeneralHandtooling", Label = "Handtooling", Value = Model.GeneralHandtooling })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "SamplePages", Label = "Sample Pages", Value = false })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "GeneralSamplePages", Label = "Sample Pages", Value = Model.GeneralSamplePages })
                                 </div>
                             </div>
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Target Press Date", Name = "TargetPressDate", Value = Model.TargetPressDate, IsReadOnly = true })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Further Instructions", Name = "FurtherInstruction", Value = Model.FurtherInstruction, Rows = 5, IsRequired = true })
                         </div>
                     </div>
 
@@ -104,7 +110,7 @@
 
                             @if (TempData["JobOwners"] != null)
                             {
-                                @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Job Owner", Name = "JobOwners", TempDataName = "JobOwners", IsReadOnly = true })
+                                @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Job Owner", Name = "JobOwnerID", TempDataName = "JobOwners", IsReadOnly = true })
                             }
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Current Task", Name = "CurrentTask", Value = Model.CurrentTask, IsReadOnly = true })
@@ -157,6 +163,7 @@
                     <input type="hidden" name="CoversheetID" value="@Model.CoversheetID" />
                     <input type="hidden" name="ManuscriptID" value="@Model.ManuscriptID" />
                     <input type="hidden" name="UserAccess" value="@((int)JobTrack.Models.Enums.UserAccessEnum.Straive_PE)" />
+                    <input type="hidden" name="JobOwner" value="@Model.JobOwner" id="JobOwner" />
                 </form>
             </div>
 
@@ -173,10 +180,14 @@
         setupDefaultForm();
 
         $('#JobOwners').on('change', function () {
-            let url = '@Url.Action("GetEmployeeEmail", "Coversheet")' + "?selectedItem=" + encodeURIComponent($(this).val());
+            let url = '@Url.Action("GetUserData", "Coversheet")' + "?selectedItem=" + encodeURIComponent($(this).val());
 
             GotoControllerAsync(url, 'POST', null, false, 'json', function (response) {
-                $('#UpdateEmailCC').val(response.replace(/['"]+/g, ''));
+                let emailAddress = response.EmailAddress;
+                let userName = response.UserName;
+
+                $('#UpdateEmailCC').val(emailAddress.replace(/['"]+/g, ''));
+                $('#JobOwner').val(userName.replace(/['"]+/g, ''));
             });
         });
     });

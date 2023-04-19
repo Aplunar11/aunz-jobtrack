@@ -26,5 +26,12 @@ namespace JobTrack.Models
         public string OnChangeEvent { get; set; }
 
         public bool IsRequired { get; set; }
+
+        public int Rows { get; set; }
+
+        public FormFieldModel()
+        {
+            Rows = 3;
+        }
     }
 }
