@@ -294,7 +294,7 @@
         moment.updateLocale(moment.locale(), { invalidDate: "TBD" });
 
         // [Coversheet footer]
-        $('#tblData1 tfoot th').each(function () {
+        $('#tblDataCoversheet tfoot th').each(function () {
             var title = $(this).text();
             if (title != '') {
                 $(this).html('<input type="text" placeholder="' + title + '" />');
@@ -487,7 +487,7 @@
                             { "data": "ServiceNumber" },
                             { "data": "GuideCard" },
                             { "data": "LocationOfManuscript" },
-                            { "data": "FurtherInstructions" },
+                            { "data": "FurtherInstruction" },
                             { "data": "CurrentTask" },
                             { "data": "TaskStatus" },
                             { "data": "TargetPressDate" },

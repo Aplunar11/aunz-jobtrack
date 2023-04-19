@@ -208,6 +208,13 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_IsOnline", model.IsOnline);
                     command.Parameters.AddWithValue("@p_JobOwner", model.JobOwner);
                     command.Parameters.AddWithValue("@p_JobOwnerID", model.JobOwnerID);
+                    command.Parameters.AddWithValue("@p_CompletionEmailTemplate", model.CompletionEmailTemplate);
+                    command.Parameters.AddWithValue("@p_CodingStartDate", model.CodingStartDate);
+                    command.Parameters.AddWithValue("@p_CodingDoneDate", model.CodingDoneDate);
+                    command.Parameters.AddWithValue("@p_PDFQCStartDate", model.PDFQCStartDate);
+                    command.Parameters.AddWithValue("@p_PDFQCDoneDate", model.PDFQCDoneDate);
+                    command.Parameters.AddWithValue("@p_OnlineStartDate", model.OnlineStartDate);
+                    command.Parameters.AddWithValue("@p_OnlineDoneDate", model.OnlineDoneDate);
 
                     var reader = command.ExecuteReader();
                     dataTable.Load(reader);

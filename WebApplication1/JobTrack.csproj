@@ -5790,6 +5790,7 @@
     <Content Include="Views\Coversheet\_EditCoversheetView.cshtml" />
     <Content Include="Views\Coversheet\_EditCoversheetCodingTLView.cshtml" />
     <Content Include="Views\Coversheet\_EditCoversheetCodingView.cshtml" />
+    <Content Include="Views\Shared\CustomControls\_TextFieldGroupView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
