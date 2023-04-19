@@ -15,8 +15,6 @@ namespace JobTrack.Models
 
         public object Value { get; set; }
 
-        public DateTime? Date { get; set; }
-
         public string TempDataName { get; set; }
 
         public string Class { get; set; }

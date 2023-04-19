@@ -35,13 +35,15 @@ async function ProcessAsync(url, type, obj, includeAntiforgeToken, returnType) {
 function submitForm(formId, link, objData, callback) {
     //let formDataToSubmit = new FormData();
     let formData = $('#' + formId).serializeArray();
-    let dataSource = {}
+    let dataSource = {};
     $(formData).each(function (index, obj) {
 
         // if value is "on" set to "1"
         //formDataToSubmit.append(obj.name, obj.value == "on" ? 1 : obj.value);
         dataSource[obj.name] = obj.value == "on" ? true : obj.value;
     });
+
+    console.log('datasource: ', dataSource);
 
     GotoControllerAsync(link
         , 'POST'

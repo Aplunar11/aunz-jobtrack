@@ -148,7 +148,7 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_GeneralNonContent", model.NonContent.ToText());
                     command.Parameters.AddWithValue("@p_GeneralSamplePages", model.SamplePages.ToText());
                     command.Parameters.AddWithValue("@p_GeneralComplexTask", model.ComplexTask.ToText());
-                    command.Parameters.AddWithValue("@p_FurtherInstruction", model.FurtherInstructions);
+                    command.Parameters.AddWithValue("@p_FurtherInstruction", model.FurtherInstruction);
                     command.Parameters.AddWithValue("@p_CodingDueDate", model.CodingDueDate);
                     command.Parameters.AddWithValue("@p_IsXMLEditing", model.IsXMLEditing.ToText());
                     command.Parameters.AddWithValue("@p_OnlineDueDate", model.OnlineDueDate);
@@ -172,9 +172,55 @@ namespace JobTrack.Services
             return await Task.FromResult(result);
         }
 
-        public async Task UpdateCoversheetByPE(CoversheetData model)
+        public async Task<JsonResultModel> UpdateCoversheetByPE(CoversheetData model, string userName, int userAccess)
         {
+            var result = new JsonResultModel();
+            var storedProcedure = "UpdateCoversheetData";
+            var dataTable = new DataTable();
 
+            try
+            {
+                dbConnection.Open();
+
+                using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@p_CoversheetID", model.CoversheetID);
+                    command.Parameters.AddWithValue("@p_Username", userName);
+                    command.Parameters.AddWithValue("@p_UserAccess", userAccess);
+                    command.Parameters.AddWithValue("@p_FurtherInstruction", model.FurtherInstruction);
+                    command.Parameters.AddWithValue("@p_GuideCard", model.GuideCard);
+                    command.Parameters.AddWithValue("@p_GeneralLegRefCheck", model.LegRefCheck.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralTOC", model.TOC.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralTOS", model.TOS.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralReprints", model.Reprints.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralFascicleInsertion", model.FascicleInsertion.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralGraphicLink", model.GraphicLink.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralGraphicEmbed", model.GraphicEmbed.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralHandtooling", model.Handtooling.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralNonContent", model.NonContent.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralSamplePages", model.SamplePages.ToText());
+                    command.Parameters.AddWithValue("@p_GeneralComplexTask", model.ComplexTask.ToText());
+                    command.Parameters.AddWithValue("@p_RevisedOnlineDueDate", model.RevisedOnlineDueDate);
+                    command.Parameters.AddWithValue("@p_Remarks", model.Remarks);
+                    command.Parameters.AddWithValue("@p_IsXMLEditing", model.IsXMLEditing);
+                    command.Parameters.AddWithValue("@p_IsOnline", model.IsOnline);
+
+                    var reader = command.ExecuteReader();
+                    dataTable.Load(reader);
+                    reader.Close();
+                }
+
+                dbConnection.Close();
+
+                result.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+
+            return await Task.FromResult(result);
         }
 
         public async Task UpdateCoversheetByCodingTL(CoversheetData model)

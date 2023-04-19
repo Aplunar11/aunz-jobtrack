@@ -46,7 +46,7 @@
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Task Type", Name = "TaskType", Value = Model.TaskType, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Legislation/Further Instructions", Name = "FurtherInstructions", Value = Model.FurtherInstructions, IsRequired = true })
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Legislation/Further Instructions", Name = "FurtherInstruction", Value = Model.FurtherInstruction, IsRequired = true })
                         </div>
 
                         <div class="col-md">
@@ -96,11 +96,11 @@
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Status", Name = "TaskStatus", Value = Model.TaskStatus, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Actual Press Date", Name = "ActualPressDate", Date = Model.ActualPressDate, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Actual Press Date", Name = "ActualPressDate", Value = Model.ActualPressDate, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Revised Online Due Date", Name = "RevisedOnlineDueDate", Date = Model.RevisedOnlineDueDate })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Revised Online Due Date", Name = "RevisedOnlineDueDate", Value = Model.RevisedOnlineDueDate, Class = "datepicker", IsRequired = true })
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Accepted Date", Name = "AcceptedDate", Date = Model.AcceptedDate, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Accepted Date", Name = "AcceptedDate", Value = Model.AcceptedDate, IsReadOnly = true })
 
                             @if (TempData["JobOwners"] != null)
                             {
@@ -123,17 +123,17 @@
 
                             @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "XML Editing ", Name = "IsXMLEditing", Value = Model.IsXMLEditing }) <br />
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Coding - Due Date", Name = "CodingDueDate", Date = Model.CodingDueDate, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Coding - Due Date", Name = "CodingDueDate", Value = Model.CodingDueDate, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Coding - Start Date", Name = "CodingStartDate", Date = Model.CodingStartDate, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Coding - Start Date", Name = "CodingStartDate", Value = Model.CodingStartDate, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Coding - Done Date", Name = "CodingDoneDate", Date = Model.CodingDoneDate, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Coding - Done Date", Name = "CodingDoneDate", Value = Model.CodingDoneDate, IsReadOnly = true })
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Sub Task", Name = "SubTask", Value = Model.SubTask, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "PDF QC - Start Date", Name = "PDFQCStartDate", Date = Model.PDFQCStartDate, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "PDF QC - Start Date", Name = "PDFQCStartDate", Value = Model.PDFQCStartDate, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "PDF QC - Done Date", Name = "PDFQCDoneDate", Date = Model.PDFQCDoneDate, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "PDF QC - Done Date", Name = "PDFQCDoneDate", Value = Model.PDFQCDoneDate, IsReadOnly = true })
 
                             @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Completion Email Template", Name = "CompletionEmailTemplate", Value = Model.CompletionEmailTemplate, IsReadOnly = true })
                         </div>
@@ -146,17 +146,17 @@
 
                             @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Online", Name = "IsOnline", Value = Model.IsOnline }) <br />
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Online - Due Date", Name = "OnlineDueDate", Date = Model.OnlineDueDate, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Online - Due Date", Name = "OnlineDueDate", Value = Model.OnlineDueDate, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Online - Start Date", Name = "OnlineStartDate", Date = Model.OnlineStartDate, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Online - Start Date", Name = "OnlineStartDate", Value = Model.OnlineStartDate, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Online - Done Date", Name = "OnlineDoneDate", Date = Model.OnlineDoneDate, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Online - Done Date", Name = "OnlineDoneDate", Value = Model.OnlineDoneDate, IsReadOnly = true })
                         </div>
                     </div>
 
                     <input type="hidden" name="CoversheetID" value="@Model.CoversheetID" />
                     <input type="hidden" name="ManuscriptID" value="@Model.ManuscriptID" />
-                    <input type="hidden" name="UserAccess" value="@((int)JobTrack.Models.Enums.UserAccessEnum.Client_LE)" />
+                    <input type="hidden" name="UserAccess" value="@((int)JobTrack.Models.Enums.UserAccessEnum.Straive_PE)" />
                 </form>
             </div>
 
@@ -189,7 +189,7 @@
                 , function (response) {
 
                 if (response.IsSuccess) {
-
+                    window.location.reload();
                 }
                 else
                     alert("Error: " + response.ErrorMessage);

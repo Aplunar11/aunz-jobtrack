@@ -3,12 +3,22 @@
 <div class="form-group">
     <label>@Model.Label</label>
 
-    @if (Model.IsReadOnly)
+    @*if (Model.IsReadOnly)
     {
-        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @name = Model.Name, @id = Model.Name } })
     }
     else
     {
-        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datepicker" } })
-    }
+        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datepicker", @name = Model.Name, @id = Model.Name } })
+    }*@
+
+    <input type="text"
+           class="form-control @(!string.IsNullOrEmpty(Model.Class) ? Model.Class : "")"
+           id="@Model.Name"
+           name="@Model.Name"
+           value="@Model.Value"
+           onchange="removeRedError(this)"
+           errorid="error-text-modal"
+           @(Model.IsReadOnly ? "readonly" : "")
+           @(Model.IsRequired ? "required" : "")>
 </div>

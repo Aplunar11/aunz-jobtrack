@@ -95,7 +95,7 @@ namespace JobTrack.Models.Coversheet
         [Display(Name = "Location of Manuscript")]
         public string LocationOfManuscript { get; set; }
         [Display(Name = "Further Instructions")]
-        public string FurtherInstructions { get; set; }
+        public string FurtherInstruction { get; set; }
         [Display(Name = "Update Type")]
         //[Required(ErrorMessage = "Please select update type")]
         public string UpdateType { get; set; }

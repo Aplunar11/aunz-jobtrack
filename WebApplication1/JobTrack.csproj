@@ -5795,9 +5795,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="temp\plugins\jqvmap\js\maps\" />
     <Folder Include="temp\plugins\summernote\css\" />
-    <Folder Include="Views\dbConnection\" />
-    <Folder Include="Views\JobManuscript\" />
-    <Folder Include="Views\QueryLE\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

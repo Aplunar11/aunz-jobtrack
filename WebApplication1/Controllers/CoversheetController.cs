@@ -93,22 +93,34 @@ namespace JobTrack.Controllers
 
         public async Task<ActionResult> EditCoversheetData(CoversheetData model, UserAccessEnum userAccess)
         {
-            switch (userAccess)
+            var userName = (string)Session["UserName"];
+            var isSuccess = false;
+
+            try
             {
-                case UserAccessEnum.Straive_PE:
-                    await _coversheetService.UpdateCoversheetByPE(model);
-                    break;
+                switch (userAccess)
+                {
+                    case UserAccessEnum.Straive_PE:
+                        await _coversheetService.UpdateCoversheetByPE(model, userName, (int)userAccess);
+                        break;
 
-                case UserAccessEnum.Coding_TL:
-                    await _coversheetService.UpdateCoversheetByCodingTL(model);
-                    break;
+                    case UserAccessEnum.Coding_TL:
+                        await _coversheetService.UpdateCoversheetByCodingTL(model);
+                        break;
 
-                case UserAccessEnum.Coding:
-                    await _coversheetService.UpdateCoversheetByCoding(model);
-                    break;
+                    case UserAccessEnum.Coding:
+                        await _coversheetService.UpdateCoversheetByCoding(model);
+                        break;
+                }
+
+                isSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
 
-            return Json("", JsonRequestBehavior.AllowGet);
+            return Json(new { IsSuccess = isSuccess }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddNewCoversheet(string manuscriptids, string bpsproductid, string serviceno)
@@ -749,7 +761,7 @@ namespace JobTrack.Controllers
                     mdata.model1.TaskStatus = dr["TaskStatus"].ToString();
                     mdata.model1.TaskType = dr["TaskType"].ToString();
                     mdata.model1.GuideCard = dr["GuideCard"].ToString();
-                    mdata.model1.FurtherInstructions = dr["FurtherInstruction"].ToString();
+                    mdata.model1.FurtherInstruction = dr["FurtherInstruction"].ToString();
                     mdata.model1.UpdateType = dr["UpdateType"].ToString();
                     mdata.model1.GeneralData = dr["GeneralData"].ToString();
                     mdata.model1.SpecialInstruction = dr["SpecialInstruction"].ToString();
@@ -823,7 +835,7 @@ namespace JobTrack.Controllers
                     mdata.model1.TaskStatus = dr["TaskStatus"].ToString();
                     mdata.model1.TaskType = dr["TaskType"].ToString();
                     mdata.model1.GuideCard = dr["GuideCard"].ToString();
-                    mdata.model1.FurtherInstructions = dr["FurtherInstruction"].ToString();
+                    mdata.model1.FurtherInstruction = dr["FurtherInstruction"].ToString();
                     mdata.model1.UpdateType = dr["UpdateType"].ToString();
                     mdata.model1.GeneralData = dr["GeneralData"].ToString();
                     mdata.model1.SpecialInstruction = dr["SpecialInstruction"].ToString();
@@ -895,7 +907,7 @@ namespace JobTrack.Controllers
                     mdata.TaskStatus = dr["TaskStatus"].ToString();
                     mdata.TaskType = dr["TaskType"].ToString();
                     mdata.GuideCard = dr["GuideCard"].ToString();
-                    mdata.FurtherInstructions = dr["FurtherInstruction"].ToString();
+                    mdata.FurtherInstruction = dr["FurtherInstruction"].ToString();
                     mdata.UpdateType = dr["UpdateType"].ToString();
                     mdata.GeneralData = dr["GeneralData"].ToString();
                     mdata.SpecialInstruction = dr["SpecialInstruction"].ToString();
@@ -1070,7 +1082,7 @@ namespace JobTrack.Controllers
                         "<b>" +
                         "<span style='font-size:8.0pt;font-family:Verdana'> Further Instructions: </span>" +
                         "</b>" +
-                        "<span style='font-size:8.0pt;font-family:Verdana'> " + mdata.FurtherInstructions + " </span>" +
+                        "<span style='font-size:8.0pt;font-family:Verdana'> " + mdata.FurtherInstruction + " </span>" +
                         "</p>" +
                         "</td>" +
                         "</tr>" +

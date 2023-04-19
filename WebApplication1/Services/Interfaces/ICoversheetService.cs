@@ -19,7 +19,7 @@ namespace JobTrack.Services.Interfaces
 
         Task<JsonResultModel> InsertCoversheetDataAsync(CoversheetData model, string username);
 
-        Task UpdateCoversheetByPE(CoversheetData model);
+        Task<JsonResultModel> UpdateCoversheetByPE(CoversheetData model, string userName, int userAccess);
 
         Task UpdateCoversheetByCodingTL(CoversheetData model);
 
