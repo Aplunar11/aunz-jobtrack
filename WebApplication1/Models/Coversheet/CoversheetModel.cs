@@ -19,6 +19,7 @@ namespace JobTrack.Models.Coversheet
         public List<CoversheetData> ListCoversheet { get; set; }
         public string ErrorMessage { get; set; }
     }
+
     public class UpdateTypeData
     {
         public int UpdateTypeID { get; set; }
@@ -64,6 +65,7 @@ namespace JobTrack.Models.Coversheet
         public DateTime DateUpdated { get; set; }
         public int UpdateEmployeeID { get; set; }
     }
+
     public class CoversheetData
     {
         public int CoversheetID { get; set; }

@@ -115,6 +115,11 @@ function validateForm(formId) {
         });
 
         $('#ErrorMessage').show();
+
+        if ($('#ErrorMessage2').length > 0) {            
+            $('#ErrorMessage').hide();
+            $('#ErrorMessage2').show();
+        }
     }
 
     return isValid;
@@ -126,10 +131,22 @@ function removeRedError(e) {
 
 function setupDefaultForm() {
     $('#ErrorMessage').hide();
+    $('#ErrorMessage2').hide();
     $('.datepicker').datepicker({
         todayHighlight: true,
         format: 'yyyy-mm-dd',
         clearBtn: true,
         autoclose: true
+    });
+}
+
+function setupForMultipleModal() {
+    $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+
+        setTimeout(function () {
+            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
     });
 }

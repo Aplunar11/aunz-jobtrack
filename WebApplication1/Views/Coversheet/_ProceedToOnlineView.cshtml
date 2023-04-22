@@ -1,6 +1,6 @@
-﻿@model JobTrack.Models.Coversheet.CoversheetData
+﻿@model JobTrack.Models.FormFieldModel
 
-<div class="modal fade" id="modal-subsequent" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-proceedonline" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#009688;color:white">
@@ -18,10 +18,10 @@
                     </button>
                 </div>
 
-                <form id="formSubsequent">
+                <form id="formProceedOnline">
                     <div class="row">
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Enter Subsequent", Name = "InputSubsequent", Value = Model.SubsequentPass, Rows = 5, IsRequired = true })
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Proceed to Online", Name = "InputProceedOnline", Value = Model.Value, Rows = 5, IsRequired = true })
                         </div>
                     </div>
                 </form>
@@ -41,10 +41,10 @@
     });
 
     function onclickSubmitSubsequent() {
-        let isValid = validateForm('formSubsequent');
+        let isValid = validateForm('formProceedOnline');
         if (isValid) {
-            $('#Subsequent').val($('#InputSubsequent').val());
-            $('#modal-subsequent').modal('hide');
+            $('#ProceedToOnline').val($('#InputProceedOnline').val());
+            $('#modal-proceedonline').modal('hide');
         }
     }
 </script>

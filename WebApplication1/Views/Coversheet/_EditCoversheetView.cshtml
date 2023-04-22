@@ -10,7 +10,7 @@
                 </button>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body" style="height: calc(100vh - 190px); overflow-x: auto">
                 <div class="alert alert-danger fade show" id="ErrorMessage">
                     <span>Required fields are missing.</span>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -23,12 +23,15 @@
 
                     <div class="row mb-2">
                         <div class="col-md">
-                            <div class="row mb-3">
-                                <div class="col-md">
-                                    <button type="button" class="btn btn-success" onclick="onclickProceed();"><i class="fa fa-check-square"></i> &nbsp; Proceed to online</button> &nbsp;
-                                    <button type="button" class="btn btn-success" onclick="onclickSubsequent();"><i class="fa fas fa-plus-square"></i> &nbsp; Subsequent Pass</button>
+                            @if (Model.PDFQCDoneDate.HasValue)
+                            {
+                                <div class="row mb-3">
+                                    <div class="col-md">
+                                        <button type="button" class="btn btn-success" onclick="onclickProceed();"><i class="fa fa-check-square"></i> &nbsp; Proceed to online</button> &nbsp;
+                                        <button type="button" class="btn btn-success" onclick="onclickSubsequent();"><i class="fa fas fa-plus-square"></i> &nbsp; Subsequent Pass</button>
+                                    </div>
                                 </div>
-                            </div>
+                            }
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Coversheet Number", Name = "CoversheetNumber", Value = Model.CoversheetNumber, IsReadOnly = true })
 
@@ -164,6 +167,7 @@
                     <input type="hidden" name="ManuscriptID" value="@Model.ManuscriptID" />
                     <input type="hidden" name="UserAccess" value="@((int)JobTrack.Models.Enums.UserAccessEnum.Straive_PE)" />
                     <input type="hidden" name="JobOwner" value="@Model.JobOwner" id="JobOwner" />
+                    <textarea name="SubsequentPass" id="Subsequent" hidden></textarea>
                 </form>
             </div>
 
@@ -176,7 +180,7 @@
 </div>
 
 <!-- modal for subsequent -->
-<div id="modal-container-subsequent"></div>
+<div id="modal-container"></div>
 
 <script>
     $(document).ready(function () {
@@ -212,9 +216,18 @@
     }
 
     function onclickSubsequent() {
-        GotoControllerAsync('/Coversheet/_SubsequentView', 'POST', null, false, 'html', function (response) {
-            $('#modal-container-subsequent').html(response);
+        let val = $('#Subsequent').val();
+
+        GotoControllerAsync('/Coversheet/_SubsequentView', 'POST', { SubsequentPass: val }, false, 'html', function (response) {
+            $('#modal-container').html(response);
             $('#modal-subsequent').modal('show');
+        });
+    }
+
+    function onclickProceed() {
+        GotoControllerAsync('/Coversheet/_ProceedToOnlineView', 'POST', null, false, 'html', function (response) {
+            $('#modal-container').html(response);
+            $('#modal-proceedonline').modal('show');
         });
     }
 </script>

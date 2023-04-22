@@ -92,9 +92,14 @@ namespace JobTrack.Controllers
             return PartialView(viewModel);
         }
 
-        public async Task<ActionResult> _SubsequentView()
+        public async Task<ActionResult> _SubsequentView(CoversheetData viewModel)
         {
-            return PartialView();
+            return PartialView(await Task.FromResult(viewModel));
+        }
+
+        public async Task<ActionResult> _ProceedToOnlineView(FormFieldModel viewModel)
+        {
+            return PartialView(await Task.FromResult(viewModel));
         }
 
         public async Task<ActionResult> EditCoversheetData(CoversheetData model, UserAccessEnum userAccess)
