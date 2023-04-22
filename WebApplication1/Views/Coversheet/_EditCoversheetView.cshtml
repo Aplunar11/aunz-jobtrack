@@ -25,8 +25,8 @@
                         <div class="col-md">
                             <div class="row mb-3">
                                 <div class="col-md">
-                                    <button type="button" class="btn btn-success"><i class="fa fa-check-square"></i> &nbsp; Proceed to online</button> &nbsp;
-                                    <button type="button" class="btn btn-success"><i class="fa fas fa-plus-square"></i> &nbsp; Subsequent Pass</button>
+                                    <button type="button" class="btn btn-success" onclick="onclickProceed();"><i class="fa fa-check-square"></i> &nbsp; Proceed to online</button> &nbsp;
+                                    <button type="button" class="btn btn-success" onclick="onclickSubsequent();"><i class="fa fas fa-plus-square"></i> &nbsp; Subsequent Pass</button>
                                 </div>
                             </div>
 
@@ -175,6 +175,9 @@
     </div>
 </div>
 
+<!-- modal for subsequent -->
+<div id="modal-container-subsequent"></div>
+
 <script>
     $(document).ready(function () {
         setupDefaultForm();
@@ -206,5 +209,12 @@
                     alert("Error: " + response.ErrorMessage);
             });
         }
+    }
+
+    function onclickSubsequent() {
+        GotoControllerAsync('/Coversheet/_SubsequentView', 'POST', null, false, 'html', function (response) {
+            $('#modal-container-subsequent').html(response);
+            $('#modal-subsequent').modal('show');
+        });
     }
 </script>

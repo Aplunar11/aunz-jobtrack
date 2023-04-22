@@ -186,12 +186,19 @@
             });
         });
 
-        $('#btnCodingStartDate').prop('disabled', '@Model.CodingStartDate.HasValue' == 'True');
-        $('#btnCodingDoneDate').prop('disabled', '@Model.CodingStartDate.HasValue' == 'False');
-        $('#btnPDFQCStartDate').prop('disabled', '@Model.PDFQCStartDate.HasValue' == 'True');
-        $('#btnPDFQCDoneDate').prop('disabled', '@Model.PDFQCStartDate.HasValue' == 'False');
-        $('#btnOnlineStartDate').prop('disabled', '@Model.OnlineStartDate.HasValue' == 'True');
-        $('#btnOnlineDoneDate').prop('disabled', '@Model.OnlineStartDate.HasValue' == 'False');
+        let codingStartDateDisabled = '@Model.CodingStartDate.HasValue' == 'True';
+        let codingDoneDateDisabled = '@Model.CodingDoneDate.HasValue' == 'True' || ('@Model.CodingStartDate.HasValue' == 'False' && '@Model.CodingDoneDate.HasValue' == 'False');
+        let pdfStartDateDisabled = '@Model.PDFQCStartDate.HasValue' == 'True' || ('@Model.CodingDoneDate.HasValue' == 'False' && '@Model.PDFQCStartDate.HasValue' == 'False');
+        let pdfDoneDateDisabled = '@Model.PDFQCDoneDate.HasValue' == 'True' || ('@Model.PDFQCStartDate.HasValue' == 'False' && '@Model.PDFQCDoneDate.HasValue' == 'False');
+        let onlineStartDateDisabled = '@Model.OnlineStartDate.HasValue' == 'True';
+        let onlineDoneDateDisabled = '@Model.OnlineDoneDate.HasValue' == 'True' || ('@Model.OnlineStartDate.HasValue' == 'False' && '@Model.OnlineDoneDate.HasValue' == 'False');
+
+        $('#btnCodingStartDate').prop('disabled', codingStartDateDisabled);
+        $('#btnCodingDoneDate').prop('disabled', codingDoneDateDisabled);
+        $('#btnPDFQCStartDate').prop('disabled', pdfStartDateDisabled);
+        $('#btnPDFQCDoneDate').prop('disabled', pdfDoneDateDisabled);
+        $('#btnOnlineStartDate').prop('disabled', onlineStartDateDisabled);
+        $('#btnOnlineDoneDate').prop('disabled', onlineDoneDateDisabled);
     });
 
     function onclickSubmit() {

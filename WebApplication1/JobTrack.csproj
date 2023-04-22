@@ -5791,6 +5791,7 @@
     <Content Include="Views\Coversheet\_EditCoversheetCodingTLView.cshtml" />
     <Content Include="Views\Coversheet\_EditCoversheetCodingView.cshtml" />
     <Content Include="Views\Shared\CustomControls\_TextFieldGroupView.cshtml" />
+    <Content Include="Views\Coversheet\_SubsequentView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

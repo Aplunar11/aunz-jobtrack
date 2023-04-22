@@ -92,6 +92,11 @@ namespace JobTrack.Controllers
             return PartialView(viewModel);
         }
 
+        public async Task<ActionResult> _SubsequentView()
+        {
+            return PartialView();
+        }
+
         public async Task<ActionResult> EditCoversheetData(CoversheetData model, UserAccessEnum userAccess)
         {
             var userName = (string)Session["UserName"];
