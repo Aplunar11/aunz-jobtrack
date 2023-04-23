@@ -201,6 +201,7 @@
     <Compile Include="Controllers\CoversheetController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\JobCoversheetController.cs" />
+    <Compile Include="Controllers\JobReassignmentController.cs" />
     <Compile Include="Controllers\LEController.cs" />
     <Compile Include="Controllers\LegislationController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="Models\FormFieldModel.cs" />
     <Compile Include="Models\HistoryTrailModel.cs" />
     <Compile Include="Models\JobCountModel.cs" />
+    <Compile Include="Models\JobReassignment\JobReassignmentModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\QueryCoversheet\CoversheetDataModel.cs" />
     <Compile Include="Models\QueryCoversheet\QueryCoversheetModel.cs" />
@@ -264,6 +266,7 @@
     <Compile Include="Services\Interfaces\IJobCoversheetService.cs" />
     <Compile Include="Services\Interfaces\IJobDashboardService.cs" />
     <Compile Include="Services\Interfaces\IJobdataService.cs" />
+    <Compile Include="Services\Interfaces\IJobReassignmentService.cs" />
     <Compile Include="Services\Interfaces\IManuscriptDataService.cs" />
     <Compile Include="Services\Interfaces\INotificationService.cs" />
     <Compile Include="Services\Interfaces\IParameterService.cs" />
@@ -278,6 +281,7 @@
     <Compile Include="Services\JobCoversheetService.cs" />
     <Compile Include="Services\JobDashboardService.cs" />
     <Compile Include="Services\JobdataService.cs" />
+    <Compile Include="Services\JobReassignmentService.cs" />
     <Compile Include="Services\ManuscriptDataService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\ParameterService.cs" />
@@ -5793,6 +5797,8 @@
     <Content Include="Views\Shared\CustomControls\_TextFieldGroupView.cshtml" />
     <Content Include="Views\Coversheet\_SubsequentView.cshtml" />
     <Content Include="Views\Coversheet\_ProceedToOnlineView.cshtml" />
+    <Content Include="Views\JobReassignment\Index.cshtml" />
+    <Content Include="Views\Shared\_SidebarLE.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

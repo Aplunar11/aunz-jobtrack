@@ -1,4 +1,6 @@
 ﻿using JobTrack.Models.Employee;
+using JobTrack.Models.Enums;
+using JobTrack.Models.JobReassignment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,8 @@ namespace JobTrack.Services.Interfaces
     {
         Task<List<PublicationAssignmentModel>> GetAllPublicationAssignmentModelAsync();
 
+        Task<List<JobReassignmentModel>> GetAllPublicationAssignmentByRole(UserAccessEnum userAccess);
+        
         Task<PublicationAssignmentModel> UpdatePublicationAssignmentAsync(PublicationAssignmentModel model);
     }
 }

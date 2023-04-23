@@ -1,0 +1,231 @@
+﻿
+@{ ViewBag.Title = "Homepage";
+    Layout = "~/Views/Shared/_JobTrackLayout_LE.cshtml"; }
+
+<script src="~/Scripts/src/custom_index.js"></script>
+<link href="~/temp/css/custom_datatable.css" rel="stylesheet" />
+<style type="text/css">
+    /*table icons*/
+    td.details-control {
+        background: url('../Image/details_open.png') no-repeat center center;
+        cursor: pointer;
+        width: 15px !important;
+    }
+
+    tr.shown td.details-control {
+        background: url('../Image/details_close.png') no-repeat center center;
+    }
+
+    td.details-control1 {
+        background: url('../Image/details_info.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    td.details-control4 {
+        background: url('../Image/details_link.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    .card-body {
+        padding: 15px !important;
+    }
+</style>
+
+<div class="content-body">
+    @if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "")
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top:10px;">
+            @ViewBag.ErrorMessage
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <div class="container-fluid mt-3">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="properties2">
+                                    <div class="container-fluid px-0">
+                                        <div class="row">
+                                            <div class="col text-center align-items-center text-black-50">
+                                                <h3>Job Reassignment</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <section id="MainTable">
+
+                                    <!-- Nav tabs -->
+                                    <div class="tabs-container">
+                                        <ul class="nav nav-tabs container" role="tablist" id="myTabs1">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-toggle="tab" href="#ProductJobs"><span><i class="fa fa-briefcase"></i>&nbsp;&nbsp;Active Jobs</span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Tab panes -->
+                                    <div class="tab-content tabcontent-border">
+                                        <div class="tab-pane fade show active" id="ProductJobs" role="tabpanel">
+                                            <div class="card bg-light">
+                                                <div class="container-fluid mb-3">
+
+                                                    <!-- table le -->
+                                                    <table class="display nowrap" id="tblData" style="width: 100%;">
+                                                        <thead class="table-header-footer">
+                                                            <tr>
+                                                                <th>View</th>
+                                                                <th>Job Number</th>
+                                                                <th>Product</th>
+                                                                <th>Service Number</th>
+                                                                <th>Current Owner</th>
+                                                                <th>Date updated</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tfoot class="table-header-footer">
+                                                            <tr>
+                                                                <th>View</th>
+                                                                <th>Job Number</th>
+                                                                <th>Product</th>
+                                                                <th>Service Number</th>
+                                                                <th>Current Owner</th>
+                                                                <th>Date updated</th>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        //TBD
+        moment.updateLocale(moment.locale(), { invalidDate: "TBD" });
+
+        // Footer
+        $('#tblData tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="' + title + '" />');
+        });
+
+        $(document).ready(function () {
+            loadTableJobReassign();
+        });
+
+        function loadTableJobReassign() {
+            let tableData = $('#tblData').DataTable({
+                "ajax": {
+                    "url": "@Url.Action("GetJobReassignmentByRole", "JobReassignment")",
+                    "data": { userAccess: 2 },  // LE
+                    "dataSrc": "",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                columnDefs: [
+                    { "className": "dt-center", "targets": "_all" },
+                    {
+                        "targets": [5],
+                        "render": function (data) {
+                            return moment(data).format('YYYY/MM/DD');
+                        }
+                    }
+                ],
+                columns: [
+                    {
+                        "className": 'details-control1',
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ''
+                    },
+                    { "data": "JobNumber" },
+                    { "data": "BPSProductID" },
+                    { "data": "ServiceNumber" },
+                    { "data": "CurrentOwner" },
+                    { "data": "DateUpdated" }
+                ],
+                order: [[1, 'desc']],
+                dom: 'Bfrtip',
+                buttons: {
+                    dom: {
+                        button: {
+                            tag: 'i',
+                            className: ''
+                        }
+                    },
+                    buttons: [
+                        {
+                            titleAttr: 'Copy',
+                            extend: 'copyHtml5',
+                            className: 'custom-btn fa fa-clipboard',
+                            text: ''
+                        },
+                        {
+                            titleAttr: 'Download as Excel',
+                            extend: 'excelHtml5',
+                            className: 'custom-btn fa fa-file-excel-o',
+                            text: ''
+                        },
+                        {
+                            titleAttr: 'Download as CSV',
+                            extend: 'csvHtml5',
+                            className: 'custom-btn fa fa-file-text-o',
+                            text: ''
+                        },
+                        {
+                            titleAttr: 'Download as PDF',
+                            extend: 'pdfHtml5',
+                            className: 'custom-btn fa fa-file-pdf-o',
+                            text: ''
+                        }
+
+                    ]
+                },
+                initComplete: function () {
+                    // Apply the search
+                    //scrollx initiator
+                    $('#tblData').wrap("<div style='overflow: auto; width: 100%; position: relative;'></div>");
+                    //init = false;
+                    this.api().columns().every(function () {
+                        var that = this;
+
+                        $('input', this.footer()).on('keyup change clear', function () {
+                            if (that.search() !== this.value) {
+                                that
+                                    .search(this.value)
+                                    .draw();
+                            }
+                        });
+                    });
+                },
+                createdRow: function (row, data, index) {
+                    if (data.extn === '') {
+                        var td = $(row).find("td:first");
+                        td.removeClass('details-control');
+                    }
+                },
+                rowCallback: function (row, data, index) {
+                    //console.log('rowCallback');
+                }
+            });
+        }
+    </script>
+}

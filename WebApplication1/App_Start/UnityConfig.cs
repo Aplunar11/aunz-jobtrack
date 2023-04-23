@@ -33,6 +33,7 @@ namespace JobTrack
             container.RegisterType<IReportService, ReportService>();
             container.RegisterType<INotificationService, NotificationService>();
             container.RegisterType<IParameterService, ParameterService>();
+            container.RegisterType<IJobReassignmentService, JobReassignmentService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
