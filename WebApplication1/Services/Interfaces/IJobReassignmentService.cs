@@ -13,5 +13,9 @@ namespace JobTrack.Services.Interfaces
         Task<List<JobReassignmentModel>> GetJobReassignmentByRole(UserAccessEnum userAccess);
 
         Task<List<JobReassignmentModel>> GetAllJobReassignment();
+
+        Task<List<JobReassignmentModel>> GetAllJobReassignmentByUser(string userName);
+
+        Task<bool> UpdateJobReassignment(JobReassignmentModel model, string userName);
     }
 }

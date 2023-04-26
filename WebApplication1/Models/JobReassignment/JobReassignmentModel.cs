@@ -9,6 +9,8 @@ namespace JobTrack.Models.JobReassignment
     {
         public int TransactionLogID { get; set; }
 
+        public int TransactionLogIdentity { get; set; }
+
         public string JobNumber { get; set; }
 
         public string BPSProductID { get; set; }
@@ -19,10 +21,14 @@ namespace JobTrack.Models.JobReassignment
 
         public string ValueAfter { get; set; }
 
-        public string PreviousOwner { get; set; }
+        public string NewOwner { get; set; }
+
+        public string PreviousOwner { get { return ValueBefore; } }
 
         public string CurrentOwner { get { return ValueAfter; } }
 
-        public DateTime? DateUpdated { get; set; }
+        public DateTime? DateCreated { get; set; }
+
+        public DateTime? DateUpdated { get { return DateCreated; } }
     }
 }

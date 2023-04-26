@@ -1,0 +1,61 @@
+﻿@model  JobTrack.Models.JobReassignment.JobReassignmentModel
+
+<div class="modal fade" id="modal-reassign" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#009688;color:white">
+                <h5 class="modal-title" id="confirmModalLabel">Job Reassignment</h5>
+                <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="formReassign">
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Job Number", Name = "TransactionLogIdentity", Value = Model.TransactionLogIdentity, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Product", Name = "BPSProductID", Value = Model.BPSProductID, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Service Number", Name = "ServiceNumber", Value = Model.ServiceNumber, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Previous Owner", Name = "ValueBefore", Value = Model.ValueBefore, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Current Owner", Name = "NewOwner", TempDataName = "JobOwners" })
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="TransactionLogID" value="@Model.TransactionLogID" />
+                    <input type="hidden" name="ValueAfter" value="@Model.ValueAfter" />
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="onclickSaveReassign();" id="btnSave">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function onclickSaveReassign() {
+        let isValid = validateForm('formReassign');
+        if (isValid) {
+            submitForm('formReassign', '/JobReassignment/UpdateJobReassignment', null, function (response) {
+                if (response.IsSuccess) {
+                    
+                    alert('Update successful.');
+                    $('#modal-reassign').modal('hide');
+
+                    setTimeout(function () {
+                        refreshTable('tblData');
+                    }, 1000);
+                }
+                else
+                    alert("Error!");
+            });
+        }
+    }
+</script>

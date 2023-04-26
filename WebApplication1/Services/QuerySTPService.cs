@@ -198,7 +198,6 @@ namespace JobTrack.Services
                 }
 
                 dbConnection.Close();
-
                 isSuccess = true;
             }
             catch (Exception ex)

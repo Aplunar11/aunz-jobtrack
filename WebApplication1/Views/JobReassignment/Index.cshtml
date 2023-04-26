@@ -84,6 +84,7 @@
                                                                 <th>Job Number</th>
                                                                 <th>Product</th>
                                                                 <th>Service Number</th>
+                                                                <th>Previous Owner</th>
                                                                 <th>Current Owner</th>
                                                                 <th>Date updated</th>
                                                             </tr>
@@ -94,6 +95,7 @@
                                                                 <th>Job Number</th>
                                                                 <th>Product</th>
                                                                 <th>Service Number</th>
+                                                                <th>Previous Owner</th>
                                                                 <th>Current Owner</th>
                                                                 <th>Date updated</th>
                                                             </tr>
@@ -114,6 +116,8 @@
     <!-- #/ container -->
 </div>
 
+<!-- Edit Modal -->
+<div id="modalWrapper"></div>
 
 @section scripts
 {
@@ -134,7 +138,7 @@
         function loadTableJobReassign() {
             let tableData = $('#tblData').DataTable({
                 "ajax": {
-                    "url": "@Url.Action("GetJobReassignmentByRole", "JobReassignment")",
+                    "url": "@Url.Action("GetAllJobReassignmentByUser", "JobReassignment")",
                     "data": { userAccess: 2 },  // LE
                     "dataSrc": "",
                     "type": "GET",
@@ -143,7 +147,7 @@
                 columnDefs: [
                     { "className": "dt-center", "targets": "_all" },
                     {
-                        "targets": [5],
+                        "targets": [6],
                         "render": function (data) {
                             return moment(data).format('YYYY/MM/DD');
                         }
@@ -156,9 +160,10 @@
                         "data": null,
                         "defaultContent": ''
                     },
-                    { "data": "JobNumber" },
+                    { "data": "TransactionLogIdentity" },
                     { "data": "BPSProductID" },
                     { "data": "ServiceNumber" },
+                    { "data": "PreviousOwner" },
                     { "data": "CurrentOwner" },
                     { "data": "DateUpdated" }
                 ],
@@ -225,6 +230,26 @@
                 rowCallback: function (row, data, index) {
                     //console.log('rowCallback');
                 }
+            });
+
+            $('#tblData tbody').on('click', 'td.details-control1', function () {
+                let tr = $(this).closest('tr');
+                let row = tableData.row(tr);
+                let rowData2 = row.data();
+                let dataNew = tableData.row(this).data();
+                let obj = {
+                    TransactionLogID: dataNew['TransactionLogID'],
+                    TransactionLogIdentity: dataNew['TransactionLogIdentity'],
+                    BPSProductID: dataNew['BPSProductID'],
+                    ServiceNumber: dataNew['ServiceNumber'],
+                    ValueBefore: dataNew['ValueBefore'],
+                    ValueAfter: dataNew['ValueAfter']
+                };
+
+                GotoControllerAsync('/JobReassignment/_EditJobReassignmentView', 'POST', obj, false, 'html', function (response) {
+                    $('#modalWrapper').html(response);
+                    $('#modal-reassign').modal('show');
+                });
             });
         }
     </script>

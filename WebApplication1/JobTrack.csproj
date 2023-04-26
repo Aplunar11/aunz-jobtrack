@@ -5799,6 +5799,7 @@
     <Content Include="Views\Coversheet\_ProceedToOnlineView.cshtml" />
     <Content Include="Views\JobReassignment\Index.cshtml" />
     <Content Include="Views\Shared\_SidebarLE.cshtml" />
+    <Content Include="Views\JobReassignment\_EditJobReassignmentView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
