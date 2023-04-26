@@ -20,5 +20,7 @@ namespace JobTrack.Services.Interfaces
         Task<JsonResultModel> InsertCoversheetDataAsync(CoversheetData model, string username);
 
         Task<JsonResultModel> UpdateCoversheetData(CoversheetData model, string userName, int userAccess);
+
+        Task<JsonResultModel> UpdateSubsequentPass(CoversheetData model, string userName);
     }
 }

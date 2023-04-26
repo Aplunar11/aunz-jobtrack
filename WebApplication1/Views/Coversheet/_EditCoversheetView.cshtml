@@ -28,7 +28,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md">
                                         <button type="button" class="btn btn-success" onclick="onclickProceed();"><i class="fa fa-check-square"></i> &nbsp; Proceed to online</button> &nbsp;
-                                        <button type="button" class="btn btn-success" onclick="onclickSubsequent();"><i class="fa fas fa-plus-square"></i> &nbsp; Subsequent Pass</button>
+                                        <button type="button" class="btn btn-success" onclick="onclickSubsequent();"><i class="fa fas fa-plus-square"></i> &nbsp; Revisions</button>
                                     </div>
                                 </div>
                             }
@@ -216,9 +216,12 @@
     }
 
     function onclickSubsequent() {
-        let val = $('#Subsequent').val();
+        let obj = {
+            CoversheetID: @Model.CoversheetID,
+            SubsequentPass: '@Model.SubsequentPass'
+        }
 
-        GotoControllerAsync('/Coversheet/_SubsequentView', 'POST', { SubsequentPass: val }, false, 'html', function (response) {
+        GotoControllerAsync('/Coversheet/_SubsequentView', 'POST', obj, false, 'html', function (response) {
             $('#modal-container').html(response);
             $('#modal-subsequent').modal('show');
         });

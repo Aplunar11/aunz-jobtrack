@@ -232,5 +232,38 @@ namespace JobTrack.Services
 
             return await Task.FromResult(result);
         }
+
+        public async Task<JsonResultModel> UpdateSubsequentPass(CoversheetData model, string userName)
+        {
+            var result = new JsonResultModel();
+            var storedProcedure = "UpdateSubsequentPass";
+            var dataTable = new DataTable();
+
+            try
+            {
+                dbConnection.Open();
+
+                using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@p_UserName", userName);
+                    command.Parameters.AddWithValue("@p_CoversheetID", model.CoversheetID);
+                    command.Parameters.AddWithValue("@p_SubsequentPass", model.SubsequentPass);
+
+                    var reader = command.ExecuteReader();
+                    dataTable.Load(reader);
+                    reader.Close();
+                }
+
+                dbConnection.Close();
+                result.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+
+            return await Task.FromResult(result);
+        }
     }
 }

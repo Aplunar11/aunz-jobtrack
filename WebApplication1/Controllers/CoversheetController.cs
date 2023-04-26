@@ -1099,5 +1099,13 @@ namespace JobTrack.Controllers
             }
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<ActionResult> UpdateSubsequentPass(CoversheetData viewModel)
+        {
+            var userName = (string)Session["UserName"];
+            var result = await _coversheetService.UpdateSubsequentPass(viewModel, userName);
+
+            return Json(result);
+        }
     }
 }

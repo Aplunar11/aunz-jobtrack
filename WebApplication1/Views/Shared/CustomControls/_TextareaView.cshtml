@@ -1,7 +1,11 @@
 ﻿@model JobTrack.Models.FormFieldModel
 
 <div class="form-group">
-    <label>@Model.Label</label>
+    @if (!string.IsNullOrEmpty(Model.Label)) 
+    { 
+        <label>@Model.Label</label>
+    }
+
     <textarea class="form-control" 
               rows="@Model.Rows" 
               id="@Model.Name" 

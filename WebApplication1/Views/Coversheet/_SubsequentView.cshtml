@@ -4,7 +4,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#009688;color:white">
-                <h6 class="modal-title" id="confirmModalLabel">Coding Workbench</h6>
+                <h6 class="modal-title" id="confirmModalLabel">Enter Revision</h6>
                 <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -21,14 +21,16 @@
                 <form id="formSubsequent">
                     <div class="row">
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Enter Subsequent", Name = "InputSubsequent", Value = Model.SubsequentPass, Rows = 5, IsRequired = true })
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Name = "SubsequentPass", Value = Model.SubsequentPass, Rows = 5, IsRequired = true })
                         </div>
                     </div>
+
+                    <input type="hidden" name="CoversheetID" value="@Model.CoversheetID" />
                 </form>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="onclickSubmitSubsequent();" id="btnOk">Ok</button>
+                <button type="button" class="btn btn-success" onclick="onclickSubmitSubsequent();" id="btnOk">Submit</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -43,8 +45,26 @@
     function onclickSubmitSubsequent() {
         let isValid = validateForm('formSubsequent');
         if (isValid) {
-            $('#Subsequent').val($('#InputSubsequent').val());
-            $('#modal-subsequent').modal('hide');
-        }
+
+            let isConfirmed = confirm('Are you sure you want to submit Revisions? \nThe Task will be reset after submitting.');
+            if (isConfirmed) {
+
+                submitForm('formSubsequent', '/Coversheet/UpdateSubsequentPass', null, function (response) {
+                    if (response.IsSuccess) {
+
+                        alert('Submit successful.');
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    }
+                });
+            }
+        }      
+
+        //let isValid = validateForm('formSubsequent');
+        //if (isValid) {
+        //    $('#Subsequent').val($('#InputSubsequent').val());
+        //    $('#modal-subsequent').modal('hide');
+        //}
     }
 </script>
