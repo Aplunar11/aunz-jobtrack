@@ -1,0 +1,115 @@
+﻿@model JobTrack.Models.Manuscript.ManuscriptData
+
+<div class="modal fade" id="modal-manuscriptdata" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+
+            <!-- header -->
+            <div class="modal-header" style="background-color:#009688;color:white">
+                <h6 class="modal-title" id="confirmModalLabel">Manuscript Workbench</h6>
+                <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- body -->
+            <div class="modal-body" style="height: calc(100vh - 190px); overflow-x: auto">
+                <div class="alert alert-danger fade show" id="ErrorMessage">
+                    <span>Required fields are missing.</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form id="formManuscriptData">
+                    <center><h6>MANUSCRIPT DETAILS</h6></center>
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Remarks", Name = "Remarks", Value = Model.Remarks, Rows = 7, IsRequired = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Guide Card", Name = "PEGuideCard", Value = Model.PEGuideCard, IsRequired = true })
+
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Revised Online Due Date", Name = "RevisedOnlineDueDate", Value = Model.RevisedOnlineDueDate, Class = "datepicker", IsRequired = true })
+                        </div>
+                    </div>
+
+                    <hr />
+                    <center><h6>STATUS</h6></center>
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Copy - Due Date", Name = "CopyEditDueDate", Value = Model.CopyEditDueDate, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Copy - Start Date", Name = "CopyEditStartDate", Value = Model.CopyEditStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Copy - Done Date", Name = "CopyEditDoneDate", Value = Model.CopyEditDoneDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Copy - Status", Name = "CopyEditStatus", Value = Model.CopyEditStatus, IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Coding - Due Date", Name = "CodingDueDate", Value = Model.CodingDueDate, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Coding - Start Date", Name = "CodingStartDate", Value = Model.CodingStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Coding - Done Date", Name = "CodingDoneDate", Value = Model.CodingDoneDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Coding - Status", Name = "CodingStatus", Value = Model.CodingStatus, IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Online - Due Date", Name = "OnlineDueDate", Value = Model.OnlineDueDate, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Online - Start Date", Name = "OnlineStartDate", Value = Model.OnlineStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Online - Done Date", Name = "OnlineDoneDate", Value = Model.OnlineDoneDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Online - Status", Name = "OnlineStatus", Value = Model.OnlineStatus, IsReadOnly = true })
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="ManuscriptID" value="@Model.ManuscriptID" />
+                </form>
+            </div>
+
+            <!-- footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="onclickSubmitManuscriptData();" id="btnSave">Submit</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        setupDefaultForm();
+
+        let copyEditDoneDateDisabled = '@Model.CopyEditStartDate.HasValue' == 'False';
+        let codingDoneDateDisabled = '@Model.CodingStartDate.HasValue' == 'False';
+        let onlineDoneDateDisabled = '@Model.OnlineStartDate.HasValue' == 'False';
+
+        $('#btnCopyEditDoneDate').prop('disabled', copyEditDoneDateDisabled);
+        $('#btnCodingDoneDate').prop('disabled', codingDoneDateDisabled);
+        $('#btnOnlineDoneDate').prop('disabled', onlineDoneDateDisabled);
+    });
+
+    function onclickSubmitManuscriptData() {
+        let isValid = validateForm('formManuscriptData');
+        if (isValid) {
+
+        }
+    }
+
+    function onclickDate(e) {
+        let inputId = e.id.replaceAll('btn', '');
+        $('#' + inputId).val(new Date().toISOString().split('T')[0]);
+
+        $('#btnCopyEditDoneDate').prop('disabled', !(inputId == 'CopyEditStartDate'));
+        $('#btnCodingDoneDate').prop('disabled', !(inputId === 'CodingStartDate'));
+        $('#btnOnlineDoneDate').prop('disabled', !(inputId === 'OnlineStartDate'));
+
+        $('#' + e.id).prop('disabled', true);
+    }
+</script>

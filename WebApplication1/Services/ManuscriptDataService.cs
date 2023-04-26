@@ -21,7 +21,7 @@ namespace JobTrack.Services
 
         public ManuscriptDataService() { }
 
-        public async Task<List<ManuscriptData>> GetManuscriptDataByIdAsync(string bpsProductid, string serviceNumber)
+        public async Task<List<ManuscriptData>> GetManuscriptDataByProductAndServiceAsync(string bpsProductid, string serviceNumber)
         {
             var storedProcedure = "GetManuscriptDataByID";
             var dataTable = new DataTable();
@@ -50,6 +50,36 @@ namespace JobTrack.Services
 
             var list = JsonConvert.DeserializeObject<List<ManuscriptData>>(JsonConvert.SerializeObject(dataTable));
             return await Task.FromResult(list);
+        }
+
+        public async Task<ManuscriptData> GetManuscriptByIdAsync(int id)
+        {
+            var storedProcedure = "GetManuscriptDataByManuscriptID";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            try
+            {
+                using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@p_ManuscriptID", id);
+
+                    var reader = command.ExecuteReader();
+                    dataTable.Load(reader);
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<ManuscriptData>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list.FirstOrDefault());
         }
 
         public async Task<JobCoversheetData> GetManuscriptDataByProductAndServiceAsync(JobCoversheetData model)

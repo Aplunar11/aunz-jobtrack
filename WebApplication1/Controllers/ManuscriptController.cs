@@ -33,6 +33,18 @@ namespace JobTrack.Controllers
             _manuscriptDataService = manuscriptDataService;
         }
 
+        public async Task<ActionResult> _EditManuscriptLEView(int id)
+        {
+            var viewModel = await _manuscriptDataService.GetManuscriptByIdAsync(id);
+            return PartialView(viewModel);
+        }
+
+        public async Task<ActionResult> _EditManuscriptPEView(int id)
+        {
+            var viewModel = await _manuscriptDataService.GetManuscriptByIdAsync(id);
+            return PartialView(viewModel);
+        }
+
         [HttpGet]
         public ActionResult AddNewManuscript()
         {
@@ -426,7 +438,7 @@ namespace JobTrack.Controllers
 
         public async Task<ActionResult> GetManuscriptData(string bpsproductid, string servicenumber)
         {
-            var mdata = await _manuscriptDataService.GetManuscriptDataByIdAsync(bpsproductid, servicenumber);
+            var mdata = await _manuscriptDataService.GetManuscriptDataByProductAndServiceAsync(bpsproductid, servicenumber);
             return Json(mdata, JsonRequestBehavior.AllowGet);
         }
 

@@ -114,6 +114,8 @@ namespace JobTrack.Models.Manuscript
         [System.ComponentModel.DataAnnotations.DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd} {0:hh:mm tt}")]
         [Display(Name = "Coding - Due Date:")]
         public DateTime? CodingDueDate { get; set; }
+        [Display(Name = "Coding - Start Date:")]
+        public DateTime? CodingStartDate { get; set; }
         [System.ComponentModel.DataAnnotations.DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd} {0:hh:mm tt}")]
         [Display(Name = "Coding - Done:")]
         public DateTime? CodingDoneDate { get; set; }
@@ -122,6 +124,8 @@ namespace JobTrack.Models.Manuscript
         [System.ComponentModel.DataAnnotations.DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd} {0:hh:mm tt}")]
         [Display(Name = "Online - Due Date:")]
         public DateTime? OnlineDueDate { get; set; }
+        [Display(Name = "Online - Start Date:")]
+        public DateTime? OnlineStartDate { get; set; }
         [System.ComponentModel.DataAnnotations.DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd} {0:hh:mm tt}")]
         [Display(Name = "Online - Done:")]
         public DateTime? OnlineDoneDate { get; set; }
@@ -150,6 +154,7 @@ namespace JobTrack.Models.Manuscript
         public string Response { get; set; }
         public string ErrorMessage { get; set; }
         public SelectList ServiceNumberList { get; set; }
+        public string Remarks { get; set; }
     }
 
     public class GetPubSchedTier
