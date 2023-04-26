@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobTrack.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -72,5 +73,23 @@ namespace JobTrack.Models.Extensions
 
         public static DateTime ToDateValue(this object obj)
             => (string)obj == "Select" ? DateTime.Now : Convert.ToDateTime(obj).Date;
+
+        public static UserAccessEnum ToUserAccessEnum(this string userAccess)
+        {
+            var userAccessEnum = new UserAccessEnum();
+
+            switch (userAccess)
+            {
+                case "Client(LE)":
+                    userAccessEnum = UserAccessEnum.Client_LE;
+                    break;
+
+                case "Straive(PE)":
+                    userAccessEnum = UserAccessEnum.Straive_PE;
+                    break;
+            }
+
+            return userAccessEnum;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using JobTrack.Models;
 using JobTrack.Models.Enums;
+using JobTrack.Models.Extensions;
 using JobTrack.Models.JobReassignment;
 using JobTrack.Services.Interfaces;
 using System;
@@ -31,12 +32,15 @@ namespace JobTrack.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
+            var userAccess = (string)Session["UserAccess"];
+            ViewBag.UserAccess = (int)userAccess.ToUserAccessEnum();
+
             return View();
         }
 
-        public async Task<ActionResult> _EditJobReassignmentView(JobReassignmentModel viewModel)
+        public async Task<ActionResult> _EditJobReassignmentView(JobReassignmentModel viewModel, UserAccessEnum userAccess)
         {
-            var owners = await _employeeService.GetAllEmployeeByAccess(UserAccessEnum.Client_LE);
+            var owners = await _employeeService.GetAllEmployeeByAccess(userAccess);
             TempData["JobOwners"] = new SelectList(owners, "UserName", "UserName", viewModel.ValueAfter);
 
             return PartialView(await Task.FromResult(viewModel));
@@ -52,7 +56,8 @@ namespace JobTrack.Controllers
         public async Task<ActionResult> GetAllJobReassignmentByUser()
         {
             var userName = (string)Session["UserName"];
-            var result = await _jobReassignmentService.GetAllJobReassignmentByUser(userName);
+            var userAccess = (string)Session["UserAccess"];
+            var result = await _jobReassignmentService.GetAllJobReassignmentByUser(userName, userAccess.ToUserAccessEnum());
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

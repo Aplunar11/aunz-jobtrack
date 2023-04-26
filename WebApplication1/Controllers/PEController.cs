@@ -48,7 +48,7 @@ namespace JobTrack.Controllers
 
         public ActionResult SideMenu()
         {
-            return PartialView("_SidebarRegular");
+            return PartialView("_SidebarPE");
         }
 
         public async Task<ActionResult> MainForm()

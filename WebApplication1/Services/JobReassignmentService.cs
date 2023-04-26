@@ -54,7 +54,7 @@ namespace JobTrack.Services
             return await Task.FromResult(list);
         }
 
-        public async Task<List<JobReassignmentModel>> GetAllJobReassignmentByUser(string userName)
+        public async Task<List<JobReassignmentModel>> GetAllJobReassignmentByUser(string userName, UserAccessEnum userAccess)
         {
             var storedProcedure = "GetAllJobReassignmentByUser";
             var dataTable = new DataTable();
@@ -65,6 +65,7 @@ namespace JobTrack.Services
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@p_UserName", userName);
+                command.Parameters.AddWithValue("@p_UserAccess", (int)userAccess);
 
                 var reader = command.ExecuteReader();
                 dataTable.Load(reader);

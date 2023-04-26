@@ -139,7 +139,6 @@
             let tableData = $('#tblData').DataTable({
                 "ajax": {
                     "url": "@Url.Action("GetAllJobReassignmentByUser", "JobReassignment")",
-                    "data": { userAccess: 2 },  // LE
                     "dataSrc": "",
                     "type": "GET",
                     "datatype": "json"
@@ -238,12 +237,13 @@
                 let rowData2 = row.data();
                 let dataNew = tableData.row(this).data();
                 let obj = {
+                    userAccess: @ViewBag.UserAccess,
                     TransactionLogID: dataNew['TransactionLogID'],
                     TransactionLogIdentity: dataNew['TransactionLogIdentity'],
                     BPSProductID: dataNew['BPSProductID'],
                     ServiceNumber: dataNew['ServiceNumber'],
                     ValueBefore: dataNew['ValueBefore'],
-                    ValueAfter: dataNew['ValueAfter']
+                    ValueAfter: dataNew['ValueAfter'],
                 };
 
                 GotoControllerAsync('/JobReassignment/_EditJobReassignmentView', 'POST', obj, false, 'html', function (response) {
