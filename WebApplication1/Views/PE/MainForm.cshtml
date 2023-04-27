@@ -517,8 +517,11 @@
                                 targets: [2],
                                 searchable: false,
                                 orderable: false,
-                                render: function (rowData) {
-                                    return '<input type="checkbox" style="cursor: pointer" name="' + data['JobNumberText'] + '" value="' + rowData + '" />';
+                                render: function (rowData, type, row, meta) {
+
+                                    if (row.CopyEditStatus == 'Completed')
+                                        return '<input type="checkbox" style="cursor: pointer" name="' + data['JobNumberText'] + '" value="' + rowData + '" onclick="oncheckManuscript("' + meta + '")" />';
+                                    return '';
                                 }
                             },
                             {
@@ -610,7 +613,9 @@
                                             manuscriptids.push($(this).val());
                                         }));
 
-                                        if (manuscriptids.length > 0) {
+                                        alert('CopyEdit Status: ' + data['CopyEditStatus']);
+
+                                        @*if (manuscriptids.length > 0) {
                                             $.ajax({
                                                 url: "@Url.Action("_AddNewJobCoversheetView", "JobCoversheet")",
                                                 type: "POST",
@@ -627,7 +632,7 @@
                                             });
                                         }
                                         else
-                                            alert('No selected manuscript data.');
+                                            alert('No selected manuscript data.');*@
                                     },
                                     enabled: true
                                 },
@@ -1354,6 +1359,10 @@
             controls.toArray().forEach((dataItem) => {
                 dataItem.click();
             });
+        }
+
+        function oncheckManuscript(e) {
+            console.log(e);
         }
     </script>
 }
