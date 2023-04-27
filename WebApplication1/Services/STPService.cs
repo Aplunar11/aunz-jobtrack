@@ -98,7 +98,24 @@ namespace JobTrack.Services
                 command.Parameters.AddWithValue("@p_IsUpdateEBinder", model.IsUpdateEBinder.ToInt());
                 command.Parameters.AddWithValue("@p_CoversheetIDs", model.CoversheetIDs);
                 command.Parameters.AddWithValue("@p_SendToPrintStatus", model.SendToPrintStatus);
-                command.Parameters.AddWithValue("@p_Username", username);                
+                command.Parameters.AddWithValue("@p_Username", username);
+
+                command.Parameters.AddWithValue("@p_ConsoleHighlightStartDate", model.ConsoleHighlightStartDate);
+                command.Parameters.AddWithValue("@p_ConsoleHighlightEndDate", model.ConsoleHighlightEndDate);
+                command.Parameters.AddWithValue("@p_FilingInstructionStartDate", model.FilingInstructionStartDate);
+                command.Parameters.AddWithValue("@p_FilingInstructionEndDate", model.FilingInstructionEndDate);
+                command.Parameters.AddWithValue("@p_DummyFiling1StartDate", model.DummyFiling1StartDate);
+                command.Parameters.AddWithValue("@p_DummyFiling1EndDate", model.DummyFiling1EndDate);
+                command.Parameters.AddWithValue("@p_DummyFiling2StartDate", model.DummyFiling2StartDate);
+                command.Parameters.AddWithValue("@p_DummyFiling2EndDate", model.DummyFiling2EndDate);
+                command.Parameters.AddWithValue("@p_UECJStartDate", model.UECJStartDate);
+                command.Parameters.AddWithValue("@p_UECJEndDate", model.UECJEndDate);
+                command.Parameters.AddWithValue("@p_PC1PC2StartDate", model.PC1PC2StartDate);
+                command.Parameters.AddWithValue("@p_PC1PC2EndDate", model.PC1PC2EndDate);
+                command.Parameters.AddWithValue("@p_PostBackStartDate", model.PostBackStartDate);
+                command.Parameters.AddWithValue("@p_PostBackEndDate", model.PostBackEndDate);
+                command.Parameters.AddWithValue("@p_UpdateEBinderStartDate", model.UpdateEBinderStartDate);
+                command.Parameters.AddWithValue("@p_UpdateEBinderEndDate", model.UpdateEBinderEndDate);
 
                 if (model.ID > 0)
                 {

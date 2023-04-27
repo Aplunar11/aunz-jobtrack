@@ -3,14 +3,24 @@
 <div class="modal fade" id="modal-stp" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+
+            <!-- header -->
             <div class="modal-header" style="background-color:#009688;color:white">
-                <h5 class="modal-title" id="confirmModalLabel">Add New STP</h5>
+                <h5 class="modal-title" id="confirmModalLabel">STP Workbench</h5>
                 <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-            <div class="modal-body">
+            <!-- body -->
+            <div class="modal-body" style="height: calc(100vh - 190px); overflow-x: auto">
+                <div class="alert alert-danger fade show" id="ErrorMessage">
+                    <span>Required fields are missing.</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
                 <form id="formSTP">
                     <div class="row">
                         <div class="col-md">
@@ -55,7 +65,6 @@
                     </div>
 
                     <hr />
-
                     <div class="row">
                         <div class="col-md">
                             @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Job Owner", Name = "OwnerUserID", TempDataName = "JobOwners" })
@@ -70,14 +79,77 @@
                         </div>
                     </div>
 
+                    <hr />
+                    <center><h6>CALL TO ACTION</h6></center>
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Conso Highlight - Start Date", Name = "ConsoleHighlightStartDate", Value = Model.ConsoleHighlightStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Conso Highlight - Done Date", Name = "ConsoleHighlightEndDate", Value = Model.ConsoleHighlightEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Filing Instruction - Start Date", Name = "FilingInstructionStartDate", Value = Model.FilingInstructionStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Filing Instruction - Done Date", Name = "FilingInstructionEndDate", Value = Model.FilingInstructionEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 1 - Start Date", Name = "DummyFiling1StartDate", Value = Model.DummyFiling1StartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 1 - Done Date", Name = "DummyFiling1EndDate", Value = Model.DummyFiling1EndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 2 - Start Date", Name = "DummyFiling2StartDate", Value = Model.DummyFiling2StartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 2 - Done Date", Name = "DummyFiling2EndDate", Value = Model.DummyFiling2EndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "UECJ - Start Date", Name = "UECJStartDate", Value = Model.UECJStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "UECJ - Done Date", Name = "UECJEndDate", Value = Model.UECJEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "PC1/PC2 - Start Date", Name = "PC1PC2StartDate", Value = Model.PC1PC2StartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "PC1/PC2 - Done Date", Name = "PC1PC2EndDate", Value = Model.PC1PC2EndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="row">
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Update EBinder - Start Date", Name = "UpdateEBinderStartDate", Value = Model.UpdateEBinderStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Update EBinder - Done Date", Name = "UpdateEBinderEndDate", Value = Model.UpdateEBinderEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Post Back - Start Date", Name = "PostBackStartDate", Value = Model.PostBackStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Post Back - Done Date", Name = "PostBackEndDate", Value = Model.PostBackEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+
+                        </div>
+                    </div>
+
                     <input type="hidden" name="ID" value="@Model.ID" />
                     <input type="hidden" name="CoversheetIDs" value="@Model.CoversheetIDs" />
                     <input type="hidden" name="SendToPrintStatus" value="@Model.SendToPrintStatus" />
                 </form>
             </div>
 
+            <!-- footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="onclickSaveSTP();" id="btnSave">Save</button>
+                <button type="button" class="btn btn-success" onclick="onclickSaveSTP();" id="btnSave">Submit</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -86,6 +158,8 @@
 
 <script>
     $(document).ready(function () {
+        setupDefaultForm();
+
         $('#OwnerUserID').on("change", function () {
             let url = '@Url.Action("GetEmployeeEmail", "CodingSTP")' + '?id=' + encodeURIComponent($(this).val());
 
@@ -106,6 +180,41 @@
             $('#OwnerUserID').css('pointer-events', 'none');
             $('#OwnerUserID').css('background', '#e9ecef');
         }
+
+        let consoleHighlightStartDateDisabled = '@Model.ConsoleHighlightStartDate.HasValue' == 'True';
+        let consoleHighlightEndDateDisabled = '@Model.ConsoleHighlightEndDate.HasValue' == 'True' || ('@Model.ConsoleHighlightStartDate.HasValue' == 'False' && '@Model.ConsoleHighlightEndDate.HasValue' == 'False');
+        let filingInstructionStartDateDisabled = '@Model.FilingInstructionStartDate.HasValue' == 'True';
+        let filingInstructionEndDateDisabled = '@Model.FilingInstructionEndDate.HasValue' == 'True' || ('@Model.FilingInstructionStartDate.HasValue' == 'False' && '@Model.FilingInstructionEndDate.HasValue' == 'False');
+        let dummyFiling1StartDateDisabled = '@Model.DummyFiling1StartDate.HasValue' == 'True';
+        let dummyFiling1EndDateDisabled = '@Model.DummyFiling1EndDate.HasValue' == 'True' || ('@Model.DummyFiling1StartDate.HasValue' == 'False' && '@Model.DummyFiling1EndDate.HasValue' == 'False');
+        let dummyFiling2StartDateDisabled = '@Model.DummyFiling2StartDate.HasValue' == 'True';
+        let dummyFiling2EndDateDisabled = '@Model.DummyFiling2EndDate.HasValue' == 'True' || ('@Model.DummyFiling2StartDate.HasValue' == 'False' && '@Model.DummyFiling2EndDate.HasValue' == 'False');
+        let uECJStartDateDisabled = '@Model.UECJStartDate.HasValue' == 'True';
+        let uECJEndDateDisabled = '@Model.UECJEndDate.HasValue' == 'True' || ('@Model.UECJStartDate.HasValue' == 'False' && '@Model.UECJEndDate.HasValue' == 'False');
+        let pC1PC2StartDateDisabled = '@Model.PC1PC2StartDate.HasValue' == 'True';
+        let pC1PC2EndDateDisabled = '@Model.PC1PC2EndDate.HasValue' == 'True' || ('@Model.PC1PC2StartDate.HasValue' == 'False' && '@Model.PC1PC2EndDate.HasValue' == 'False');
+        let updateEBinderStartDateDisabled = '@Model.UpdateEBinderStartDate.HasValue' == 'True';
+        let updateEBinderEndDateDisabled = '@Model.UpdateEBinderEndDate.HasValue' == 'True' || ('@Model.UpdateEBinderStartDate.HasValue' == 'False' && '@Model.UpdateEBinderEndDate.HasValue' == 'False');
+        let postBackStartDateDisabled = '@Model.PostBackStartDate.HasValue' == 'True';
+        let postBackEndDateDisabled = '@Model.PostBackEndDate.HasValue' == 'True' || ('@Model.PostBackStartDate.HasValue' == 'False' && '@Model.PostBackEndDate.HasValue' == 'False');
+
+
+        $('#btnConsoleHighlightStartDate').prop('disabled', consoleHighlightStartDateDisabled);
+        $('#btnConsoleHighlightEndDate').prop('disabled', consoleHighlightEndDateDisabled);
+        $('#btnFilingInstructionStartDate').prop('disabled', filingInstructionStartDateDisabled);
+        $('#btnFilingInstructionEndDate').prop('disabled', filingInstructionEndDateDisabled);
+        $('#btnDummyFiling1StartDate').prop('disabled', dummyFiling1StartDateDisabled);
+        $('#btnDummyFiling1EndDate').prop('disabled', dummyFiling1EndDateDisabled);
+        $('#btnDummyFiling2StartDate').prop('disabled', dummyFiling2StartDateDisabled);
+        $('#btnDummyFiling2EndDate').prop('disabled', dummyFiling2EndDateDisabled);
+        $('#btnUECJStartDate').prop('disabled', uECJStartDateDisabled);
+        $('#btnUECJEndDate').prop('disabled', uECJEndDateDisabled);
+        $('#btnPC1PC2StartDate').prop('disabled', pC1PC2StartDateDisabled);
+        $('#btnPC1PC2EndDate').prop('disabled', pC1PC2EndDateDisabled);
+        $('#btnUpdateEBinderStartDate').prop('disabled', updateEBinderStartDateDisabled);
+        $('#btnUpdateEBinderEndDate').prop('disabled', updateEBinderEndDateDisabled);
+        $('#btnPostBackStartDate').prop('disabled', postBackStartDateDisabled);
+        $('#btnPostBackEndDate').prop('disabled', postBackEndDateDisabled);
     });
 
     function onclickSaveSTP() {
@@ -115,7 +224,7 @@
             if (response.IsSuccess) {
 
                 refreshTable('tblDataSTP');
-                alert('Adding of new STP has been successful.');
+                alert('Update successful.');
                 $('#modal-stp').modal('hide');
                 setTimeout(function () {
                     $('#btnNavProductSTP').click();
@@ -124,5 +233,38 @@
             else
                 alert("Error: " + response.ErrorMessage);
         });
+    }
+
+    function onclickDate(e) {
+        let inputId = e.id.replaceAll('btn', '');
+        $('#' + inputId).val(new Date().toISOString().split('T')[0]);
+
+        switch (inputId) {
+            case 'ConsoleHighlightStartDate':
+                $('#btnConsoleHighlightEndDate').prop('disabled', false); break
+
+            case 'FilingInstructionStartDate':
+                $('#btnFilingInstructionEndDate').prop('disabled', false); break
+
+            case 'DummyFiling1StartDate':
+                $('#btnDummyFiling1EndDate').prop('disabled', false); break
+
+            case 'DummyFiling2StartDate':
+                $('#btnDummyFiling2EndDate').prop('disabled', false); break
+
+            case 'UECJStartDate':
+                $('#btnUECJEndDate').prop('disabled', false); break
+
+            case 'PC1PC2StartDate':
+                $('#btnPC1PC2EndDate').prop('disabled', false); break
+
+            case 'UpdateEBinderStartDate':
+                $('#btnUpdateEBinderEndDate').prop('disabled', false); break
+
+            case 'PostBackStartDate':
+                $('#btnPostBackEndDate').prop('disabled', false); break
+        }
+
+        $('#' + e.id).prop('disabled', true);
     }
 </script>
