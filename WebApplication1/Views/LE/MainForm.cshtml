@@ -585,7 +585,7 @@
                     let rowData = c_row.data();
                     let dataNew = childTable.row(this).data();
 
-                    GotoControllerAsync('/Manuscript/_EditManuscriptLEView', 'GET', { id: dataNew['ManuscriptID'] }, false, 'html', function (response) {
+                    GotoControllerAsync('/Manuscript/_EditManuscriptDataView', 'POST', { id: dataNew['ManuscriptID'] }, false, 'html', function (response) {
                         $('#modalWrapper2').html(response);
                         $('#modal-manuscriptdata').modal('show');
                     });

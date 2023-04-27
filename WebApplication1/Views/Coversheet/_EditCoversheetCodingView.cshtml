@@ -221,9 +221,16 @@
         let inputId = e.id.replaceAll('btn', '');
         $('#' + inputId).val(new Date().toISOString().split('T')[0]);
 
-        $('#btnCodingDoneDate').prop('disabled', !(inputId == 'CodingStartDate'));
-        $('#btnPDFQCDoneDate').prop('disabled', !(inputId === 'PDFQCStartDate'));
-        $('#btnOnlineDoneDate').prop('disabled', !(inputId === 'OnlineStartDate'));
+        switch (inputId) {
+            case 'CodingStartDate':
+                $('#btnCodingDoneDate').prop('disabled', false); break
+
+            case 'PDFQCStartDate':
+                $('#btnPDFQCDoneDate').prop('disabled', false); break
+
+            case 'OnlineStartDate':
+                $('#btnOnlineDoneDate').prop('disabled', false); break
+        }
 
         $('#' + e.id).prop('disabled', true);
     }

@@ -1,4 +1,6 @@
-﻿using JobTrack.Models.JobCoversheet;
+﻿using JobTrack.Models;
+using JobTrack.Models.Coversheet;
+using JobTrack.Models.JobCoversheet;
 using JobTrack.Models.Manuscript;
 using JobTrack.Services.Interfaces;
 using MySql.Data.MySqlClient;
@@ -129,6 +131,48 @@ namespace JobTrack.Services
 
             var list = JsonConvert.DeserializeObject<List<ManuscriptData>>(JsonConvert.SerializeObject(dataTable));
             return await Task.FromResult(list.FirstOrDefault());
+        }
+
+        public async Task<JsonResultModel> UpdateManuscriptDataAsync(ManuscriptData model, string userName)
+        {
+            var storedProcedure = "UpdateManuscriptData";
+            var dataTable = new DataTable();
+            var result = new JsonResultModel();
+
+            try
+            {
+                dbConnection.Open();
+
+                using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@p_UserName", userName);
+                    command.Parameters.AddWithValue("@p_ManuscriptID", model.ManuscriptID);
+                    command.Parameters.AddWithValue("@p_Remarks", model.Remarks);
+                    command.Parameters.AddWithValue("@p_GuideCard", model.PEGuideCard);
+                    command.Parameters.AddWithValue("@p_RevisedOnlineDueDate", model.RevisedOnlineDueDate);
+                    command.Parameters.AddWithValue("@p_CopyEditStartDate", model.CopyEditStartDate);
+                    command.Parameters.AddWithValue("@p_CopyEditDoneDate", model.CopyEditDoneDate);
+                    command.Parameters.AddWithValue("@p_CopyEditStatus", model.CopyEditDoneDate.HasValue ? "Completed" : "New");
+                    command.Parameters.AddWithValue("@p_CodingStartDate", model.CodingStartDate);
+                    command.Parameters.AddWithValue("@p_CodingDoneDate", model.CodingDoneDate);
+                    command.Parameters.AddWithValue("@p_CodingStatus", model.CodingDoneDate.HasValue ? "Completed" : "New");
+                    command.Parameters.AddWithValue("@p_OnlineStartDate", model.OnlineStartDate);
+                    command.Parameters.AddWithValue("@p_OnlineDoneDate", model.OnlineDoneDate);
+                    command.Parameters.AddWithValue("@p_OnlineStatus", model.OnlineDoneDate.HasValue ? "Completed" : "New");
+
+                    var rowAffected = command.ExecuteNonQuery();
+                }
+
+                dbConnection.Close();
+                result.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+
+            return await Task.FromResult(result);
         }
     }
 }

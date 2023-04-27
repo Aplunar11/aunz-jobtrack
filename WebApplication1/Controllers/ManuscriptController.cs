@@ -33,16 +33,18 @@ namespace JobTrack.Controllers
             _manuscriptDataService = manuscriptDataService;
         }
 
-        public async Task<ActionResult> _EditManuscriptLEView(int id)
+        public async Task<ActionResult> _EditManuscriptDataView(int id)
         {
             var viewModel = await _manuscriptDataService.GetManuscriptByIdAsync(id);
             return PartialView(viewModel);
         }
 
-        public async Task<ActionResult> _EditManuscriptPEView(int id)
+        public async Task<ActionResult> UpdateManuscript(ManuscriptData model)
         {
-            var viewModel = await _manuscriptDataService.GetManuscriptByIdAsync(id);
-            return PartialView(viewModel);
+            var userName = (string)Session["UserName"];
+            var result = await _manuscriptDataService.UpdateManuscriptDataAsync(model, userName);
+
+            return Json(result);
         }
 
         [HttpGet]

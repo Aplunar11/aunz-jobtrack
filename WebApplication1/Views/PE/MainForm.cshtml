@@ -679,30 +679,21 @@
                     tr.addClass('shown');
                 }
 
+                // info icon
                 $('.child_table tbody').on('click', 'td.details-control1', function () {
                     var c_tr = $(this).closest('tr');
                     var c_row = childTable.row(c_tr);
                     var rowData = c_row.data();
                     var dataNew = childTable.row(this).data();
 
-                    $.ajax({
-                        "url": "@Url.Action("EditManuscript", "Manuscript")",
-                        /*url: "/Manuscript/EditPEManuscript",*/
-                        "contentType": "application/json; charset=utf-8",
-                        data: {
-                            manuscriptid: dataNew['ManuscriptID'],
-                            bpsproductid: dataNew['BPSProductID'],
-                            servicenumber: dataNew['ServiceNumber']
-                        },
-                        success: function (data) {
-                            $('#modalWrapper').html(data);
-                            $('#EditManuscriptModal').modal('show');
-
-                        }
+                    GotoControllerAsync('/Manuscript/_EditManuscriptDataView', 'POST', { id: dataNew['ManuscriptID'] }, false, 'html', function (response) {
+                        $('#modalWrapper2').html(response);
+                        $('#modal-manuscriptdata').modal('show');
                     });
                 });
 
-                $('.child_table tbody').off().on('click', 'td.details-control4', function () {
+                // query icon
+                $('.child_table tbody').on('click', 'td.details-control4', function () {
                     var c_tr = $(this).closest('tr');
                     var c_row = childTable.row(c_tr);
                     var rowData = c_row.data();

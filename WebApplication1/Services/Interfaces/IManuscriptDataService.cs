@@ -1,4 +1,5 @@
-﻿using JobTrack.Models.JobCoversheet;
+﻿using JobTrack.Models;
+using JobTrack.Models.JobCoversheet;
 using JobTrack.Models.Manuscript;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,7 @@ namespace JobTrack.Services.Interfaces
         Task<ManuscriptData> GetManuscriptDataMaxTurnAroundTimeAsync(JobCoversheetData model, string manuscriptIds);
 
         Task<ManuscriptData> GetManuscriptByIdAsync(int id);
+
+        Task<JsonResultModel> UpdateManuscriptDataAsync(ManuscriptData model, string userName);
     }
 }

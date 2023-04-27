@@ -39,13 +39,13 @@
                     <center><h6>STATUS</h6></center>
                     <div class="row">
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Copy - Due Date", Name = "CopyEditDueDate", Value = Model.CopyEditDueDate, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "CopyEdit - Due Date", Name = "CopyEditDueDate", Value = Model.CopyEditDueDate, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Copy - Start Date", Name = "CopyEditStartDate", Value = Model.CopyEditStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "CopyEdit - Start Date", Name = "CopyEditStartDate", Value = Model.CopyEditStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Copy - Done Date", Name = "CopyEditDoneDate", Value = Model.CopyEditDoneDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "CopyEdit - Done Date", Name = "CopyEditDoneDate", Value = Model.CopyEditDoneDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Copy - Status", Name = "CopyEditStatus", Value = Model.CopyEditStatus, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "CopyEdit - Status", Name = "CopyEditStatus", Value = Model.CopyEditStatus, IsReadOnly = true })
                         </div>
 
                         <div class="col-md">
@@ -86,19 +86,34 @@
     $(document).ready(function () {
         setupDefaultForm();
 
-        let copyEditDoneDateDisabled = '@Model.CopyEditStartDate.HasValue' == 'False';
-        let codingDoneDateDisabled = '@Model.CodingStartDate.HasValue' == 'False';
-        let onlineDoneDateDisabled = '@Model.OnlineStartDate.HasValue' == 'False';
+        let copyEditStartDateDisabled = '@Model.CopyEditStartDate.HasValue' == 'True';
+        let copyEditDoneDateDisabled = '@Model.CopyEditDoneDate.HasValue' == 'True' || ('@Model.CopyEditStartDate.HasValue' == 'False' && '@Model.CopyEditDoneDate.HasValue' == 'False');
+        let codingStartDateDisabled = '@Model.CodingStartDate.HasValue' == 'True';
+        let codingDoneDateDisabled = '@Model.CodingDoneDate.HasValue' == 'True' || ('@Model.CodingStartDate.HasValue' == 'False' && '@Model.CodingDoneDate.HasValue' == 'False');
+        let onlineStartDateDisabled = '@Model.OnlineStartDate.HasValue' == 'True';
+        let onlineDoneDateDisabled = '@Model.OnlineDoneDate.HasValue' == 'True' || ('@Model.OnlineStartDate.HasValue' == 'False' && '@Model.OnlineDoneDate.HasValue' == 'False');
 
+        $('#btnCopyEditStartDate').prop('disabled', copyEditStartDateDisabled);
         $('#btnCopyEditDoneDate').prop('disabled', copyEditDoneDateDisabled);
+        $('#btnCodingStartDate').prop('disabled', codingStartDateDisabled);
         $('#btnCodingDoneDate').prop('disabled', codingDoneDateDisabled);
+        $('#btnOnlineStartDate').prop('disabled', onlineStartDateDisabled);
         $('#btnOnlineDoneDate').prop('disabled', onlineDoneDateDisabled);
     });
 
     function onclickSubmitManuscriptData() {
         let isValid = validateForm('formManuscriptData');
         if (isValid) {
+            submitForm('formManuscriptData', '/Manuscript/UpdateManuscript', null, function (response) {
 
+                if (response.IsSuccess) {
+
+                    alert('Submit successful.');
+                    setTimeout(function () {
+                        window.location.reload();
+                    });
+                }
+            });
         }
     }
 
@@ -106,9 +121,16 @@
         let inputId = e.id.replaceAll('btn', '');
         $('#' + inputId).val(new Date().toISOString().split('T')[0]);
 
-        $('#btnCopyEditDoneDate').prop('disabled', !(inputId == 'CopyEditStartDate'));
-        $('#btnCodingDoneDate').prop('disabled', !(inputId === 'CodingStartDate'));
-        $('#btnOnlineDoneDate').prop('disabled', !(inputId === 'OnlineStartDate'));
+        switch (inputId) {
+            case 'CopyEditStartDate':
+                $('#btnCopyEditDoneDate').prop('disabled', false); break
+
+            case 'CodingStartDate':
+                $('#btnCodingDoneDate').prop('disabled', false); break
+
+            case 'OnlineStartDate':
+                $('#btnOnlineDoneDate').prop('disabled', false); break
+        }
 
         $('#' + e.id).prop('disabled', true);
     }
