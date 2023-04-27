@@ -101,6 +101,7 @@ namespace JobTrack.Controllers
             var jsonResult = new JsonResultModel();
             var fileResult = new JsonResultModel { IsSuccess = true };
             var currentUser = Session["UserName"] != null ? Session["UserName"].ToString() : "system";
+            var filePath = $@"C:\jobtrackaunz\stp\query";
 
             try
             {
@@ -116,13 +117,13 @@ namespace JobTrack.Controllers
                     // save file to directory
                     if (model.FileToUpload != null)
                     {
-                        fileResult = await WriteToFile($@"C:\jobtrackaunz\stp\{model.ID}\{model.FileToUpload.FileName}"
-                            , $@"C:\jobtrackaunz\stp\{model.ID}\"
+                        fileResult = await WriteToFile($@"{filePath}\{model.ID}\{model.FileToUpload.FileName}"
+                            , $@"{filePath}\{model.ID}\"
                             , model.FileToUpload.InputStream);
 
                         if (fileResult.IsSuccess)
                             model.FilePath = model.FileToUpload != null
-                                ? $@"C:\jobtrackaunz\stp\{model.ID}\{model.FileToUpload.FileName}"
+                                ? $@"{filePath}\{model.ID}\{model.FileToUpload.FileName}"
                                 : string.Empty;
 
                         var updatedData = await _querySTPService.UpdateQuerySTPAsync(model);
@@ -132,13 +133,13 @@ namespace JobTrack.Controllers
                 {
                     // save file to directory
                     if (model.FileToUpload != null)
-                        fileResult = await WriteToFile($@"C:\jobtrackaunz\stp\{model.ID}\{model.FileToUpload.FileName}"
-                            , $@"C:\jobtrackaunz\stp\{model.ID}\"
+                        fileResult = await WriteToFile($@"{filePath}\{model.ID}\{model.FileToUpload.FileName}"
+                            , $@"{filePath}\{model.ID}\"
                             , model.FileToUpload.InputStream);
 
                     if (fileResult.IsSuccess)
                         model.FilePath = model.FileToUpload != null
-                            ? $@"C:\jobtrackaunz\stp\{model.ID}\{model.FileToUpload.FileName}"
+                            ? $@"{filePath}\{model.ID}\{model.FileToUpload.FileName}"
                             : string.Empty;
 
                     var updatedData = await _querySTPService.UpdateQuerySTPAsync(model);
