@@ -172,7 +172,7 @@ namespace JobTrack.Services
             return await Task.FromResult(result);
         }
 
-        public async Task<JsonResultModel> UpdateCoversheetData(CoversheetData model, string userName, int userAccess)
+        public async Task<JsonResultModel> UpdateCoversheetDataAsync(CoversheetData model, string userName, int userAccess)
         {
             var result = new JsonResultModel();
             var storedProcedure = "UpdateCoversheetData";
@@ -215,6 +215,7 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_PDFQCDoneDate", model.PDFQCDoneDate);
                     command.Parameters.AddWithValue("@p_OnlineStartDate", model.OnlineStartDate);
                     command.Parameters.AddWithValue("@p_OnlineDoneDate", model.OnlineDoneDate);
+                    command.Parameters.AddWithValue("@p_AttachmentFile", model.AttachmentFile);
 
                     var reader = command.ExecuteReader();
                     dataTable.Load(reader);
@@ -233,7 +234,7 @@ namespace JobTrack.Services
             return await Task.FromResult(result);
         }
 
-        public async Task<JsonResultModel> UpdateSubsequentPass(CoversheetData model, string userName)
+        public async Task<JsonResultModel> UpdateSubsequentPassAsync(CoversheetData model, string userName)
         {
             var result = new JsonResultModel();
             var storedProcedure = "UpdateSubsequentPass";

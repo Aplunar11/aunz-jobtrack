@@ -145,6 +145,20 @@
                             @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "PDF QC - Done Date", Name = "PDFQCDoneDate", Value = Model.PDFQCDoneDate, IsReadOnly = true })
 
                             @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Completion Email Template", Name = "CompletionEmailTemplate", Value = Model.CompletionEmailTemplate, IsReadOnly = true })
+
+                            <!-- attachment -->
+                            <div class="form-group">
+                                <label>ATTACHMENT (pdf, word, excel, csv, jpeg, png, txt)</label>
+                                <input type="file"
+                                       class="form-control"
+                                       style="font-size: 12px"
+                                       onchange="removeRedError(this)"
+                                       errorid="error-text-modal"
+                                       name="FileToUpload"
+                                       id="FileToUpload"
+                                       accept=".pdf, .xlsx, .xls, .txt, .docx, .csv, .jpeg, .jpg, .png"
+                                       value="@Model.AttachmentFile"/>
+                            </div>
                         </div>
                     </div>
 
@@ -202,16 +216,18 @@
     function onclickSubmit() {
         let isValid = validateForm('formCoversheet');
         if (isValid) {
-            submitForm('formCoversheet', '/Coversheet/EditCoversheetData'
-                , null
+
+            submitFormWithFiles('formCoversheet'
+                , '/Coversheet/EditCoversheetData'
+                , 'FileToUpload'
                 , function (response) {
 
-                if (response.IsSuccess) {
-                    window.location.reload();
-                }
-                else
-                    alert("Error: " + response.ErrorMessage);
-            });
+                    if (response.IsSuccess) {
+                        window.location.reload();
+                    }
+                    else
+                        alert("Error: " + response.ErrorMessage);
+                });
         }
     }
 

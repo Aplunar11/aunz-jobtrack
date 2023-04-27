@@ -58,6 +58,33 @@ function submitForm(formId, link, objData, callback) {
         });
 }
 
+function submitFormWithFiles(formId, link, fileId, callback) {
+    // append file input
+    let formData = new FormData();
+    formData.append(fileId, $("#" + fileId)[0].files[0]);
+
+    // append other input data
+    let serialized = $('#' + formId).serializeArray();
+    $(serialized).each(function (index, obj) {
+        formData.append(obj.name, obj.value == "on" ? true : obj.value);
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: link,
+        data: formData,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        success: function (response) {
+
+            if (callback != null && typeof callback == 'function') {
+                callback(response);
+            }
+        }
+    });
+}
+
 function refreshTable(tableId) {
     $('#' + tableId).DataTable().ajax.reload();
 }

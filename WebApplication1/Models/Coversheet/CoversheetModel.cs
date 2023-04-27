@@ -206,5 +206,9 @@ namespace JobTrack.Models.Coversheet
         public int? JobOwnerID { get; set; }
 
         public bool IsOnline { get; set; }
+
+        public string AttachmentFile { get; set; }
+
+        public HttpPostedFileBase FileToUpload { get; set; }
     }
 }

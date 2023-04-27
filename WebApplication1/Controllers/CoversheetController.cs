@@ -13,6 +13,7 @@ using JobTrack.Services.Interfaces;
 using JobTrack.Models.JobCoversheet;
 using JobTrack.Models.Enums;
 using JobTrack.Models;
+using System.IO;
 
 namespace JobTrack.Controllers
 {
@@ -106,10 +107,22 @@ namespace JobTrack.Controllers
         {
             var userName = (string)Session["UserName"];
             var result = new JsonResultModel();
+            var filePath = $@"C:\Jobtrackaunz\coversheet\data";
 
             try
             {
-                result = await _coversheetService.UpdateCoversheetData(model, userName, (int)userAccess);
+                if (model.FileToUpload != null)
+                {
+                    var fileResult = await WriteToFile($@"{filePath}\{model.CoversheetID}\{model.FileToUpload.FileName}"
+                            , $@"{filePath}\{model.CoversheetID}\"
+                            , model.FileToUpload.InputStream);
+
+                    model.AttachmentFile = fileResult.IsSuccess
+                        ? $@"{filePath}\{model.CoversheetID}\{model.FileToUpload.FileName}"
+                        : string.Empty;
+                }
+
+                result = await _coversheetService.UpdateCoversheetDataAsync(model, userName, (int)userAccess);
             }
             catch (Exception ex)
             {
@@ -1103,9 +1116,36 @@ namespace JobTrack.Controllers
         public async Task<ActionResult> UpdateSubsequentPass(CoversheetData viewModel)
         {
             var userName = (string)Session["UserName"];
-            var result = await _coversheetService.UpdateSubsequentPass(viewModel, userName);
+            var result = await _coversheetService.UpdateSubsequentPassAsync(viewModel, userName);
 
             return Json(result);
+        }
+
+        private async Task<JsonResultModel> WriteToFile(string destinationFile, string destinationPath, Stream stream)
+        {
+            var result = new JsonResultModel();
+
+            try
+            {
+                if (!Directory.Exists(destinationPath))
+                {
+                    Directory.CreateDirectory(destinationPath);
+                }
+
+                var fileStream = new FileStream(destinationFile, FileMode.Create, FileAccess.Write);
+                stream.Position = 0;
+                stream.CopyTo(fileStream);
+                fileStream.Dispose();
+
+                result.Collection = destinationFile;
+                result.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+            }
+
+            return await Task.FromResult(result);
         }
     }
 }

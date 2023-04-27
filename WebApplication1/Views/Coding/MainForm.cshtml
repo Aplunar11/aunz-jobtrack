@@ -506,6 +506,10 @@
                         columnDefs: [
                             { "className": "dt-center", "targets": "_all" },
                             {
+                                targets: [2],
+                                visible: false
+                            },
+                            {
                                 targets: [12, 13, 14, 15, 16, 17, 18, 19],
                                 render: function (rowData) {
                                     return moment(rowData).format('YYYY/MM/DD');
