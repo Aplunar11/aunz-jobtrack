@@ -173,5 +173,17 @@ namespace JobTrack.Controllers
         //    dbConnection.Close();
         //    return Json(mdata, JsonRequestBehavior.AllowGet);
         //}
+
+        public async Task<ActionResult> HistoryTrail()
+        {
+            // relogin for new session
+            if (Session["UserName"] == null)
+            {
+                TempData["alertMessage"] = "You must log in to continue";
+                return RedirectToAction("Login", "Login");
+            }
+
+            return View();
+        }
     }
 }

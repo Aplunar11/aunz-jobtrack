@@ -5802,6 +5802,7 @@
     <Content Include="Views\JobReassignment\_EditJobReassignmentView.cshtml" />
     <Content Include="Views\Shared\_SidebarPE.cshtml" />
     <Content Include="Views\Manuscript\_EditManuscriptDataView.cshtml" />
+    <Content Include="Views\LE\HistoryTrail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
