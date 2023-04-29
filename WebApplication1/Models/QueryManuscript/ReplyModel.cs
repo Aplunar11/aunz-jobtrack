@@ -43,6 +43,8 @@ namespace JobTrack.Models.QueryManuscript
 
         public bool IsReplied { get; set; }
 
+        public int PreviousStatusID { get; set; }
+
         public List<ReplyModel> Replies { get; set; }
 
         public ReplyModel()

@@ -25,6 +25,6 @@ namespace JobTrack.Services.Interfaces
 
         Task<bool> UpdateCoverReplyAsync(ReplyModel model);
 
-        Task<bool> UpdateQueryCoversheetStatusAsync(ReplyModel model);
+        Task<bool> UpdateQueryCoversheetStatusAsync(ReplyModel model, bool isStatusChanged);
     }
 }

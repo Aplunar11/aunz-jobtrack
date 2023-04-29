@@ -169,7 +169,7 @@ namespace JobTrack.Controllers
             var isSuccess = await _querySTPService.UpdateSTPReplyAsync(model);
 
             if (isSuccess)
-                isSuccess = await _querySTPService.UpdateQuerySTPStatusAsync(model);
+                isSuccess = await _querySTPService.UpdateQuerySTPStatusAsync(model, model.PreviousStatusID != model.STPStatusID);
 
             return Json(new { success = isSuccess });
         }

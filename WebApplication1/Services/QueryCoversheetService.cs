@@ -214,7 +214,7 @@ namespace JobTrack.Services
             return await Task.FromResult(isSuccess);
         }
     
-        public async Task<bool> UpdateQueryCoversheetStatusAsync(ReplyModel model)
+        public async Task<bool> UpdateQueryCoversheetStatusAsync(ReplyModel model, bool isStatusChanged)
         {
             var isSuccess = false;
             var storedProcedure = "UpdateQueryCoversheetStatus";
@@ -230,6 +230,7 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_coversheet_id", model.CoversheetID);
                     command.Parameters.AddWithValue("@p_coverstatus_id", model.CoverStatusID);
                     command.Parameters.AddWithValue("@p_repliedby", model.PostedBy);
+                    command.Parameters.AddWithValue("@p_is_statuschanged", isStatusChanged);
 
                     int rowAffected = command.ExecuteNonQuery();
                 }

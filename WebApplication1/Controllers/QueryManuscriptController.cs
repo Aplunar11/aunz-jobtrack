@@ -185,7 +185,7 @@ namespace JobTrack.Controllers
             var isSuccess = await _queryManuscriptService.UpdateQueryReplyAsync(model);
 
             if (isSuccess)
-                isSuccess = await _queryManuscriptService.UpdateQueryManuscriptStatusAsync(model);
+                isSuccess = await _queryManuscriptService.UpdateQueryManuscriptStatusAsync(model, model.PreviousStatusID != model.QueryStatusID);
 
             return Json(new { success = isSuccess });
         }

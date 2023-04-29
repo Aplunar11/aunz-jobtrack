@@ -1,0 +1,68 @@
+﻿@model JobTrack.Models.HistoryTrailModel
+
+<table class="table table-bordered table-striped" id="tblHistory">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Job ID</th>
+            <th>Transaction Date</th>
+            <th style="width: 500px">Transactions</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+</table>
+
+<script>
+    $(document).ready(function () {
+        getHistoryData('tblHistory');
+    });
+
+    function getHistoryData(tableId) {
+        $('#' + tableId).DataTable({
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            searching: true,
+            responsive: true,
+            //serverSide: true,
+            autoWidth: false,
+            paging: true,
+            bFilter: true,
+            bSort: true,
+            bPaginate: true,
+            dom: 'Bfrtip',
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+
+            ajax: {
+                url: '/HistoryTrail/GetHistoryTrailByJob',
+                type: 'POST',
+                dataType: 'json',
+                data: function (d) {
+                    d.ID = @Model.ID;
+                    d.JobType = @((int)Model.JobType);
+                },
+                dataSrc: function (data) {
+                    return data.Collection;
+                }
+            },
+            order: [[0, 'desc']],
+            columns: [
+                { data: 'ID' },
+                { data: 'JobNumber' },
+                { data: 'TransactionDate' },
+                { data: 'Transactions' },
+                { data: 'NewValue' }
+            ],
+            columnDefs: [
+                {
+                    targets: [0],
+                    visible: false
+                },
+                {
+                    targets: [2],
+                    render: function (data) {
+                        return moment(data).format('YYYY/MM/DD');
+                    }
+                },
+            ]
+        });
+    }
+</script>

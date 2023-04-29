@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobTrack.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,5 +21,7 @@ namespace JobTrack.Models
         public DateTime DateCreated { get; set; }
 
         public int CreatedEmployeeID { get; set; }
+
+        public JobTypeEnum JobType { get; set; }
     }
 }

@@ -176,7 +176,7 @@ namespace JobTrack.Controllers
             var isSuccess = await _queryCoversheetService.UpdateCoverReplyAsync(model);
 
             if (isSuccess)
-                isSuccess = await _queryCoversheetService.UpdateQueryCoversheetStatusAsync(model);
+                isSuccess = await _queryCoversheetService.UpdateQueryCoversheetStatusAsync(model, model.PreviousStatusID != model.CoverStatusID);
             
             return Json(new { success = isSuccess });
         }

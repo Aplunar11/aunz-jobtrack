@@ -242,7 +242,7 @@ namespace JobTrack.Services
             return await Task.FromResult(list.FirstOrDefault());
         }
 
-        public async Task<bool> UpdateQueryManuscriptStatusAsync(ReplyModel model)
+        public async Task<bool> UpdateQueryManuscriptStatusAsync(ReplyModel model, bool isStatusChanged)
         {
             var isSuccess = false;
             var storedProcedure = "UpdateQueryManuscriptStatus";
@@ -258,6 +258,7 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_job_id", model.ManuscriptID);
                     command.Parameters.AddWithValue("@p_querystatus_id", model.QueryStatusID);
                     command.Parameters.AddWithValue("@p_repliedby", model.PostedBy);
+                    command.Parameters.AddWithValue("@p_is_statuschanged", isStatusChanged);
 
                     int rowAffected = command.ExecuteNonQuery();
                 }

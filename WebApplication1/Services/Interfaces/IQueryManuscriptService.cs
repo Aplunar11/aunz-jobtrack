@@ -24,6 +24,6 @@ namespace JobTrack.Services.Interfaces
 
         Task<ManuscriptDataModel> GetManuscriptDetailsByIdAsync(int id);
 
-        Task<bool> UpdateQueryManuscriptStatusAsync(ReplyModel model);
+        Task<bool> UpdateQueryManuscriptStatusAsync(ReplyModel model, bool isStatusChanged);
     }
 }

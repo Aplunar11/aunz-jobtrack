@@ -25,6 +25,6 @@ namespace JobTrack.Services.Interfaces
 
         Task<QuerySTPModel> GetQuerySTPByIdAsync(int id);
 
-        Task<bool> UpdateQuerySTPStatusAsync(ReplyModel model);
+        Task<bool> UpdateQuerySTPStatusAsync(ReplyModel model, bool isStatusChanged);
     }
 }

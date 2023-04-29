@@ -3,6 +3,7 @@ using JobTrack.Models.Enums;
 using JobTrack.Models.JobCoversheet;
 using JobTrack.Models.QuerySTP;
 using JobTrack.Services.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,8 @@ namespace JobTrack.Controllers
             , IJobDashboardService jobDashboardService
             , ICoversheetService coversheetService
             , IEmployeeService employeeService
-            , INotificationService notificationService)
+            , INotificationService notificationService
+            , IHistoryTrailService historyTrailService)
         {
             _sTPService = sTPService;
             _querySTPService = querySTPService;
