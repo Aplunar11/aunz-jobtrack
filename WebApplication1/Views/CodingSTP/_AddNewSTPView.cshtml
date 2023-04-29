@@ -78,12 +78,13 @@
 
 <script>
     function onclickSaveSTP() {
-        submitForm('formSTP', '/CodingSTP/AddNewSTP', null, function (response) {
-            console.log('response: ', response);
+        submitForm('formSTP', '/CodingSTP/UpdateSTP', null, function (response) {
+            //console.log('response: ', response);
 
             if (response.IsSuccess) {
 
-                alert('Adding of new STP has been successful.');
+                refreshTable('tblDataSTP');
+                alert('Added successful.');
                 $('#modal-stp').modal('hide');
                 setTimeout(function () {
                     $('#btnNavProductSTP').click();

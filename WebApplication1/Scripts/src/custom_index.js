@@ -86,7 +86,8 @@ function submitFormWithFiles(formId, link, fileId, callback) {
 }
 
 function refreshTable(tableId) {
-    $('#' + tableId).DataTable().ajax.reload();
+    if ($('#' + tableId).length > 0)
+        $('#' + tableId).DataTable().ajax.reload();    
 }
 
 function onclickRedirectToReply(model) {

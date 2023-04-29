@@ -113,7 +113,7 @@ namespace JobTrack.Controllers
             return PartialView(model);
         }
 
-        public async Task<ActionResult> AddNewSTP(STPDataModel model)
+        public async Task<ActionResult> UpdateSTP(STPDataModel model)
         {
             var result = new JsonResultModel();
             var username = (string)Session["UserName"];

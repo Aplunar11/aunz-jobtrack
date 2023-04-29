@@ -66,11 +66,12 @@ namespace JobTrack.Controllers
         {
             var result = new JsonResultModel();
             var userName = (string)Session["UserName"];
+            var userAccess = (string)Session["UserAccess"];
 
             try
             {
                 if (model.NewOwner != model.ValueAfter)
-                    result.IsSuccess = await _jobReassignmentService.UpdateJobReassignment(model, userName);
+                    result.IsSuccess = await _jobReassignmentService.UpdateJobReassignmentAsync(model, userName, userAccess.ToUserAccessEnum());
 
                 result.IsSuccess = true;
             }

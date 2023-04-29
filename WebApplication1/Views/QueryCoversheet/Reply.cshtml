@@ -45,18 +45,18 @@
 
                                         <label><b>Cover Status: </b></label> &nbsp;
                                         @*<div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-outline-secondary" style="width: 100px; border-radius: 0" hidden id="label-open">
-                                    <input type="radio" name="CoverStatusID" value="1" /> Open
-                                </label>
+                            <label class="btn btn-outline-secondary" style="width: 100px; border-radius: 0" hidden id="label-open">
+                                <input type="radio" name="CoverStatusID" value="1" /> Open
+                            </label>
 
-                                <label class="btn btn-outline-danger" style="width: 100px" onclick="onclickStatus('cancel')">
-                                    <input type="radio" name="CoverStatusID" value="2" id="input-cancel" /> Cancel
-                                </label>
+                            <label class="btn btn-outline-danger" style="width: 100px" onclick="onclickStatus('cancel')">
+                                <input type="radio" name="CoverStatusID" value="2" id="input-cancel" /> Cancel
+                            </label>
 
-                                <label class="btn btn-outline-success" style="width: 100px; border-radius: 0" onclick="onclickStatus('close')">
-                                    <input type="radio" name="CoverStatusID" value="3" id="input-close" /> Close
-                                </label>
-                            </div>*@
+                            <label class="btn btn-outline-success" style="width: 100px; border-radius: 0" onclick="onclickStatus('close')">
+                                <input type="radio" name="CoverStatusID" value="3" id="input-close" /> Close
+                            </label>
+                        </div>*@
 
                                         <!-- button select -->
                                         <button type="button" class="btn btn-outline-secondary" onclick="onclickStatus('open');" id="btn-open" hidden>Open</button>
@@ -86,6 +86,7 @@
 
                         <input type="hidden" name="QueryID" value="@Model.QueryID" />
                         <input type="hidden" name="IsReplied" value="@Model.IsReplied" />
+                        <input type="hidden" name="CoversheetID" value="@Model.CoversheetID" />
                     </form>
 
                     @if (Model.Replies.Count > 0)

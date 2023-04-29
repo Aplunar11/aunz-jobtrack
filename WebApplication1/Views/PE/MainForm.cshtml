@@ -613,26 +613,20 @@
                                             manuscriptids.push($(this).val());
                                         }));
 
-                                        alert('CopyEdit Status: ' + data['CopyEditStatus']);
+                                        if (manuscriptids.length > 0) {
+                                            let obj = {
+                                                manuscriptids: manuscriptids.join(','),
+                                                bpsproductid: data['BPSProductID'],
+                                                serviceno: data['ServiceNumber']
+                                            };
 
-                                        @*if (manuscriptids.length > 0) {
-                                            $.ajax({
-                                                url: "@Url.Action("_AddNewJobCoversheetView", "JobCoversheet")",
-                                                type: "POST",
-                                                dataType: "html",
-                                                data: {
-                                                    manuscriptids: manuscriptids.join(','),
-                                                    bpsproductid: data['BPSProductID'],
-                                                    serviceno: data['ServiceNumber']
-                                                },
-                                                success: function (response) {
-                                                    $('#modalWrapper').html(response);
-                                                    $('#modal-jobcoversheet').modal('show');
-                                                }
+                                            GotoControllerAsync('/JobCoversheet/_AddNewJobCoversheetView', 'POST', obj, false, 'html', function (response) {
+                                                $('#modalWrapper').html(response);
+                                                $('#modal-jobcoversheet').modal('show');
                                             });
                                         }
                                         else
-                                            alert('No selected manuscript data.');*@
+                                            alert('No selected manuscript data.');
                                     },
                                     enabled: true
                                 },
@@ -955,20 +949,16 @@
                                         //console.log('coversheetids: ', coversheetids);
 
                                         if (coversheetids.length > 0) {
-                                            $.ajax({
-                                                url: "@Url.Action("_AddNewSTPView", "CodingSTP")",
-                                                type: "POST",
-                                                dataType: "html",
-                                                data: {
-                                                    coversheetids: coversheetids.join(','),
-                                                    bpsproductid: data['BPSProductID'],
-                                                    serviceno: data['ServiceNumber'],
-                                                    userAccessType: 3   // Straive(PE)
-                                                },
-                                                success: function (response) {
-                                                    $('#modalWrapper').html(response);
-                                                    $('#modal-stp').modal('show');
-                                                }
+                                            let obj = {
+                                                coversheetids: coversheetids.join(','),
+                                                bpsproductid: data['BPSProductID'],
+                                                serviceno: data['ServiceNumber'],
+                                                userAccessType: 3   // Straive(PE)
+                                            };
+
+                                            GotoControllerAsync('/CodingSTP/_AddNewSTPView', 'POST', obj, false, 'html', function (response) {
+                                                $('#modalWrapper').html(response);
+                                                $('#modal-stp').modal('show');
                                             });
                                         }
                                         else

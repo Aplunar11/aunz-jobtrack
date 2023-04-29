@@ -78,7 +78,7 @@ namespace JobTrack.Services
             return await Task.FromResult(list);
         }
 
-        public async Task<bool> UpdateJobReassignment(JobReassignmentModel model, string userName)
+        public async Task<bool> UpdateJobReassignmentAsync(JobReassignmentModel model, string userName, UserAccessEnum userAccess)
         {
             var storedProcedure = "UpdateJobReassignment";
             var isSuccess = false;
@@ -92,8 +92,10 @@ namespace JobTrack.Services
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@p_UserName", userName);
                     command.Parameters.AddWithValue("@p_TransactionLogID", model.TransactionLogID);
+                    command.Parameters.AddWithValue("@p_TransactionLogIdentity", model.TransactionLogIdentity);
                     command.Parameters.AddWithValue("@p_ValueBefore", model.ValueAfter);
                     command.Parameters.AddWithValue("@p_ValueAfter", model.NewOwner);
+                    command.Parameters.AddWithValue("@p_UserAccess", (int)userAccess);
 
                     int rowAffected = command.ExecuteNonQuery();
                 }
