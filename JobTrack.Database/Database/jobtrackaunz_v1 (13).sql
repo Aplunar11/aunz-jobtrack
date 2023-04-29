@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2023 at 11:10 AM
+-- Generation Time: Apr 29, 2023 at 09:00 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -133,6 +133,18 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllHistoryTrail` ()   BEGIN
 	SELECT * FROM HistoryTrail ORDER BY ID DESC;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllHistoryTrailByJob` (`p_JobID` INT, `p_JobTypeID` INT)   BEGIN
+	SELECT * 
+    FROM HistoryTrail 
+    WHERE JobNumber = p_JobID 
+    AND
+		CASE
+			WHEN p_JobTypeID = 1 THEN JobTypeID IN (1, 4)
+			WHEN p_JobTypeID = 2 THEN JobTypeID IN (2, 5)
+            ELSE JobTypeID = 3
+		END;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllJobCoversheetData` ()   BEGIN
@@ -1296,6 +1308,7 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertCoversheet` (`p_Username` VARCHAR(45), `p_CoversheetNumber` VARCHAR(200), `p_BPSProductID` VARCHAR(50), `p_ServiceNumber` VARCHAR(100), `p_TaskNumber` VARCHAR(100), `p_CoversheetTier` VARCHAR(50), `p_Editor` VARCHAR(100), `p_ChargeCode` VARCHAR(100), `p_TargetPressDate` DATETIME, `p_TaskType` VARCHAR(50), `p_GuideCard` VARCHAR(500), `p_LocationOfManuscript` VARCHAR(500), `p_UpdateType` VARCHAR(50), `p_GeneralLegRefCheck` VARCHAR(45), `p_GeneralTOC` VARCHAR(45), `p_GeneralTOS` VARCHAR(45), `p_GeneralReprints` VARCHAR(45), `p_GeneralFascicleInsertion` VARCHAR(45), `p_GeneralGraphicLink` VARCHAR(45), `p_GeneralGraphicEmbed` VARCHAR(45), `p_GeneralHandtooling` VARCHAR(45), `p_GeneralNonContent` VARCHAR(45), `p_GeneralSamplePages` VARCHAR(45), `p_GeneralComplexTask` VARCHAR(45), `p_FurtherInstruction` VARCHAR(2000), `p_CodingDueDate` DATETIME, `p_IsXMLEditing` VARCHAR(50), `p_OnlineDueDate` DATETIME, `p_IsOnline` VARCHAR(50), `p_ManuscriptID` VARCHAR(45))   BEGIN
 	DECLARE p_EmployeeID INT;
     DECLARE p_LatestTaskNumber INT;
+    DECLARE p_NewTaskID INT;
     
     -- get employee ID
 	SELECT ID INTO p_EmployeeID FROM employee WHERE Username = p_Username;
@@ -1378,11 +1391,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertCoversheet` (`p_Username` VAR
             , p_EmployeeID
             , p_ManuscriptID);
             
+		SELECT last_insert_id() INTO p_NewTaskID;
+            
 		-- UPDATE HISTORY
         CALL UpdateHistoryTrail(p_Username
-			, LAST_INSERT_ID()
-			, CONCAT('New Task [', p_TaskNumber, '] has been creaded by [', p_Username, '].')
-            , "New");
+			, p_NewTaskID
+			, CONCAT('New Coversheet No. [', p_CoversheetNumber, '] has been added by [', p_Username ,'].')
+            , "New"
+            , 2);
     END IF;
 END$$
 
@@ -1392,6 +1408,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertJob` (`p_Username` VARCHAR(45
 	DECLARE p_RealUpdateType varchar(50);
 	DECLARE p_JobNumber INT(8);
     DECLARE p_newJobID INT;
+    DECLARE p_newManuscriptID INT;
       
 	SELECT ID INTO p_EmployeeID FROM Employee   
 	WHERE Username = p_Username;
@@ -1430,7 +1447,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertJob` (`p_Username` VARCHAR(45
             , CURRENT_TIMESTAMP
             , p_EmployeeID);
             
-		-- get new job data ID
+		-- get new ID (Job)
         SELECT LAST_INSERT_ID() INTO p_newJobID;
 
 		-- update 8 character JobNumber of the last row based on "LAST_INSERT_ID" = JobID
@@ -1439,8 +1456,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertJob` (`p_Username` VARCHAR(45
         -- UPDATE HISTORY
         CALL UpdateHistoryTrail(p_Username
 			, p_newJobID
-			, CONCAT('New Job ID [', LAST_INSERT_ID(), ']  has been added.') 
-            , "New");
+			, CONCAT('New Job ID [', LAST_INSERT_ID(), '] has been created by [', p_Username ,'].') 
+            , "New"
+            , null);
 
 		INSERT INTO manuscriptdata(JobNumber
 			, ManuscriptTier
@@ -1484,6 +1502,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertJob` (`p_Username` VARCHAR(45
             , p_EmployeeID
             , CURRENT_TIMESTAMP
 			, p_EmployeeID);
+            
+		-- get new ID (Manuscript)
+        SELECT LAST_INSERT_ID() INTO p_newManuscriptID;
+            
+		-- UPDATE HISTORY
+        CALL UpdateHistoryTrail(p_Username
+			, p_newManuscriptID
+			, CONCAT('New Manuscript ID [', p_newManuscriptID, '] has been added to Job ID [', p_newJobID, '] by [', p_Username ,'].')
+            , "New"
+            , 1);
 	END IF;
 COMMIT;
 END$$
@@ -1491,6 +1519,7 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertJobCoversheet` (`p_Username` VARCHAR(45), `p_CoversheetNumber` VARCHAR(200), `p_BPSProductID` VARCHAR(50), `p_ServiceNumber` VARCHAR(100), `p_TaskNumber` VARCHAR(100), `p_CoversheetTier` VARCHAR(50), `p_Editor` VARCHAR(100), `p_ChargeCode` VARCHAR(100), `p_TargetPressDate` DATETIME, `p_TaskType` VARCHAR(50), `p_GuideCard` VARCHAR(500), `p_LocationOfManuscript` VARCHAR(500), `p_UpdateType` VARCHAR(50), `p_GeneralLegRefCheck` VARCHAR(45), `p_GeneralTOC` VARCHAR(45), `p_GeneralTOS` VARCHAR(45), `p_GeneralReprints` VARCHAR(45), `p_GeneralFascicleInsertion` VARCHAR(45), `p_GeneralGraphicLink` VARCHAR(45), `p_GeneralGraphicEmbed` VARCHAR(45), `p_GeneralHandtooling` VARCHAR(45), `p_GeneralNonContent` VARCHAR(45), `p_GeneralSamplePages` VARCHAR(45), `p_GeneralComplexTask` VARCHAR(45), `p_FurtherInstruction` VARCHAR(2000), `p_CodingDueDate` DATETIME, `p_IsXMLEditing` BIT, `p_OnlineDueDate` DATETIME, `p_IsOnline` BIT, `p_ManuscriptID` VARCHAR(45))   BEGIN
 	DECLARE p_EmployeeID INT;
     DECLARE p_NewJobCoversheetID INT;
+    DECLARE p_NewTaskID INT;
     
     -- get employee id
 	SELECT ID INTO p_EmployeeID FROM employee   
@@ -1525,6 +1554,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertJobCoversheet` (`p_Username` 
             , p_EmployeeID);
 		
         SELECT LAST_INSERT_ID() INTO p_NewJobCoversheetID;
+        
+        -- UPDATE HISTORY
+        -- CALL UpdateHistoryTrail(p_Username
+		-- 	, p_NewJobCoversheetID
+		-- 	, CONCAT('New Job Coversheet ID [', p_NewJobCoversheetID, '] has been added.')
+        --  , "New"
+		--  , null);
 
 		INSERT INTO coversheetdata(CoversheetNumber
 			, BPSProductID
@@ -1596,11 +1632,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertJobCoversheet` (`p_Username` 
             , p_EmployeeID
             , p_ManuscriptID);
             
+		SELECT LAST_INSERT_ID() INTO p_NewTaskID;
+            
 		-- UPDATE HISTORY
         CALL UpdateHistoryTrail(p_Username
-			, p_NewJobCoversheetID
-			, CONCAT('New Job Coversheet ID [', p_NewJobCoversheetID, '] and Task [', p_TaskNumber ,'] has been added by [', p_Username, '].')
-            , "New");
+			, p_NewTaskID
+			, CONCAT('New Coversheet No [', p_CoversheetNumber ,'] has been created by [', p_Username ,'].')
+            , "New"
+            , 2);
     END IF;
 END$$
 
@@ -1747,8 +1786,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertManuscript` (`p_Username` VAR
 		-- UPDATE HISTORY
         CALL UpdateHistoryTrail(p_Username
 			, LAST_INSERT_ID()
-			, CONCAT('New Manuscript ID [', LAST_INSERT_ID(), ']  has been added to Job ID [', p_JobNumber, '].')
-            , "New");
+			, CONCAT('New Manuscript ID [', LAST_INSERT_ID(), ']  has been added to Job ID [', p_JobNumber, '] by [', p_Username ,'].')
+            , "New"
+            , 1);
 	END IF;
 END$$
 
@@ -1862,7 +1902,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertSendToPrint` (`p_SendToPrintN
         CALL UpdateHistoryTrail(p_Username
 			, p_NewSTPID
 			, CONCAT('New STP ID [', p_NewSTPID, '] has been created by [', p_Username, '].')
-            , "New");
+            , "New"
+            , 3);
         
 		SELECT p_NewSTPID as 'ID';
 	END IF;
@@ -2074,7 +2115,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateEmployee` (`p_ID` INT(11), `p
 	SELECT p_ID as 'ID';
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateHistoryTrail` (`p_Username` VARCHAR(128), `p_JobNumber` INT(8), `p_Transactions` VARCHAR(128), `p_NewValue` VARCHAR(128))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateHistoryTrail` (`p_Username` VARCHAR(128), `p_JobNumber` INT(8), `p_Transactions` VARCHAR(128), `p_NewValue` VARCHAR(128), `p_JobTypeID` INT)   BEGIN
 	DECLARE p_employeeID INT;
     
     SELECT ID INTO p_employeeID FROM employee WHERE UserName = p_Username;
@@ -2085,14 +2126,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateHistoryTrail` (`p_Username` V
 		, NewValue
         , TransactionDate
         , CreatedEmployeeID
-        , DateCreated)
+        , DateCreated
+        , JobTypeID)
 	SELECT
 		p_JobNumber
         , p_Transactions
         , p_NewValue
         , utc_timestamp()
         , p_employeeID
-        , utc_timestamp();
+        , utc_timestamp()
+        , p_JobTypeID;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateJobData` (`p_id` INT, `p_TargetPressDate` DATETIME, `p_ActualPressDate` DATETIME, `p_CopyEditStatus` NVARCHAR(500), `p_CodingStatus` NVARCHAR(500), `p_OnlineStatus` NVARCHAR(500), `p_STPStatus` NVARCHAR(500), `p_Username` NVARCHAR(128))   BEGIN
@@ -2113,13 +2156,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateJobData` (`p_id` INT, `p_Targ
 		JobID = p_id;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateJobReassignment` (`p_UserName` VARCHAR(128), `p_TransactionLogID` INT, `p_ValueBefore` VARCHAR(128), `p_ValueAfter` VARCHAR(128))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateJobReassignment` (`p_UserName` VARCHAR(128), `p_TransactionLogID` INT, `p_ValueBefore` VARCHAR(128), `p_ValueAfter` VARCHAR(128), `p_TransactionLogIdentity` INT, `p_UserAccess` INT)   BEGIN
 	UPDATE jobtrackaunz_v1.transactionlog
 	SET ValueBefore = p_ValueBefore
 		, ValueAfter = p_ValueAfter
         , DateCreated = utc_timestamp()
         , UserName = p_UserName
 	WHERE TransactionLogID = p_TransactionLogID;
+    
+    -- UPDATE HISTORY
+    CALL UpdateHistoryTrail(p_Username
+		, p_TransactionLogIdentity
+		, CONCAT('Job [', p_TransactionLogIdentity, '] has been assigned to [',  p_ValueAfter ,'].')
+		, "New"
+		, CASE 
+			WHEN p_UserAccess = 2 THEN 4	-- LE for JobManuscript
+            WHEN p_UserAccess = 3 THEN 5	-- PE for JobCoversheet
+            ELSE null
+			END);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateManuscript` (`p_Username` VARCHAR(45), `p_JobNumber` INT(11), `p_ManuscriptTier` VARCHAR(50), `p_BPSProductID` VARCHAR(50), `p_ServiceNumber` VARCHAR(100), `p_ManuscriptLegTitle` VARCHAR(1000), `p_TargetPressDate` DATE, `p_LatupAttribution` VARCHAR(1000), `p_DateReceivedFromAuthor` DATE, `p_UpdateType` VARCHAR(50), `p_JobSpecificInstruction` VARCHAR(500), `p_TaskType` VARCHAR(50), `p_CopyEditDueDate` DATE, `p_CodingDueDate` DATE, `p_OnlineDueDate` DATE, `p_STPStatus` VARCHAR(500))   BEGIN
@@ -2316,20 +2370,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQueryCoversheet` (`p_id` INT,
     THEN		
         CALL UpdateHistoryTrail(p_user
 			, p_coversheet_id
-			, CONCAT('Coversheet Query ID [', p_id, '] has been updated.') 
-            , p_status);
+			, CONCAT('Query [', p_id, '] has been updated.') 
+            , p_status
+            , 2);
 	ELSE		
         CALL UpdateHistoryTrail(p_user
 			, p_coversheet_id
-			, CONCAT('New Coversheet Query ID [', p_id, '] has been posted.') 
-            , "New");
+			, CONCAT('New Query [', p_id, '] has been posted by [', p_user ,'].') 
+            , "New"
+            , 2);
     END IF;
     
     -- return id
 	SELECT p_id as 'ID';
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQueryCoversheetStatus` (`p_id` INT, `p_coverstatus_id` INT, `p_repliedby` VARCHAR(128))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQueryCoversheetStatus` (`p_id` INT, `p_coversheet_id` INT, `p_coverstatus_id` INT, `p_repliedby` VARCHAR(128), `p_is_statuschanged` BIT)   BEGIN
 	DECLARE p_status VARCHAR(50);
     
     SELECT Status INTO p_status FROM jobtrackaunz_v1.coverstatus_mt WHERE ID = p_coverstatus_id;
@@ -2339,11 +2395,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQueryCoversheetStatus` (`p_id
 		IsReplied = 1
     WHERE ID = p_id;
     
-    -- UPDATE HISTORY
-    CALL UpdateHistoryTrail(p_repliedby
-		, p_id
-        , CONCAT('Coversheet Query ID [', p_id, '] has been replied by [', p_repliedby, '].') 
-        , p_status);
+    IF p_is_statuschanged = 1
+    THEN
+		-- UPDATE HISTORY
+		CALL UpdateHistoryTrail(p_repliedby
+			, p_coversheet_id
+			, CONCAT('Query [', p_id, '] status has been changed to [', p_status, '].') 
+			, p_status
+			, 2);
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQueryManuscript` (`p_id` INT, `p_job_id` INT, `p_querystatus_id` INT, `p_querytopic_id` INT, `p_querytype_id` INT, `p_filepath` NVARCHAR(1000), `p_user` NVARCHAR(128))   BEGIN
@@ -2389,20 +2449,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQueryManuscript` (`p_id` INT,
     THEN		
         CALL UpdateHistoryTrail(p_user
 			, p_job_id
-			, CONCAT('Manuscript Query ID [', p_id, '] has been updated.') 
-            , p_status);
+			, CONCAT('Query [', p_id, '] has been updated.') 
+            , p_status
+            , 1);
 	ELSE		
         CALL UpdateHistoryTrail(p_user
 			, p_job_id
-			, CONCAT('New Manuscript Query ID [', p_id, '] has been posted.') 
-            , "New");
+			, CONCAT('New Query [', p_id, '] has been posted by [', p_user ,'].') 
+            , "New"
+            , 1);
     END IF;
     
     -- return id
 	SELECT p_id as 'ID';
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQueryManuscriptStatus` (`p_id` INT, `p_querystatus_id` INT, `p_repliedby` VARCHAR(128))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQueryManuscriptStatus` (`p_id` INT, `p_job_id` INT, `p_querystatus_id` INT, `p_repliedby` VARCHAR(128), `p_is_statuschanged` BIT)   BEGIN
 	DECLARE p_status VARCHAR(50);
     
     SELECT Status INTO p_status FROM jobtrackaunz_v1.querystatus_mt WHERE ID = p_querystatus_id;
@@ -2412,11 +2474,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQueryManuscriptStatus` (`p_id
 		IsReplied = 1
     WHERE ID = p_id;
     
-    -- UPDATE HISTORY
-    CALL UpdateHistoryTrail(p_repliedby
-		, p_id
-        , CONCAT('Manuscript Query ID [', p_id, '] has been replied by [', p_repliedby, '].') 
-        , p_status);
+    IF p_is_statuschanged = 1
+    THEN
+		-- UPDATE HISTORY
+		CALL UpdateHistoryTrail(p_repliedby
+			, p_job_id
+			, CONCAT('Query [', p_id, '] status has been changed to [', p_status, '].') 
+			, p_status
+			, 1);
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQuerySTP` (`p_id` INT, `p_stp_id` INT, `p_stpstatus_id` INT, `p_stptopic_id` INT, `p_stptype_id` INT, `p_filepath` NVARCHAR(1000), `p_user` NVARCHAR(128))   BEGIN
@@ -2462,20 +2528,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQuerySTP` (`p_id` INT, `p_stp
     THEN		
         CALL UpdateHistoryTrail(p_user
 			, p_stp_id
-			, CONCAT('Send to Print Query ID [', p_id, '] has been updated.') 
-            , p_status);
+			, CONCAT('Query [', p_id, '] has been updated.') 
+            , p_status
+            , 3);
 	ELSE		
         CALL UpdateHistoryTrail(p_user
 			, p_stp_id
-			, CONCAT('Send to Print Query ID [', p_id, '] has been posted.') 
-            , "New");
+			, CONCAT('New Query [', p_id, '] has been posted by [', p_user ,'].') 
+            , "New"
+            , 3);
     END IF;
     
     -- return id
 	SELECT p_id as 'ID';
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQuerySTPStatus` (`p_id` INT, `p_stpstatus_id` INT, `p_repliedby` VARCHAR(128))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQuerySTPStatus` (`p_id` INT, `p_stp_id` INT, `p_stpstatus_id` INT, `p_repliedby` VARCHAR(128), `p_is_statuschanged` BIT)   BEGIN
 	DECLARE p_status VARCHAR(50);
     
     SELECT Status INTO p_status FROM jobtrackaunz_v1.stpstatus_mt WHERE ID = p_stpstatus_id;
@@ -2485,11 +2553,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateQuerySTPStatus` (`p_id` INT, 
 		IsReplied = 1
     WHERE ID = p_id;
     
-    -- UPDATE HISTORY
-    CALL UpdateHistoryTrail(p_repliedby
-		, p_id
-        , CONCAT('Send to Print Query ID [', p_id, '] has been replied by [', p_repliedby, '].') 
-        , p_status);
+    IF p_is_statuschanged = 1
+    THEN
+		-- UPDATE HISTORY
+		CALL UpdateHistoryTrail(p_repliedby
+			, p_stp_id
+			, CONCAT('Query [', p_id, '] status has been changed to [', p_status, '].') 
+			, p_status
+			, 3);
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateReply` (`p_id` INT, `p_query_id` INT, `p_message` NVARCHAR(250))   BEGIN
@@ -2679,8 +2751,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateSendToPrint` (`p_ID` INT, `p_
 	-- UPDATE HISTORY
     CALL UpdateHistoryTrail(p_Username
 		, p_ID
-        , CONCAT('STP ID [', p_ID, '] has been assigned to [', p_AssignedUser, '].')
-        , p_SendToPrintStatus);
+        , CONCAT('STP [', p_ID, '] has been assigned to [', p_AssignedUser, '].')
+        , p_SendToPrintStatus
+        , 3);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateSubsequentPass` (`p_UserName` VARCHAR(128), `p_CoversheetID` INT, `p_SubsequentPass` VARCHAR(5000))   BEGIN
@@ -3304,27 +3377,28 @@ CREATE TABLE `historytrail` (
   `Transactions` varchar(1000) DEFAULT NULL,
   `NewValue` varchar(250) DEFAULT NULL,
   `DateCreated` datetime DEFAULT NULL,
-  `CreatedEmployeeID` int(11) DEFAULT NULL
+  `CreatedEmployeeID` int(11) DEFAULT NULL,
+  `JobTypeID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `historytrail`
 --
 
-INSERT INTO `historytrail` (`ID`, `JobNumber`, `TransactionDate`, `Transactions`, `NewValue`, `DateCreated`, `CreatedEmployeeID`) VALUES
-(1, 8, '2023-03-24 23:44:01', 'New Employee [Jennifer.Murray]  has been added by [admin].', 'New', '2023-03-24 23:44:01', 1),
-(2, 9, '2023-03-24 23:44:48', 'New Employee [Patricia.Artajo]  has been added by [admin].', 'New', '2023-03-24 23:44:48', 1),
-(3, 10, '2023-03-24 23:47:08', 'New Employee [sierrakx.tl]  has been added by [admin].', 'New', '2023-03-24 23:47:08', 1),
-(4, 11, '2023-03-24 23:47:50', 'New Employee [sierrakxstp.tl]  has been added by [admin].', 'New', '2023-03-24 23:47:50', 1),
-(5, 12, '2023-03-24 23:48:34', 'New Employee [sierrakx.stp1]  has been added by [admin].', 'New', '2023-03-24 23:48:34', 1),
-(6, 13, '2023-03-24 23:49:15', 'New Employee [sierrakx.stp2]  has been added by [admin].', 'New', '2023-03-24 23:49:15', 1),
-(7, 14, '2023-03-24 23:50:05', 'New Employee [sierrakx.stp3]  has been added by [admin].', 'New', '2023-03-24 23:50:05', 1),
-(8, 15, '2023-03-29 05:03:49', 'New Employee [Chelsea.Mercado]  has been added by [admin].', 'New', '2023-03-29 05:03:49', 1),
-(9, 16, '2023-04-15 23:54:02', 'New Employee [sierrak.coding3]  has been added by [admin].', 'New', '2023-04-15 23:54:02', 1),
-(10, 17, '2023-04-15 23:54:56', 'New Employee [sierrakx.coding2]  has been added by [admin].', 'New', '2023-04-15 23:54:56', 1),
-(11, 18, '2023-04-15 23:55:57', 'New Employee [sierrakx.coding]  has been added by [admin].', 'New', '2023-04-15 23:55:57', 1),
-(12, 19, '2023-04-15 23:56:50', 'New Employee [Coding1]  has been added by [admin].', 'New', '2023-04-15 23:56:50', 1),
-(13, 20, '2023-04-15 23:57:36', 'New Employee [Coding2]  has been added by [admin].', 'New', '2023-04-15 23:57:36', 1);
+INSERT INTO `historytrail` (`ID`, `JobNumber`, `TransactionDate`, `Transactions`, `NewValue`, `DateCreated`, `CreatedEmployeeID`, `JobTypeID`) VALUES
+(1, 8, '2023-03-24 23:44:01', 'New Employee [Jennifer.Murray]  has been added by [admin].', 'New', '2023-03-24 23:44:01', 1, NULL),
+(2, 9, '2023-03-24 23:44:48', 'New Employee [Patricia.Artajo]  has been added by [admin].', 'New', '2023-03-24 23:44:48', 1, NULL),
+(3, 10, '2023-03-24 23:47:08', 'New Employee [sierrakx.tl]  has been added by [admin].', 'New', '2023-03-24 23:47:08', 1, NULL),
+(4, 11, '2023-03-24 23:47:50', 'New Employee [sierrakxstp.tl]  has been added by [admin].', 'New', '2023-03-24 23:47:50', 1, NULL),
+(5, 12, '2023-03-24 23:48:34', 'New Employee [sierrakx.stp1]  has been added by [admin].', 'New', '2023-03-24 23:48:34', 1, NULL),
+(6, 13, '2023-03-24 23:49:15', 'New Employee [sierrakx.stp2]  has been added by [admin].', 'New', '2023-03-24 23:49:15', 1, NULL),
+(7, 14, '2023-03-24 23:50:05', 'New Employee [sierrakx.stp3]  has been added by [admin].', 'New', '2023-03-24 23:50:05', 1, NULL),
+(8, 15, '2023-03-29 05:03:49', 'New Employee [Chelsea.Mercado]  has been added by [admin].', 'New', '2023-03-29 05:03:49', 1, NULL),
+(9, 16, '2023-04-15 23:54:02', 'New Employee [sierrak.coding3]  has been added by [admin].', 'New', '2023-04-15 23:54:02', 1, NULL),
+(10, 17, '2023-04-15 23:54:56', 'New Employee [sierrakx.coding2]  has been added by [admin].', 'New', '2023-04-15 23:54:56', 1, NULL),
+(11, 18, '2023-04-15 23:55:57', 'New Employee [sierrakx.coding]  has been added by [admin].', 'New', '2023-04-15 23:55:57', 1, NULL),
+(12, 19, '2023-04-15 23:56:50', 'New Employee [Coding1]  has been added by [admin].', 'New', '2023-04-15 23:56:50', 1, NULL),
+(13, 20, '2023-04-15 23:57:36', 'New Employee [Coding2]  has been added by [admin].', 'New', '2023-04-15 23:57:36', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -3428,6 +3502,28 @@ INSERT INTO `jobstatus_mt` (`ID`, `StatusTitle`) VALUES
 (2, 'Ongoing'),
 (3, 'Completed'),
 (4, 'Closed');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobtype`
+--
+
+CREATE TABLE `jobtype` (
+  `ID` int(11) NOT NULL,
+  `JobType` varchar(128) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jobtype`
+--
+
+INSERT INTO `jobtype` (`ID`, `JobType`) VALUES
+(1, 'ManuscriptData'),
+(2, 'CoversheetData'),
+(3, 'STPData'),
+(4, 'JobManuscript'),
+(5, 'JobCoversheet');
 
 -- --------------------------------------------------------
 
@@ -5872,6 +5968,12 @@ ALTER TABLE `jobstatus_mt`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `jobtype`
+--
+ALTER TABLE `jobtype`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `legislation`
 --
 ALTER TABLE `legislation`
@@ -6233,6 +6335,12 @@ ALTER TABLE `jobdata`
 --
 ALTER TABLE `jobhistory`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `jobtype`
+--
+ALTER TABLE `jobtype`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `legislationdata`
