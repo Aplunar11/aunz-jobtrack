@@ -106,43 +106,13 @@ namespace JobTrack.Models.JobCoversheet
         public int CreatedEmployeeID { get; set; }
         public DateTime DateUpdated { get; set; }
         public int UpdateEmployeeID { get; set; }
-        //additional columns
         public int LatestTaskNumber { get; set; }
         public string CodingStatus { get; set; }
         public string PDFQAStatus { get; set; }
         public string OnlineStatus1 { get; set; }
-
         public int RowCount { get; set; }
         public string Response { get; set; }
         public string ErrorMessage { get; set; }
+        public bool IsOnline { get; set; }
     }
-    //public class GetPubSchedTier
-    //{
-    //    public string PubSchedTier { get; set; }
-
-    //}
-    //public class GetPubschedBPSProductID
-    //{
-    //    public string PubschedBPSProductID { get; set; }
-    //    //public string ServiceNumber { get; set; }
-
-    //}
-    //public class GetAllPubschedServiceNumber
-    //{
-    //    public string ServiceNumber { get; set; }
-
-    //}
-    //public class GetAllTurnAroundTime
-    //{
-    //    public int TurnAroundTimeID { get; set; }
-    //    public string UpdateType { get; set; }
-    //    public string TaskType { get; set; }
-    //    public int TATCopyEdit { get; set; }
-    //    public int TATCoding { get; set; }
-    //    public int TATOnline { get; set; }
-    //    public int TATPDFQA { get; set; }
-    //    public int BenchMarkDays { get; set; }
-
-    //}
-
 }

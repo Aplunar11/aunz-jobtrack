@@ -36,9 +36,30 @@
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Target Press Date", Name = "TargetPressDate", Value = Model.TargetPressDate, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Task Type", Name = "TaskType", Value = Model.TaskType, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel
+                            {
+                                Label = "Coding Due Date",
+                                Name = "CodingDueDate",
+                                Value = Model.CodingDueDate.HasValue ? Model.CodingDueDate.Value.ToString("yyyy-MM-dd") : "TBD",
+                                Class = Model.CodingDueDate.HasValue ? "datepicker" : "",
+                                IsReadOnly = true
+                            })
 
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Guide Card", Name = "GuideCard", Value = Model.GuideCard, IsRequired = true })
+                            @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "XML Editing", Name = "XMLEditing", Value = Model.XMLEditing })
+
+                            <hr />
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel
+                            {
+                                Label = "Online Due Date",
+                                Name = "OnlineDueDate",
+                                Value = Model.OnlineDueDate.HasValue ? Model.OnlineDueDate.Value.ToString("yyyy-MM-dd") : "TBD",
+                                Class = Model.OnlineDueDate.HasValue ? "datepicker" : "",
+                                IsReadOnly = true
+                            })
+
+                            @*@Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Online Status", Name = "OnlineStatus", TempDataName = "OnlineStatuses", Id = "OnlineStatus" })*@
+                            @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "Online Status", Name = "IsOnline", Value = Model.IsOnline })
                         </div>
 
                         <div class="col-md">
@@ -49,10 +70,16 @@
                                 @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Update Types", Name = "UpdateType", TempDataName = "UpdateTypes" })
                             }
 
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "General Data", Name = "GeneralData", Value = Model.GeneralData, IsRequired = true })
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "General Data", Name = "GeneralData", Value = Model.GeneralData, DontDisplay = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Task Type", Name = "TaskType", Value = Model.TaskType, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Guide Card", Name = "GuideCard", Value = Model.GuideCard, IsRequired = true })
+
+                            <center class="mb-3">GENERAL DATA</center>
 
                             <div class="form-group">
-                                <div class="col-sm-12 checkbox-wrapper border" style="padding-top: 5px">
+                                <div class="col-sm-12 checkbox-wrapper border" style="padding-top:10px">
                                     @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "Commentary", Label = "Commentary", Value = false, DontDisplay = true })
 
                                     @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "LegAmmendments", Label = "Leg Ammendments", Value = false, DontDisplay = true })
@@ -89,24 +116,9 @@
                         </div>
                     </div>
 
-                    <hr />
-                    <div class="row">
+                    <div class="row" style="display: none">
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Coding Due Date", Name = "CodingDueDate",
-                               Value = Model.CodingDueDate.HasValue ? Model.CodingDueDate.Value.ToString("yyyy-MM-dd") : "TBD",
-                               Class = Model.CodingDueDate.HasValue ? "datepicker" : "",
-                               IsReadOnly = true })
-
-                            @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Label = "XMLEditing", Name = "XMLEditing", Value = Model.XMLEditing })
-
-                            <hr />
-
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Online Due Date", Name = "OnlineDueDate",
-                               Value = Model.OnlineDueDate.HasValue ? Model.OnlineDueDate.Value.ToString("yyyy-MM-dd") : "TBD",
-                               Class = Model.OnlineDueDate.HasValue ? "datepicker" : "",
-                               IsReadOnly = true })
-
-                            @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Online Status", Name = "OnlineStatus", TempDataName = "OnlineStatuses", Id = "OnlineStatus" })
+                            
                         </div>
 
                         <div class="col-md">
