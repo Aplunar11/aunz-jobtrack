@@ -21,6 +21,10 @@
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Product ID", Name = "BPSProductID", Value = Model.BPSProductID, IsReadOnly = true })
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Service Number", Name = "ServiceNumber", Value = Model.ServiceNumber, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Path of input files", Name = "PathOfInputFiles", Value = Model.PathOfInputFiles })
+
+                            @Html.Partial("CustomControls/_TextareaView", new JobTrack.Models.FormFieldModel { Label = "Special Instructions", Name = "SpecialInstruction", Value = Model.SpecialInstruction })
                         </div>
 
                         <div class="col-md">
@@ -51,14 +55,6 @@
                                     @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsUpdateEBinder", Label = "Updating of binder", Value = Model.IsUpdateEBinder })
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Path of input files", Name = "PathOfInputFiles", Value = Model.PathOfInputFiles })
-
-                            @Html.Partial("CustomControls/_TextareaView", new JobTrack.Models.FormFieldModel { Label = "Special Instructions", Name = "SpecialInstruction", Value = Model.SpecialInstruction })
                         </div>
                     </div>
 

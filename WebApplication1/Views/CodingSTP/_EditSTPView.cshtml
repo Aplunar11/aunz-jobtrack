@@ -32,6 +32,12 @@
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Product ID", Name = "BPSProductID", Value = Model.BPSProductID, IsReadOnly = true })
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Service Number", Name = "ServiceNumber", Value = Model.ServiceNumber, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Job Owner", Name = "OwnerUserID", TempDataName = "JobOwners" })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Owner Email", Name = "OwnerEmail", IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Path of input files", Name = "PathOfInputFiles", Value = Model.PathOfInputFiles, IsReadOnly = true })
                         </div>
 
                         <div class="col-md">
@@ -62,19 +68,6 @@
                                     @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsUpdateEBinder", Label = "Updating of binder", Value = Model.IsUpdateEBinder, IsReadOnly = true })
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <hr />
-                    <div class="row">
-                        <div class="col-md">
-                            @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Job Owner", Name = "OwnerUserID", TempDataName = "JobOwners" })
-
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Owner Email", Name = "OwnerEmail", IsReadOnly = true })
-                        </div>
-
-                        <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Path of input files", Name = "PathOfInputFiles", Value = Model.PathOfInputFiles, IsReadOnly = true })
 
                             @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Special Instructions", Name = "SpecialInstruction", Value = Model.SpecialInstruction, IsReadOnly = true })
                         </div>
