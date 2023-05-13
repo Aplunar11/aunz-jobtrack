@@ -139,7 +139,7 @@
                     <center><h6>HISTORY TRAIL</h6></center>
                     <div class="row">
                         <div class="col-md" style="width: 100%; overflow-x: auto">
-                            @Html.Partial("CustomControls/_HistoryTrailView", new JobTrack.Models.HistoryTrailModel { ID = Model.ID.Value, JobType = JobTypeEnum.STPData })
+                            @Html.Partial("CustomControls/_HistoryTrailView", new JobTrack.Models.HistoryTrailModel { ID = Model.ID.Value, JobType = JobTypeEnum.STPData, TableId = "tblHistorySTP" })
                         </div>
                     </div>
 

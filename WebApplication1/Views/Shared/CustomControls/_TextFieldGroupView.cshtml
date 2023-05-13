@@ -7,7 +7,7 @@
 {
     <div class="form-group">
         <label>@Model.Label</label>
-        <div class="input-group mb-3">
+        <div class="input-group input-group-sm mb-3">
             <input type="text" class="form-control" name="@Model.Name" id="@Model.Name" value="@Model.Value" @(Model.IsReadOnly ? "readonly" : "")>
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="button" onclick="@Model.OnClickEvent" id="@buttonId">@Model.ButtonText</button>
@@ -19,7 +19,7 @@ else
 {
     <div class="form-group">
         <label>@Model.Label</label>
-        <div class="input-group mb-3">
+        <div class="input-group input-group-sm mb-3">
             <input type="text" class="form-control" name="@Model.Name" id="@Model.Name" value="@Model.Value" @(Model.IsReadOnly ? "readonly" : "")>
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="button" onclick="@Model.OnClickEvent" id="@buttonId">@Model.ButtonText</button>

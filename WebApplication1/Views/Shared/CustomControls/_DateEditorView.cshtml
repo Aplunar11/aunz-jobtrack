@@ -1,7 +1,7 @@
 ﻿@model JobTrack.Models.FormFieldModel
 
-<div class="form-group">
-    <label>@Model.Label</label>
+<!--<div class="form-group">
+    <label>@Model.Label</label>-->
 
     @*if (Model.IsReadOnly)
     {
@@ -12,6 +12,21 @@
         @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datepicker", @name = Model.Name, @id = Model.Name } })
     }*@
 
+    <!--<input type="text"
+           class="form-control @(!string.IsNullOrEmpty(Model.Class) ? Model.Class : "")"
+           id="@Model.Name"
+           name="@Model.Name"
+           value="@Model.Value"
+           onchange="removeRedError(this)"
+           errorid="error-text-modal"
+           @(Model.IsReadOnly ? "readonly" : "")
+           @(Model.IsRequired ? "required" : "")>
+</div>-->
+
+<div class="input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text">@Model.Label</span>
+    </div>
     <input type="text"
            class="form-control @(!string.IsNullOrEmpty(Model.Class) ? Model.Class : "")"
            id="@Model.Name"
@@ -22,3 +37,11 @@
            @(Model.IsReadOnly ? "readonly" : "")
            @(Model.IsRequired ? "required" : "")>
 </div>
+
+<script>
+    $(document).ready(function () {
+        if ('@Model.IsReadOnly' == 'True') {
+            $('#@Model.Name').css('background', '#FAFBFF');
+        }
+    });
+</script>

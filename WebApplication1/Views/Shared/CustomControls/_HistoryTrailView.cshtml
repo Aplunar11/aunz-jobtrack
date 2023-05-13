@@ -1,6 +1,6 @@
 ﻿@model JobTrack.Models.HistoryTrailModel
 
-<table class="table table-bordered table-striped" id="tblHistory">
+<table class="table table-bordered table-striped" id="@Model.TableId">
     <thead>
         <tr>
             <th>ID</th>
@@ -14,7 +14,7 @@
 
 <script>
     $(document).ready(function () {
-        getHistoryData('tblHistory');
+        getHistoryData('@Model.TableId');
     });
 
     function getHistoryData(tableId) {

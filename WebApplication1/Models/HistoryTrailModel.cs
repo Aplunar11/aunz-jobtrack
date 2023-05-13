@@ -10,6 +10,8 @@ namespace JobTrack.Models
     {
         public int ID { get; set; }
 
+        public string TableId { get; set; }
+
         public string JobNumber { get; set; }
 
         public DateTime TransactionDate { get; set; }
