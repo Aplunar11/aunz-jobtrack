@@ -1,7 +1,7 @@
 ﻿@using JobTrack.Models.Enums
 @{ 
     ViewBag.Title = "Report";
-    Layout = ViewBag.UserAccess == UserAccessEnum.Straive_PE ? "~/Views/Shared/_JobTrackLayout_PE.cshtml" : "~/Views/Shared/_JobTrackLayout_LE.cshtml";
+    Layout = (UserAccessEnum)ViewBag.UserAccess == UserAccessEnum.Straive_PE ? "~/Views/Shared/_JobTrackLayout_PE.cshtml" : "~/Views/Shared/_JobTrackLayout_LE.cshtml";
 }
 
 <script src="~/Scripts/src/custom_index.js"></script>
