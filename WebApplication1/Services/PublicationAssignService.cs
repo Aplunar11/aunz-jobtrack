@@ -103,5 +103,28 @@ namespace JobTrack.Services
             var list = JsonConvert.DeserializeObject<List<PublicationAssignmentModel>>(JsonConvert.SerializeObject(dataTable));
             return await Task.FromResult(list.FirstOrDefault());
         }
+
+        public async Task<List<PublicationAssignmentModel>> GetAllPubschedBPSProductIDByLEAsync(string userName)
+        {
+            var storedProcedure = "GetAllPubschedBPSProductIDByLE";
+            var dataTable = new DataTable();
+
+            dbConnection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(storedProcedure, dbConnection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@p_UserName", userName);
+
+                var reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+
+            dbConnection.Close();
+
+            var list = JsonConvert.DeserializeObject<List<PublicationAssignmentModel>>(JsonConvert.SerializeObject(dataTable));
+            return await Task.FromResult(list);
+        }
     }
 }

@@ -23,11 +23,15 @@ namespace JobTrack.Controllers
 
         private readonly IJobdataService _jobdataService;
         private readonly ITransactionLogService _transactionLogService;
+        private readonly IPublicationAssignService _publicationAssignService;
 
-        public JobController(IJobdataService jobdataService, ITransactionLogService transactionLogService)
+        public JobController(IJobdataService jobdataService
+            , ITransactionLogService transactionLogService
+            , IPublicationAssignService publicationAssignService)
         {
             _jobdataService = jobdataService;
             _transactionLogService = transactionLogService;
+            _publicationAssignService = publicationAssignService;
         }
 
         public ActionResult GetJobData()
@@ -95,15 +99,17 @@ namespace JobTrack.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult AddNewJob(string jobcount)
+        public async Task<ActionResult> AddNewJob(string jobcount)
         {
             //jobcount to increment job number
             ManuscriptData mdata = new ManuscriptData();
+            var userName = (string)Session["UserName"];
 
             try
             {
                 mdata.JobNumber = jobcount.PadLeft(8, '0');
-                TempData["BPSProductID"] = new SelectList(GetAllPubschedBPSProductID(), "PubschedBPSProductID", "PubschedBPSProductID");
+                //TempData["BPSProductID"] = new SelectList(GetAllPubschedBPSProductID(), "PubschedBPSProductID", "PubschedBPSProductID");
+                TempData["BPSProductID"] = new SelectList(await _publicationAssignService.GetAllPubschedBPSProductIDByLEAsync(userName), "BPSProductID", "BPSProductID");
                 TempData["UpdateType"] = new SelectList(GetAllTurnAroundTime(), "TurnAroundTimeID", "UpdateType");
                 return PartialView(mdata);
             }

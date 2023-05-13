@@ -16,5 +16,7 @@ namespace JobTrack.Services.Interfaces
         Task<List<JobReassignmentModel>> GetAllPublicationAssignmentByRole(UserAccessEnum userAccess);
         
         Task<PublicationAssignmentModel> UpdatePublicationAssignmentAsync(PublicationAssignmentModel model);
+
+        Task<List<PublicationAssignmentModel>> GetAllPubschedBPSProductIDByLEAsync(string userName);
     }
 }
