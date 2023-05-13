@@ -162,6 +162,7 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_query_id", model.QueryID);
                     command.Parameters.AddWithValue("@p_message", string.IsNullOrEmpty(model.Message) ? string.Empty : model.Message);
                     command.Parameters.AddWithValue("@p_user", model.PostedBy);
+                    command.Parameters.AddWithValue("@p_dateposted", DateTime.Now);
 
                     int rowAffected = command.ExecuteNonQuery();
                 }
