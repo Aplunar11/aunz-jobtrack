@@ -1,0 +1,19 @@
+﻿@model JobTrack.Models.FormFieldModel
+
+<div class="form-group" style="display: @(Model.DontDisplay ? "none" : "block")">
+    <label for="@Model.Name">@Model.Label</label>
+    <input type="number"
+           class="form-control @(!string.IsNullOrEmpty(Model.Class) ? Model.Class : "")"
+           id="@Model.Name"
+           name="@Model.Name"
+           placeholder="@Model.Label"
+           value="@Model.Value"
+           onchange="removeRedError(this)"
+           errorid="error-text-modal"
+           @(Model.IsReadOnly ? "readonly" : "")
+           @(Model.IsRequired ? "required" : "")>
+
+    <div class="invalid-feedback">
+        Please @Model.Label
+    </div>
+</div>

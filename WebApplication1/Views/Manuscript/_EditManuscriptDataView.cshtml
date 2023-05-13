@@ -26,13 +26,51 @@
                     <center><h6>MANUSCRIPT DETAILS</h6></center>
                     <div class="row">
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Remarks", Name = "Remarks", Value = Model.Remarks, Rows = 7, IsRequired = true })
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Job Number", Name = "JobNumberText", Value = Model.JobNumberText, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Tier", Name = "ManuscriptTier", Value = Model.ManuscriptTier, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Product", Name = "BPSProductID", Value = Model.BPSProductID, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Service Number", Name = "ServiceNumber", Value = Model.ServiceNumber, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Target Press Date", Name = "TargetPressDate", Value = Model.TargetPressDate, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Actual Press Date", Name = "ActualPressDate", Value = Model.ActualPressDate, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Manuscript/Leg Title", Name = "ManuscriptLegTitle", Value = Model.ManuscriptLegTitle, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Status", Name = "ManuscriptStatus", Value = Model.ManuscriptStatus, IsReadOnly = true })                            
                         </div>
 
                         <div class="col-md">
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "LATUP Attribution", Name = "LatupAttribution", Value = Model.LatupAttribution })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Date Received from Author", Name = "DateReceivedFromAuthor", Value = Model.DateReceivedFromAuthor, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Date Created", Name = "DateCreated", Value = Model.DateCreated, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Date Created", Name = "DateCreated", Value = Model.DateCreated, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_DropdownListView", new JobTrack.Models.FormFieldModel { Label = "Update Types", Name = "UpdateType", TempDataName = "UpdateTypes" })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Task Type", Name = "TaskType", Value = Model.TaskType, IsReadOnly = true })
+
                             @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Guide Card", Name = "PEGuideCard", Value = Model.PEGuideCard, IsRequired = true })
 
                             @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Revised Online Due Date", Name = "RevisedOnlineDueDate", Value = Model.RevisedOnlineDueDate, Class = "datepicker", IsRequired = true })
+
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Job Specific Instruction", Name = "JobSpecificInstruction", Value = Model.JobSpecificInstruction, IsReadOnly = true })
+                        </div>
+
+                        <div class="col-md">
+                            @Html.Partial("CustomControls/_NumberFieldView", new JobTrack.Models.FormFieldModel { Label = "EST. Pages", Name = "EstimatedPages", Value = Model.EstimatedPages })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Actual TAT", Name = "ActualTurnAroundTime", Value = Model.ActualTurnAroundTime, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Online Timeliness", Name = "OnlineTimeliness", Value = Model.OnlineTimeliness, IsReadOnly = true })
+
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Remarks", Name = "Remarks", Value = Model.Remarks, Rows = 5, IsRequired = true })
                         </div>
                     </div>
 
@@ -108,6 +146,14 @@
         $('#btnCodingDoneDate').prop('disabled', codingDoneDateDisabled);
         $('#btnOnlineStartDate').prop('disabled', onlineStartDateDisabled);
         $('#btnOnlineDoneDate').prop('disabled', onlineDoneDateDisabled);
+
+        $("#UpdateType").on("change", function () {
+            var url = '@Url.Action("GetTaskType", "Manuscript")' + "?selectedItem=" + encodeURIComponent($(this).val());
+
+            GotoControllerAsync(url, 'POST', null, false, 'json', function (response) {
+                $('#TaskType').val(response.replace(/['"]+/g, ''));
+            });
+        });
     });
 
     function onclickSubmitManuscriptData() {

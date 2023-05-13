@@ -36,6 +36,7 @@ namespace JobTrack.Controllers
         public async Task<ActionResult> _EditManuscriptDataView(int id)
         {
             var viewModel = await _manuscriptDataService.GetManuscriptByIdAsync(id);
+            TempData["UpdateTypes"] = new SelectList(GetAllTurnAroundTime(), "UpdateType", "UpdateType", viewModel.UpdateType);
             return PartialView(viewModel);
         }
 
@@ -176,12 +177,14 @@ namespace JobTrack.Controllers
 
             return Json(data.TaskType, JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult GetTATCopyEdit(int selectedItem)
         {
             var data = GetAllTurnAroundTime().Where(model => model.TurnAroundTimeID == selectedItem).FirstOrDefault();
             DateTime d = AddBusinessDays(DateTime.Now, data.TATCopyEdit);
             return Json(d.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult GetTATCoding(int selectedItem)
         {
             var data = GetAllTurnAroundTime().Where(model => model.TurnAroundTimeID == selectedItem).FirstOrDefault();
@@ -189,6 +192,7 @@ namespace JobTrack.Controllers
             DateTime d = AddBusinessDays(DateTime.Now, data.TATCoding);
             return Json(d.ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult GetTATOnline(int selectedItem)
         {
             var data = GetAllTurnAroundTime().Where(model => model.TurnAroundTimeID == selectedItem).FirstOrDefault();

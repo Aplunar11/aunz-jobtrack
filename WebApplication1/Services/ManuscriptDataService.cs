@@ -150,6 +150,9 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_ManuscriptID", model.ManuscriptID);
                     command.Parameters.AddWithValue("@p_Remarks", model.Remarks);
                     command.Parameters.AddWithValue("@p_GuideCard", model.PEGuideCard);
+                    command.Parameters.AddWithValue("@p_LatupAttribution", model.LatupAttribution);
+                    command.Parameters.AddWithValue("@p_EstimatedPages", model.EstimatedPages);
+                    command.Parameters.AddWithValue("@p_UpdateType", model.UpdateType);
                     command.Parameters.AddWithValue("@p_RevisedOnlineDueDate", model.RevisedOnlineDueDate);
                     command.Parameters.AddWithValue("@p_CopyEditStartDate", model.CopyEditStartDate);
                     command.Parameters.AddWithValue("@p_CopyEditDoneDate", model.CopyEditDoneDate);

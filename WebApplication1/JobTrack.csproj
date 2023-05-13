@@ -5806,6 +5806,7 @@
     <Content Include="Views\Manuscript\_EditManuscriptDataView.cshtml" />
     <Content Include="Views\LE\HistoryTrail.cshtml" />
     <Content Include="Views\Shared\CustomControls\_HistoryTrailView.cshtml" />
+    <Content Include="Views\Shared\CustomControls\_NumberFieldView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
