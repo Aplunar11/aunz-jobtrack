@@ -14,6 +14,7 @@ using MySql.Data.MySqlClient;
 using System.Globalization;
 using System.Threading.Tasks;
 using JobTrack.Services.Interfaces;
+using JobTrack.Models.Extensions;
 
 namespace JobTrack.Controllers
 {
@@ -46,6 +47,9 @@ namespace JobTrack.Controllers
 
         public ActionResult SideMenu()
         {
+            var userAccess = ((string)Session["UserAccess"]).ToUserAccessEnum();
+            ViewBag.UserAccess = userAccess;
+
             return PartialView("_SidebarRegular");
         }
 
@@ -63,7 +67,7 @@ namespace JobTrack.Controllers
             ViewBag.CancelledJobs = 0;
             ViewBag.LateJobs = 0;
             ViewBag.DueJobs = 0;
-            ViewBag.RevisedJobs = 0;
+            ViewBag.RevisedJobs = 0;            
 
             return View();
         }

@@ -1,4 +1,5 @@
-﻿<!--**********************************
+﻿@using JobTrack.Models.Enums
+<!--**********************************
     Sidebar
 ***********************************-->
 <div class="nk-sidebar">
@@ -10,10 +11,26 @@
                     <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="./index.html">View Dashboard</a></li>
+                    @*<li><a href="./index.html">View Dashboard</a></li>*@
+
+                    @switch ((UserAccessEnum)ViewBag.UserAccess)
+                    {
+                        case UserAccessEnum.Coding:
+                            <li><a href="~/Coding/Mainform">All Jobs</a></li>
+                            break;
+                        case UserAccessEnum.Coding_TL:
+                            <li><a href="~/CodingTL/Mainform">All Jobs</a></li>
+                            break;
+                        case UserAccessEnum.CodingSTP_TL:
+                            <li><a href="~/CodingSTPTL/Mainform">All Jobs</a></li>
+                            break;
+                        case UserAccessEnum.CodingSTP:
+                            <li><a href="~/CodingSTP/Mainform">All Jobs</a></li>
+                            break;
+                    }
                 </ul>
             </li>
-            <li class="">
+            @*<li class="">
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Jobs</span>
                 </a>
@@ -21,7 +38,7 @@
                     <li><a href="./AllJob">All Jobs</a></li>
                     <li class=""><a href="./MainForm" class="">My Jobs</a></li>
                 </ul>
-            </li>
+            </li>*@
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class="icon-notebook menu-icon"></i> <span class="nav-text">Query Report</span>
@@ -38,7 +55,7 @@
                     <li><a href="./email-compose.html">Create Query</a></li>
                 </ul>
             </li>
-            <li class="nav-label">Other</li>
+            @*<li class="nav-label">Other</li>
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class="icon-note menu-icon menu-icon"></i><span class="nav-text">Legislation</span>
@@ -48,7 +65,7 @@
                     <li><a href="~/Admin/HistoryTrail">History Trail</a></li>
                     <li><a href="~/Report/GenerateReport">Report</a></li>
                 </ul>
-            </li>
+            </li>*@
 
         </ul>
     </div>

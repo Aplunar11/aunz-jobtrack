@@ -13,6 +13,7 @@ using JobTrack.Models.Coversheet;
 using MySql.Data.MySqlClient;
 using System.Globalization;
 using System.Threading.Tasks;
+using JobTrack.Models.Extensions;
 
 namespace JobTrack.Controllers
 {

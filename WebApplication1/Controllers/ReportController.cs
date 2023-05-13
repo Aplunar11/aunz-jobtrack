@@ -36,6 +36,7 @@ namespace JobTrack.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
+            var userAccess = ((string)Session["UserAccess"]).ToUserAccessEnum();
             var manuscript = await _reportService.GetFilterParameterManuscriptAsync();
             var manuscriptFilter = await _reportService.GetReportFilterManuscriptAsync(ReportFilterManuscriptEnum.BPSProductID);
             var coversheet = await _reportService.GetFilterParameterCoversheetAsync();
@@ -49,6 +50,7 @@ namespace JobTrack.Controllers
             TempData["ManuscriptFilter"] = new SelectList(manuscriptFilter, "FilterValue", "FilterValue", null);
             TempData["CoversheetFilter"] = new SelectList(coversheetFilter, "FilterValue", "FilterValue", null);
             TempData["STPFilter"] = new SelectList(stpFilter, "FilterValue", "FilterValue", null);
+            ViewBag.UserAccess = userAccess;
 
             return View();
         }

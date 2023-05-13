@@ -1,4 +1,5 @@
 ﻿using JobTrack.Models.Enums;
+using JobTrack.Models.Extensions;
 using JobTrack.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,11 @@ namespace JobTrack.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult SideMenu()
+        {
+            return PartialView("_SidebarRegular");
         }
 
         public async Task<ActionResult> MainForm()

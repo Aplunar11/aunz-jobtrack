@@ -87,6 +87,22 @@ namespace JobTrack.Models.Extensions
                 case "Straive(PE)":
                     userAccessEnum = UserAccessEnum.Straive_PE;
                     break;
+
+                case "Coding":
+                    userAccessEnum = UserAccessEnum.Coding;
+                    break;
+
+                case "Coding TL":
+                    userAccessEnum = UserAccessEnum.Coding_TL;
+                    break;
+
+                case "Coding(STP) TL":
+                    userAccessEnum = UserAccessEnum.CodingSTP_TL;
+                    break;
+
+                case "Coding(STP)":
+                    userAccessEnum = UserAccessEnum.CodingSTP;
+                    break;
             }
 
             return userAccessEnum;
