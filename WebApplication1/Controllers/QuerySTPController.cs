@@ -27,6 +27,12 @@ namespace JobTrack.Controllers
 
         public async Task<ActionResult> Index(int id, int u)
         {
+            if (Session["UserName"] == null)
+            {
+                TempData["alertMessage"] = "You must log in to continue";
+                return RedirectToAction("Login", "Login");
+            }
+
             ViewBag.UserAccess = (UserAccessEnum)u;
             ViewBag.StpID = id;
             var viewModel = await _querySTPService.GetSTPDataByIdAsync(id);

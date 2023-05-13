@@ -1,5 +1,30 @@
 ﻿@model JobTrack.Models.QueryCoversheet.CoversheetDataModel
+@using JobTrack.Models.Enums
+@{
+    ViewBag.Title = "QueryCoversheet";
+    switch ((UserAccessEnum)ViewBag.UserAccess)
+    {
+        case UserAccessEnum.Admin:
+            Layout = "~/Views/Shared/_JobTrackLayout.cshtml";
+            break;
 
+        case UserAccessEnum.Client_LE:
+            Layout = "~/Views/Shared/_JobTrackLayout_LE.cshtml";
+            break;
+
+        case UserAccessEnum.Straive_PE:
+            Layout = "~/Views/Shared/_JobTrackLayout_PE.cshtml";
+            break;
+
+        case UserAccessEnum.Coding:
+            Layout = "~/Views/Shared/_JobTrackLayout_Coding.cshtml";
+            break;
+
+        case UserAccessEnum.Coding_TL:
+            Layout = "~/Views/Shared/_JobTrackLayout_Coding.cshtml";
+            break;
+    }
+}
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -156,21 +181,25 @@
                 <!-- /.card-body -->
                 <!-- /.card-body -->
 
-                @switch ((JobTrack.Models.Enums.UserAccessEnum)ViewBag.UserAccess)
+                @switch ((UserAccessEnum)ViewBag.UserAccess)
                 {
-                    case JobTrack.Models.Enums.UserAccessEnum.Admin:
+                    case UserAccessEnum.Admin:
                         <button type="button" class="btn btn-link" onclick="location.href='/Admin/AllJob'">< Go Back</button>
                         break;
 
-                    case JobTrack.Models.Enums.UserAccessEnum.Client_LE:
+                    case UserAccessEnum.Client_LE:
                         <button type="button" class="btn btn-link" onclick="location.href='/LE/MainForm'">< Go Back</button>
                         break;
 
-                    case JobTrack.Models.Enums.UserAccessEnum.Straive_PE:
+                    case UserAccessEnum.Straive_PE:
                         <button type="button" class="btn btn-link" onclick="location.href='/PE/MainForm'">< Go Back</button>
                         break;
 
-                    case JobTrack.Models.Enums.UserAccessEnum.Coding_TL:
+                    case UserAccessEnum.Coding:
+                        <button type="button" class="btn btn-link" onclick="location.href='/Coding/MainForm'">< Go Back</button>
+                        break;
+
+                    case UserAccessEnum.Coding_TL:
                         <button type="button" class="btn btn-link" onclick="location.href='/CodingTL/MainForm'">< Go Back</button>
                         break;
                 }

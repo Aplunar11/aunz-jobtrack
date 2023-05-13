@@ -27,6 +27,12 @@ namespace JobTrack.Controllers
         // GET: QueryManuscript
         public async Task<ActionResult> Index(int id, int u)
         {
+            if (Session["UserName"] == null)
+            {
+                TempData["alertMessage"] = "You must log in to continue";
+                return RedirectToAction("Login", "Login");
+            }
+
             ViewBag.UserAccess = (UserAccessEnum)u;
             ViewBag.ManuscriptID = id;
             var viewModel = await _queryManuscriptService.GetManuscriptDetailsByIdAsync(id);

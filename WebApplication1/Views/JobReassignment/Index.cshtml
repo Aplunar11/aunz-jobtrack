@@ -1,6 +1,8 @@
-﻿
-@{ ViewBag.Title = "Homepage";
-    Layout = "~/Views/Shared/_JobTrackLayout_LE.cshtml"; }
+﻿@using JobTrack.Models.Enums
+@{
+    ViewBag.Title = "Homepage";
+    Layout = ViewBag.UserAccess == UserAccessEnum.Straive_PE ? "~/Views/Shared/_JobTrackLayout_PE.cshtml" : "~/Views/Shared/_JobTrackLayout_LE.cshtml";
+}
 
 <script src="~/Scripts/src/custom_index.js"></script>
 <link href="~/temp/css/custom_datatable.css" rel="stylesheet" />

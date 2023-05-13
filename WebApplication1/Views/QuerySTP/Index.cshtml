@@ -1,5 +1,22 @@
 ﻿@model  JobTrack.Models.QuerySTP.STPDataModel
+@using JobTrack.Models.Enums
+@{
+    ViewBag.Title = "QueryCoversheet";
+    switch ((UserAccessEnum)ViewBag.UserAccess)
+    {
+        case UserAccessEnum.Straive_PE:
+            Layout = "~/Views/Shared/_JobTrackLayout_PE.cshtml";
+            break;
 
+        case UserAccessEnum.CodingSTP:
+            Layout = "~/Views/Shared/_JobTrackLayout_Coding.cshtml";
+            break;
+
+        case UserAccessEnum.CodingSTP_TL:
+            Layout = "~/Views/Shared/_JobTrackLayout_Coding.cshtml";
+            break;
+    }
+}
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -152,25 +169,17 @@
                     </table>
                 </div>
 
-                @switch ((JobTrack.Models.Enums.UserAccessEnum)ViewBag.UserAccess)
+                @switch ((UserAccessEnum)ViewBag.UserAccess)
                 {
-                    case JobTrack.Models.Enums.UserAccessEnum.Admin:
-                        <button type="button" class="btn btn-link" onclick="location.href='/Admin/AllJob'">< Go Back</button>
-                        break;
-
-                    case JobTrack.Models.Enums.UserAccessEnum.Client_LE:
-                        <button type="button" class="btn btn-link" onclick="location.href='/LE/MainForm'">< Go Back</button>
-                        break;
-
-                    case JobTrack.Models.Enums.UserAccessEnum.Straive_PE:
+                    case UserAccessEnum.Straive_PE:
                         <button type="button" class="btn btn-link" onclick="location.href='/PE/MainForm'">< Go Back</button>
                         break;
 
-                    case JobTrack.Models.Enums.UserAccessEnum.CodingSTP:
+                    case UserAccessEnum.CodingSTP:
                         <button type="button" class="btn btn-link" onclick="location.href='/CodingSTP/MainForm'">< Go Back</button>
                         break;
 
-                    case JobTrack.Models.Enums.UserAccessEnum.CodingSTP_TL:
+                    case UserAccessEnum.CodingSTP_TL:
                         <button type="button" class="btn btn-link" onclick="location.href='/CodingSTPTL/MainForm'">< Go Back</button>
                         break;
                 }

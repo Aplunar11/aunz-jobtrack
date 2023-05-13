@@ -1,8 +1,21 @@
-﻿@*@model IEnumerable<JobTrack.Models.QueryListModel>*@
-@model JobTrack.Models.QueryManuscript.ManuscriptDataModel
+﻿@model JobTrack.Models.QueryManuscript.ManuscriptDataModel
+@using JobTrack.Models.Enums
 @{
     ViewBag.Title = "QueryManuscript";
+    switch ((UserAccessEnum)ViewBag.UserAccess)
+    {
+        case UserAccessEnum.Admin:
+            Layout = "~/Views/Shared/_JobTrackLayout.cshtml";
+            break;
 
+        case UserAccessEnum.Client_LE:
+            Layout = "~/Views/Shared/_JobTrackLayout_LE.cshtml";
+            break;
+
+        case UserAccessEnum.Straive_PE:
+            Layout = "~/Views/Shared/_JobTrackLayout_PE.cshtml";
+            break;
+    }
 }
 <html>
 <head>
@@ -158,17 +171,17 @@
                 <!-- /.card-body -->
 
 
-                @switch ((JobTrack.Models.Enums.UserAccessEnum)ViewBag.UserAccess)
+                @switch ((UserAccessEnum)ViewBag.UserAccess)
                 {
-                    case JobTrack.Models.Enums.UserAccessEnum.Admin:
+                    case UserAccessEnum.Admin:
                         <button type="button" class="btn btn-link" onclick="location.href='/Admin/AllJob'">< Go Back</button>
                         break;
 
-                    case JobTrack.Models.Enums.UserAccessEnum.Client_LE:
+                    case UserAccessEnum.Client_LE:
                         <button type="button" class="btn btn-link" onclick="location.href='/LE/MainForm'">< Go Back</button>
                         break;
 
-                    case JobTrack.Models.Enums.UserAccessEnum.Straive_PE:
+                    case UserAccessEnum.Straive_PE:
                         <button type="button" class="btn btn-link" onclick="location.href='/PE/MainForm'">< Go Back</button>
                         break;
                 }
@@ -177,7 +190,7 @@
         </div>
         <!-- /.col -->
     </div>
-    
+
     <!-- /.row -->
     </div>
     <!-- /.container-fluid -->
