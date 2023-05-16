@@ -16,6 +16,7 @@ using MySql.Data.MySqlClient;
 using JobTrack.Models.Manuscript;
 using JobTrack.Models.Job;
 using JobTrack.Services.Interfaces;
+using JobTrack.Models.Extensions;
 
 namespace JobTrack.Controllers
 {
@@ -36,7 +37,10 @@ namespace JobTrack.Controllers
         public async Task<ActionResult> _EditManuscriptDataView(int id)
         {
             var viewModel = await _manuscriptDataService.GetManuscriptByIdAsync(id);
+            var userAccess = ((string)Session["UserAccess"]).ToUserAccessEnum();
             TempData["UpdateTypes"] = new SelectList(GetAllTurnAroundTime(), "UpdateType", "UpdateType", viewModel.UpdateType);
+            ViewBag.UserAccess = userAccess;
+
             return PartialView(viewModel);
         }
 
