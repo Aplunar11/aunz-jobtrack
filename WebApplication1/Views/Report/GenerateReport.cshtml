@@ -1,7 +1,21 @@
 ﻿@using JobTrack.Models.Enums
 @{ 
     ViewBag.Title = "Report";
-    Layout = (UserAccessEnum)ViewBag.UserAccess == UserAccessEnum.Straive_PE ? "~/Views/Shared/_JobTrackLayout_PE.cshtml" : "~/Views/Shared/_JobTrackLayout_LE.cshtml";
+    switch ((UserAccessEnum)ViewBag.UserAccess) 
+    {
+        case UserAccessEnum.Admin:
+            Layout = "~/Views/Shared/_JobTrackLayout.cshtml";
+            break;
+        case UserAccessEnum.Straive_PE:
+            Layout = "~/Views/Shared/_JobTrackLayout_PE.cshtml";
+            break;
+        case UserAccessEnum.Client_LE:
+            Layout = "~/Views/Shared/_JobTrackLayout_LE.cshtml";
+            break;
+        default:
+            Layout = "~/Views/Shared/_JobTrackLayout_Coding.cshtml";
+            break;
+    }
 }
 
 <script src="~/Scripts/src/custom_index.js"></script>
