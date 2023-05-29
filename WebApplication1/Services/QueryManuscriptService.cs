@@ -260,6 +260,7 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_querystatus_id", model.QueryStatusID);
                     command.Parameters.AddWithValue("@p_repliedby", model.PostedBy);
                     command.Parameters.AddWithValue("@p_is_statuschanged", isStatusChanged);
+                    command.Parameters.AddWithValue("@p_close_date", DateTime.Now);
 
                     int rowAffected = command.ExecuteNonQuery();
                 }

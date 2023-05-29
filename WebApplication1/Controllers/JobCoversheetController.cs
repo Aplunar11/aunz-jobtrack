@@ -79,7 +79,8 @@ namespace JobTrack.Controllers
                     new SelectListItem { Text = "Cancelled", Value = "Cancelled" }
                 }, "Text", "Value");
 
-                viewModel.Editor = pubschedData.Editor;
+                var userName = (string)Session["UserName"];
+                viewModel.Editor = userName;
                 viewModel.ChargeCode = pubschedData.ChargeCode;
                 viewModel.CoversheetTier = manuscriptData.ManuscriptTier;
                 viewModel.TargetPressDate = manuscriptData.TargetPressDate;
@@ -90,6 +91,7 @@ namespace JobTrack.Controllers
                 viewModel.GuideCard = manuscriptData.PEGuideCard;                
                 viewModel.TaskNumber = jobCoversheet == null ? "Task1" : $"Task{jobCoversheet.LatestTaskNumber + 1}";
                 viewModel.CoversheetNumber = bpsproductid + '_' + serviceno + '_' + viewModel.TaskNumber;
+                viewModel.IsOnline = true;
             }
             catch (Exception ex)
             {

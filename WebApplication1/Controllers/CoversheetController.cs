@@ -52,6 +52,8 @@ namespace JobTrack.Controllers
                 , "UserName"
                 , viewModel.JobOwnerID.HasValue ? viewModel.JobOwnerID.Value : 0);
 
+            viewModel.IsOnline = true;
+
             return PartialView(viewModel);
         }
 
@@ -71,6 +73,8 @@ namespace JobTrack.Controllers
                 , "UserName"
                 , viewModel.JobOwnerID.HasValue ? viewModel.JobOwnerID.Value : 0);
 
+            viewModel.IsOnline = true;
+
             return PartialView(viewModel);
         }
 
@@ -89,6 +93,8 @@ namespace JobTrack.Controllers
                 , "ID"
                 , "UserName"
                 , viewModel.JobOwnerID.HasValue ? viewModel.JobOwnerID.Value : 0);
+
+            viewModel.IsOnline = true;
 
             return PartialView(viewModel);
         }

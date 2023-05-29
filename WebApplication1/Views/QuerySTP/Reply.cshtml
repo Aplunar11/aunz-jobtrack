@@ -47,7 +47,7 @@
 
                                         <!-- button select -->
                                         <button type="button" class="btn btn-outline-secondary" onclick="onclickStatus('open');" id="btn-open" hidden>Open</button>
-                                        <div class="btn-group">
+                                        <div class="btn-group btn-group-clickable">
                                             <button type="button" class="btn btn-outline-danger" onclick="onclickStatus('cancel');" id="btn-cancel">Cancel</button>
                                             <button type="button" class="btn btn-outline-success" onclick="onclickStatus('close');" id="btn-close">Close</button>
                                         </div>
@@ -178,6 +178,10 @@
         if (!isRead) {
             $('#btn-open').attr('hidden', true);
             $('.btn-group').removeAttr('hidden');
+        }
+
+        if (statusId > 1) {
+            $('.btn-group-clickable').css('pointer-events', 'none');
         }
     }
 

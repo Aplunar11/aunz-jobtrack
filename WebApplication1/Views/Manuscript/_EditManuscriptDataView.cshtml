@@ -54,9 +54,9 @@
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Task Type", Name = "TaskType", Value = Model.TaskType, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Guide Card", Name = "PEGuideCard", Value = Model.PEGuideCard, IsRequired = true })
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Guide Card", Name = "PEGuideCard", Value = Model.PEGuideCard })
 
-                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Revised Online Due Date", Name = "RevisedOnlineDueDate", Value = Model.RevisedOnlineDueDate, Class = "datepicker", IsRequired = true })
+                            @Html.Partial("CustomControls/_DateEditorView", new JobTrack.Models.FormFieldModel { Label = "Revised Online Due Date", Name = "RevisedOnlineDueDate", Value = Model.RevisedOnlineDueDate, Class = "datepicker" })
 
                             @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Job Specific Instruction", Name = "JobSpecificInstruction", Value = Model.JobSpecificInstruction, IsReadOnly = true })
                         </div>
@@ -68,7 +68,7 @@
 
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Online Timeliness", Name = "OnlineTimeliness", Value = Model.OnlineTimeliness, IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Remarks", Name = "Remarks", Value = Model.Remarks, Rows = 5, IsRequired = true })
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Remarks", Name = "Remarks", Value = Model.Remarks, Rows = 5 })
                         </div>
                     </div>
 

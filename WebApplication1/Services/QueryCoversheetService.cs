@@ -232,12 +232,12 @@ namespace JobTrack.Services
                     command.Parameters.AddWithValue("@p_coverstatus_id", model.CoverStatusID);
                     command.Parameters.AddWithValue("@p_repliedby", model.PostedBy);
                     command.Parameters.AddWithValue("@p_is_statuschanged", isStatusChanged);
+                    command.Parameters.AddWithValue("@p_close_date", DateTime.Now);
 
                     int rowAffected = command.ExecuteNonQuery();
                 }
 
                 dbConnection.Close();
-
                 isSuccess = true;
             }
             catch (Exception ex)
