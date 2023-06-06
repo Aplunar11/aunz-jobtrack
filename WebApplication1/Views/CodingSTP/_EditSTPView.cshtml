@@ -43,7 +43,7 @@
                         <div class="col-md">
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Target Press Date", Name = "TargetPressDate", Value = Model.TargetPressDate.Value.ToString("yyyy-MM-dd"), IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Date Created", Name = "DateCreated", Value = Model.DateCreated, DontDisplay = true })
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Date Created", Name = "DateCreated", Value = Model.DateCreated, IsReadOnly = true })
 
                             <div class="form-group">
                                 <div class="col-sm-12 checkbox-wrapper border" style="padding-top: 5px">
@@ -77,57 +77,73 @@
                     <center><h6>CALL TO ACTION</h6></center>
                     <div class="row">
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Conso Highlight - Start Date", Name = "ConsoleHighlightStartDate", Value = Model.ConsoleHighlightStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            <span id="group-conso">
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Conso Highlight - Start Date", Name = "ConsoleHighlightStartDate", Value = Model.ConsoleHighlightStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Conso Highlight - Done Date", Name = "ConsoleHighlightEndDate", Value = Model.ConsoleHighlightEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Conso Highlight - Done Date", Name = "ConsoleHighlightEndDate", Value = Model.ConsoleHighlightEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            </span>
                         </div>
 
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Filing Instruction - Start Date", Name = "FilingInstructionStartDate", Value = Model.FilingInstructionStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            <span id="group-filing">
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Filing Instruction - Start Date", Name = "FilingInstructionStartDate", Value = Model.FilingInstructionStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Filing Instruction - Done Date", Name = "FilingInstructionEndDate", Value = Model.FilingInstructionEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Filing Instruction - Done Date", Name = "FilingInstructionEndDate", Value = Model.FilingInstructionEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            </span>
                         </div>
 
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 1 - Start Date", Name = "DummyFiling1StartDate", Value = Model.DummyFiling1StartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            <span id="group-dummy1">
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 1 - Start Date", Name = "DummyFiling1StartDate", Value = Model.DummyFiling1StartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 1 - Done Date", Name = "DummyFiling1EndDate", Value = Model.DummyFiling1EndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
-                        </div>
-                    </div>
-
-                    <hr />
-                    <div class="row">
-                        <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 2 - Start Date", Name = "DummyFiling2StartDate", Value = Model.DummyFiling2StartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
-
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 2 - Done Date", Name = "DummyFiling2EndDate", Value = Model.DummyFiling2EndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
-                        </div>
-
-                        <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "UECJ - Start Date", Name = "UECJStartDate", Value = Model.UECJStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
-
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "UECJ - Done Date", Name = "UECJEndDate", Value = Model.UECJEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
-                        </div>
-
-                        <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "PC1/PC2 - Start Date", Name = "PC1PC2StartDate", Value = Model.PC1PC2StartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
-
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "PC1/PC2 - Done Date", Name = "PC1PC2EndDate", Value = Model.PC1PC2EndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 1 - Done Date", Name = "DummyFiling1EndDate", Value = Model.DummyFiling1EndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            </span>
                         </div>
                     </div>
 
                     <hr />
                     <div class="row">
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Update EBinder - Start Date", Name = "UpdateEBinderStartDate", Value = Model.UpdateEBinderStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            <span id="group-dummy2">
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 2 - Start Date", Name = "DummyFiling2StartDate", Value = Model.DummyFiling2StartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Update EBinder - Done Date", Name = "UpdateEBinderEndDate", Value = Model.UpdateEBinderEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Dummy Filing 2 - Done Date", Name = "DummyFiling2EndDate", Value = Model.DummyFiling2EndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            </span>
                         </div>
 
                         <div class="col-md">
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Post Back - Start Date", Name = "PostBackStartDate", Value = Model.PostBackStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            <span id="group-eucj">
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "UECJ - Start Date", Name = "UECJStartDate", Value = Model.UECJStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Post Back - Done Date", Name = "PostBackEndDate", Value = Model.PostBackEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "UECJ - Done Date", Name = "UECJEndDate", Value = Model.UECJEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            </span>
+                        </div>
+
+                        <div class="col-md">
+                            <span id="group-pc1pc2">
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "PC1/PC2 - Start Date", Name = "PC1PC2StartDate", Value = Model.PC1PC2StartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "PC1/PC2 - Done Date", Name = "PC1PC2EndDate", Value = Model.PC1PC2EndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            </span>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="row">
+                        <div class="col-md">
+                            <span id="group-ebinder">
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Update EBinder - Start Date", Name = "UpdateEBinderStartDate", Value = Model.UpdateEBinderStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Update EBinder - Done Date", Name = "UpdateEBinderEndDate", Value = Model.UpdateEBinderEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            </span>
+                        </div>
+
+                        <div class="col-md">
+                            <span id="group-postback">
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Post Back - Start Date", Name = "PostBackStartDate", Value = Model.PostBackStartDate, ButtonText = "START", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+
+                                @Html.Partial("CustomControls/_TextFieldGroupView", new JobTrack.Models.FormFieldModel { Label = "Post Back - Done Date", Name = "PostBackEndDate", Value = Model.PostBackEndDate, ButtonText = "DONE", OnClickEvent = "onclickDate(this)", IsReadOnly = true })
+                            </span>
                         </div>
 
                         <div class="col-md">
@@ -217,6 +233,17 @@
         $('#btnUpdateEBinderEndDate').prop('disabled', updateEBinderEndDateDisabled);
         $('#btnPostBackStartDate').prop('disabled', postBackStartDateDisabled);
         $('#btnPostBackEndDate').prop('disabled', postBackEndDateDisabled);
+
+        if ('@Model.IsCodingSTP' == 'True') {
+            $('#btnConsoleHighlightStartDate').prop('disabled', '@Model.IsConsoHighlight' == 'False');
+            $('#btnFilingInstructionStartDate').prop('disabled', '@Model.IsFilingInstruction' == 'False');
+            $('#btnDummyFiling1StartDate').prop('disabled', '@Model.IsDummyFiling1' == 'False');
+            $('#btnDummyFiling2StartDate').prop('disabled', '@Model.IsDummyFiling2' == 'False');
+            $('#btnUECJStartDate').prop('disabled', '@Model.IsUECJ' == 'False');
+            $('#btnPC1PC2StartDate').prop('disabled', '@Model.IsPC1PC2' == 'False');
+            $('#btnUpdateEBinderStartDate').prop('disabled', '@Model.IsUpdateEBinder' == 'False');
+            $('#btnPostBackStartDate').prop('disabled', '@Model.IsPostBack' == 'False');
+        }
     });
 
     function onclickSaveSTP() {
