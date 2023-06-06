@@ -102,5 +102,25 @@ namespace JobTrack.Models.QuerySTP
         public DateTime? DateUpdated { get; set; }
 
         public bool IsCodingSTP { get; set; }
+
+        public bool IsConsoHighlighReadOnly { get; set; }
+
+        public bool IsFilingInstructionReadOnly { get; set; }
+
+        public bool IsDummyFiling1ReadOnly { get; set; }
+
+        public bool IsDummyFiling2ReadOnly { get; set; }
+
+        public bool IsUECJReadOnly { get; set; }
+
+        public bool IsPC1PC2ReadOnly { get; set; }
+
+        public bool IsReadyToPrintReadOnly { get; set; }
+
+        public bool IsSendingFinalPagesReadOnly { get; set; }
+
+        public bool IsPostBackReadOnly { get; set; }
+
+        public bool IsUpdateEBinderReadOnly { get; set; }
     }
 }

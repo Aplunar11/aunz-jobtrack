@@ -43,33 +43,33 @@
                         <div class="col-md">
                             @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Target Press Date", Name = "TargetPressDate", Value = Model.TargetPressDate.Value.ToString("yyyy-MM-dd"), IsReadOnly = true })
 
-                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Date Created", Name = "DateCreated", Value = Model.DateCreated, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_TextFieldView", new JobTrack.Models.FormFieldModel { Label = "Date Created", Name = "DateCreated", Value = Model.DateCreated.Value.ToString("yyyy-MM-dd"), IsReadOnly = true })
 
                             <div class="form-group">
                                 <div class="col-sm-12 checkbox-wrapper border" style="padding-top: 5px">
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsConsoHighlight", Label = "Conso Highlight", Value = Model.IsConsoHighlight, IsReadOnly = !(Model.IsConsoHighlight && Model.IsCodingSTP) })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsConsoHighlight", Label = "Conso Highlight", Value = Model.IsConsoHighlight, IsReadOnly = Model.IsConsoHighlighReadOnly })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsFilingInstruction", Label = "Filing Instruction", Value = Model.IsFilingInstruction, IsReadOnly = true })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsFilingInstruction", Label = "Filing Instruction", Value = Model.IsFilingInstruction, IsReadOnly = Model.IsFilingInstructionReadOnly })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsDummyFiling1", Label = "Dummy Filing 1", Value = Model.IsDummyFiling1, IsReadOnly = true })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsDummyFiling1", Label = "Dummy Filing 1", Value = Model.IsDummyFiling1, IsReadOnly = Model.IsDummyFiling1ReadOnly })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsDummyFiling2", Label = "Dummy Filing 2", Value = Model.IsDummyFiling2, IsReadOnly = true })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsDummyFiling2", Label = "Dummy Filing 2", Value = Model.IsDummyFiling2, IsReadOnly = Model.IsDummyFiling2ReadOnly })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsUECJ", Label = "UECJ", Value = Model.IsUECJ, IsReadOnly = true })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsUECJ", Label = "UECJ", Value = Model.IsUECJ, IsReadOnly = Model.IsUECJReadOnly })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsPC1PC2", Label = "PC1/PC2", Value = Model.IsPC1PC2, IsReadOnly = true })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsPC1PC2", Label = "PC1/PC2", Value = Model.IsPC1PC2, IsReadOnly = Model.IsPC1PC2ReadOnly })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsReadyToPrint", Label = "Ready to Print", Value = Model.IsReadyToPrint, IsReadOnly = true })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsReadyToPrint", Label = "Ready to Print", Value = Model.IsReadyToPrint, IsReadOnly = Model.IsReadyToPrintReadOnly })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsSendingFinalPages", Label = "Sending final pages to puddingburn", Value = Model.IsSendingFinalPages, IsReadOnly = true })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsSendingFinalPages", Label = "Sending final pages to puddingburn", Value = Model.IsSendingFinalPages, IsReadOnly = Model.IsSendingFinalPagesReadOnly })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsPostBack", Label = "Posting back stable data", Value = Model.IsPostBack, IsReadOnly = true })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsPostBack", Label = "Posting back stable data", Value = Model.IsPostBack, IsReadOnly = Model.IsPostBackReadOnly })
 
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsUpdateEBinder", Label = "Updating of binder", Value = Model.IsUpdateEBinder, IsReadOnly = true })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsUpdateEBinder", Label = "Updating of binder", Value = Model.IsUpdateEBinder, IsReadOnly = Model.IsUpdateEBinderReadOnly })
                                 </div>
                             </div>
 
-                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Special Instructions", Name = "SpecialInstruction", Value = Model.SpecialInstruction, IsReadOnly = true })
+                            @Html.Partial("CustomControls/_TextAreaView", new JobTrack.Models.FormFieldModel { Label = "Special Instructions", Name = "SpecialInstruction", Value = Model.SpecialInstruction, IsReadOnly = Model.IsConsoHighlight && Model.IsCodingSTP ? false : !Model.IsConsoHighlight && Model.IsCodingSTP ? true : Model.IsCodingSTP })
                         </div>
                     </div>
 

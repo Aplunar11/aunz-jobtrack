@@ -112,6 +112,17 @@ namespace JobTrack.Controllers
             var owners = await _employeeService.GetAllEmployeeByAccess(UserAccessEnum.CodingSTP);
             model.IsCodingSTP = ((string)Session["UserAccess"]).ToUserAccessEnum() == UserAccessEnum.CodingSTP;
 
+            model.IsConsoHighlighReadOnly = model.IsConsoHighlight && model.IsCodingSTP ? false : model.IsCodingSTP;
+            model.IsFilingInstructionReadOnly = model.IsFilingInstruction && model.IsCodingSTP ? false : model.IsCodingSTP;
+            model.IsDummyFiling1ReadOnly = model.IsDummyFiling1 && model.IsCodingSTP ? false : model.IsCodingSTP;
+            model.IsDummyFiling2ReadOnly = model.IsDummyFiling2 && model.IsCodingSTP ? false : model.IsCodingSTP;
+            model.IsUECJReadOnly = model.IsUECJ && model.IsCodingSTP ? false : model.IsCodingSTP;
+            model.IsPC1PC2ReadOnly = model.IsPC1PC2 && model.IsCodingSTP ? false : model.IsCodingSTP;
+            model.IsReadyToPrintReadOnly = model.IsReadyToPrint && model.IsCodingSTP ? false : model.IsCodingSTP;
+            model.IsSendingFinalPagesReadOnly = model.IsSendingFinalPages && model.IsCodingSTP ? false : model.IsCodingSTP;
+            model.IsPostBackReadOnly = model.IsPostBack && model.IsCodingSTP ? false : model.IsCodingSTP;
+            model.IsUpdateEBinderReadOnly = model.IsUpdateEBinder && model.IsCodingSTP ? false : model.IsCodingSTP;
+
             ViewBag.UserAccess = userAccessType;
             TempData["JobOwners"] = new SelectList(owners, "ID", "UserName", model.OwnerUserID);
             return PartialView(model);
