@@ -1,5 +1,6 @@
 ﻿using JobTrack.Models;
 using JobTrack.Models.Enums;
+using JobTrack.Models.Extensions;
 using JobTrack.Models.JobCoversheet;
 using JobTrack.Models.QuerySTP;
 using JobTrack.Services.Interfaces;
@@ -109,6 +110,7 @@ namespace JobTrack.Controllers
         {
             var model = await _sTPService.GetSTPDataByIDAsync(StpID);
             var owners = await _employeeService.GetAllEmployeeByAccess(UserAccessEnum.CodingSTP);
+            model.IsCodingSTP = ((string)Session["UserAccess"]).ToUserAccessEnum() == UserAccessEnum.CodingSTP;
 
             ViewBag.UserAccess = userAccessType;
             TempData["JobOwners"] = new SelectList(owners, "ID", "UserName", model.OwnerUserID);

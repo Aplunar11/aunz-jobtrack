@@ -47,7 +47,7 @@
 
                             <div class="form-group">
                                 <div class="col-sm-12 checkbox-wrapper border" style="padding-top: 5px">
-                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsConsoHighlight", Label = "Conso Highlight", Value = Model.IsConsoHighlight, IsReadOnly = true })
+                                    @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsConsoHighlight", Label = "Conso Highlight", Value = Model.IsConsoHighlight, IsReadOnly = !(Model.IsConsoHighlight && Model.IsCodingSTP) })
 
                                     @Html.Partial("CustomControls/_CheckboxView", new JobTrack.Models.FormFieldModel { Name = "IsFilingInstruction", Label = "Filing Instruction", Value = Model.IsFilingInstruction, IsReadOnly = true })
 

@@ -100,5 +100,7 @@ namespace JobTrack.Models.QuerySTP
         public DateTime? DateCreated { get; set; }
 
         public DateTime? DateUpdated { get; set; }
+
+        public bool IsCodingSTP { get; set; }
     }
 }
