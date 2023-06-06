@@ -370,7 +370,7 @@
                     { data: 'SendToPrintStatus' },
                     { data: 'TargetPressDate' },
                     { data: 'ActualPressDate' },
-                    { data: 'IsConsoHighlight' },
+                    { data: 'ConsoleHighlightEndDate' },
                     { data: 'FilingInstructionStartDate' },
                     { data: 'FilingInstructionEndDate' },
                     { data: 'DummyFiling1StartDate' },
@@ -394,7 +394,7 @@
                         searchable: false
                     },
                     {
-                        targets: [9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+                        targets: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
                         render: function (data) {
                             return moment(data).format('YYYY/MM/DD');
                         }
